@@ -1,26 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-red: #e8002d;
+  --color-brand-black: #000;
+  --color-brand-dark: #1a1a1a;
+  --color-brand-gray: #f5f5f5;
+  --color-brand-mid: #767676;
+  --color-brand-border: #e0e0e0;
+  --color-brand-gold: #b8964a;
+  --font-body: 'Barlow', sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Barlow', sans-serif;
+  background: #fff;
+  color: #000;
+  overflow-x: hidden;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes mq {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: mq 22s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
