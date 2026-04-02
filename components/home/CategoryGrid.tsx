@@ -10,7 +10,7 @@ export default function CategoryGrid() {
                     Shop By Category
                 </h2>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gridTemplateRows: "auto auto", gap: "8px", padding: "0 20px", marginBottom: "32px" }}>
+            <div className="cat-grid">
                 {CATEGORY_CARDS.map((cat) => (
                     <Link
                         key={cat.href}

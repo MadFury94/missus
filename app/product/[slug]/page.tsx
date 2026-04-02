@@ -43,7 +43,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 480px", gap: "32px", padding: "24px 20px 40px", alignItems: "start" }}>
+            <div className="pdp-grid">
                 {/* Gallery */}
                 <div>
                     <div style={{ aspectRatio: "2/3", background: "#f0ece8", position: "relative", overflow: "hidden", marginBottom: "8px" }}>

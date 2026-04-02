@@ -9,7 +9,7 @@ import { TRUST_ITEMS } from "@/lib/config";
 
 export default function TrustBar() {
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", border: "1px solid #e8e8e8", borderTop: "none" }}>
+        <div className="trust-grid">
             {TRUST_ITEMS.map((item, i) => (
                 <div key={i} style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: "12px", borderRight: i < 3 ? "1px solid #e8e8e8" : "none" }}>
                     <div style={{ flexShrink: 0 }}>{ICONS[item.icon as keyof typeof ICONS]}</div>

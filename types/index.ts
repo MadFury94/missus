@@ -23,6 +23,12 @@ export interface ProductFilters {
     category?: string;
     sizes?: string[];
     colors?: string[];
+    occasions?: string[];
+    lengths?: string[];
+    styles?: string[];
+    necklines?: string[];
+    fabrics?: string[];
+    details?: string[];
     minPrice?: number;
     maxPrice?: number;
     onSale?: boolean;

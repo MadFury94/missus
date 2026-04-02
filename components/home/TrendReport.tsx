@@ -35,7 +35,7 @@ export default function TrendReport() {
             <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: "16px", borderLeft: "4px solid #e8002d", paddingLeft: "12px" }}>
                 THE TREND REPORT
             </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "10px" }}>
+            <div className="trend-grid">
                 {TREND_CARDS.map((card) => (
                     <Link key={card.href + card.label} href={card.href} style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f0ece8", cursor: "pointer", display: "block" }}>
                         <Image

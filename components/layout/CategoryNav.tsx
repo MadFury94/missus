@@ -13,10 +13,9 @@ export default function CategoryNav() {
                         style={{
                             fontFamily: "'Barlow', sans-serif",
                             fontSize: "12px",
-                            fontWeight: 500,
+                            fontWeight: link.sale ? 700 : 500,
                             letterSpacing: ".04em",
                             color: link.sale ? "#e8002d" : link.hot ? "#e8002d" : "#111",
-                            fontWeight: link.sale ? 700 : 500,
                             padding: "10px 14px",
                             borderBottom: "2px solid transparent",
                             display: "inline-block",

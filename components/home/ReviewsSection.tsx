@@ -12,7 +12,7 @@ export default function ReviewsSection() {
                     Read All Reviews
                 </button>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "16px" }}>
+            <div className="reviews-grid">
                 {STATIC_REVIEWS.map((r, i) => (
                     <div key={i} style={{ background: "#fff", padding: "20px", border: "1px solid #e8e8e8" }}>
                         <div style={{ display: "flex", gap: "2px", marginBottom: "10px" }}>

@@ -69,13 +69,13 @@ export default function ShopPage() {
                 </div>
 
                 {loading ? (
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "20px 12px" }}>
+                    <div className="grid-4">
                         {Array.from({ length: 8 }).map((_, i) => (
-                            <div key={i} style={{ aspectRatio: "2/3", background: "#f0ece8", animation: "pulse 1.5s ease-in-out infinite" }} />
+                            <div key={i} style={{ aspectRatio: "2/3", background: "#f0ece8" }} />
                         ))}
                     </div>
                 ) : (
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "20px 12px" }}>
+                    <div className="grid-4">
                         {products.map((p) => <ProductCard key={p.id} product={p} />)}
                     </div>
                 )}

@@ -10,7 +10,7 @@ export default function CategoryPage() {
     const [loading, setLoading] = useState(true);
     const [sort, setSort] = useState("");
 
-    const label = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    const label = slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
 
     useEffect(() => {
         setLoading(true);
@@ -40,7 +40,7 @@ export default function CategoryPage() {
             <div style={{ padding: "16px 20px 40px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8" }}>
                     <span style={{ fontSize: "12px", color: "#767676" }}>1 – {products.length} of {products.length} products</span>
-                    <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 28px 7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
+                    <select value={sort} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSort(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 28px 7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
                         <option value="">Sort: Featured</option>
                         <option value="date">Newest First</option>
                         <option value="price-asc">Price: Low to High</option>
@@ -60,7 +60,7 @@ export default function CategoryPage() {
                     </div>
                 ) : (
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "20px 12px" }}>
-                        {products.map((p) => <ProductCard key={p.id} product={p} />)}
+                        {products.map((p: StoreProduct) => <ProductCard key={p.id} product={p} />)}
                     </div>
                 )}
             </div>

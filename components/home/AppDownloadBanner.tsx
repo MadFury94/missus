@@ -7,7 +7,7 @@ const APP_IMGS = [
 
 export default function AppDownloadBanner() {
     return (
-        <div style={{ background: "#000", padding: "40px 20px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", alignItems: "center" }}>
+        <div className="app-grid" style={{ background: "#000", padding: "40px 20px" }}>
             <div>
                 <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(36px,5vw,60px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: .95, letterSpacing: "-.01em", marginBottom: "16px" }}>
                     SHOP FASTER<br />WITH THE<br />APP
@@ -31,7 +31,7 @@ export default function AppDownloadBanner() {
             </div>
 
             {/* Real product images as phone mockups */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+            <div className="app-phones">
                 {APP_IMGS.map((src, i) => (
                     <div key={i} style={{ aspectRatio: "9/16", position: "relative", overflow: "hidden", border: "1px solid #333", borderRadius: "12px", marginTop: i === 1 ? "24px" : 0 }}>
                         <Image src={src} alt="Missus App" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="20vw" />

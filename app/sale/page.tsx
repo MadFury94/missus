@@ -63,7 +63,7 @@ export default async function SalePage() {
                     </select>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: "20px 10px" }}>
+                <div className="grid-5">
                     {products.map((p) => <ProductCard key={p.id} product={p} />)}
                 </div>
 

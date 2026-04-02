@@ -4,7 +4,7 @@ import { SITE_NAME, FOOTER_LINKS } from "@/lib/config";
 export default function Footer() {
     return (
         <footer style={{ background: "#1a1a1a", color: "#fff", padding: "40px 20px 20px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: "32px", marginBottom: "36px", paddingBottom: "36px", borderBottom: "1px solid rgba(255,255,255,.1)" }}>
+            <div className="footer-grid">
                 {/* Brand */}
                 <div>
                     <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", color: "#fff", marginBottom: "12px" }}>
