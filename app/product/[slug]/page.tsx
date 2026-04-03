@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getProduct, getRelatedProducts, formatPrice, getDiscount, getSizes, getColors } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
 import AddToBagButton from "./AddToBagButton";
+import VirtualTryOn from "@/components/product/VirtualTryOn";
 
 export const revalidate = 60;
 
@@ -111,6 +112,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
                     {/* Add to bag */}
                     <AddToBagButton product={product} sizes={sizes} colors={colors} />
+
+                    {/* Virtual Try-On */}
+                    <VirtualTryOn
+                        productImage={product.images[0]?.src || ""}
+                        productName={product.name}
+                        category="upper_body"
+                    />
 
                     {/* Delivery */}
                     <div style={{ background: "#f5f5f5", padding: "14px 16px", marginBottom: "16px", display: "flex", flexDirection: "column", gap: "10px" }}>
