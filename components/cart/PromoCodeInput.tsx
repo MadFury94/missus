@@ -14,7 +14,7 @@ export default function PromoCodeInput() {
     };
 
     return (
-        <div style={{ display: "flex", gap: 0 }}>
+        <div className="promo-input-wrapper" style={{ display: "flex", gap: 0 }}>
             <input
                 type="text"
                 value={code}

@@ -33,6 +33,19 @@ export default function ShopPage() {
 
     return (
         <>
+            <style jsx>{`
+                @media (max-width: 768px) {
+                    .shop-toolbar {
+                        flex-direction: column;
+                        align-items: flex-start !important;
+                        gap: 8px !important;
+                    }
+                    .shop-toolbar-actions {
+                        width: 100%;
+                        justify-content: space-between;
+                    }
+                }
+            `}</style>
             {/* Hero */}
             <div style={{ background: "#000", padding: "28px 20px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(232,0,45,.12) 0%,transparent 70%)" }} />
@@ -55,9 +68,9 @@ export default function ShopPage() {
 
             <div style={{ padding: "16px 20px 40px" }}>
                 {/* Toolbar */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8" }}>
+                <div className="shop-toolbar" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8" }}>
                     <span style={{ fontSize: "12px", color: "#767676" }}>1 – {products.length} of {products.length} products</span>
-                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div className="shop-toolbar-actions" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                         <select value={perPage} onChange={(e) => setPerPage(Number(e.target.value))} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 28px 7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
                             <option value={60}>Show 60</option>
                             <option value={120}>Show 120</option>

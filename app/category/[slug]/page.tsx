@@ -49,7 +49,7 @@ export default function CategoryPage() {
                 </div>
 
                 {loading ? (
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "20px 12px" }}>
+                    <div className="grid-4">
                         {Array.from({ length: 8 }).map((_, i) => (
                             <div key={i} style={{ aspectRatio: "2/3", background: "#f0ece8" }} />
                         ))}
@@ -59,7 +59,7 @@ export default function CategoryPage() {
                         No products found
                     </div>
                 ) : (
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "20px 12px" }}>
+                    <div className="grid-4">
                         {products.map((p: StoreProduct) => <ProductCard key={p.id} product={p} />)}
                     </div>
                 )}

@@ -161,7 +161,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                         <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase" }}>You May Also Like</h2>
                         <Link href="/shop" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textDecoration: "underline", color: "#000" }}>View All →</Link>
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: "20px 10px" }}>
+                    <div className="grid-5">
                         {related.map((p) => <ProductCard key={p.id} product={p} />)}
                     </div>
                 </div>

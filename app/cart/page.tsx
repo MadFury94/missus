@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Cart } from "@/types";
+import type { StoreProduct } from "@/lib/woocommerce";
 import { getCart, updateQuantity, removeFromCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/woocommerce";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
@@ -12,9 +13,26 @@ import ExpressCheckout from "@/components/cart/ExpressCheckout";
 
 export default function CartPage() {
     const [cart, setCart] = useState<Cart>({ items: [], subtotal: 0, total: 0 });
+    const [upsellProducts, setUpsellProducts] = useState<any[]>([]);
 
     useEffect(() => {
         setCart(getCart());
+
+        // Fetch upsell products
+        fetch("/api/products?per_page=4&orderby=popularity")
+            .then((r) => r.json())
+            .then((data) => {
+                const products = (data.products || []).map((p: StoreProduct) => ({
+                    id: p.id,
+                    name: p.name,
+                    slug: p.slug,
+                    price: parseInt(p.prices.price),
+                    regularPrice: p.on_sale ? parseInt(p.prices.regular_price) : undefined,
+                    image: p.images[0]?.src
+                }));
+                setUpsellProducts(products);
+            })
+            .catch(() => setUpsellProducts([]));
     }, []);
 
     function handleQty(productId: number, size: string | undefined, delta: number) {
@@ -56,6 +74,42 @@ export default function CartPage() {
 
     return (
         <div style={{ fontFamily: "var(--font-barlow)", fontSize: "14px", background: "#fff" }}>
+            <style jsx>{`
+                @media (max-width: 768px) {
+                    .cart-grid {
+                        grid-template-columns: 1fr !important;
+                        gap: 24px !important;
+                    }
+                    .cart-item-grid {
+                        grid-template-columns: 80px 1fr !important;
+                        gap: 12px !important;
+                    }
+                    .cart-item-image {
+                        width: 80px !important;
+                        height: 106px !important;
+                    }
+                    .upsell-grid {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                    }
+                    .order-summary {
+                        position: relative !important;
+                        top: 0 !important;
+                    }
+                    .cart-header {
+                        display: none !important;
+                    }
+                }
+                @media (max-width: 480px) {
+                    .promo-input-wrapper {
+                        flex-direction: column !important;
+                    }
+                    .promo-input-wrapper input,
+                    .promo-input-wrapper button {
+                        width: 100% !important;
+                    }
+                }
+            `}</style>
+
             {/* Free Gift Bar */}
             {remaining > 0 && (
                 <div style={{ background: "linear-gradient(90deg, #000 0%, #1a1a1a 100%)", padding: "14px 20px", display: "flex", alignItems: "center", gap: "14px" }}>
@@ -82,11 +136,11 @@ export default function CartPage() {
                     YOUR BAG
                 </h1>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: "40px", alignItems: "start" }}>
+                <div className="cart-grid" style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: "40px", alignItems: "start" }}>
                     {/* Left - Cart Items */}
                     <div>
                         {/* Header */}
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: "20px", paddingBottom: "10px", borderBottom: "1.5px solid #000", marginBottom: 0 }}>
+                        <div className="cart-header" style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: "20px", paddingBottom: "10px", borderBottom: "1.5px solid #000", marginBottom: 0 }}>
                             <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "11px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#000" }}>Product</span>
                             <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "11px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#000" }}>Quantity</span>
                             <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "11px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#000", textAlign: "right" }}>Price</span>
@@ -94,8 +148,8 @@ export default function CartPage() {
 
                         {/* Items */}
                         {cart.items.map((item) => (
-                            <div key={`${item.productId}-${item.size}`} style={{ display: "grid", gridTemplateColumns: "90px 1fr", gap: "16px", padding: "20px 0", borderBottom: "1px solid #e8e8e8", position: "relative" }}>
-                                <Link href={`/product/${item.slug}`} style={{ width: "90px", height: "120px", background: "#f0ece8", position: "relative", overflow: "hidden", flexShrink: 0, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(0,0,0,.2)", textAlign: "center", padding: "8px", lineHeight: 1.5, textDecoration: "none" }}>
+                            <div key={`${item.productId}-${item.size}`} className="cart-item-grid" style={{ display: "grid", gridTemplateColumns: "90px 1fr", gap: "16px", padding: "20px 0", borderBottom: "1px solid #e8e8e8", position: "relative" }}>
+                                <Link href={`/product/${item.slug}`} className="cart-item-image" style={{ width: "90px", height: "120px", background: "#f0ece8", position: "relative", overflow: "hidden", flexShrink: 0, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(0,0,0,.2)", textAlign: "center", padding: "8px", lineHeight: 1.5, textDecoration: "none" }}>
                                     {item.name}
                                 </Link>
 
@@ -165,17 +219,12 @@ export default function CartPage() {
                                     View All →
                                 </Link>
                             </div>
-                            <CartUpsell products={[
-                                { id: 1, name: "Lorraine Pant Set", slug: "lorraine-pant-set", price: 59000, regularPrice: 75000, colors: ["#000", "#fff", "#8b7355"] },
-                                { id: 2, name: "Robin Halter Top", slug: "robin-halter-top", price: 22000, colors: ["#556b2f", "#000"] },
-                                { id: 3, name: "Silk Midi Dress", slug: "silk-midi-dress", price: 48000, regularPrice: 62000 },
-                                { id: 4, name: "Linen Blazer", slug: "linen-blazer", price: 67000 }
-                            ]} />
+                            <CartUpsell products={upsellProducts} />
                         </div>
                     </div>
 
                     {/* Right - Order Summary */}
-                    <div style={{ background: "#fff", border: "1.5px solid #000", position: "sticky", top: "80px" }}>
+                    <div className="order-summary" style={{ background: "#fff", border: "1.5px solid #000", position: "sticky", top: "80px" }}>
                         <div style={{ background: "#000", padding: "16px 20px" }}>
                             <h2 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 800, letterSpacing: ".14em", textTransform: "uppercase", color: "#fff", margin: 0 }}>
                                 Order Summary
