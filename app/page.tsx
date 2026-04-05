@@ -1,4 +1,6 @@
-import HeroBanner from "@/components/home/HeroBanner";
+// HERO SECTION
+import CategoryHeroImage from "@/components/home/CategoryHeroImage";
+
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReport from "@/components/home/TrendReport";
 import WideBanner from "@/components/home/WideBanner";
@@ -18,8 +20,13 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroBanner />
+      {/* Full-Width HD Hero Image with Text */}
+      <CategoryHeroImage />
+
+      {/* Marquee Strip */}
       <MarqueeStrip />
+
+      {/* Rest of homepage sections */}
       <TrendReport />
       <WideBanner />
       <NewInSection products={newArrivals} />

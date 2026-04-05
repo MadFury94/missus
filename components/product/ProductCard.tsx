@@ -78,12 +78,53 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                 <p style={{ fontSize: "12px", fontWeight: 400, color: "#111", lineHeight: 1.35, marginBottom: "4px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                     {product.name}
                 </p>
+
+                {/* Promo Text */}
+                <p style={{ fontSize: "11px", color: "#666", marginBottom: "6px" }}>
+                    Get ₦20 Off ₦99+ Orders! Use Code: <span style={{ fontWeight: 600, color: "#000" }}>SPRING20</span>
+                </p>
+
                 <p style={{ fontSize: "12px", fontWeight: 700, color: "#000" }}>
                     {isOnSale && (
                         <span style={{ color: "#767676", fontWeight: 400, textDecoration: "line-through", marginRight: "4px" }}>{regularNaira}</span>
                     )}
                     <span style={{ color: isOnSale ? "#e8002d" : "#000" }}>{priceNaira}</span>
                 </p>
+
+                {/* Color Swatches */}
+                {product.attributes && product.attributes.find(a => a.name.toLowerCase() === 'color')?.terms && (
+                    <div style={{ display: "flex", gap: "4px", alignItems: "center", marginTop: "6px" }}>
+                        {product.attributes.find(a => a.name.toLowerCase() === 'color')!.terms.slice(0, 5).map((color, i) => (
+                            <div
+                                key={i}
+                                style={{
+                                    width: "16px",
+                                    height: "16px",
+                                    borderRadius: "50%",
+                                    border: "1px solid #ddd",
+                                    background: color.name.toLowerCase() === 'white' ? '#fff' :
+                                        color.name.toLowerCase() === 'black' ? '#000' :
+                                            color.name.toLowerCase() === 'red' ? '#e8002d' :
+                                                color.name.toLowerCase() === 'blue' ? '#0066cc' :
+                                                    color.name.toLowerCase() === 'green' ? '#00a651' :
+                                                        color.name.toLowerCase() === 'yellow' ? '#ffd700' :
+                                                            color.name.toLowerCase() === 'pink' ? '#ff69b4' :
+                                                                color.name.toLowerCase() === 'brown' ? '#8b4513' :
+                                                                    color.name.toLowerCase() === 'gray' || color.name.toLowerCase() === 'grey' ? '#808080' :
+                                                                        '#ccc',
+                                    cursor: "pointer"
+                                }}
+                                title={color.name}
+                            />
+                        ))}
+                        {product.attributes.find(a => a.name.toLowerCase() === 'color')!.terms.length > 5 && (
+                            <span style={{ fontSize: "11px", color: "#666", fontWeight: 600 }}>
+                                +{product.attributes.find(a => a.name.toLowerCase() === 'color')!.terms.length - 5}
+                            </span>
+                        )}
+                    </div>
+                )}
+
                 {sizes.length > 0 && (
                     <div style={{ display: "flex", gap: "3px", marginTop: "5px", flexWrap: "wrap" }}>
                         {sizes.slice(0, 5).map((s) => (
