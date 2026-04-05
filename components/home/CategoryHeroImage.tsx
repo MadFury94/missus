@@ -7,9 +7,9 @@ export default function CategoryHeroImage() {
         <div style={{
             position: "relative",
             width: "100%",
-            height: "auto", // Changed to auto
-            minHeight: "70vh",
-            aspectRatio: "16/9", // Add aspect ratio for better control
+            height: "85vh",
+            maxHeight: "900px",
+            minHeight: "500px",
             overflow: "hidden",
             background: "#000"
         }}>
@@ -21,8 +21,8 @@ export default function CategoryHeroImage() {
                 priority
                 quality={100}
                 style={{
-                    objectFit: "cover", // Back to cover to fill space
-                    objectPosition: "center" // Center the image
+                    objectFit: "cover", // Cover to fill space
+                    objectPosition: "center top" // Show from top to get full outfit and head
                 }}
                 sizes="100vw"
             />

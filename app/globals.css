@@ -143,10 +143,12 @@ button {
 
 .pdp-grid {
   display: grid;
-  grid-template-columns: 1fr 480px;
-  gap: 32px;
+  grid-template-columns: 1fr 440px;
+  gap: 28px;
   padding: 24px 20px 40px;
   align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .cart-grid {
@@ -226,6 +228,10 @@ button {
 
 /* ── Mobile ≤ 768px ───────────────────────────────────────── */
 @media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
+
   .grid-5 {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px 8px;
@@ -286,6 +292,10 @@ button {
   .pdp-grid {
     grid-template-columns: 1fr;
     padding: 16px;
+  }
+
+  .pdp-grid>div:last-child {
+    position: static !important;
   }
 
   .cart-grid {

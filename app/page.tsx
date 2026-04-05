@@ -5,7 +5,7 @@ import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReport from "@/components/home/TrendReport";
 import WideBanner from "@/components/home/WideBanner";
 import NewInSection from "@/components/home/NewInSection";
-import DarkSaleBanner from "@/components/home/DarkSaleBanner";
+import VideoHero from "@/components/home/VideoHero";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import ReviewsSection from "@/components/home/ReviewsSection";
 import AppDownloadBanner from "@/components/home/AppDownloadBanner";
@@ -26,11 +26,16 @@ export default async function HomePage() {
       {/* Marquee Strip */}
       <MarqueeStrip />
 
+      {/* TODO: New section here before video */}
+
+      {/* Video Background */}
+      <VideoHero />
+
       {/* Rest of homepage sections */}
       <TrendReport />
       <WideBanner />
       <NewInSection products={newArrivals} />
-      <DarkSaleBanner />
+
       <CategoryGrid />
       <ReviewsSection />
       <AppDownloadBanner />

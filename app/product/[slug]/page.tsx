@@ -46,8 +46,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             <div className="pdp-grid">
                 {/* Gallery */}
-                <div>
-                    <div style={{ aspectRatio: "2/3", background: "#f0ece8", position: "relative", overflow: "hidden", marginBottom: "8px" }}>
+                <div style={{ maxWidth: "700px" }}>
+                    <div style={{ aspectRatio: "2/3", background: "#f0ece8", position: "relative", overflow: "hidden", marginBottom: "8px", maxHeight: "900px" }}>
                         {product.images[0] && (
                             <Image src={product.images[0].src} alt={product.images[0].alt || product.name} fill style={{ objectFit: "cover", objectPosition: "top" }} priority sizes="50vw" />
                         )}
@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 </div>
 
                 {/* Info */}
-                <div style={{ position: "sticky", top: "80px" }}>
+                <div style={{ position: "sticky", top: "80px", alignSelf: "start" }}>
                     {/* Rating */}
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px", paddingBottom: "12px", borderBottom: "1px solid #f0f0f0" }}>
                         <div style={{ display: "flex", gap: "2px" }}>
@@ -156,13 +156,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             {/* Related */}
             {related.length > 0 && (
-                <div style={{ background: "#f5f5f5", borderTop: "3px solid #000", padding: "32px 20px" }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
-                        <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase" }}>You May Also Like</h2>
-                        <Link href="/shop" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textDecoration: "underline", color: "#000" }}>View All →</Link>
-                    </div>
-                    <div className="grid-5">
-                        {related.map((p) => <ProductCard key={p.id} product={p} />)}
+                <div style={{ background: "#fff", borderTop: "1px solid #e8e8e8", padding: "40px 20px" }}>
+                    <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+                            <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "24px", fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase" }}>You May Also Like</h2>
+                            <Link href="/shop" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textDecoration: "underline", color: "#000" }}>View All →</Link>
+                        </div>
+                        <div className="grid-5">
+                            {related.map((p) => <ProductCard key={p.id} product={p} />)}
+                        </div>
                     </div>
                 </div>
             )}
