@@ -3,6 +3,7 @@ import CategoryHeroImage from "@/components/home/CategoryHeroImage";
 
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReport from "@/components/home/TrendReport";
+import TrendReportCards from "@/components/home/TrendReportCards";
 import WideBanner from "@/components/home/WideBanner";
 import NewInSection from "@/components/home/NewInSection";
 import VideoHero from "@/components/home/VideoHero";
@@ -26,7 +27,8 @@ export default async function HomePage() {
       {/* Marquee Strip */}
       <MarqueeStrip />
 
-      {/* TODO: New section here before video */}
+      {/* Trend Report Cards - Before Video */}
+      <TrendReportCards />
 
       {/* Video Background */}
       <VideoHero />

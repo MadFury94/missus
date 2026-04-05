@@ -81,6 +81,12 @@ button {
   gap: 10px;
 }
 
+.trend-report-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
 .cat-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -143,11 +149,11 @@ button {
 
 .pdp-grid {
   display: grid;
-  grid-template-columns: 1fr 440px;
-  gap: 28px;
-  padding: 24px 20px 40px;
+  grid-template-columns: 60px 1fr 440px;
+  gap: 12px;
+  padding: 0;
   align-items: start;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -209,7 +215,8 @@ button {
   }
 
   .pdp-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50px 1fr 360px;
+    gap: 10px;
   }
 
   .checkout-grid {
@@ -245,6 +252,11 @@ button {
   .trend-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
+  }
+
+  .trend-report-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
   .cat-grid {
@@ -291,11 +303,17 @@ button {
 
   .pdp-grid {
     grid-template-columns: 1fr;
-    padding: 16px;
+    padding: 0;
   }
 
-  .pdp-grid>div:last-child {
+  .pdp-grid>div:first-child {
+    display: none;
+  }
+
+  .pdp-grid>div:nth-child(3) {
     position: static !important;
+    padding: 16px !important;
+    max-height: none !important;
   }
 
   .cart-grid {
@@ -340,5 +358,23 @@ button {
 
   .footer-brand {
     grid-column: span 1;
+  }
+}
+
+/* Checkout Page Responsive */
+@media (max-width: 1024px) {
+  .checkout-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .checkout-summary {
+    position: static !important;
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-form-row {
+    grid-template-columns: 1fr !important;
   }
 }
