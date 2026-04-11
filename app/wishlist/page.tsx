@@ -83,19 +83,12 @@ export default function WishlistPage() {
                 </p>
 
                 <div className="flex gap-3 flex-wrap justify-center mb-20">
-                    <Link
-                        href="/shop"
-                        className="inline-block bg-black text-white text-[12px] font-bold uppercase tracking-[0.25em] px-8 py-3 border border-black transition-all duration-300 hover:bg-transparent hover:text-black"
-                    >
+                    <button className="bg-black text-white font-condensed text-[13px] font-bold tracking-[0.2em] uppercase px-[30px] py-3 hover:bg-[#222] transition-colors">
                         Shop Now
-                    </Link>
-
-                    <Link
-                        href="/new"
-                        className="inline-block bg-white text-black text-[12px] font-bold uppercase tracking-[0.25em] px-8 py-3 border border-black transition-all duration-300 hover:bg-black hover:text-white"
-                    >
-                        New Arrals
-                    </Link>
+                    </button>
+                    <button className="border-[2px] border-black text-black bg-white font-condensed text-[13px] font-bold tracking-[0.2em] uppercase px-[30px] py-3 hover:bg-black hover:text-white transition-colors">
+                        New Arrivals
+                    </button>
                 </div>
 
                 {/* Trending section */}
