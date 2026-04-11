@@ -68,7 +68,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                 sale_price: form.sale_price,
                 manage_stock: form.manage_stock,
                 stock_status: form.stock_status,
-                categories: form.categories.map(id => ({ id })),
+                categories: form.categories.map((id: number) => ({ id })),
                 images: form.images,
                 weight: form.weight,
                 dimensions: form.dimensions,
@@ -313,7 +313,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                                     if (e.target.checked) {
                                         setForm({ ...form, categories: [...form.categories, cat.id] });
                                     } else {
-                                        setForm({ ...form, categories: form.categories.filter(id => id !== cat.id) });
+                                        setForm({ ...form, categories: form.categories.filter((id: number) => id !== cat.id) });
                                     }
                                 }}
                                 style={{ width: "18px", height: "18px" }}

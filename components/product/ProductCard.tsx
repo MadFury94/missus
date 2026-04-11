@@ -129,16 +129,16 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
             </Link>
 
             <div style={{ padding: "7px 0 10px" }}>
-                <p style={{ fontSize: "12px", fontWeight: 400, color: "#111", lineHeight: 1.35, marginBottom: "4px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                <p style={{ fontSize: "12px", fontWeight: 400, color: "#111", lineHeight: 1.35, marginBottom: "4px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textAlign: "left" }}>
                     {product.name}
                 </p>
 
                 {/* Promo Text */}
-                <p style={{ fontSize: "11px", color: "#666", marginBottom: "6px" }}>
+                <p style={{ fontSize: "11px", color: "#666", marginBottom: "6px", textAlign: "left" }}>
                     Get ₦20 Off ₦99+ Orders! Use Code: <span style={{ fontWeight: 600, color: "#000" }}>SPRING20</span>
                 </p>
 
-                <p style={{ fontSize: "12px", fontWeight: 700, color: "#000" }}>
+                <p style={{ fontSize: "12px", fontWeight: 700, color: "#000", textAlign: "left" }}>
                     {isOnSale && (
                         <span style={{ color: "#767676", fontWeight: 400, textDecoration: "line-through", marginRight: "4px" }}>{regularNaira}</span>
                     )}
@@ -151,6 +151,11 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         {product.attributes.find(a => a.name.toLowerCase() === 'color')!.terms.slice(0, 5).map((color, i) => (
                             <div
                                 key={i}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    router.push(`/product/${product.slug}`);
+                                }}
                                 style={{
                                     width: "16px",
                                     height: "16px",
@@ -182,7 +187,34 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                 {sizes.length > 0 && (
                     <div style={{ display: "flex", gap: "3px", marginTop: "5px", flexWrap: "wrap" }}>
                         {sizes.slice(0, 5).map((s) => (
-                            <span key={s} style={{ fontSize: "10px", fontWeight: 500, border: "1px solid #e0e0e0", padding: "2px 5px", color: "#555" }}>{s}</span>
+                            <button
+                                key={s}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    router.push(`/product/${product.slug}`);
+                                }}
+                                style={{
+                                    fontSize: "10px",
+                                    fontWeight: 500,
+                                    border: "1px solid #e0e0e0",
+                                    padding: "2px 5px",
+                                    color: "#555",
+                                    background: "#fff",
+                                    cursor: "pointer",
+                                    transition: "all .2s"
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderColor = "#000";
+                                    e.currentTarget.style.color = "#000";
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderColor = "#e0e0e0";
+                                    e.currentTarget.style.color = "#555";
+                                }}
+                            >
+                                {s}
+                            </button>
                         ))}
                     </div>
                 )}

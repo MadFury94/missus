@@ -15,10 +15,11 @@ function getWCAuth() {
 // GET - Get single product
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+    const { id } = await params;
     try {
-        const response = await fetch(`${WC_API_URL}/products/${params.id}`, {
+        const response = await fetch(`${WC_API_URL}/products/${id}`, {
             headers: getWCAuth(),
         });
 
@@ -36,12 +37,13 @@ export async function GET(
 // PUT - Update product
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+    const { id } = await params;
     try {
         const body = await request.json();
 
-        const response = await fetch(`${WC_API_URL}/products/${params.id}`, {
+        const response = await fetch(`${WC_API_URL}/products/${id}`, {
             method: "PUT",
             headers: getWCAuth(),
             body: JSON.stringify(body),
@@ -62,10 +64,11 @@ export async function PUT(
 // DELETE - Delete product
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+    const { id } = await params;
     try {
-        const response = await fetch(`${WC_API_URL}/products/${params.id}?force=true`, {
+        const response = await fetch(`${WC_API_URL}/products/${id}?force=true`, {
             method: "DELETE",
             headers: getWCAuth(),
         });
