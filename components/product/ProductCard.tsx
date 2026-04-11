@@ -1,12 +1,22 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import type { StoreProduct } from "@/lib/woocommerce";
-import { formatPrice, getDiscount, getProductImage, getSizes } from "@/lib/woocommerce";
+import { formatPrice, getDiscount, getProductImage, getSizes, toNaira } from "@/lib/woocommerce";
+import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
+import { addToCart } from "@/lib/cart";
 
 export default function ProductCard({ product }: { product: StoreProduct }) {
+    const router = useRouter();
     const [hovered, setHovered] = useState(false);
+    const [isWished, setIsWished] = useState(false);
+    const [adding, setAdding] = useState(false);
+
+    useEffect(() => {
+        setIsWished(isInWishlist(product.id));
+    }, [product.id]);
 
     const isNew = product.tags?.some((t) => t.slug === "new" || t.slug === "whats-new");
     const isDeal = product.on_sale;
@@ -21,6 +31,38 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const priceNaira = formatPrice(product.prices.price);
     const regularNaira = formatPrice(product.prices.regular_price);
     const isOnSale = product.on_sale && product.prices.sale_price !== product.prices.regular_price;
+
+    const handleAddToBag = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // If product has size variations, go to product page
+        if (sizes.length > 0) {
+            router.push(`/product/${product.slug}`);
+            return;
+        }
+
+        // Otherwise add directly to cart
+        setAdding(true);
+        addToCart({
+            productId: product.id,
+            name: product.name,
+            slug: product.slug,
+            price: toNaira(product.prices.price),
+            regularPrice: isOnSale ? toNaira(product.prices.regular_price) : toNaira(product.prices.price),
+            quantity: 1,
+            image: img1,
+            size: undefined,
+            color: undefined,
+        });
+
+        // Dispatch event to update cart count in navbar
+        window.dispatchEvent(new Event("cart-updated"));
+
+        setTimeout(() => {
+            setAdding(false);
+        }, 1000);
+    };
 
     return (
         <div
@@ -61,16 +103,28 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                 )}
 
                 <button
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const newState = toggleWishlist({
+                            productId: product.id,
+                            name: product.name,
+                            price: toNaira(product.prices.price),
+                            image: img1,
+                            slug: product.slug,
+                        });
+                        setIsWished(newState);
+                    }}
                     style={{ position: "absolute", top: "8px", right: "8px", width: "30px", height: "30px", background: "rgba(255,255,255,.85)", border: "none", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", opacity: hovered ? 1 : 0, transition: "opacity .2s", zIndex: 2, cursor: "pointer" }}
                 >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? "#e8002d" : "none"} stroke={isWished ? "#e8002d" : "#000"} strokeWidth="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
                 </button>
 
                 <button
-                    onClick={(e) => e.preventDefault()}
-                    style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", padding: "10px", opacity: hovered ? 1 : 0, transition: "opacity .2s", zIndex: 2, border: "none", width: "100%", cursor: "pointer" }}>
-                    Add to Bag
+                    onClick={handleAddToBag}
+                    disabled={adding}
+                    style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: adding ? "#007a3d" : "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", padding: "10px", opacity: hovered ? 1 : 0, transition: "all .2s", zIndex: 2, border: "none", width: "100%", cursor: "pointer" }}>
+                    {adding ? "✓ Added!" : sizes.length > 0 ? "Select Size" : "Add to Bag"}
                 </button>
             </Link>
 

@@ -3,16 +3,27 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { SITE_NAME, SUB_NAV } from "@/lib/config";
 import { getCart, cartCount } from "@/lib/cart";
+import { getWishlistCount } from "@/lib/wishlist";
 
 export default function Navbar() {
     const [bagCount, setBagCount] = useState(0);
+    const [wishlistCount, setWishlistCount] = useState(0);
     const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
         setBagCount(cartCount(getCart()));
-        const handler = () => setBagCount(cartCount(getCart()));
-        window.addEventListener("cart-updated", handler);
-        return () => window.removeEventListener("cart-updated", handler);
+        setWishlistCount(getWishlistCount());
+
+        const handleCartUpdate = () => setBagCount(cartCount(getCart()));
+        const handleWishlistUpdate = () => setWishlistCount(getWishlistCount());
+
+        window.addEventListener("cart-updated", handleCartUpdate);
+        window.addEventListener("wishlistUpdated", handleWishlistUpdate);
+
+        return () => {
+            window.removeEventListener("cart-updated", handleCartUpdate);
+            window.removeEventListener("wishlistUpdated", handleWishlistUpdate);
+        };
     }, []);
 
     return (
@@ -78,11 +89,16 @@ export default function Navbar() {
                         </Link>
 
                         {/* Wishlist */}
-                        <Link href="/wishlist" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px" }}>
+                        <Link href="/wishlist" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative" }}>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
                             <span className="nav-label">Wishlist</span>
+                            {wishlistCount > 0 && (
+                                <span style={{ position: "absolute", top: "-6px", right: "-8px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    {wishlistCount}
+                                </span>
+                            )}
                         </Link>
 
                         {/* Bag */}

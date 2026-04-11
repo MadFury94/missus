@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatPrice, getDiscount, getSizes, getColors } from "@/lib/woocommerce";
+import { formatPrice, getDiscount, getSizes, getColors, toNaira } from "@/lib/woocommerce";
 import { addToCart } from "@/lib/cart";
+import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
 import ProductCard from "@/components/product/ProductCard";
 
 export default function ProductPageClient({ params, product, related }: {
@@ -14,6 +15,11 @@ export default function ProductPageClient({ params, product, related }: {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState("");
     const [adding, setAdding] = useState(false);
+    const [isWished, setIsWished] = useState(false);
+
+    useEffect(() => {
+        setIsWished(isInWishlist(product.id));
+    }, [product.id]);
 
     const sizes = getSizes(product);
     const colors = getColors(product);
@@ -232,6 +238,16 @@ export default function ProductPageClient({ params, product, related }: {
                             {adding ? "Adding..." : "Add to Bag"}
                         </button>
                         <button
+                            onClick={() => {
+                                const newState = toggleWishlist({
+                                    productId: product.id,
+                                    name: product.name,
+                                    price: toNaira(product.prices.price),
+                                    image: product.images[0]?.src || "",
+                                    slug: product.slug,
+                                });
+                                setIsWished(newState);
+                            }}
                             style={{
                                 width: "56px",
                                 height: "56px",
@@ -244,7 +260,7 @@ export default function ProductPageClient({ params, product, related }: {
                                 justifyContent: "center"
                             }}
                         >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill={isWished ? "#e8002d" : "none"} stroke={isWished ? "#e8002d" : "#000"} strokeWidth="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
                         </button>

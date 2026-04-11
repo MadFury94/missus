@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missus Outfits — All Pages Mockup</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Barlow', 'sans-serif'],
+          condensed: ['Barlow Condensed', 'sans-serif'],
+        },
+        colors: {
+          brand: { red: '#e8002d', dark: '#1a1a1a' }
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Barlow', sans-serif; }
+  .fc { font-family: 'Barlow Condensed', sans-serif; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scroll::-webkit-scrollbar { display: none; }
+  /* Password strength */
+  .strength-bar { height: 4px; border-radius: 2px; transition: background 0.3s; }
+  /* Hover reveal */
+  .group:hover .group-hover-show { opacity: 1; }
+  .group-hover-show { opacity: 0; transition: opacity 0.2s; }
+  /* Countdown */
+  @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:.7} }
+  .pulse-red { animation: pulse-red 2s ease-in-out infinite; }
+</style>
+</head>
+<body class="bg-white text-black antialiased">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DEMO NAV — fixed floating pill to switch pages
+═══════════════════════════════════════════════════════════════ -->
+<div class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[9999] flex bg-black rounded-none shadow-2xl overflow-hidden border border-white/10">
+  <button onclick="showPage('wishlist-empty')"  class="nav-btn fc text-[10px] font-bold tracking-widest uppercase px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap border-r border-white/10">Wishlist Empty</button>
+  <button onclick="showPage('wishlist-items')"  class="nav-btn fc text-[10px] font-bold tracking-widest uppercase px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap border-r border-white/10">Wishlist Items</button>
+  <button onclick="showPage('user-login')"      class="nav-btn fc text-[10px] font-bold tracking-widest uppercase px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap border-r border-white/10">User Login</button>
+  <button onclick="showPage('register')"        class="nav-btn fc text-[10px] font-bold tracking-widest uppercase px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap border-r border-white/10">Register</button>
+  <button onclick="showPage('admin-login')"     class="nav-btn fc text-[10px] font-bold tracking-widest uppercase px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap border-r border-white/10">Admin Login</button>
+  <button onclick="showPage('user-dashboard')"  class="nav-btn fc text-[10px] font-bold tracking-widest uppercase px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap border-r border-white/10">User Dashboard</button>
+  <button onclick="showPage('admin-dashboard')" class="nav-btn fc text-[10px] font-bold tracking-widest uppercase px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/10 transition-all whitespace-nowrap">Admin Dashboard</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHARED HEADER SNIPPET
+     Next.js component: src/components/layout/Header.tsx
+═══════════════════════════════════════════════════════════════ -->
+<template id="shared-header">
+  <!-- Announcement bar -->
+  <div class="bg-black text-white text-xs font-medium tracking-wider py-2.5 text-center relative select-none">
+    <span>FREE SHIPPING ON ORDERS ₦150,000+</span>
+    <span class="mx-2 opacity-40">|</span>
+    <span>NEW ARRIVALS EVERY WEEK</span>
+    <span class="mx-2 opacity-40">|</span>
+    <span>PAY ON DELIVERY AVAILABLE</span>
+    <span class="mx-2 opacity-40">|</span>
+    <a href="#" class="font-bold underline underline-offset-2 hover:no-underline">SHOP SALE →</a>
+    <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+      <button class="text-white/50 hover:text-white text-base px-1">‹</button>
+      <button class="text-white/50 hover:text-white text-base px-1">›</button>
+    </div>
+  </div>
+  <!-- Top nav -->
+  <header class="bg-white border-b border-[#e8e8e8] sticky top-0 z-50">
+    <div class="flex items-center h-[60px] px-6">
+      <!-- Gender tabs -->
+      <nav class="flex items-center flex-1 gap-0">
+        <a class="fc text-[13px] font-bold tracking-[0.08em] uppercase h-[60px] px-3.5 flex items-center border-b-[3px] border-black text-black cursor-pointer whitespace-nowrap">WOMEN</a>
+        <a class="fc text-[13px] font-bold tracking-[0.08em] uppercase h-[60px] px-3.5 flex items-center border-b-[3px] border-transparent text-[#555] hover:border-black hover:text-black cursor-pointer transition-colors whitespace-nowrap">CURVE+</a>
+        <a class="fc text-[13px] font-bold tracking-[0.08em] uppercase h-[60px] px-3.5 flex items-center border-b-[3px] border-transparent text-[#555] hover:border-black hover:text-black cursor-pointer transition-colors relative whitespace-nowrap">
+          NEW DROPS
+          <span class="absolute top-2 right-0 bg-[#e8002d] text-white text-[8px] font-bold px-1 py-0.5 leading-none">NEW</span>
+        </a>
+        <a class="fc text-[13px] font-bold tracking-[0.08em] uppercase h-[60px] px-3.5 flex items-center border-b-[3px] border-transparent text-[#555] hover:border-black hover:text-black cursor-pointer transition-colors whitespace-nowrap">GIFT SHOP</a>
+      </nav>
+      <!-- Logo -->
+      <div class="fc text-[28px] font-black tracking-[0.06em] uppercase text-black flex-1 text-center cursor-pointer">MISSUS<span class="text-[#e8002d]">.</span></div>
+      <!-- Icons right -->
+      <div class="flex items-center gap-5 flex-1 justify-end">
+        <div class="flex border-[1.5px] border-black h-9 overflow-hidden">
+          <input type="text" placeholder="Search women's clothing" class="text-[13px] px-3 w-52 outline-none bg-white font-sans placeholder:text-[#bbb]">
+          <button class="bg-black w-10 flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4 text-white stroke-white" fill="none" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </div>
+        <button class="flex items-center gap-1 fc text-[12px] font-bold tracking-[0.08em] uppercase hover:text-[#555] transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          LOGIN
+        </button>
+        <button class="flex items-center gap-1 fc text-[12px] font-bold tracking-[0.08em] uppercase hover:text-[#555] transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          WISHLIST
+        </button>
+        <button class="relative flex items-center gap-1 fc text-[12px] font-bold tracking-[0.08em] uppercase hover:text-[#555] transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          BAG
+          <span class="absolute -top-2 -right-3 bg-[#e8002d] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center font-sans">3</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- Sub nav -->
+  <nav class="bg-white border-b border-[#e8e8e8] overflow-x-auto no-scroll">
+    <div class="flex px-6 whitespace-nowrap">
+      <a class="text-[13px] font-bold px-3.5 py-2.5 border-b-2 border-transparent text-[#e8002d] cursor-pointer hover:border-[#e8002d] transition-colors">What's New</a>
+      <a class="text-[13px] font-medium px-3.5 py-2.5 border-b-2 border-transparent text-[#111] cursor-pointer hover:border-black transition-colors">Shop All</a>
+      <a class="text-[13px] font-bold px-3.5 py-2.5 border-b-2 border-transparent text-[#e8002d] cursor-pointer hover:border-[#e8002d] transition-colors">MissusDeals</a>
+      <a class="text-[13px] font-medium px-3.5 py-2.5 border-b-2 border-transparent text-[#111] cursor-pointer hover:border-black transition-colors">Dresses</a>
+      <a class="text-[13px] font-medium px-3.5 py-2.5 border-b-2 border-transparent text-[#111] cursor-pointer hover:border-black transition-colors">Matching Sets</a>
+      <a class="text-[13px] font-medium px-3.5 py-2.5 border-b-2 border-transparent text-[#111] cursor-pointer hover:border-black transition-colors">Tops</a>
+      <a class="text-[13px] font-medium px-3.5 py-2.5 border-b-2 border-transparent text-[#111] cursor-pointer hover:border-black transition-colors">Bottoms</a>
+      <a class="text-[13px] font-medium px-3.5 py-2.5 border-b-2 border-transparent text-[#111] cursor-pointer hover:border-black transition-colors">Athleisure</a>
+      <a class="text-[13px] font-bold px-3.5 py-2.5 border-b-2 border-transparent text-[#e8002d] cursor-pointer hover:border-[#e8002d] transition-colors">Sale</a>
+    </div>
+  </nav>
+  <!-- Ship bar -->
+  <div class="bg-[#f5f5f5] border-b border-[#e8e8e8] text-center py-1.5 text-[12px] text-[#111]">
+    Spend ₦150,000 or more to unlock <strong class="font-bold underline cursor-pointer">FREE SHIPPING!</strong>
+    &nbsp;<a href="#" class="font-bold underline cursor-pointer hover:no-underline">Shop New →</a>
+  </div>
+</template>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 1 — WISHLIST EMPTY
+     Next.js: src/components/wishlist/WishlistPage.tsx (isEmpty branch)
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-wishlist-empty" class="page active">
+  <div id="h1"></div>
+  <div class="max-w-[1280px] mx-auto px-6 py-8 pb-28 flex flex-col items-center justify-center text-center min-h-[70vh]">
+
+    <!-- Empty heart -->
+    <div class="relative mb-8">
+      <div class="w-24 h-24 border-2 border-[#e0e0e0] rounded-full flex items-center justify-center">
+        <svg class="w-10 h-10 text-[#e0e0e0]" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div class="absolute -top-1 -right-1 w-7 h-7 bg-[#e8002d] rounded-full flex items-center justify-center">
+        <span class="text-white text-[11px] font-bold fc">0</span>
+      </div>
+    </div>
+
+    <h1 class="fc text-[32px] font-black uppercase tracking-[0.06em] text-black mb-2">Your Wishlist is Empty</h1>
+    <p class="text-[14px] text-[#767676] font-light max-w-[360px] leading-relaxed mb-8">
+      Save your favourite pieces here so you never lose track of them. Browse our latest drops and heart what you love.
+    </p>
+
+    <div class="flex gap-3 flex-wrap justify-center">
+      <button class="bg-black text-white fc text-[13px] font-bold tracking-[0.12em] uppercase px-8 py-3.5 hover:bg-[#222] transition-colors">Shop Now</button>
+      <button class="border-[1.5px] border-black text-black fc text-[13px] font-bold tracking-[0.12em] uppercase px-8 py-3.5 hover:bg-black hover:text-white transition-colors">New Arrivals</button>
+    </div>
+
+    <!-- Trending section -->
+    <div class="mt-16 w-full max-w-3xl text-left">
+      <h2 class="fc text-[18px] font-black uppercase tracking-[0.1em] mb-4 border-l-4 border-[#e8002d] pl-3">Trending Now</h2>
+      <div class="grid grid-cols-4 gap-3">
+        <!-- Trending card — repeat ×4 -->
+        <div class="group cursor-pointer">
+          <div class="aspect-[2/3] relative flex items-center justify-center mb-2 overflow-hidden bg-[#fce8ec]">
+            <span class="fc text-[10px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-2 leading-loose">Maybelline<br>Bubble Mini</span>
+            <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <p class="text-[11px] text-[#111] leading-tight">Maybelline Bubble Mini</p>
+          <p class="text-[11px] font-bold mt-0.5">₦43,000</p>
+        </div>
+        <div class="group cursor-pointer">
+          <div class="aspect-[2/3] relative flex items-center justify-center mb-2 overflow-hidden bg-[#f4ecec]">
+            <span class="fc text-[10px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-2 leading-loose">Stella<br>Wrap Dress</span>
+            <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <p class="text-[11px] text-[#111] leading-tight">Stella Wrap Dress</p>
+          <p class="text-[11px] font-bold mt-0.5">₦48,000</p>
+        </div>
+        <div class="group cursor-pointer">
+          <div class="aspect-[2/3] relative flex items-center justify-center mb-2 overflow-hidden bg-[#e8f0f4]">
+            <span class="fc text-[10px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-2 leading-loose">Malibu<br>Barbie Halter</span>
+            <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <p class="text-[11px] text-[#111] leading-tight">Malibu Barbie Halter</p>
+          <p class="text-[11px] font-bold mt-0.5">₦30,000</p>
+        </div>
+        <div class="group cursor-pointer">
+          <div class="aspect-[2/3] relative flex items-center justify-center mb-2 overflow-hidden bg-[#f4f0e8]">
+            <span class="fc text-[10px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-2 leading-loose">Zara<br>Crochet Co-ord</span>
+            <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+          <p class="text-[11px] text-[#111] leading-tight">Zara Crochet Co-ord</p>
+          <p class="text-[11px] font-bold mt-0.5">₦65,000</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 2 — WISHLIST WITH ITEMS
+     Next.js: src/components/wishlist/WishlistPage.tsx (filled branch)
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-wishlist-items" class="page">
+  <div id="h2"></div>
+  <div class="max-w-[1280px] mx-auto px-6 py-8 pb-28">
+
+    <!-- Page header -->
+    <div class="flex items-end justify-between mb-6 flex-wrap gap-4">
+      <div>
+        <div class="flex items-center gap-3 mb-1">
+          <svg class="w-6 h-6" fill="#e8002d" stroke="none" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <h1 class="fc text-[42px] font-black uppercase tracking-[0.04em] text-black leading-none">My Wishlist</h1>
+        </div>
+        <p class="text-[13px] text-[#767676]">4 saved items</p>
+      </div>
+      <div class="flex items-center gap-3 flex-wrap">
+        <button class="flex items-center gap-1.5 border-[1.5px] border-[#e0e0e0] px-4 py-2 fc text-[11px] font-bold tracking-[0.1em] uppercase hover:border-black transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
+        <button class="flex items-center gap-1.5 border-[1.5px] border-[#e0e0e0] px-4 py-2 fc text-[11px] font-bold tracking-[0.1em] uppercase hover:border-[#e8002d] hover:text-[#e8002d] transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Clear All
+        </button>
+        <button class="flex items-center gap-1.5 bg-black text-white px-5 py-2 fc text-[11px] font-bold tracking-[0.1em] uppercase hover:bg-[#222] transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Move All to Bag
+        </button>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="flex items-center justify-between border-y border-[#e8e8e8] py-2.5 mb-6">
+      <p class="text-[12px] text-[#767676]">4 items</p>
+      <div class="flex items-center gap-3">
+        <select class="text-[12px] border border-[#e0e0e0] px-2 py-1.5 outline-none bg-white cursor-pointer">
+          <option>Sort: Recently Added</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+        </select>
+        <!-- View toggle -->
+        <div class="flex gap-1">
+          <button class="w-7 h-7 border bg-black border-black flex items-center justify-center">
+            <svg viewBox="0 0 16 16" class="w-3 h-3 fill-white"><rect x="0" y="0" width="6" height="6"/><rect x="9" y="0" width="6" height="6"/><rect x="0" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/></svg>
+          </button>
+          <button class="w-7 h-7 border border-[#e0e0e0] flex items-center justify-center hover:border-black transition-colors">
+            <svg viewBox="0 0 16 16" class="w-3 h-3 fill-[#aaa]"><rect x="0" y="1" width="16" height="2"/><rect x="0" y="6" width="16" height="2"/><rect x="0" y="11" width="16" height="2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+
+      <!-- Card 1 — in stock with SALE badge -->
+      <div class="group relative bg-white border border-[#e8e8e8]">
+        <div class="aspect-[2/3] relative flex items-center justify-center overflow-hidden bg-[#fce8ec]">
+          <span class="fc text-[11px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-3 leading-loose">Maybelline<br>Bubble Mini</span>
+          <span class="absolute top-2 left-2 bg-[#e8002d] text-white fc text-[9px] font-bold tracking-[0.1em] uppercase px-2 py-0.5 z-10">SALE</span>
+          <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-[#e8002d] hover:text-white">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <button class="absolute bottom-0 left-0 right-0 bg-black text-white fc text-[11px] font-bold tracking-[0.12em] uppercase py-2.5 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Add to Bag
+          </button>
+        </div>
+        <div class="p-3">
+          <a class="fc text-[13px] font-bold uppercase tracking-[0.03em] text-black hover:text-[#555] transition-colors leading-tight block mb-1 cursor-pointer">Maybelline Bubble Mini Dress</a>
+          <div class="flex items-center gap-1.5 mb-2">
+            <div class="w-3 h-3 border border-black/10 rounded-full bg-[#f4a7b9]"></div>
+            <span class="text-[11px] text-[#767676]">Pink</span>
+          </div>
+          <div class="flex items-baseline gap-1.5">
+            <span class="text-[11px] text-[#aaa] line-through">₦55,000</span>
+            <span class="text-[13px] font-bold text-[#e8002d]">₦43,000</span>
+          </div>
+          <p class="text-[10px] text-[#bbb] mt-1.5">Saved 8 Apr</p>
+        </div>
+      </div>
+
+      <!-- Card 2 — in stock with NEW badge -->
+      <div class="group relative bg-white border border-[#e8e8e8]">
+        <div class="aspect-[2/3] relative flex items-center justify-center overflow-hidden bg-[#f4ecec]">
+          <span class="fc text-[11px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-3 leading-loose">Stella Satin<br>Wrap Dress</span>
+          <span class="absolute top-2 left-2 bg-black text-white fc text-[9px] font-bold tracking-[0.1em] uppercase px-2 py-0.5 z-10">NEW</span>
+          <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-[#e8002d] hover:text-white">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <button class="absolute bottom-0 left-0 right-0 bg-black text-white fc text-[11px] font-bold tracking-[0.12em] uppercase py-2.5 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Add to Bag
+          </button>
+        </div>
+        <div class="p-3">
+          <a class="fc text-[13px] font-bold uppercase tracking-[0.03em] text-black hover:text-[#555] transition-colors leading-tight block mb-1 cursor-pointer">Stella Satin Wrap Maxi Dress</a>
+          <div class="flex items-center gap-1.5 mb-2">
+            <div class="w-3 h-3 border border-black/10 rounded-full bg-[#c8a4a4]"></div>
+            <span class="text-[11px] text-[#767676]">Blush</span>
+          </div>
+          <span class="text-[13px] font-bold text-black">₦48,000</span>
+          <p class="text-[10px] text-[#bbb] mt-1.5">Saved 7 Apr</p>
+        </div>
+      </div>
+
+      <!-- Card 3 — OUT OF STOCK -->
+      <div class="group relative bg-white border border-[#e8e8e8]">
+        <div class="aspect-[2/3] relative flex items-center justify-center overflow-hidden bg-[#f4f0e8]">
+          <span class="fc text-[11px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-3 leading-loose">Zara Crochet<br>Co-ord Set</span>
+          <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-[#e8002d] hover:text-white">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <!-- Out of stock overlay -->
+          <div class="absolute inset-0 bg-white/70 flex items-center justify-center z-10">
+            <span class="fc text-[12px] font-bold tracking-[0.14em] uppercase text-[#767676] bg-white px-3 py-1.5 border border-[#e0e0e0]">Out of Stock</span>
+          </div>
+        </div>
+        <div class="p-3">
+          <a class="fc text-[13px] font-bold uppercase tracking-[0.03em] text-black hover:text-[#555] transition-colors leading-tight block mb-1 cursor-pointer">Zara Crochet Co-ord Set</a>
+          <div class="flex items-center gap-1.5 mb-2">
+            <div class="w-3 h-3 border border-black/10 rounded-full bg-[#f5f0e8]" style="outline:1px solid #ddd"></div>
+            <span class="text-[11px] text-[#767676]">Cream</span>
+          </div>
+          <span class="text-[13px] font-bold text-black">₦65,000</span>
+          <p class="text-[10px] text-[#bbb] mt-1.5">Saved 6 Apr</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="group relative bg-white border border-[#e8e8e8]">
+        <div class="aspect-[2/3] relative flex items-center justify-center overflow-hidden bg-[#f0ece8]">
+          <span class="fc text-[11px] font-bold uppercase tracking-[0.08em] text-black/20 text-center px-3 leading-loose">Gemma<br>Pinstripe Top</span>
+          <span class="absolute top-2 left-2 bg-black text-white fc text-[9px] font-bold tracking-[0.1em] uppercase px-2 py-0.5 z-10">NEW</span>
+          <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-[#e8002d] hover:text-white">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <button class="absolute bottom-0 left-0 right-0 bg-black text-white fc text-[11px] font-bold tracking-[0.12em] uppercase py-2.5 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Add to Bag
+          </button>
+        </div>
+        <div class="p-3">
+          <a class="fc text-[13px] font-bold uppercase tracking-[0.03em] text-black hover:text-[#555] transition-colors leading-tight block mb-1 cursor-pointer">Gemma Pinstripe Top</a>
+          <div class="flex items-center gap-1.5 mb-2">
+            <div class="w-3 h-3 border border-black/10 rounded-full bg-[#1a1a1a]"></div>
+            <span class="text-[11px] text-[#767676]">Black</span>
+          </div>
+          <span class="text-[13px] font-bold text-black">₦35,000</span>
+          <p class="text-[10px] text-[#bbb] mt-1.5">Saved 5 Apr</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-12 flex flex-col items-center gap-3 py-8 border-t border-[#e8e8e8]">
+      <p class="text-[13px] text-[#767676]">Want to discover more?</p>
+      <button class="bg-black text-white fc text-[13px] font-bold tracking-[0.12em] uppercase px-10 py-3.5 hover:bg-[#222] transition-colors">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 3 — USER LOGIN
+     Next.js: src/components/auth/UserLoginPage.tsx
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-user-login" class="page">
+  <div class="min-h-screen flex">
+    <!-- Left branding panel -->
+    <div class="hidden lg:flex lg:w-[45%] bg-black flex-col justify-between p-12 relative overflow-hidden">
+      <div class="absolute inset-0" style="background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px)"></div>
+      <div class="absolute bottom-0 left-0 right-0 h-[50%]" style="background:linear-gradient(to top, rgba(232,0,45,0.08), transparent)"></div>
+      <!-- Logo -->
+      <span class="fc text-[28px] font-black tracking-[0.06em] uppercase text-white relative z-10">MISSUS<span class="text-[#e8002d]">.</span></span>
+      <!-- Hero text -->
+      <div class="relative z-10">
+        <p class="fc text-[11px] font-bold tracking-[0.3em] uppercase text-[#e8002d] mb-4">Welcome Back</p>
+        <h2 class="fc text-[64px] font-black uppercase text-white leading-[0.92] mb-6">Dress Like<br><span class="text-[#e8002d]">Her.</span></h2>
+        <p class="text-[13px] text-white/50 font-light leading-relaxed max-w-[340px]">Log in to track your orders, manage your wishlist, and get early access to new drops and exclusive Missus deals.</p>
+      </div>
+      <!-- Testimonial -->
+      <div class="relative z-10 border border-white/10 p-5">
+        <div class="text-[#ffc107] text-sm mb-3">★★★★★</div>
+        <p class="text-[13px] text-white/70 italic leading-relaxed mb-3">"Missus is really for the IT girls. Delivery in 45 mins, quality is unreal. Never switching."</p>
+        <p class="fc text-[11px] font-bold tracking-[0.12em] uppercase text-[#e8002d]">Sarah O. — Lagos</p>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="flex-1 flex items-center justify-center px-6 py-12 bg-white">
+      <div class="w-full max-w-[420px]">
+        <h1 class="fc text-[32px] font-black uppercase tracking-[0.04em] mb-1">Sign In</h1>
+        <p class="text-[13px] text-[#767676] mb-8">Don't have an account? <a class="text-black font-semibold underline hover:no-underline cursor-pointer" onclick="showPage('register')">Create one →</a></p>
+
+        <div class="space-y-4">
+          <!-- Email -->
+          <div>
+            <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black block mb-1.5">Email Address</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" placeholder="you@example.com" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-4 text-[13px] outline-none bg-white placeholder:text-[#bbb] transition-colors">
+            </div>
+          </div>
+          <!-- Password -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black">Password</label>
+              <a class="text-[11px] text-[#767676] underline hover:text-black transition-colors cursor-pointer">Forgot password?</a>
+            </div>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" placeholder="••••••••" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-10 text-[13px] outline-none bg-white placeholder:text-[#bbb] transition-colors">
+              <button class="absolute right-3 top-1/2 -translate-y-1/2 text-[#aaa] hover:text-black transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <!-- Remember me -->
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="remember" class="w-4 h-4 accent-black cursor-pointer">
+            <label for="remember" class="text-[12px] text-[#555] cursor-pointer select-none">Keep me signed in</label>
+          </div>
+          <!-- Submit -->
+          <button class="w-full h-12 bg-black text-white fc text-[14px] font-black tracking-[0.14em] uppercase hover:bg-[#222] transition-colors flex items-center justify-center gap-2 mt-2">
+            Sign In
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <!-- Divider -->
+          <div class="relative py-2">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-[#e0e0e0]"></div></div>
+            <div class="relative flex justify-center"><span class="bg-white px-3 text-[11px] text-[#aaa] uppercase tracking-[0.08em]">or continue with</span></div>
+          </div>
+          <!-- Google -->
+          <button class="w-full h-11 border-[1.5px] border-[#e0e0e0] fc text-[13px] font-bold tracking-[0.06em] uppercase flex items-center justify-center gap-2.5 hover:border-black transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Continue with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 4 — REGISTER
+     Next.js: src/components/auth/RegisterPage.tsx
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-register" class="page">
+  <div class="min-h-screen flex">
+    <!-- Left panel -->
+    <div class="hidden lg:flex lg:w-[40%] bg-black flex-col justify-between p-12 relative overflow-hidden">
+      <div class="absolute inset-0" style="background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px)"></div>
+      <div class="absolute bottom-0 left-0 right-0 h-[40%]" style="background:linear-gradient(to top,rgba(232,0,45,0.08),transparent)"></div>
+      <span class="fc text-[28px] font-black tracking-[0.06em] uppercase text-white relative z-10">MISSUS<span class="text-[#e8002d]">.</span></span>
+      <div class="relative z-10">
+        <p class="fc text-[11px] font-bold tracking-[0.3em] uppercase text-[#e8002d] mb-4">Join the Circle</p>
+        <h2 class="fc text-[52px] font-black uppercase text-white leading-[0.92] mb-6">Dress Like<br><span class="text-[#e8002d]">Her.</span></h2>
+        <p class="text-[13px] text-white/50 font-light leading-relaxed mb-8">Create your Missus account and unlock a world of trendy, affordable fashion — delivered fast to your door.</p>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3"><div class="w-5 h-5 bg-[#e8002d] rounded-full flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="text-[13px] text-white/70 font-light">Early access to new drops</span></div>
+          <div class="flex items-center gap-3"><div class="w-5 h-5 bg-[#e8002d] rounded-full flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="text-[13px] text-white/70 font-light">Exclusive member-only deals</span></div>
+          <div class="flex items-center gap-3"><div class="w-5 h-5 bg-[#e8002d] rounded-full flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="text-[13px] text-white/70 font-light">Free returns on your first order</span></div>
+          <div class="flex items-center gap-3"><div class="w-5 h-5 bg-[#e8002d] rounded-full flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="text-[13px] text-white/70 font-light">Saved wishlist & addresses</span></div>
+        </div>
+      </div>
+      <p class="relative z-10 text-[11px] text-white/25 font-light">Join 50,000+ Missus girls across Nigeria</p>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="flex-1 flex items-start justify-center px-6 py-10 bg-white overflow-y-auto">
+      <div class="w-full max-w-[480px]">
+        <h1 class="fc text-[32px] font-black uppercase tracking-[0.04em] mb-1">Create Account</h1>
+        <p class="text-[13px] text-[#767676] mb-7">Already have an account? <a class="text-black font-semibold underline hover:no-underline cursor-pointer" onclick="showPage('user-login')">Sign in →</a></p>
+
+        <div class="space-y-4">
+          <!-- Name row -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black block mb-1.5">First Name</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input type="text" placeholder="Ada" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-3 text-[13px] outline-none bg-white placeholder:text-[#bbb]">
+              </div>
+            </div>
+            <div>
+              <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black block mb-1.5">Last Name</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input type="text" placeholder="Okafor" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-3 text-[13px] outline-none bg-white placeholder:text-[#bbb]">
+              </div>
+            </div>
+          </div>
+          <!-- Email -->
+          <div>
+            <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black block mb-1.5">Email Address</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" placeholder="ada@example.com" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-4 text-[13px] outline-none bg-white placeholder:text-[#bbb]">
+            </div>
+          </div>
+          <!-- Phone -->
+          <div>
+            <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black block mb-1.5">Phone Number</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <input type="tel" placeholder="08012345678" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-4 text-[13px] outline-none bg-white placeholder:text-[#bbb]">
+            </div>
+          </div>
+          <!-- Password with strength meter -->
+          <div>
+            <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black block mb-1.5">Password</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" placeholder="Min. 8 characters" id="reg-pass" oninput="updateStrength(this.value)" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-10 text-[13px] outline-none bg-white placeholder:text-[#bbb]">
+              <button class="absolute right-3 top-1/2 -translate-y-1/2 text-[#aaa] hover:text-black transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <!-- Strength bars -->
+            <div class="flex gap-1 mt-1.5">
+              <div id="sb1" class="h-1 flex-1 rounded-full bg-[#e0e0e0] transition-all duration-300"></div>
+              <div id="sb2" class="h-1 flex-1 rounded-full bg-[#e0e0e0] transition-all duration-300"></div>
+              <div id="sb3" class="h-1 flex-1 rounded-full bg-[#e0e0e0] transition-all duration-300"></div>
+              <div id="sb4" class="h-1 flex-1 rounded-full bg-[#e0e0e0] transition-all duration-300"></div>
+            </div>
+            <p id="strength-label" class="text-[10px] mt-1 font-medium text-[#aaa]"></p>
+          </div>
+          <!-- Confirm password -->
+          <div>
+            <label class="fc text-[11px] font-bold tracking-[0.14em] uppercase text-black block mb-1.5">Confirm Password</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#aaa]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" placeholder="Repeat password" class="w-full border-[1.5px] border-[#e0e0e0] focus:border-black h-11 pl-10 pr-4 text-[13px] outline-none bg-white placeholder:text-[#bbb]">
+            </div>
+          </div>
+          <!-- Terms -->
+          <div class="flex items-start gap-2.5">
+            <input type="checkbox" id="terms" class="w-4 h-4 accent-black cursor-pointer mt-0.5 flex-shrink-0">
+            <label for="terms" class="text-[12px] text-[#555] cursor-pointer leading-relaxed">I agree to the <a class="text-black font-semibold underline hover:no-underline">Terms of Service</a> and <a class="text-black font-semibold underline hover:no-underline">Privacy Policy</a>. I'd also love to receive exclusive offers and new arrival updates.</label>
+          </div>
+          <!-- Submit -->
+          <button class="w-full h-12 bg-black text-white fc text-[14px] font-black tracking-[0.14em] uppercase hover:bg-[#222] transition-colors flex items-center justify-center gap-2 mt-2">
+            Create Account
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 5 — ADMIN LOGIN
+     Next.js: src/components/auth/AdminLoginPage.tsx
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-admin-login" class="page">
+  <div class="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4 relative overflow-hidden">
+    <!-- Grid bg -->
+    <div class="absolute inset-0" style="background:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:60px 60px"></div>
+    <div class="absolute inset-0" style="background:linear-gradient(to bottom, transparent, transparent, rgba(232,0,45,0.05))"></div>
+
+    <div class="relative z-10 w-full max-w-[440px]">
+      <!-- Brand mark -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-[#e8002d] mb-5">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h1 class="fc text-[28px] font-black uppercase tracking-[0.06em] text-white mb-1">MISSUS<span class="text-[#e8002d]">.</span> Admin</h1>
+        <p class="text-[12px] text-white/40 tracking-[0.1em] uppercase fc font-medium">Restricted Access — Authorised Personnel Only</p>
+      </div>
+
+      <!-- Card -->
+      <div class="bg-[#111] border border-white/10 p-8">
+        <p class="fc text-[13px] font-bold tracking-[0.1em] uppercase text-white mb-6">Sign in to Admin Panel</p>
+
+        <div class="space-y-4">
+          <!-- Email -->
+          <div>
+            <label class="fc text-[10px] font-bold tracking-[0.18em] uppercase text-white/50 block mb-2">Admin Email</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" placeholder="admin@missusoutfits.com" class="w-full bg-white/5 border border-white/10 focus:border-[#e8002d] h-11 pl-10 pr-4 text-[13px] text-white outline-none placeholder:text-white/20 transition-colors">
+            </div>
+          </div>
+          <!-- Password -->
+          <div>
+            <label class="fc text-[10px] font-bold tracking-[0.18em] uppercase text-white/50 block mb-2">Password</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" placeholder="••••••••••••" class="w-full bg-white/5 border border-white/10 focus:border-[#e8002d] h-11 pl-10 pr-10 text-[13px] text-white outline-none placeholder:text-white/20 transition-colors">
+              <button class="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <!-- Submit -->
+          <button class="w-full h-11 bg-[#e8002d] text-white fc text-[13px] font-black tracking-[0.14em] uppercase hover:bg-[#c0001f] transition-colors flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            Sign In Securely
+          </button>
+          <div class="flex items-center justify-between mt-2">
+            <a class="text-[11px] text-white/35 underline hover:text-white/70 transition-colors cursor-pointer">Forgot admin password?</a>
+            <a class="text-[11px] text-white/35 hover:text-white/70 transition-colors cursor-pointer" onclick="showPage('user-login')">← Customer login</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security note -->
+      <div class="flex items-center gap-2 mt-5 px-1">
+        <svg class="w-3.5 h-3.5 text-white/20 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <p class="text-[10px] text-white/25 leading-relaxed">All admin activity is logged and monitored. Unauthorised access attempts will be reported.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 6 — USER DASHBOARD
+     Next.js: src/components/user/UserDashboardPage.tsx
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-user-dashboard" class="page">
+  <div id="h6"></div>
+  <!-- Hero bar -->
+  <div class="bg-black text-white px-6 py-6">
+    <div class="max-w-[1280px] mx-auto flex items-center justify-between gap-4 flex-wrap">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-[#e8002d] flex items-center justify-center flex-shrink-0">
+          <span class="fc text-[16px] font-black text-white">AO</span>
+        </div>
+        <div>
+          <p class="fc text-[11px] font-bold tracking-[0.2em] uppercase text-white/50 mb-0.5">Welcome back</p>
+          <h1 class="fc text-[22px] font-black uppercase tracking-[0.04em] text-white leading-none">Ada Okafor</h1>
+        </div>
+        <div class="border border-[#b8964a] px-3 py-1 flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-[#b8964a]" fill="#b8964a" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span class="fc text-[11px] font-bold tracking-[0.1em] uppercase text-[#b8964a]">Gold Member</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors fc text-[11px] font-bold tracking-[0.1em] uppercase">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Notifications
+        </button>
+        <button class="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors fc text-[11px] font-bold tracking-[0.1em] uppercase">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-[1280px] mx-auto px-6 py-6 pb-28">
+    <!-- Stats -->
+    <div class="grid grid-cols-4 gap-3 mb-6">
+      <div class="bg-white p-4 flex items-center gap-3 border border-[#e8e8e8]">
+        <div class="w-10 h-10 bg-[#f5f5f5] flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div><p class="fc text-[22px] font-black leading-none mb-0.5">12</p><p class="text-[11px] text-[#767676]">Total Orders</p></div>
+      </div>
+      <div class="bg-white p-4 flex items-center gap-3 border border-[#e8e8e8]">
+        <div class="w-10 h-10 bg-[#f5f5f5] flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-[#e8002d]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div><p class="fc text-[22px] font-black leading-none mb-0.5">4</p><p class="text-[11px] text-[#767676]">Wishlist Items</p></div>
+      </div>
+      <div class="bg-white p-4 flex items-center gap-3 border border-[#e8e8e8]">
+        <div class="w-10 h-10 bg-[#f5f5f5] flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-[#b8964a]" fill="#b8964a" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div><p class="fc text-[22px] font-black leading-none mb-0.5">1,240</p><p class="text-[11px] text-[#767676]">Reward Points</p></div>
+      </div>
+      <div class="bg-white p-4 flex items-center gap-3 border border-[#e8e8e8]">
+        <div class="w-10 h-10 bg-[#f5f5f5] flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-[#767676]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        </div>
+        <div><p class="fc text-[22px] font-black leading-none mb-0.5">1</p><p class="text-[11px] text-[#767676]">Active Returns</p></div>
+      </div>
+    </div>
+
+    <!-- Main grid -->
+    <div class="grid grid-cols-[220px_1fr] gap-5">
+      <!-- Sidebar -->
+      <div class="bg-white h-fit">
+        <button class="w-full flex items-center gap-3 px-4 py-3.5 bg-black text-white border-b border-[#f5f5f5] relative">
+          <span class="absolute left-0 top-0 bottom-0 w-[3px] bg-white"></span>
+          <svg class="w-4 h-4 text-white flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase flex-1 text-left">My Orders</span>
+          <svg class="w-3.5 h-3.5 text-white/60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button class="w-full flex items-center gap-3 px-4 py-3.5 text-[#333] hover:bg-[#f5f5f5] transition-colors border-b border-[#f5f5f5]">
+          <svg class="w-4 h-4 text-[#767676] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase flex-1 text-left">Wishlist</span>
+          <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button class="w-full flex items-center gap-3 px-4 py-3.5 text-[#333] hover:bg-[#f5f5f5] transition-colors border-b border-[#f5f5f5]">
+          <svg class="w-4 h-4 text-[#767676] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase flex-1 text-left">Addresses</span>
+          <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button class="w-full flex items-center gap-3 px-4 py-3.5 text-[#333] hover:bg-[#f5f5f5] transition-colors border-b border-[#f5f5f5]">
+          <svg class="w-4 h-4 text-[#767676] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase flex-1 text-left">Profile</span>
+          <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button class="w-full flex items-center gap-3 px-4 py-3.5 text-[#333] hover:bg-[#f5f5f5] transition-colors">
+          <svg class="w-4 h-4 text-[#767676] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase flex-1 text-left">Settings</span>
+          <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <!-- Points card -->
+        <div class="m-3 mt-4 bg-black p-4">
+          <div class="flex items-center gap-1.5 mb-2">
+            <svg class="w-3.5 h-3.5 text-[#b8964a]" fill="#b8964a" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <p class="fc text-[10px] font-bold tracking-[0.18em] uppercase text-[#b8964a]">Reward Points</p>
+          </div>
+          <p class="fc text-[28px] font-black text-white leading-none mb-1">1,240</p>
+          <p class="text-[10px] text-white/40 mb-3">= ₦12,400 off your next order</p>
+          <button class="w-full bg-[#b8964a] text-white fc text-[10px] font-bold tracking-[0.14em] uppercase py-2 hover:bg-[#a07838] transition-colors">Redeem Points</button>
+        </div>
+      </div>
+
+      <!-- Content panel — Orders tab -->
+      <div class="bg-white p-6">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="fc text-[20px] font-black uppercase tracking-[0.06em]">Order History</h2>
+          <span class="text-[12px] text-[#767676]">3 orders</span>
+        </div>
+        <div class="space-y-3">
+          <!-- Order 1 — delivered -->
+          <div class="border border-[#e8e8e8] p-4 hover:border-black transition-colors cursor-pointer">
+            <div class="flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <div class="flex items-center gap-3 mb-1.5">
+                  <p class="fc text-[14px] font-bold tracking-[0.04em] uppercase">MO-2026-0048</p>
+                  <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-[#f0faf4] text-[#007a3d]">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    Delivered
+                  </span>
+                </div>
+                <p class="text-[12px] text-[#767676] mb-1">Apr 8, 2026</p>
+                <p class="text-[12px] text-[#555]">Maybelline Bubble Mini Dress, Robin Halter Top</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <p class="fc text-[18px] font-black">₦65,000</p>
+                <button class="text-[11px] text-black underline hover:no-underline mt-1 flex items-center gap-0.5 ml-auto">
+                  View Details <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 mt-3 pt-3 border-t border-[#f0f0f0]">
+              <button class="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] fc text-[#555] hover:text-black transition-colors border border-[#e0e0e0] hover:border-black px-3 py-1.5">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Leave Review
+              </button>
+              <button class="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] fc text-[#555] hover:text-black transition-colors border border-[#e0e0e0] hover:border-black px-3 py-1.5">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+                Return/Exchange
+              </button>
+              <button class="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] fc text-[#555] hover:text-black transition-colors border border-[#e0e0e0] hover:border-black px-3 py-1.5">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                Buy Again
+              </button>
+            </div>
+          </div>
+          <!-- Order 2 — in transit -->
+          <div class="border border-[#e8e8e8] p-4 hover:border-black transition-colors cursor-pointer">
+            <div class="flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <div class="flex items-center gap-3 mb-1.5">
+                  <p class="fc text-[14px] font-bold tracking-[0.04em] uppercase">MO-2026-0041</p>
+                  <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-[#fdf8ec] text-[#b8964a]">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    In Transit
+                  </span>
+                </div>
+                <p class="text-[12px] text-[#767676] mb-1">Apr 2, 2026</p>
+                <p class="text-[12px] text-[#555]">Lorraine Pant Set</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <p class="fc text-[18px] font-black">₦59,000</p>
+                <button class="text-[11px] text-black underline hover:no-underline mt-1 flex items-center gap-0.5 ml-auto">
+                  Track Order <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Order 3 — delivered -->
+          <div class="border border-[#e8e8e8] p-4 hover:border-black transition-colors cursor-pointer">
+            <div class="flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <div class="flex items-center gap-3 mb-1.5">
+                  <p class="fc text-[14px] font-bold tracking-[0.04em] uppercase">MO-2026-0033</p>
+                  <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-[#f0faf4] text-[#007a3d]">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    Delivered
+                  </span>
+                </div>
+                <p class="text-[12px] text-[#767676] mb-1">Mar 22, 2026</p>
+                <p class="text-[12px] text-[#555]">Stella Satin Wrap Dress, Gemma Pinstripe Top</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <p class="fc text-[18px] font-black">₦83,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PAGE 7 — ADMIN DASHBOARD
+     Next.js: src/components/admin/AdminDashboardPage.tsx
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-admin-dashboard" class="page">
+  <div class="flex h-screen overflow-hidden bg-[#f5f5f5]">
+
+    <!-- Sidebar -->
+    <aside class="w-[220px] bg-[#0a0a0a] flex flex-col h-screen sticky top-0 flex-shrink-0">
+      <!-- Logo -->
+      <div class="px-5 py-5 border-b border-white/[0.08]">
+        <span class="fc text-[22px] font-black tracking-[0.06em] uppercase text-white">MISSUS<span class="text-[#e8002d]">.</span></span>
+        <div class="flex items-center gap-1.5 mt-1">
+          <svg class="w-3 h-3 text-[#e8002d]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <span class="fc text-[9px] font-bold tracking-[0.18em] uppercase text-white/30">Admin Panel</span>
+        </div>
+      </div>
+      <!-- Nav -->
+      <nav class="flex-1 py-3">
+        <button class="w-full flex items-center gap-3 px-5 py-3 bg-[#e8002d] text-white relative">
+          <span class="absolute left-0 top-0 bottom-0 w-[3px] bg-white"></span>
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase">Dashboard</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-5 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase flex-1 text-left">Orders</span>
+          <span class="fc text-[9px] font-bold w-5 h-5 rounded-full bg-[#e8002d] text-white flex items-center justify-center">12</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-5 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase">Products</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-5 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase">Customers</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-5 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase">Analytics</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-5 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase">Promos & Sales</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-5 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="fc text-[12px] font-bold tracking-[0.1em] uppercase">Settings</span>
+        </button>
+      </nav>
+      <!-- Admin user -->
+      <div class="border-t border-white/[0.08] p-4">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-8 h-8 bg-[#e8002d] flex items-center justify-center flex-shrink-0">
+            <span class="fc text-[11px] font-black text-white">AM</span>
+          </div>
+          <div class="min-w-0">
+            <p class="fc text-[12px] font-bold text-white truncate">Admin Missus</p>
+            <p class="text-[10px] text-white/30 truncate">admin@missus.com</p>
+          </div>
+        </div>
+        <button class="flex items-center gap-2 text-white/30 hover:text-white transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          <span class="fc text-[11px] font-bold tracking-[0.1em] uppercase">Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main area -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Top bar -->
+      <div class="bg-white border-b border-[#e8e8e8] h-14 flex items-center justify-between px-6 flex-shrink-0">
+        <div>
+          <h1 class="fc text-[18px] font-black uppercase tracking-[0.08em] leading-none">Dashboard</h1>
+          <p class="text-[11px] text-[#aaa] mt-0.5">Saturday, April 11, 2026</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="flex border border-[#e0e0e0] h-8 overflow-hidden">
+            <input class="text-[12px] px-3 w-48 outline-none bg-white placeholder:text-[#bbb]" placeholder="Search everything…">
+            <button class="w-8 bg-[#f5f5f5] flex items-center justify-center border-l border-[#e0e0e0]">
+              <svg class="w-3.5 h-3.5 text-[#767676]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </button>
+          </div>
+          <button class="relative w-8 h-8 flex items-center justify-center hover:bg-[#f5f5f5] transition-colors">
+            <svg class="w-[18px] h-[18px] text-[#555]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-[#e8002d] rounded-full"></span>
+          </button>
+          <div class="w-8 h-8 bg-[#e8002d] flex items-center justify-center">
+            <span class="fc text-[11px] font-black text-white">AM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable content -->
+      <div class="flex-1 overflow-y-auto p-6 space-y-5">
+
+        <!-- Stats -->
+        <div class="grid grid-cols-4 gap-4">
+          <div class="bg-white p-5 border border-[#e8e8e8]">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-red-50">
+                <svg class="w-5 h-5 text-[#e8002d]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              </div>
+              <span class="flex items-center gap-0.5 text-[11px] font-bold text-[#007a3d]">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>+12.4%
+              </span>
+            </div>
+            <p class="fc text-[28px] font-black leading-none mb-1">₦4.82M</p>
+            <p class="text-[12px] text-[#767676]">Total Revenue</p>
+            <p class="text-[11px] text-[#aaa] mt-0.5">+12.4% this week</p>
+          </div>
+          <div class="bg-white p-5 border border-[#e8e8e8]">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-green-50">
+                <svg class="w-5 h-5 text-[#007a3d]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              </div>
+              <span class="flex items-center gap-0.5 text-[11px] font-bold text-[#007a3d]">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>+5
+              </span>
+            </div>
+            <p class="fc text-[28px] font-black leading-none mb-1">38</p>
+            <p class="text-[12px] text-[#767676]">Orders Today</p>
+            <p class="text-[11px] text-[#aaa] mt-0.5">+5 vs yesterday</p>
+          </div>
+          <div class="bg-white p-5 border border-[#e8e8e8]">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 flex items-center justify-center" style="background:rgba(184,150,74,0.1)">
+                <svg class="w-5 h-5 text-[#b8964a]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <span class="flex items-center gap-0.5 text-[11px] font-bold text-[#007a3d]">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>+94
+              </span>
+            </div>
+            <p class="fc text-[28px] font-black leading-none mb-1">1,284</p>
+            <p class="text-[12px] text-[#767676]">Active Customers</p>
+            <p class="text-[11px] text-[#aaa] mt-0.5">+94 this month</p>
+          </div>
+          <div class="bg-white p-5 border border-[#e8e8e8]">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 flex items-center justify-center bg-red-50">
+                <svg class="w-5 h-5 text-[#e8002d]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <span class="flex items-center gap-0.5 text-[11px] font-bold text-[#e8002d]">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/></svg>Alert
+              </span>
+            </div>
+            <p class="fc text-[28px] font-black leading-none mb-1">7</p>
+            <p class="text-[12px] text-[#767676]">Low Stock Items</p>
+            <p class="text-[11px] text-[#aaa] mt-0.5">Needs attention</p>
+          </div>
+        </div>
+
+        <!-- Revenue chart + Quick actions -->
+        <div class="grid grid-cols-[1fr_280px] gap-4">
+          <!-- Chart -->
+          <div class="bg-white border border-[#e8e8e8] p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="fc text-[16px] font-black uppercase tracking-[0.08em]">Revenue Overview</h3>
+              <select class="text-[11px] border border-[#e0e0e0] px-2 py-1.5 outline-none bg-white cursor-pointer">
+                <option>Last 7 days</option>
+                <option>Last 30 days</option>
+              </select>
+            </div>
+            <div class="flex items-end gap-2 h-[140px]">
+              <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-[#e8e8e8] hover:bg-[#d0d0d0] cursor-pointer transition-colors" style="height:55%"></div><span class="text-[9px] text-[#aaa] fc font-medium">M</span></div>
+              <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-[#e8e8e8] hover:bg-[#d0d0d0] cursor-pointer transition-colors" style="height:72%"></div><span class="text-[9px] text-[#aaa] fc font-medium">T</span></div>
+              <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-[#e8e8e8] hover:bg-[#d0d0d0] cursor-pointer transition-colors" style="height:48%"></div><span class="text-[9px] text-[#aaa] fc font-medium">W</span></div>
+              <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-[#e8e8e8] hover:bg-[#d0d0d0] cursor-pointer transition-colors" style="height:90%"></div><span class="text-[9px] text-[#aaa] fc font-medium">T</span></div>
+              <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-[#e8e8e8] hover:bg-[#d0d0d0] cursor-pointer transition-colors" style="height:65%"></div><span class="text-[9px] text-[#aaa] fc font-medium">F</span></div>
+              <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-[#e8002d] hover:opacity-80 cursor-pointer transition-opacity" style="height:88%"></div><span class="text-[9px] text-[#aaa] fc font-medium">S</span></div>
+              <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-[#e8e8e8] hover:bg-[#d0d0d0] cursor-pointer transition-colors" style="height:78%"></div><span class="text-[9px] text-[#aaa] fc font-medium">S</span></div>
+            </div>
+            <div class="flex items-center justify-between mt-4 pt-4 border-t border-[#f0f0f0]">
+              <div><p class="text-[11px] text-[#767676]">This week</p><p class="fc text-[18px] font-black">₦1,240,000</p></div>
+              <div><p class="text-[11px] text-[#767676]">Avg. order</p><p class="fc text-[18px] font-black">₦67,500</p></div>
+              <div><p class="text-[11px] text-[#767676]">Conversion</p><p class="fc text-[18px] font-black">3.8%</p></div>
+            </div>
+          </div>
+          <!-- Quick actions -->
+          <div class="bg-white border border-[#e8e8e8] p-5">
+            <h3 class="fc text-[14px] font-black uppercase tracking-[0.1em] mb-4">Quick Actions</h3>
+            <div class="divide-y divide-[#f5f5f5]">
+              <button class="w-full flex items-center gap-3 py-2.5 hover:bg-[#f5f5f5] -mx-2 px-2 transition-colors text-left">
+                <svg class="w-4 h-4 flex-shrink-0 text-black" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                <span class="fc text-[12px] font-bold tracking-[0.06em] uppercase text-[#333] flex-1">Add New Product</span>
+                <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+              <button class="w-full flex items-center gap-3 py-2.5 hover:bg-[#f5f5f5] -mx-2 px-2 transition-colors text-left">
+                <svg class="w-4 h-4 flex-shrink-0 text-[#e8002d]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                <span class="fc text-[12px] font-bold tracking-[0.06em] uppercase text-[#333] flex-1">Create Promo Code</span>
+                <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+              <button class="w-full flex items-center gap-3 py-2.5 hover:bg-[#f5f5f5] -mx-2 px-2 transition-colors text-left">
+                <svg class="w-4 h-4 flex-shrink-0 text-[#b8964a]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span class="fc text-[12px] font-bold tracking-[0.06em] uppercase text-[#333] flex-1">Pending Orders</span>
+                <span class="fc text-[9px] font-bold w-5 h-5 rounded-full bg-[#e8002d] text-white flex items-center justify-center">12</span>
+              </button>
+              <button class="w-full flex items-center gap-3 py-2.5 hover:bg-[#f5f5f5] -mx-2 px-2 transition-colors text-left">
+                <svg class="w-4 h-4 flex-shrink-0 text-[#767676]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+                <span class="fc text-[12px] font-bold tracking-[0.06em] uppercase text-[#333] flex-1">Manage Inventory</span>
+                <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+              <button class="w-full flex items-center gap-3 py-2.5 hover:bg-[#f5f5f5] -mx-2 px-2 transition-colors text-left">
+                <svg class="w-4 h-4 flex-shrink-0 text-[#007a3d]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span class="fc text-[12px] font-bold tracking-[0.06em] uppercase text-[#333] flex-1">Customer Reports</span>
+                <svg class="w-3.5 h-3.5 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent orders table -->
+        <div class="bg-white border border-[#e8e8e8]">
+          <div class="flex items-center justify-between px-5 py-4 border-b border-[#e8e8e8]">
+            <h3 class="fc text-[16px] font-black uppercase tracking-[0.08em]">Recent Orders</h3>
+            <button class="text-[11px] fc font-bold tracking-[0.1em] uppercase underline hover:no-underline">View All →</button>
+          </div>
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-[#f0f0f0]">
+                <th class="text-left px-5 py-3 fc text-[10px] font-bold tracking-[0.14em] uppercase text-[#aaa]">Order ID</th>
+                <th class="text-left px-5 py-3 fc text-[10px] font-bold tracking-[0.14em] uppercase text-[#aaa]">Customer</th>
+                <th class="text-left px-5 py-3 fc text-[10px] font-bold tracking-[0.14em] uppercase text-[#aaa]">Total</th>
+                <th class="text-left px-5 py-3 fc text-[10px] font-bold tracking-[0.14em] uppercase text-[#aaa]">Status</th>
+                <th class="text-left px-5 py-3 fc text-[10px] font-bold tracking-[0.14em] uppercase text-[#aaa]">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-[#f5f5f5] hover:bg-[#fafafa] transition-colors cursor-pointer">
+                <td class="px-5 py-3.5"><span class="fc text-[12px] font-bold tracking-[0.04em]">MO-2026-0058</span></td>
+                <td class="px-5 py-3.5"><p class="text-[13px] font-medium">Temi Adeyemi</p><p class="text-[11px] text-[#aaa]">temi@gmail.com</p></td>
+                <td class="px-5 py-3.5"><span class="fc text-[14px] font-bold">₦107,000</span></td>
+                <td class="px-5 py-3.5"><span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-[#f5f5f5] text-[#767676]"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Processing</span></td>
+                <td class="px-5 py-3.5 text-[12px] text-[#aaa]">Just now</td>
+              </tr>
+              <tr class="border-b border-[#f5f5f5] hover:bg-[#fafafa] transition-colors cursor-pointer">
+                <td class="px-5 py-3.5"><span class="fc text-[12px] font-bold tracking-[0.04em]">MO-2026-0057</span></td>
+                <td class="px-5 py-3.5"><p class="text-[13px] font-medium">Chisom Obi</p><p class="text-[11px] text-[#aaa]">chisom@outlook.com</p></td>
+                <td class="px-5 py-3.5"><span class="fc text-[14px] font-bold">₦43,000</span></td>
+                <td class="px-5 py-3.5"><span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-[#fdf8ec] text-[#b8964a]"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>In Transit</span></td>
+                <td class="px-5 py-3.5 text-[12px] text-[#aaa]">12 min ago</td>
+              </tr>
+              <tr class="border-b border-[#f5f5f5] hover:bg-[#fafafa] transition-colors cursor-pointer">
+                <td class="px-5 py-3.5"><span class="fc text-[12px] font-bold tracking-[0.04em]">MO-2026-0056</span></td>
+                <td class="px-5 py-3.5"><p class="text-[13px] font-medium">Ngozi Eze</p><p class="text-[11px] text-[#aaa]">ngozi@email.com</p></td>
+                <td class="px-5 py-3.5"><span class="fc text-[14px] font-bold">₦78,000</span></td>
+                <td class="px-5 py-3.5"><span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-[#f0faf4] text-[#007a3d]"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Delivered</span></td>
+                <td class="px-5 py-3.5 text-[12px] text-[#aaa]">1 hr ago</td>
+              </tr>
+              <tr class="border-b border-[#f5f5f5] hover:bg-[#fafafa] transition-colors cursor-pointer">
+                <td class="px-5 py-3.5"><span class="fc text-[12px] font-bold tracking-[0.04em]">MO-2026-0055</span></td>
+                <td class="px-5 py-3.5"><p class="text-[13px] font-medium">Sarah Adeleke</p><p class="text-[11px] text-[#aaa]">sarah@gmail.com</p></td>
+                <td class="px-5 py-3.5"><span class="fc text-[14px] font-bold">₦165,000</span></td>
+                <td class="px-5 py-3.5"><span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-[#f0faf4] text-[#007a3d]"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Delivered</span></td>
+                <td class="px-5 py-3.5 text-[12px] text-[#aaa]">2 hrs ago</td>
+              </tr>
+              <tr class="hover:bg-[#fafafa] transition-colors cursor-pointer">
+                <td class="px-5 py-3.5"><span class="fc text-[12px] font-bold tracking-[0.04em]">MO-2026-0054</span></td>
+                <td class="px-5 py-3.5"><p class="text-[13px] font-medium">Fatima Bello</p><p class="text-[11px] text-[#aaa]">fatima@yahoo.com</p></td>
+                <td class="px-5 py-3.5"><span class="fc text-[14px] font-bold">₦59,000</span></td>
+                <td class="px-5 py-3.5"><span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 bg-red-50 text-[#e8002d]"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Cancelled</span></td>
+                <td class="px-5 py-3.5 text-[12px] text-[#aaa]">3 hrs ago</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Top products -->
+        <div class="bg-white border border-[#e8e8e8] p-5 mb-20">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="fc text-[16px] font-black uppercase tracking-[0.08em]">Top Products</h3>
+            <button class="text-[11px] fc font-bold tracking-[0.1em] uppercase underline hover:no-underline">View All →</button>
+          </div>
+          <div class="divide-y divide-[#f5f5f5]">
+            <div class="flex items-center gap-4 py-3">
+              <span class="fc text-[18px] font-black text-[#e0e0e0] w-6 text-center flex-shrink-0">1</span>
+              <div class="w-10 h-12 bg-[#f5f5f5] flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+              <div class="flex-1 min-w-0"><p class="fc text-[13px] font-bold uppercase tracking-[0.04em] truncate">Maybelline Bubble Mini</p><p class="text-[11px] text-[#aaa] mt-0.5">142 sold · 28 in stock</p></div>
+              <div class="text-right flex-shrink-0"><p class="fc text-[14px] font-black">₦6,106,000</p><p class="text-[10px] text-[#007a3d] flex items-center justify-end gap-0.5 mt-0.5 font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>Trending</p></div>
+            </div>
+            <div class="flex items-center gap-4 py-3">
+              <span class="fc text-[18px] font-black text-[#e0e0e0] w-6 text-center flex-shrink-0">2</span>
+              <div class="w-10 h-12 bg-[#f5f5f5] flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+              <div class="flex-1 min-w-0"><p class="fc text-[13px] font-bold uppercase tracking-[0.04em] truncate">Malibu Barbie Halter</p><p class="text-[11px] text-[#aaa] mt-0.5">118 sold · 54 in stock</p></div>
+              <div class="text-right flex-shrink-0"><p class="fc text-[14px] font-black">₦3,540,000</p><p class="text-[10px] text-[#007a3d] flex items-center justify-end gap-0.5 mt-0.5 font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>Trending</p></div>
+            </div>
+            <div class="flex items-center gap-4 py-3">
+              <span class="fc text-[18px] font-black text-[#e0e0e0] w-6 text-center flex-shrink-0">3</span>
+              <div class="w-10 h-12 bg-[#f5f5f5] flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-[#ccc]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+              <div class="flex-1 min-w-0"><p class="fc text-[13px] font-bold uppercase tracking-[0.04em] truncate">Stella Satin Wrap Dress</p><p class="text-[11px] text-[#aaa] mt-0.5">96 sold · <span class="text-[#e8002d] font-semibold">12 in stock</span></p></div>
+              <div class="text-right flex-shrink-0"><p class="fc text-[14px] font-black">₦4,608,000</p><p class="text-[10px] text-[#e8002d] flex items-center justify-end gap-0.5 mt-0.5 font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/></svg>Slowing</p></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /scrollable -->
+    </div><!-- /main -->
+  </div><!-- /flex -->
+</div><!-- /admin dashboard -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════════ -->
+<script>
+  // ── Page routing ──
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      b.classList.remove('bg-[#e8002d]', 'text-white');
+    });
+    const labels = {
+      'wishlist-empty':'Wishlist Empty','wishlist-items':'Wishlist Items',
+      'user-login':'User Login','register':'Register',
+      'admin-login':'Admin Login','user-dashboard':'User Dashboard',
+      'admin-dashboard':'Admin Dashboard'
+    };
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      if (b.textContent.trim() === labels[id]) {
+        b.style.background = '#e8002d';
+        b.style.color = '#fff';
+      } else {
+        b.style.background = '';
+        b.style.color = '';
+      }
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Inject shared header into pages that need it ──
+  window.addEventListener('DOMContentLoaded', () => {
+    const tpl = document.getElementById('shared-header').innerHTML;
+    ['h1','h2','h6'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = tpl;
+    });
+    // Highlight first nav btn
+    const firstBtn = document.querySelector('.nav-btn');
+    if (firstBtn) { firstBtn.style.background = '#e8002d'; firstBtn.style.color = '#fff'; }
+  });
+
+  // ── Password strength (register page) ──
+  function updateStrength(val) {
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const colors = ['', '#e8002d', '#ff6b35', '#f0a500', '#007a3d'];
+    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    for (let i = 1; i <= 4; i++) {
+      const bar = document.getElementById('sb' + i);
+      if (bar) bar.style.background = i <= score ? colors[score] : '#e0e0e0';
+    }
+    const lbl = document.getElementById('strength-label');
+    if (lbl) { lbl.textContent = val ? labels[score] : ''; lbl.style.color = colors[score] || '#aaa'; }
+  }
+</script>
+</body>
+</html>
