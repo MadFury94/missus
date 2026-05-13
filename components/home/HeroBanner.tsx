@@ -11,11 +11,11 @@ export default function HeroBanner() {
             {/* Split background with real product images */}
             <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "55% 45%" }}>
                 <div style={{ position: "relative", overflow: "hidden" }}>
-                    <Image src={LEFT_IMG} alt="Spring Collection" fill style={{ objectFit: "cover", objectPosition: "top center" }} priority sizes="55vw" />
+                    <Image src={LEFT_IMG} alt="Spring Collection" fill style={{ objectFit: "cover", objectPosition: "top center" }} loading="eager" preload sizes="55vw" />
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, transparent 60%, rgba(0,0,0,.4) 100%)" }} />
                 </div>
                 <div style={{ position: "relative", overflow: "hidden" }}>
-                    <Image src={RIGHT_IMG} alt="New Arrivals" fill style={{ objectFit: "cover", objectPosition: "top center" }} priority sizes="45vw" />
+                    <Image src={RIGHT_IMG} alt="New Arrivals" fill style={{ objectFit: "cover", objectPosition: "top center" }} loading="eager" sizes="45vw" />
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to left, transparent 60%, rgba(0,0,0,.4) 100%)" }} />
                 </div>
             </div>

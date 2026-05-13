@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Minus, Plus } from "lucide-react";
 import { formatPrice } from "@/lib/woocommerce";
 import type { CartItem } from "@/types";
 
@@ -25,108 +24,107 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
     const hasDiscount = item.regularPrice && item.regularPrice > item.price;
 
     return (
-        <div
-            className={[
-                "grid grid-cols-[90px_1fr] gap-4 py-5 border-b border-[#e8e8e8] relative",
-                "transition-all duration-300 ease-out",
-                removing ? "opacity-0 translate-x-4 max-h-0 overflow-hidden py-0 border-0" : "opacity-100",
-            ].join(" ")}
-        >
-            {/* Product image */}
-            <Link
-                href={`/product/${item.slug}`}
-                className="block w-[90px] h-[120px] relative flex-shrink-0 bg-[#f0ece8] overflow-hidden"
-            >
+        <div style={{
+            display: "grid",
+            gridTemplateColumns: "90px 1fr",
+            gap: "16px",
+            padding: removing ? "0" : "20px 0",
+            borderBottom: removing ? "none" : "1px solid #e8e8e8",
+            position: "relative",
+            opacity: removing ? 0 : 1,
+            transform: removing ? "translateX(20px)" : "none",
+            maxHeight: removing ? "0" : "500px",
+            overflow: removing ? "hidden" : "visible",
+            transition: "opacity .28s ease, transform .28s ease, max-height .3s ease .28s, padding .3s ease .28s",
+        }}>
+            {/* Image */}
+            <Link href={`/product/${item.slug}`} style={{ display: "block", width: "90px", height: "120px", background: "#f0ece8", position: "relative", overflow: "hidden", flexShrink: 0, cursor: "pointer", textDecoration: "none" }}>
                 {item.image ? (
-                    <Image src={item.image} alt={item.name} fill className="object-cover" />
+                    <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} sizes="90px" />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                        <span className="font-condensed text-[9px] font-bold tracking-[0.08em] uppercase text-black/20 text-center px-2 leading-relaxed">
-                            {item.name}
-                        </span>
+                    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(0,0,0,.2)", textAlign: "center", padding: "8px", lineHeight: 1.5 }}>
+                        {item.name}
                     </div>
                 )}
             </Link>
 
             {/* Details */}
-            <div className="flex flex-col justify-between min-w-0">
-                {/* Top row: name + price */}
-                <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                        <Link
-                            href={`/product/${item.slug}`}
-                            className="font-condensed text-[15px] font-bold uppercase tracking-[0.03em] text-black hover:text-[#555] transition-colors leading-tight block"
-                        >
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                {/* Top: name + price */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "16px" }}>
+                    <div>
+                        <Link href={`/product/${item.slug}`} style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "15px", fontWeight: 700, letterSpacing: ".03em", textTransform: "uppercase", color: "#000", lineHeight: 1.2, cursor: "pointer", textDecoration: "none", display: "block" }}>
                             {item.name}
                         </Link>
-                        <div className="flex flex-col gap-0.5 mt-2">
+                        <div style={{ display: "flex", flexDirection: "column", gap: "3px", marginTop: "8px" }}>
                             {item.size && (
-                                <p className="text-[12px] text-[#767676]">
-                                    <span className="font-semibold text-black">Size:</span> {item.size}
+                                <p style={{ fontSize: "12px", color: "#767676" }}>
+                                    <strong style={{ color: "#000", fontWeight: 600 }}>Size:</strong> {item.size}
                                 </p>
                             )}
                             {item.color && (
-                                <p className="text-[12px] text-[#767676]">
-                                    <span className="font-semibold text-black">Color:</span> {item.color}
+                                <p style={{ fontSize: "12px", color: "#767676" }}>
+                                    <strong style={{ color: "#000", fontWeight: 600 }}>Color:</strong> {item.color}
                                 </p>
                             )}
                         </div>
                     </div>
 
                     {/* Price */}
-                    <div className="text-right flex-shrink-0">
+                    <div style={{ textAlign: "right", flexShrink: 0 }}>
                         {hasDiscount && (
-                            <span className="block text-[12px] text-[#aaa] line-through font-normal">
+                            <span style={{ display: "block", fontSize: "13px", color: "#aaa", textDecoration: "line-through", fontWeight: 400 }}>
                                 {formatPrice(item.regularPrice! * item.quantity)}
                             </span>
                         )}
-                        <span
-                            className={[
-                                "font-condensed text-[16px] font-bold",
-                                hasDiscount ? "text-[#e8002d]" : "text-black",
-                            ].join(" ")}
-                        >
+                        <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, color: hasDiscount ? "#e8002d" : "#000" }}>
                             {formatPrice(lineTotal)}
                         </span>
                     </div>
                 </div>
 
-                {/* Bottom row: qty + actions */}
-                <div className="flex items-center gap-4 mt-3 flex-wrap">
+                {/* Bottom: qty + actions */}
+                <div style={{ display: "flex", alignItems: "center", gap: "16px", marginTop: "12px", flexWrap: "wrap" }}>
                     {/* Qty control */}
-                    <div className="flex items-center border-[1.5px] border-[#e0e0e0] h-[34px]">
+                    <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #e0e0e0", height: "34px" }}>
                         <button
                             onClick={() => onUpdateQty(item.productId, item.size, -1)}
                             disabled={item.quantity <= 1}
-                            className="w-8 h-full flex items-center justify-center hover:bg-[#f5f5f5] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            style={{ width: "32px", height: "100%", border: "none", background: "#fff", fontSize: "16px", fontWeight: 300, cursor: item.quantity <= 1 ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#000", opacity: item.quantity <= 1 ? 0.3 : 1 }}
                             aria-label="Decrease quantity"
                         >
-                            <Minus className="w-3.5 h-3.5" strokeWidth={2} />
+                            −
                         </button>
-                        <span className="w-9 text-center font-condensed text-[14px] font-bold select-none">
+                        <span style={{ width: "36px", textAlign: "center", fontFamily: "var(--font-barlow-condensed)", fontSize: "14px", fontWeight: 700, color: "#000", userSelect: "none" }}>
                             {item.quantity}
                         </span>
                         <button
                             onClick={() => onUpdateQty(item.productId, item.size, 1)}
                             disabled={item.quantity >= 10}
-                            className="w-8 h-full flex items-center justify-center hover:bg-[#f5f5f5] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            style={{ width: "32px", height: "100%", border: "none", background: "#fff", fontSize: "16px", fontWeight: 300, cursor: item.quantity >= 10 ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#000", opacity: item.quantity >= 10 ? 0.3 : 1 }}
                             aria-label="Increase quantity"
                         >
-                            <Plus className="w-3.5 h-3.5" strokeWidth={2} />
+                            +
                         </button>
                     </div>
 
-                    {/* Remove */}
                     <button
                         onClick={handleRemove}
-                        className="text-[12px] text-[#767676] underline hover:text-[#e8002d] transition-colors font-sans"
+                        style={{ fontSize: "12px", color: "#767676", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-barlow)", padding: 0 }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#e8002d")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#767676")}
                     >
                         Remove
                     </button>
 
-                    {/* Save for later */}
-                    <button className="flex items-center gap-1 text-[12px] text-[#767676] underline hover:text-black transition-colors font-sans">
-                        <Heart className="w-3 h-3" strokeWidth={1.8} />
+                    <button
+                        style={{ fontSize: "12px", color: "#767676", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-barlow)", padding: 0, display: "flex", alignItems: "center", gap: "4px" }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#767676")}
+                    >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
                         Save for Later
                     </button>
                 </div>
@@ -134,7 +132,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
 
             {/* SALE badge */}
             {hasDiscount && (
-                <span className="absolute top-5 right-0 bg-[#e8002d] text-white font-condensed text-[9px] font-bold tracking-[0.1em] uppercase px-2 py-0.5">
+                <span style={{ position: "absolute", top: "20px", right: 0, background: "#e8002d", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "3px 8px" }}>
                     SALE
                 </span>
             )}

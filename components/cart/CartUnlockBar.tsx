@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Gift } from "lucide-react";
 import { formatPrice } from "@/lib/woocommerce";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
 
@@ -16,52 +15,50 @@ export default function CartUnlockBar({ total }: Props) {
 
     return (
         <>
-            {/* Text bar with progress */}
-            <div className="bg-white border-b-2 border-black px-6 py-2.5 text-[13px] font-medium text-black">
+            {/* Progress unlock bar */}
+            <div style={{ background: "#fff", borderBottom: "2px solid #000", padding: "10px 24px", fontSize: "13px", fontWeight: 500, color: "#000" }}>
                 {isUnlocked ? (
-                    <span>
-                        🎉 You&apos;ve unlocked <strong>FREE SHIPPING!</strong> Enjoy.
-                    </span>
+                    <span>🎉 You&apos;ve unlocked <strong>FREE SHIPPING!</strong> Enjoy.</span>
                 ) : (
                     <span>
-                        Spend <strong>{formatPrice(remaining)}</strong> more to
-                        unlock <strong>FREE SHIPPING!</strong>{" "}
-                        <Link href="/shop" className="font-bold underline hover:no-underline">
+                        Spend <strong>{formatPrice(remaining)}</strong> more to unlock <strong>FREE SHIPPING!</strong>{" "}
+                        <Link href="/shop" style={{ fontWeight: 700, textDecoration: "underline", color: "#000" }}>
                             Shop New →
                         </Link>
                     </span>
                 )}
-
-                {/* Progress bar */}
-                <div className="h-[3px] bg-[#e0e0e0] mt-2 w-full">
-                    <div
-                        className="h-full bg-black transition-all duration-500 ease-out"
-                        style={{ width: `${progress}%` }}
-                    />
+                <div style={{ height: "3px", background: "#e0e0e0", marginTop: "8px", borderRadius: 0 }}>
+                    <div style={{ height: "100%", background: "#000", width: `${progress}%`, transition: "width .4s ease" }} />
                 </div>
             </div>
 
-            {/* Free gift promo banner */}
-            <div className="bg-black flex items-center gap-3.5 px-6 py-3.5">
-                <div className="w-9 h-9 bg-[#e8002d] flex items-center justify-center flex-shrink-0">
-                    <Gift className="w-5 h-5 text-white" strokeWidth={1.8} />
+            {/* Free gift / shipping promo banner */}
+            <div style={{ background: "linear-gradient(90deg,#000 0%,#1a1a1a 100%)", padding: "14px 20px", display: "flex", alignItems: "center", gap: "14px" }}>
+                <div style={{ width: "36px", height: "36px", background: "#e8002d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8">
+                        <polyline points="20 12 20 22 4 22 4 12" />
+                        <rect x="2" y="7" width="20" height="5" />
+                        <line x1="12" y1="22" x2="12" y2="7" />
+                        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+                    </svg>
                 </div>
                 <div>
                     {isUnlocked ? (
                         <>
-                            <p className="font-condensed text-[13px] font-bold tracking-[0.06em] uppercase text-white leading-tight">
+                            <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#fff", lineHeight: 1.3 }}>
                                 Free shipping unlocked! 🎉
                             </p>
-                            <span className="text-[11px] text-white/50 font-light">
+                            <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)", fontWeight: 300 }}>
                                 Your order ships free nationwide
                             </span>
                         </>
                     ) : (
                         <>
-                            <p className="font-condensed text-[13px] font-bold tracking-[0.06em] uppercase text-white leading-tight">
+                            <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#fff", lineHeight: 1.3 }}>
                                 Add {formatPrice(remaining)} more for FREE SHIPPING
                             </p>
-                            <span className="text-[11px] text-white/50 font-light">
+                            <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)", fontWeight: 300 }}>
                                 Orders ₦150,000+ ship free nationwide
                             </span>
                         </>

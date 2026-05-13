@@ -19,6 +19,10 @@ export async function GET(req: NextRequest) {
 
     if (searchParams.get("on_sale") === "true") params.set("on_sale", "true");
 
+    // Support excluding specific product IDs (comma-separated)
+    const exclude = searchParams.get("exclude");
+    if (exclude) params.set("exclude", exclude);
+
     try {
         const res = await fetch(`${STORE_API}/products?${params}`, {
             next: { revalidate: 60 },

@@ -28,8 +28,7 @@ export const SUB_NAV = [
 
 export const FOOTER_LINKS = {
     Help: [
-        { label: "Help Center", href: "/help" },
-        { label: "Track Order", href: "/track" },
+        { label: "FAQ", href: "/faq" },
         { label: "Shipping Info", href: "/shipping" },
         { label: "Returns", href: "/returns" },
         { label: "Contact Us", href: "/contact" },
@@ -37,22 +36,11 @@ export const FOOTER_LINKS = {
     Company: [
         { label: "About Missus", href: "/about" },
         { label: "Careers", href: "/careers" },
-        { label: "Press", href: "/press" },
-        { label: "Sustainability", href: "/sustainability" },
-        { label: "Want to Collab?", href: "/collab" },
-    ],
-    "Quick Links": [
-        { label: "Size Guide", href: "/size-guide" },
-        { label: "Gift Cards", href: "/gift-cards" },
-        { label: "Sitemap", href: "/sitemap.xml" },
-        { label: "Refer a Friend", href: "/refer" },
-        { label: "Affiliate Program", href: "/affiliate" },
+        { label: "Want to Collab?", href: "/contact#collab" },
     ],
     Legal: [
         { label: "Privacy Policy", href: "/privacy" },
         { label: "Terms of Service", href: "/terms" },
-        { label: "Cookie Policy", href: "/cookies" },
-        { label: "Accessibility", href: "/accessibility" },
     ],
 };
 

@@ -18,7 +18,8 @@ export default function CategoryHeroImage() {
                 src="/missus-hero.png"
                 alt="Missus Fashion Collection"
                 fill
-                priority
+                loading="eager"
+                preload
                 quality={100}
                 style={{
                     objectFit: "cover", // Cover to fill space
