@@ -10,6 +10,7 @@ export default function AdminDashboard() {
     const [user, setUser] = useState<any>(null);
     const [stats, setStats] = useState({ products: 0, orders: 0, revenue: 0, customers: 0 });
     const [loading, setLoading] = useState(true);
+    const [configError, setConfigError] = useState("");
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -26,8 +27,14 @@ export default function AdminDashboard() {
             const response = await fetch("/api/admin/stats");
             const data = await response.json();
             setStats(data);
+            if (!data.configured) {
+                setConfigError(data.error || "WooCommerce API credentials not configured.");
+            } else if (data.error) {
+                setConfigError(data.error);
+            }
         } catch (error) {
             console.error("Failed to load stats:", error);
+            setConfigError("Could not reach the stats API.");
         } finally {
             setLoading(false);
         }
@@ -47,6 +54,23 @@ export default function AdminDashboard() {
 
                 {/* Content */}
                 <div style={{ padding: "20px" }}>
+
+                    {/* Config error banner */}
+                    {configError && (
+                        <div style={{ background: "#fef2f2", border: "1px solid #fca5a5", borderLeft: "4px solid #d63638", padding: "14px 16px", marginBottom: "20px", borderRadius: "4px" }}>
+                            <p style={{ fontSize: "13px", fontWeight: 600, color: "#d63638", marginBottom: "6px" }}>
+                                ⚠️ WooCommerce API Not Connected
+                            </p>
+                            <p style={{ fontSize: "12px", color: "#7f1d1d", lineHeight: 1.6, margin: 0 }}>
+                                {configError}
+                            </p>
+                            <p style={{ fontSize: "12px", color: "#7f1d1d", marginTop: "8px", margin: "8px 0 0" }}>
+                                To fix: open <code style={{ background: "#fee2e2", padding: "1px 5px" }}>.env.local</code> and add your{" "}
+                                <strong>WC_CONSUMER_KEY</strong> and <strong>WC_CONSUMER_SECRET</strong>.{" "}
+                                Get them from: <em>WordPress Admin → WooCommerce → Settings → Advanced → REST API → Add Key</em>
+                            </p>
+                        </div>
+                    )}
                     {/* Stats */}
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px", marginBottom: "24px" }}>
                         {[

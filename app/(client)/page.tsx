@@ -1,45 +1,34 @@
-import HeroSlideshow from "@/components/home/HeroSlideshow";
+import CategoryHeroImage from "@/components/home/CategoryHeroImage";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReportCards from "@/components/home/TrendReportCards";
+import VideoHero from "@/components/home/VideoHero";
+import TrendReport from "@/components/home/TrendReport";
 import WideBanner from "@/components/home/WideBanner";
+import NewInSection from "@/components/home/NewInSection";
 import CategoryGrid from "@/components/home/CategoryGrid";
-import StarsOfTheShow from "@/components/home/StarsOfTheShow";
-import SaleBanner from "@/components/home/SaleBanner";
 import ReviewsSection from "@/components/home/ReviewsSection";
+import AppDownloadBanner from "@/components/home/AppDownloadBanner";
 import TrustBar from "@/components/home/TrustBar";
 import NewsletterBar from "@/components/home/NewsletterBar";
-import { getProducts } from "@/lib/woocommerce";
+import { getNewArrivals } from "@/lib/woocommerce";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const popularProducts = await getProducts({ perPage: 10, orderby: "popularity" });
+  const newArrivals = await getNewArrivals(10);
 
   return (
     <>
-      {/* 1. Hero Banner — slideshow of images + video */}
-      <HeroSlideshow />
-
-      {/* Marquee Strip */}
+      <CategoryHeroImage />
       <MarqueeStrip />
-
-      {/* 2. Trend Report */}
       <TrendReportCards />
-
-      {/* 3. Sub-hero banner */}
+      <VideoHero />
+      <TrendReport />
       <WideBanner />
-
-      {/* 4. Product Categories */}
+      <NewInSection products={newArrivals} />
       <CategoryGrid />
-
-      {/* 5. Stars of the Show — popular products */}
-      <StarsOfTheShow products={popularProducts} />
-
-      {/* 6. Sale Banner */}
-      <SaleBanner />
-
-      {/* Reviews + Trust + Newsletter */}
       <ReviewsSection />
+      <AppDownloadBanner />
       <TrustBar />
       <NewsletterBar />
     </>
