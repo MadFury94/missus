@@ -85,11 +85,21 @@ export function getProductImage(product: StoreProduct, index = 0): string {
     return product.images?.[index]?.src ?? "";
 }
 
+const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL", "2XL", "3XL", "4XL", "5XL", "6XL", "ONE SIZE", "FREE SIZE"];
+
 export function getSizes(product: StoreProduct): string[] {
     const attr = product.attributes?.find(
         (a) => a.name.toLowerCase() === "size" || a.name.toLowerCase() === "sizes"
     );
-    return attr?.terms?.map((t) => t.name) ?? [];
+    const raw = attr?.terms?.map((t) => t.name) ?? [];
+    return raw.sort((a, b) => {
+        const ai = SIZE_ORDER.indexOf(a.toUpperCase());
+        const bi = SIZE_ORDER.indexOf(b.toUpperCase());
+        if (ai === -1 && bi === -1) return a.localeCompare(b);
+        if (ai === -1) return 1;
+        if (bi === -1) return -1;
+        return ai - bi;
+    });
 }
 
 export function getColors(product: StoreProduct): string[] {

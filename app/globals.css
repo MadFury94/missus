@@ -365,6 +365,20 @@ button {
   }
 }
 
+/* Size guide tips grid */
+.size-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 640px) {
+  .size-tips-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Role card hover (careers page) */
 .role-card {
   border: 1.5px solid #e0e0e0;

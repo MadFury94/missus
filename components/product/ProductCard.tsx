@@ -123,7 +123,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                 <button
                     onClick={handleAddToBag}
                     disabled={adding}
-                    style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: adding ? "#007a3d" : "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", padding: "10px", opacity: hovered ? 1 : 0, transition: "all .2s", zIndex: 2, border: "none", width: "100%", cursor: "pointer" }}>
+                    style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: adding ? "#007a3d" : "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", padding: "10px", opacity: hovered ? 1 : 0, transition: "all .2s", zIndex: 3, border: "none", width: "100%", cursor: "pointer" }}>
                     {adding ? "✓ Added!" : sizes.length > 0 ? "Select Size" : "Add to Bag"}
                 </button>
             </Link>

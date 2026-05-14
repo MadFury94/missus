@@ -1,46 +1,45 @@
-// HERO SECTION
-import CategoryHeroImage from "@/components/home/CategoryHeroImage";
-
+import HeroSlideshow from "@/components/home/HeroSlideshow";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
-import TrendReport from "@/components/home/TrendReport";
 import TrendReportCards from "@/components/home/TrendReportCards";
 import WideBanner from "@/components/home/WideBanner";
-import NewInSection from "@/components/home/NewInSection";
-import VideoHero from "@/components/home/VideoHero";
 import CategoryGrid from "@/components/home/CategoryGrid";
+import StarsOfTheShow from "@/components/home/StarsOfTheShow";
+import SaleBanner from "@/components/home/SaleBanner";
 import ReviewsSection from "@/components/home/ReviewsSection";
-import AppDownloadBanner from "@/components/home/AppDownloadBanner";
 import TrustBar from "@/components/home/TrustBar";
 import NewsletterBar from "@/components/home/NewsletterBar";
-import { getNewArrivals } from "@/lib/woocommerce";
+import { getProducts } from "@/lib/woocommerce";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const newArrivals = await getNewArrivals(10);
+  const popularProducts = await getProducts({ perPage: 10, orderby: "popularity" });
 
   return (
     <>
-      {/* Full-Width HD Hero Image with Text */}
-      <CategoryHeroImage />
+      {/* 1. Hero Banner — slideshow of images + video */}
+      <HeroSlideshow />
 
       {/* Marquee Strip */}
       <MarqueeStrip />
 
-      {/* Trend Report Cards - Before Video */}
+      {/* 2. Trend Report */}
       <TrendReportCards />
 
-      {/* Video Background */}
-      <VideoHero />
-
-      {/* Rest of homepage sections */}
-      <TrendReport />
+      {/* 3. Sub-hero banner */}
       <WideBanner />
-      <NewInSection products={newArrivals} />
 
+      {/* 4. Product Categories */}
       <CategoryGrid />
+
+      {/* 5. Stars of the Show — popular products */}
+      <StarsOfTheShow products={popularProducts} />
+
+      {/* 6. Sale Banner */}
+      <SaleBanner />
+
+      {/* Reviews + Trust + Newsletter */}
       <ReviewsSection />
-      <AppDownloadBanner />
       <TrustBar />
       <NewsletterBar />
     </>

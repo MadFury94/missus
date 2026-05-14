@@ -3,6 +3,15 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:30
 export const CURRENCY_SYMBOL = "₦";
 export const FREE_SHIPPING_THRESHOLD = 150000;
 
+export const SOCIAL_LINKS = {
+    instagram: "https://instagram.com/missusoutfits",
+    tiktok: "https://tiktok.com/@missusoutfits",
+    snapchat: "https://snapchat.com/add/missusoutfits",
+    facebook: "https://facebook.com/missusoutfits",
+    youtube: "https://youtube.com/@missusoutfits",
+    whatsapp: "https://wa.me/2348000000000",
+};
+
 export const ANNOUNCEMENT = "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVALS EVERY WEEK  |  PAY ON DELIVERY AVAILABLE";
 
 export const TOP_NAV = [
@@ -31,6 +40,7 @@ export const FOOTER_LINKS = {
         { label: "FAQ", href: "/faq" },
         { label: "Shipping Info", href: "/shipping" },
         { label: "Returns", href: "/returns" },
+        { label: "Size Guide", href: "/size-guide" },
         { label: "Contact Us", href: "/contact" },
     ],
     Company: [

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function NewsletterBar() {
     const [email, setEmail] = useState("");
@@ -14,7 +15,10 @@ export default function NewsletterBar() {
         <div style={{ background: "#f5f5f5", borderTop: "3px solid #000", padding: "28px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" }}>
             <div>
                 <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase" }}>Join The Missus Circle</h3>
-                <p style={{ fontSize: "12px", color: "#555", marginTop: "2px" }}>Get early drops, exclusive deals & style inspo — straight to your inbox.</p>
+                <p style={{ fontSize: "12px", color: "#555", marginTop: "2px" }}>
+                    Get early drops, exclusive deals & style inspo — straight to your inbox.{" "}
+                    <Link href="/newsletter" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Learn more →</Link>
+                </p>
             </div>
             {done ? (
                 <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 700, color: "#000" }}>You&apos;re in! ✓</p>

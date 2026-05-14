@@ -68,20 +68,19 @@ export default function AdminProducts() {
                     </h1>
                     <Link
                         href="/admin/products/new"
-                        style={{
-                            background: "#2271b1",
-                            color: "#fff",
-                            padding: "6px 12px",
-                            borderRadius: "3px",
-                            fontSize: "13px",
-                            textDecoration: "none",
-                            border: "1px solid #2271b1",
-                            transition: "background .15s"
-                        }}
+                        style={{ background: "#2271b1", color: "#fff", padding: "6px 12px", borderRadius: "3px", fontSize: "13px", textDecoration: "none", border: "1px solid #2271b1", transition: "background .15s" }}
                         onMouseEnter={(e) => e.currentTarget.style.background = "#135e96"}
                         onMouseLeave={(e) => e.currentTarget.style.background = "#2271b1"}
                     >
                         Add New
+                    </Link>
+                    <Link
+                        href="/admin/products/import"
+                        style={{ background: "#007a3d", color: "#fff", padding: "6px 12px", borderRadius: "3px", fontSize: "13px", textDecoration: "none", border: "1px solid #007a3d", transition: "background .15s", marginLeft: "8px" }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = "#005a2d"}
+                        onMouseLeave={(e) => e.currentTarget.style.background = "#007a3d"}
+                    >
+                        ↑ Bulk Import CSV
                     </Link>
                 </div>
 
