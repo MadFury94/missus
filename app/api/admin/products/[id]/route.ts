@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -17,6 +18,9 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     const { id } = await params;
     try {
         const response = await fetch(`${WC_API_URL}/products/${id}`, {
@@ -29,8 +33,9 @@ export async function GET(
 
         const product = await response.json();
         return NextResponse.json(product);
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 404 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        return NextResponse.json({ error: message }, { status: 404 });
     }
 }
 
@@ -39,6 +44,9 @@ export async function PUT(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     const { id } = await params;
     try {
         const body = await request.json();
@@ -56,8 +64,9 @@ export async function PUT(
 
         const product = await response.json();
         return NextResponse.json(product);
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
@@ -66,6 +75,9 @@ export async function DELETE(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     const { id } = await params;
     try {
         const response = await fetch(`${WC_API_URL}/products/${id}?force=true`, {
@@ -78,7 +90,8 @@ export async function DELETE(
         }
 
         return NextResponse.json({ success: true });
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }

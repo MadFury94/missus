@@ -24,7 +24,12 @@ export default function AdminDashboard() {
 
     const loadStats = async () => {
         try {
-            const response = await fetch("/api/admin/stats");
+            const currentUser = getCurrentUser();
+            const response = await fetch("/api/admin/stats", {
+                headers: currentUser?.token
+                    ? { Authorization: `Bearer ${currentUser.token}` }
+                    : {},
+            });
             const data = await response.json();
             setStats(data);
             if (!data.configured) {

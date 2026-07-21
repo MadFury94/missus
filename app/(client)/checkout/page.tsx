@@ -7,19 +7,14 @@ import { getCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/woocommerce";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
 
-// Simple promo codes — replace with API validation when ready
-const PROMO_CODES: Record<string, { type: "percent" | "fixed"; value: number; label: string }> = {
-    "SPRING20": { type: "fixed", value: 2000, label: "₦2,000 off" },
-    "MISSUS10": { type: "percent", value: 10, label: "10% off" },
-    "NEWGIRL": { type: "percent", value: 15, label: "15% off" },
-};
-
 export default function CheckoutPage() {
     const [cart, setCart] = useState<Cart>({ items: [], subtotal: 0, total: 0 });
     const [loading, setLoading] = useState(false);
     const [promoCode, setPromoCode] = useState("");
+    const [promoLabel, setPromoLabel] = useState("");
     const [promoInput, setPromoInput] = useState("");
     const [promoError, setPromoError] = useState("");
+    const [promoLoading, setPromoLoading] = useState(false);
     const [promoDiscount, setPromoDiscount] = useState(0);
     const [form, setForm] = useState({
         firstName: "", lastName: "", email: "", phone: "",
@@ -32,25 +27,39 @@ export default function CheckoutPage() {
         setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
     }
 
-    function applyPromo() {
+    async function applyPromo() {
         const code = promoInput.trim().toUpperCase();
-        const promo = PROMO_CODES[code];
-        if (!promo) {
-            setPromoError("Invalid promo code.");
-            setPromoDiscount(0);
-            setPromoCode("");
-            return;
-        }
-        const discount = promo.type === "percent"
-            ? Math.round(cart.subtotal * promo.value / 100)
-            : promo.value;
-        setPromoDiscount(discount);
-        setPromoCode(code);
+        if (!code) return;
+        setPromoLoading(true);
         setPromoError("");
+        try {
+            const res = await fetch("/api/promo/validate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code, subtotal: cart.subtotal }),
+            });
+            const data = await res.json();
+            if (!data.valid) {
+                setPromoError(data.error || "Invalid promo code.");
+                setPromoDiscount(0);
+                setPromoCode("");
+                setPromoLabel("");
+            } else {
+                setPromoDiscount(data.discount);
+                setPromoCode(data.code);
+                setPromoLabel(data.label);
+                setPromoError("");
+            }
+        } catch {
+            setPromoError("Could not validate code. Please try again.");
+        } finally {
+            setPromoLoading(false);
+        }
     }
 
     function removePromo() {
         setPromoCode("");
+        setPromoLabel("");
         setPromoInput("");
         setPromoDiscount(0);
         setPromoError("");
@@ -281,7 +290,7 @@ export default function CheckoutPage() {
                                 {promoCode ? (
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#f0faf4", border: "1px solid #c8e6d4", padding: "10px 14px" }}>
                                         <span style={{ fontSize: "13px", color: "#007a3d", fontWeight: 600 }}>
-                                            ✓ {promoCode} — {PROMO_CODES[promoCode]?.label} applied
+                                            ✓ {promoCode} — {promoLabel} applied
                                         </span>
                                         <button onClick={removePromo} type="button" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#555", lineHeight: 1 }}>×</button>
                                     </div>
@@ -300,9 +309,10 @@ export default function CheckoutPage() {
                                             <button
                                                 type="button"
                                                 onClick={applyPromo}
-                                                style={{ background: "#000", color: "#fff", border: "none", padding: "0 18px", fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", cursor: "pointer", height: "44px", whiteSpace: "nowrap" }}
+                                                disabled={promoLoading}
+                                                style={{ background: "#000", color: "#fff", border: "none", padding: "0 18px", fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", cursor: promoLoading ? "not-allowed" : "pointer", height: "44px", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
                                             >
-                                                Apply
+                                                {promoLoading ? "..." : "Apply"}
                                             </button>
                                         </div>
                                         {promoError && <p style={{ fontSize: "12px", color: "#e8002d", marginTop: "6px" }}>{promoError}</p>}

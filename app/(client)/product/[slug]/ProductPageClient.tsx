@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import DOMPurify from "isomorphic-dompurify";
 import { formatPrice, getDiscount, getSizes, getColors, toNaira } from "@/lib/woocommerce";
 import { addToCart } from "@/lib/cart";
 import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
@@ -39,16 +40,17 @@ export default function ProductPageClient({ params, product, related }: {
             productId: product.id,
             name: product.name,
             slug: product.slug,
-            price: parseInt(product.prices.price),
-            regularPrice: parseInt(product.prices.regular_price),
+            price: toNaira(product.prices.price),
+            regularPrice: toNaira(product.prices.regular_price),
             image: product.images[0]?.src || "",
             size: selectedSize || undefined,
             color: undefined,
             quantity: 1
         });
 
-        // Dispatch cart-updated event for navbar
+        // Open cart drawer
         window.dispatchEvent(new Event("cart-updated"));
+        window.dispatchEvent(new Event("open-cart-drawer"));
 
         setTimeout(() => {
             setAdding(false);
@@ -153,19 +155,9 @@ export default function ProductPageClient({ params, product, related }: {
                             )}
                         </div>
 
-                        {/* Payment Options */}
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "#000", marginBottom: "8px", flexWrap: "wrap" }}>
-                            <span>or 4 payments of {formatPrice(String(Math.ceil(parseInt(product.prices.price) / 4)))} with</span>
-                            <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
-                                <span style={{ padding: "2px 6px", border: "1px solid #ddd", fontSize: "10px", fontWeight: 600 }}>ZIP</span>
-                                <span style={{ padding: "2px 6px", fontSize: "10px", fontWeight: 600, background: "#00c853", color: "#fff" }}>Afterpay</span>
-                                <span style={{ padding: "2px 6px", fontSize: "10px", fontWeight: 600, background: "#ffb3d9", color: "#000" }}>Klarna</span>
-                            </div>
-                        </div>
-
-                        {/* Promo Code */}
-                        <p style={{ fontSize: "13px", color: "#c00", fontWeight: 600, marginBottom: "12px" }}>
-                            Get ₦20 Off ₦99+ Orders! Use Code: SPRING20
+                        {/* Payment note */}
+                        <p style={{ fontSize: "13px", color: "#555", marginBottom: "12px" }}>
+                            Pay securely via Paystack — card, bank transfer or USSD.
                         </p>
                     </div>
 
@@ -176,7 +168,7 @@ export default function ProductPageClient({ params, product, related }: {
                             <span style={{ color: "#ddd", fontSize: "14px" }}>★</span>
                         </div>
                         <Link href="#reviews" style={{ fontSize: "13px", color: "#000", textDecoration: "underline", fontWeight: 600 }}>
-                            ({product.review_count || 318})
+                            {product.review_count > 0 ? `(${product.review_count})` : "Be the first to review"}
                         </Link>
                         <button style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "4px", fontSize: "13px", textDecoration: "underline" }}>
                             ✨ See Summary
@@ -269,31 +261,21 @@ export default function ProductPageClient({ params, product, related }: {
 
                     {/* Shipping Info */}
                     <div style={{ marginBottom: "16px", paddingBottom: "16px", borderBottom: "1px solid #e8e8e8" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-                            <span style={{ fontSize: "14px", fontWeight: 600 }}>Shipping to</span>
-                            <button style={{ fontSize: "14px", fontWeight: 600, textDecoration: "underline", background: "none", border: "none", cursor: "pointer" }}>
-                                10001
-                            </button>
-                        </div>
-
                         <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "10px", fontSize: "13px" }}>
-                            <span>⏰</span>
-                            <div>Get it by <strong>TUE, APR 7</strong> with 1-Day Shipping</div>
+                            <span>⚡</span>
+                            <div><strong>Lagos: 1–2 Hours</strong> — Express delivery available</div>
                         </div>
-
-                        <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", fontSize: "13px" }}>
+                        <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "10px", fontSize: "13px" }}>
                             <span>📦</span>
                             <div>
-                                <div><strong>3-7 Business Days</strong></div>
-                                <div style={{ color: "#666" }}>Free shipping ₦75+</div>
-                                <div style={{ color: "#666" }}>Estimated Delivery: <strong>Tuesday, Apr 14</strong></div>
+                                <div><strong>Nationwide: 2–5 Business Days</strong></div>
+                                <div style={{ color: "#666" }}>Free shipping on orders ₦150,000+</div>
                             </div>
                         </div>
-
                         <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginTop: "10px" }}>
-                            <span>📦</span>
+                            <span>🔄</span>
                             <Link href="/returns" style={{ fontSize: "13px", fontWeight: 600, textDecoration: "underline", color: "#000" }}>
-                                30-day Returns: Store Credit
+                                7-day Returns Policy
                             </Link>
                         </div>
                     </div>
@@ -301,7 +283,7 @@ export default function ProductPageClient({ params, product, related }: {
                     {/* Accordions */}
                     <div>
                         {[
-                            { icon: "👔", title: "Product Details", content: product.description || product.short_description },
+                            { icon: "👔", title: "Product Details", content: DOMPurify.sanitize(product.description || product.short_description) },
                             { icon: "✓", title: "Why You'll Love It", content: "Premium quality fabric with perfect fit." },
                             { icon: "📋", title: "Material", content: "100% Premium Cotton." }
                         ].map((item) => (
@@ -314,13 +296,14 @@ export default function ProductPageClient({ params, product, related }: {
                                     listStyle: "none",
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "space-between"
+                                    justifyContent: "space-between",
+                                    outline: "none",
                                 }}>
                                     <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                        <span>{item.icon}</span>
+                                        <span aria-hidden="true">{item.icon}</span>
                                         {item.title}
                                     </span>
-                                    <span>▼</span>
+                                    <span aria-hidden="true">▼</span>
                                 </summary>
                                 <div
                                     style={{ paddingBottom: "16px", fontSize: "13px", color: "#666", lineHeight: 1.6 }}
@@ -328,20 +311,48 @@ export default function ProductPageClient({ params, product, related }: {
                                 />
                             </details>
                         ))}
+                        <style>{`
+                        details > summary { list-style: none; }
+                        details > summary::-webkit-details-marker { display: none; }
+                        details > summary::marker { display: none; }
+                        details > summary:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+                    `}</style>
                     </div>
                 </div>
             </div>
 
             {/* Related Products */}
             {related.length > 0 && (
-                <div style={{ background: "#fff", borderTop: "1px solid #e8e8e8", padding: "32px 16px" }}>
-                    <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase", marginBottom: "20px", textAlign: "center" }}>
-                        YOU MAY ALSO LIKE
-                    </h2>
-                    <div className="grid-5">
-                        {related.map((p) => <ProductCard key={p.id} product={p} />)}
+                <section aria-labelledby="related-heading" style={{ background: "#fafafa", borderTop: "1px solid #e8e8e8", padding: "48px 20px 60px" }}>
+                    <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+                        {/* Section header */}
+                        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "28px", flexWrap: "wrap", gap: "12px" }}>
+                            <div>
+                                <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".2em", textTransform: "uppercase", color: "#e8002d", marginBottom: "4px" }}>
+                                    Complete the Look
+                                </p>
+                                <h2
+                                    id="related-heading"
+                                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(24px,4vw,36px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em", color: "#000", lineHeight: 1 }}
+                                >
+                                    You May Also Like
+                                </h2>
+                            </div>
+                            {breadcrumb && (
+                                <Link
+                                    href={`/category/${breadcrumb.slug}`}
+                                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1.5px solid #000", paddingBottom: "1px" }}
+                                >
+                                    Shop {breadcrumb.name} →
+                                </Link>
+                            )}
+                        </div>
+
+                        <div className="grid-5">
+                            {related.map((p) => <ProductCard key={p.id} product={p} />)}
+                        </div>
                     </div>
-                </div>
+                </section>
             )}
         </div>
     );

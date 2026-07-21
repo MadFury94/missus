@@ -10,23 +10,34 @@ export default function AppDownloadBanner() {
         <div className="app-grid" style={{ background: "#000", padding: "40px 20px" }}>
             <div>
                 <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(36px,5vw,60px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: .95, letterSpacing: "-.01em", marginBottom: "16px" }}>
-                    SHOP FASTER<br />WITH THE<br />APP
+                    FOLLOW<br />THE IT<br />GIRLS
                 </h2>
                 <p style={{ fontSize: "13px", color: "rgba(255,255,255,.6)", marginBottom: "24px", fontWeight: 300, lineHeight: 1.7 }}>
-                    Exclusive app-only deals, push notifications for new drops, and a checkout that&apos;s lightning fast. Download now.
+                    New drops, styling inspo and behind-the-scenes content — follow us for daily fashion that hits different.
                 </p>
                 <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                    {[
-                        { label: "Download on the", store: "App Store" },
-                        { label: "Get it on", store: "Google Play" },
-                    ].map((b) => (
-                        <div key={b.store} style={{ border: "1.5px solid rgba(255,255,255,.3)", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}>
-                            <div>
-                                <div style={{ fontSize: "9px", color: "rgba(255,255,255,.6)", letterSpacing: ".1em", textTransform: "uppercase" }}>{b.label}</div>
-                                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 700, color: "#fff", letterSpacing: ".04em" }}>{b.store}</div>
-                            </div>
+                    <a
+                        href="https://instagram.com/missusoutfits"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ border: "1.5px solid rgba(255,255,255,.3)", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none" }}
+                    >
+                        <div>
+                            <div style={{ fontSize: "9px", color: "rgba(255,255,255,.6)", letterSpacing: ".1em", textTransform: "uppercase" }}>Follow us on</div>
+                            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 700, color: "#fff", letterSpacing: ".04em" }}>Instagram</div>
                         </div>
-                    ))}
+                    </a>
+                    <a
+                        href="https://tiktok.com/@missusoutfits"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ border: "1.5px solid rgba(255,255,255,.3)", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none" }}
+                    >
+                        <div>
+                            <div style={{ fontSize: "9px", color: "rgba(255,255,255,.6)", letterSpacing: ".1em", textTransform: "uppercase" }}>Watch us on</div>
+                            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 700, color: "#fff", letterSpacing: ".04em" }}>TikTok</div>
+                        </div>
+                    </a>
                 </div>
             </div>
 

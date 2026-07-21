@@ -10,8 +10,9 @@ export interface PaystackInitResponse {
 
 export async function initializePayment(params: {
     email: string;
-    amount: number; // in kobo (multiply NGN by 100)
+    amount: number; // in naira — will be converted to kobo
     reference: string;
+    callbackUrl?: string;
     metadata?: Record<string, unknown>;
 }): Promise<PaystackInitResponse | null> {
     const key = process.env.PAYSTACK_SECRET_KEY;
@@ -28,8 +29,9 @@ export async function initializePayment(params: {
             },
             body: JSON.stringify({
                 email: params.email,
-                amount: params.amount * 100,
+                amount: Math.round(params.amount * 100), // convert naira → kobo
                 reference: params.reference,
+                callback_url: params.callbackUrl,
                 metadata: params.metadata,
                 currency: "NGN",
             }),

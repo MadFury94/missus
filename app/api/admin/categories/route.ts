@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -13,7 +14,10 @@ function getWCAuth() {
 }
 
 // GET - List all categories
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     try {
         const response = await fetch(`${WC_API_URL}/products/categories?per_page=100`, {
             headers: getWCAuth(),
@@ -21,7 +25,8 @@ export async function GET() {
 
         const categories = await response.json();
         return NextResponse.json(categories);
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }

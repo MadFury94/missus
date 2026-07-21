@@ -8,7 +8,11 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "email and amount required" }, { status: 400 });
         }
         const reference = generateReference();
-        const result = await initializePayment({ email, amount, reference, metadata });
+        const callbackUrl =
+            process.env.NEXT_PUBLIC_PAYSTACK_CALLBACK_URL ||
+            `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/callback`;
+
+        const result = await initializePayment({ email, amount, reference, callbackUrl, metadata });
         if (!result?.status) {
             return NextResponse.json({ error: "Payment initialization failed" }, { status: 500 });
         }

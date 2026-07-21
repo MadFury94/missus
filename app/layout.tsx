@@ -1,17 +1,11 @@
-"use client";
 import type { Metadata } from "next";
 import { Barlow, Barlow_Condensed, Geist } from "next/font/google";
-import { usePathname } from "next/navigation";
 import "./globals.css";
-import AnnouncementBar from "@/components/layout/AnnouncementBar";
-import Navbar from "@/components/layout/Navbar";
-import CategoryNav from "@/components/layout/CategoryNav";
-import ShipBar from "@/components/layout/ShipBar";
-import Footer from "@/components/layout/Footer";
-import { SITE_NAME } from "@/lib/config";
+import ClientShell from "@/components/layout/ClientShell";
+import { SITE_NAME, SITE_URL } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const barlow = Barlow({
   weight: ["300", "400", "500", "600"],
@@ -27,23 +21,32 @@ const barlowCondensed = Barlow_Condensed({
   display: "swap",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isAdminRoute = pathname?.startsWith("/admin");
+export const metadata: Metadata = {
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: "Trend-forward, affordable fashion for the modern Nigerian girl. Shop dresses, tops, sets and more.",
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    siteName: SITE_NAME,
+    type: "website",
+  },
+};
 
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={cn(barlow.variable, barlowCondensed.variable, "font-sans", geist.variable)} suppressHydrationWarning>
-      <body className="font-body" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }} suppressHydrationWarning>
-        {!isAdminRoute && (
-          <>
-            <AnnouncementBar />
-            <Navbar />
-            <CategoryNav />
-            <ShipBar />
-          </>
-        )}
-        <main style={{ flex: 1 }}>{children}</main>
-        {!isAdminRoute && <Footer />}
+    <html
+      lang="en"
+      className={cn(barlow.variable, barlowCondensed.variable, "font-sans", geist.variable)}
+      suppressHydrationWarning
+    >
+      <body
+        className="font-body"
+        style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+        suppressHydrationWarning
+      >
+        <ClientShell>{children}</ClientShell>
       </body>
     </html>
   );

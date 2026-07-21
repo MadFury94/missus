@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
 
+// WordPress may apply hotlink/origin checks — send the site's own origin as Referer
+const WP_ORIGIN = "https://missusoutfits.com";
+
 export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl;
 
@@ -19,17 +22,28 @@ export async function GET(req: NextRequest) {
 
     if (searchParams.get("on_sale") === "true") params.set("on_sale", "true");
 
-    // Support excluding specific product IDs (comma-separated)
     const exclude = searchParams.get("exclude");
     if (exclude) params.set("exclude", exclude);
 
     try {
         const res = await fetch(`${STORE_API}/products?${params}`, {
             next: { revalidate: 60 },
+            headers: {
+                "Content-Type": "application/json",
+                Referer: WP_ORIGIN,
+                Origin: WP_ORIGIN,
+            },
         });
+
+        if (!res.ok) {
+            console.warn(`[api/products] Store API ${res.status} for ${params}`);
+            return NextResponse.json({ products: [], total: 0 }, { status: res.status });
+        }
+
         const products = await res.json();
         return NextResponse.json({ products, total: products.length });
-    } catch {
+    } catch (err) {
+        console.error("[api/products] fetch error:", err);
         return NextResponse.json({ products: [], total: 0 }, { status: 500 });
     }
 }

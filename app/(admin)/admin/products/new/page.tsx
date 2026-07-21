@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { adminFetch } from "@/lib/admin-fetch";
 import AdminLayout from "@/components/admin/AdminLayout";
 import ProductForm from "@/components/admin/ProductForm";
 
@@ -18,11 +19,10 @@ export default function NewProduct() {
         setUser(currentUser);
     }, [router]);
 
-    const handleSubmit = async (productData: any) => {
+    const handleSubmit = async (productData: unknown) => {
         try {
-            const response = await fetch("/api/admin/products", {
+            const response = await adminFetch("/api/admin/products", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(productData),
             });
 
@@ -33,8 +33,9 @@ export default function NewProduct() {
 
             alert("Product created successfully!");
             router.push("/admin/products");
-        } catch (error: any) {
-            alert(error.message);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            alert(msg);
             throw error;
         }
     };

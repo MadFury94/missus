@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -13,6 +14,9 @@ function getWCAuth() {
 }
 
 export async function GET(request: NextRequest) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     try {
         const { searchParams } = new URL(request.url);
         const page = searchParams.get("page") || "1";
@@ -32,8 +36,9 @@ export async function GET(request: NextRequest) {
 
         const customers = await response.json();
         return NextResponse.json(customers);
-    } catch (error: any) {
-        console.error("Failed to fetch customers:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error("Failed to fetch customers:", message);
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }

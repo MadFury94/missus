@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { adminFetch } from "@/lib/admin-fetch";
 import AdminLayout from "@/components/admin/AdminLayout";
 import ProductForm from "@/components/admin/ProductForm";
 
@@ -24,7 +25,7 @@ export default function EditProduct() {
 
     const loadProduct = async () => {
         try {
-            const response = await fetch(`/api/admin/products/${params.id}`);
+            const response = await adminFetch(`/api/admin/products/${params.id}`);
             if (!response.ok) throw new Error("Product not found");
             const data = await response.json();
             setProduct(data);
@@ -36,11 +37,10 @@ export default function EditProduct() {
         }
     };
 
-    const handleSubmit = async (productData: any) => {
+    const handleSubmit = async (productData: unknown) => {
         try {
-            const response = await fetch(`/api/admin/products/${params.id}`, {
+            const response = await adminFetch(`/api/admin/products/${params.id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(productData),
             });
 
@@ -51,8 +51,9 @@ export default function EditProduct() {
 
             alert("Product updated successfully!");
             router.push("/admin/products");
-        } catch (error: any) {
-            alert(error.message);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            alert(msg);
             throw error;
         }
     };
@@ -63,7 +64,7 @@ export default function EditProduct() {
         }
 
         try {
-            const response = await fetch(`/api/admin/products/${params.id}`, {
+            const response = await adminFetch(`/api/admin/products/${params.id}`, {
                 method: "DELETE",
             });
 
@@ -71,8 +72,9 @@ export default function EditProduct() {
 
             alert("Product deleted successfully!");
             router.push("/admin/products");
-        } catch (error: any) {
-            alert(error.message);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            alert(msg);
         }
     };
 

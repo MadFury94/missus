@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -15,6 +16,9 @@ function getWCAuth() {
 
 // GET - List all products
 export async function GET(request: NextRequest) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     try {
         const { searchParams } = new URL(request.url);
         const page = searchParams.get("page") || "1";
@@ -34,14 +38,18 @@ export async function GET(request: NextRequest) {
 
         const products = await response.json();
         return NextResponse.json(products);
-    } catch (error: any) {
-        console.error("Failed to fetch products:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error("Failed to fetch products:", message);
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
 // POST - Create new product
 export async function POST(request: NextRequest) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     try {
         const body = await request.json();
 
@@ -58,8 +66,9 @@ export async function POST(request: NextRequest) {
 
         const product = await response.json();
         return NextResponse.json(product);
-    } catch (error: any) {
-        console.error("Failed to create product:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error("Failed to create product:", message);
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }

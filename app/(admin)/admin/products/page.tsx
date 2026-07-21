@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { adminFetch } from "@/lib/admin-fetch";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
 import Image from "next/image";
@@ -25,7 +26,7 @@ export default function AdminProducts() {
 
     const loadProducts = async () => {
         try {
-            const response = await fetch("/api/admin/products?per_page=100");
+            const response = await adminFetch("/api/admin/products?per_page=100");
             const data = await response.json();
 
             // Check if data is an array, otherwise set empty array

@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -34,10 +35,10 @@ async function getTotalRevenue(headers: Record<string, string>): Promise<number>
         `/orders?per_page=100&page=1&status=completed,processing&orderby=date&order=desc`,
         headers
     );
-    const firstData: any[] = await first.json();
+    const firstData: Record<string, unknown>[] = await first.json();
     grandTotal = parseInt(first.headers.get("X-WP-Total") || "0");
 
-    firstData.forEach((o: any) => { total += parseFloat(o.total || "0"); });
+    firstData.forEach((o) => { total += parseFloat(String(o.total || "0")); });
     fetched += firstData.length;
     page++;
 
@@ -47,8 +48,8 @@ async function getTotalRevenue(headers: Record<string, string>): Promise<number>
             `/orders?per_page=100&page=${page}&status=completed,processing`,
             headers
         );
-        const data: any[] = await res.json();
-        data.forEach((o: any) => { total += parseFloat(o.total || "0"); });
+        const data: Record<string, unknown>[] = await res.json();
+        data.forEach((o) => { total += parseFloat(String(o.total || "0")); });
         fetched += data.length;
         page++;
         if (data.length < 100) break;
@@ -57,7 +58,10 @@ async function getTotalRevenue(headers: Record<string, string>): Promise<number>
     return Math.round(total);
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const authError = await requireAdminAuth(request);
+    if (authError) return authError;
+
     const headers = getWCAuth();
 
     if (!headers) {
@@ -85,12 +89,13 @@ export async function GET() {
 
         return NextResponse.json({ products, orders, revenue, customers, configured: true });
 
-    } catch (error: any) {
-        console.error("Stats error:", error.message);
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error("Stats error:", message);
         return NextResponse.json({
             products: 0, orders: 0, revenue: 0, customers: 0,
             configured: true,
-            error: error.message,
+            error: message,
         }, { status: 500 });
     }
 }

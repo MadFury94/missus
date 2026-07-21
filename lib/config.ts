@@ -9,7 +9,8 @@ export const SOCIAL_LINKS = {
     snapchat: "https://snapchat.com/add/missusoutfits",
     facebook: "https://facebook.com/missusoutfits",
     youtube: "https://youtube.com/@missusoutfits",
-    whatsapp: "https://wa.me/2348000000000",
+    // TODO: replace with the real business WhatsApp number e.g. "https://wa.me/2348012345678"
+    whatsapp: "https://wa.me/2348012345678",
 };
 
 export const ANNOUNCEMENT = "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVALS EVERY WEEK  |  PAY ON DELIVERY AVAILABLE";

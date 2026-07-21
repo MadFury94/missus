@@ -1,7 +1,32 @@
 // Uses the public WooCommerce Store API — no auth required
 const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
 
-// ── Types ─────────────────────────────────────────────────────────────────
+// WordPress may apply Referer / origin checks on certain endpoints (e.g. orderby=popularity).
+// Sending the site's own origin server-to-server satisfies those checks.
+const WP_ORIGIN = "https://missusoutfits.com";
+
+// ── Fetch helper ──────────────────────────────────────────────────────────
+
+async function storeFetch<T>(path: string, revalidate = 60): Promise<T | null> {
+    try {
+        const res = await fetch(`${STORE_API}${path}`, {
+            next: { revalidate },
+            headers: {
+                "Content-Type": "application/json",
+                Referer: WP_ORIGIN,
+                Origin: WP_ORIGIN,
+            },
+        });
+        if (!res.ok) {
+            console.warn(`Store API error: ${res.status} ${path}`);
+            return null;
+        }
+        return res.json() as Promise<T>;
+    } catch (err) {
+        console.warn("Store API fetch failed:", err);
+        return null;
+    }
+}
 
 export interface StoreProduct {
     id: number;
@@ -41,25 +66,6 @@ export interface StoreCategory {
     count: number;
     image: { src: string; thumbnail: string; alt: string } | null;
     permalink: string;
-}
-
-// ── Fetch helper ──────────────────────────────────────────────────────────
-
-async function storeFetch<T>(path: string, revalidate = 60): Promise<T | null> {
-    try {
-        const res = await fetch(`${STORE_API}${path}`, {
-            next: { revalidate },
-            headers: { "Content-Type": "application/json" },
-        });
-        if (!res.ok) {
-            console.warn(`Store API error: ${res.status} ${path}`);
-            return null;
-        }
-        return res.json() as Promise<T>;
-    } catch (err) {
-        console.warn("Store API fetch failed:", err);
-        return null;
-    }
 }
 
 // ── Price helpers ─────────────────────────────────────────────────────────
@@ -159,11 +165,42 @@ export async function getSaleProducts(limit = 60): Promise<StoreProduct[]> {
 }
 
 export async function getRelatedProducts(productId: number, limit = 5): Promise<StoreProduct[]> {
-    const data = await storeFetch<StoreProduct[]>(
-        `/products?per_page=${limit}&orderby=popularity`,
+    // Fetch related_ids from WC REST v3 (requires auth, server-side only)
+    const wcApiUrl = process.env.WC_API_URL ?? "https://missusoutfits.com/wp-json/wc/v3";
+    const key = process.env.WC_CONSUMER_KEY;
+    const secret = process.env.WC_CONSUMER_SECRET;
+
+    if (key && secret) {
+        try {
+            const auth = Buffer.from(`${key}:${secret}`).toString("base64");
+            const res = await fetch(`${wcApiUrl}/products/${productId}?_fields=related_ids`, {
+                headers: { Authorization: `Basic ${auth}` },
+                next: { revalidate: 120 },
+            });
+            if (res.ok) {
+                const data = await res.json();
+                const relatedIds: number[] = data.related_ids ?? [];
+                if (relatedIds.length > 0) {
+                    // Hydrate via Store API to get prices, images etc.
+                    const ids = relatedIds.slice(0, limit).join(",");
+                    const products = await storeFetch<StoreProduct[]>(
+                        `/products?include=${ids}&per_page=${limit}`,
+                        120
+                    );
+                    if (products && products.length > 0) return products;
+                }
+            }
+        } catch {
+            // Fall through to popularity fallback
+        }
+    }
+
+    // Fallback: recent products (popularity requires a WC Nonce — not available server-side)
+    const fallback = await storeFetch<StoreProduct[]>(
+        `/products?per_page=${limit + 1}&orderby=date&order=desc`,
         120
     );
-    return (data ?? []).filter((p) => p.id !== productId).slice(0, limit);
+    return (fallback ?? []).filter((p) => p.id !== productId).slice(0, limit);
 }
 
 // ── Categories ────────────────────────────────────────────────────────────

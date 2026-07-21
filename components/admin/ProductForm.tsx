@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { adminFetch } from "@/lib/admin-fetch";
 
 interface ProductFormProps {
     product?: any;
@@ -41,7 +42,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
 
     const loadCategories = async () => {
         try {
-            const response = await fetch("/api/admin/categories");
+            const response = await adminFetch("/api/admin/categories");
             const data = await response.json();
             setCategories(data);
         } catch (error) {
