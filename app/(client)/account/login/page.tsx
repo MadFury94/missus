@@ -1,26 +1,29 @@
 "use client";
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { loginUser, saveUser } from "@/lib/auth";
 
 export default function UserLoginPage() {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const justRegistered = searchParams.get("registered") === "1";
+    const [justRegistered, setJustRegistered] = useState(false);
     const [form, setForm] = useState({ email: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    // Read ?registered=1 after mount to avoid useSearchParams + Suspense requirement
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        setJustRegistered(params.get("registered") === "1");
+    }, []);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
         setLoading(true);
-
         const result = await loginUser(form.email, form.password);
-
         if (result.success && result.user) {
             saveUser(result.user);
             router.push("/account");
@@ -66,7 +69,7 @@ export default function UserLoginPage() {
                     <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "32px", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: "4px", color: "#000" }}>
                         Sign In
                     </h1>
-                    <p style={{ fontSize: "13px", color: "#767676", marginBottom: "28px" }}>
+                    <p style={{ fontSize: "13px", color: "#767676", marginBottom: justRegistered ? "16px" : "28px" }}>
                         Don&apos;t have an account?{" "}
                         <Link href="/account/register" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>
                             Create one →
@@ -80,27 +83,26 @@ export default function UserLoginPage() {
                     )}
 
                     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                        {/* Email */}
                         <div>
                             <label style={{ display: "block", fontSize: "11px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#000", marginBottom: "6px" }}>
                                 Email Address
                             </label>
                             <div style={{ position: "relative" }}>
-                                <Mail style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} />
+                                <Mail style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} aria-hidden="true" />
                                 <input
                                     type="email"
                                     value={form.email}
                                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                                     placeholder="you@example.com"
                                     required
+                                    autoComplete="email"
                                     style={{ width: "100%", border: "1.5px solid #e0e0e0", height: "44px", paddingLeft: "40px", paddingRight: "16px", fontSize: "13px", outline: "none", background: "#fff", transition: "border .2s", boxSizing: "border-box" }}
-                                    onFocus={(e) => e.target.style.borderColor = "#000"}
-                                    onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+                                    onFocus={(e) => (e.target.style.borderColor = "#000")}
+                                    onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
                                 />
                             </div>
                         </div>
 
-                        {/* Password */}
                         <div>
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
                                 <label style={{ fontSize: "11px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#000" }}>Password</label>
@@ -109,20 +111,22 @@ export default function UserLoginPage() {
                                 </Link>
                             </div>
                             <div style={{ position: "relative" }}>
-                                <Lock style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} />
+                                <Lock style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} aria-hidden="true" />
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     value={form.password}
                                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                                     placeholder="••••••••"
                                     required
+                                    autoComplete="current-password"
                                     style={{ width: "100%", border: "1.5px solid #e0e0e0", height: "44px", paddingLeft: "40px", paddingRight: "44px", fontSize: "13px", outline: "none", background: "#fff", transition: "border .2s", boxSizing: "border-box" }}
-                                    onFocus={(e) => e.target.style.borderColor = "#000"}
-                                    onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+                                    onFocus={(e) => (e.target.style.borderColor = "#000")}
+                                    onBlur={(e) => (e.target.style.borderColor = "#e0e0e0")}
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
                                     style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#aaa", padding: 0, display: "flex" }}
                                 >
                                     {showPassword ? <EyeOff style={{ width: "16px", height: "16px" }} /> : <Eye style={{ width: "16px", height: "16px" }} />}
@@ -130,14 +134,12 @@ export default function UserLoginPage() {
                             </div>
                         </div>
 
-                        {/* Error */}
                         {error && (
-                            <div style={{ background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", padding: "10px 14px", fontSize: "13px", borderRadius: "2px" }}>
+                            <div role="alert" style={{ background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", padding: "10px 14px", fontSize: "13px", borderRadius: "2px" }}>
                                 {error}
                             </div>
                         )}
 
-                        {/* Submit */}
                         <button
                             type="submit"
                             disabled={loading}
