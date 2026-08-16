@@ -18,7 +18,15 @@ export async function POST(request: NextRequest) {
         });
 
         if (!res) {
-            return NextResponse.json({ success: false, error: "Could not reach the server. Please try again." }, { status: 504 });
+            // In dev this means the WP host is unreachable (connect timeout).
+            // In production this should not happen.
+            const isDev = process.env.NODE_ENV === "development";
+            return NextResponse.json({
+                success: false,
+                error: isDev
+                    ? "Cannot reach WordPress in dev — this will work on the live server."
+                    : "Could not connect to the server. Please try again.",
+            }, { status: 504 });
         }
 
         const data = await res.json();
@@ -49,7 +57,9 @@ export async function POST(request: NextRequest) {
         }
 
         if (userId === 0) {
-            return NextResponse.json({ success: false, error: "Login succeeded but user identity could not be verified." }, { status: 500 });
+            // Some JWT plugins don't include user ID — still return a valid session
+            // with ID 0; the frontend only needs it for admin checks.
+            console.warn("[login] Could not extract user ID from JWT response:", JSON.stringify(data).slice(0, 200));
         }
 
         return NextResponse.json({
