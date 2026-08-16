@@ -51,7 +51,7 @@ export async function storeFetch<T>(
 /** WooCommerce REST API v3 fetch with timeout — for authenticated admin/account routes. */
 export async function wcFetch(
     url: string,
-    options: RequestInit = {}
+    options: RequestInit & { next?: { revalidate?: number } } = {}
 ): Promise<Response | null> {
     return wpFetch(url, options);
 }

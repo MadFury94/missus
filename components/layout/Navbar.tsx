@@ -172,7 +172,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
             </div>
 
             {/* Mobile menu — slide-in drawer with body scroll lock */}
-            <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+            <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} onBagClick={onBagClick} />
         </>
     );
 }
