@@ -108,7 +108,7 @@ export default function HeroSlideshow() {
                         src={s.src}
                         alt={s.alt || s.heading}
                         fill
-                        style={{ objectFit: "cover", objectPosition: "top center" }}
+                        style={{ objectFit: "cover", objectPosition: "center 20%" }}
                         sizes="100vw"
                         loading={i === 0 ? "eager" : "lazy"}
                         priority={i === 0}
