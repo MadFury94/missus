@@ -5,6 +5,9 @@ const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
 // Sending the site's own origin server-to-server satisfies those checks.
 const WP_ORIGIN = "https://missusoutfits.com";
 
+// In dev your machine may not reach the live WP host — fail fast rather than hanging.
+const FETCH_TIMEOUT_MS = process.env.NODE_ENV === "development" ? 4000 : 12000;
+
 // ── Fetch helper ──────────────────────────────────────────────────────────
 
 async function storeFetch<T>(path: string, revalidate = 60): Promise<T | null> {
@@ -16,6 +19,7 @@ async function storeFetch<T>(path: string, revalidate = 60): Promise<T | null> {
                 Referer: WP_ORIGIN,
                 Origin: WP_ORIGIN,
             },
+            signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
         });
         if (!res.ok) {
             console.warn(`Store API error: ${res.status} ${path}`);

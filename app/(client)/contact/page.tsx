@@ -1,12 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import type { Metadata } from "next";
+import { useState, useEffect } from "react";
 
 export default function ContactPage() {
     const [form, setForm] = useState({ name: "", email: "", subject: "general", message: "" });
     const [sent, setSent] = useState(false);
     const [sending, setSending] = useState(false);
+
+    // Pre-fill subject (and optional role hint) from query params
+    // e.g. /contact?subject=careers&role=Social+Media+Creator
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const qSubject = params.get("subject");
+        const qRole = params.get("role");
+        const validSubjects = ["general", "order", "returns", "collab", "other", "careers"];
+        const resolvedSubject = qSubject && validSubjects.includes(qSubject) ? qSubject : "general";
+        const roleHint = qRole ? `Applying for: ${qRole}\n\n` : "";
+        setForm((f) => ({
+            ...f,
+            subject: resolvedSubject,
+            message: roleHint,
+        }));
+    }, []);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
         setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -16,10 +31,20 @@ export default function ContactPage() {
         e.preventDefault();
         if (!form.name || !form.email || !form.message) return;
         setSending(true);
-        // Simulate send — wire up to email service when ready
-        await new Promise((r) => setTimeout(r, 900));
-        setSending(false);
-        setSent(true);
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(form),
+            });
+            const data = await res.json();
+            if (!data.ok) throw new Error(data.error || "Failed");
+            setSent(true);
+        } catch {
+            alert("Something went wrong. Please email us directly at hello@missusoutfits.com");
+        } finally {
+            setSending(false);
+        }
     }
 
     const inputStyle: React.CSSProperties = {
@@ -184,8 +209,9 @@ export default function ContactPage() {
                                     >
                                         <option value="general">General Enquiry</option>
                                         <option value="order">Order Issue</option>
-                                        <option value="returns">Returns & Refunds</option>
+                                        <option value="returns">Returns &amp; Refunds</option>
                                         <option value="collab">Collaboration / PR</option>
+                                        <option value="careers">Careers</option>
                                         <option value="other">Other</option>
                                     </select>
                                 </div>

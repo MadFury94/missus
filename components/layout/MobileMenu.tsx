@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import Link from "next/link";
-import { SITE_NAME, SUB_NAV } from "@/lib/config";
+import { SUB_NAV } from "@/lib/config";
 
 interface MobileMenuProps {
     isOpen: boolean;
@@ -38,9 +38,10 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         <Link
                             href="/"
                             onClick={onClose}
-                            className="font-display text-2xl font-black uppercase tracking-wide"
+                            className="flex items-center"
                         >
-                            {SITE_NAME}<span className="text-red-600">.</span>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/missus-logo.webp" alt="Missus" style={{ height: "36px", width: "auto" }} />
                         </Link>
                         <button
                             onClick={onClose}

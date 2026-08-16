@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { SITE_NAME } from "@/lib/config";
 import { getCart, cartCount } from "@/lib/cart";
 import { getWishlistCount } from "@/lib/wishlist";
 import MobileMenu from "@/components/layout/MobileMenu";
@@ -63,8 +62,6 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     {/* Left: nav tabs (desktop) */}
                     <nav className="nav-gender" aria-label="Main navigation">
                         {[
-                            { label: "WOMEN", href: "/shop" },
-                            { label: "CURVE+", href: "/category/curve" },
                             { label: "NEW DROPS", href: "/new-in" },
                             { label: "GIFT SHOP", href: "/category/gift-shop" },
                         ].map(({ label, href }) => (
@@ -77,22 +74,23 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     {/* Center: Logo */}
                     <Link
                         href="/"
-                        aria-label={`${SITE_NAME} — go to homepage`}
+                        aria-label="Missus — go to homepage"
                         style={{
-                            fontFamily: "'Barlow Condensed', sans-serif",
-                            fontSize: "28px",
-                            fontWeight: 900,
-                            letterSpacing: ".04em",
-                            textTransform: "uppercase",
-                            color: "#000",
                             position: "absolute",
                             left: "50%",
                             transform: "translateX(-50%)",
-                            userSelect: "none",
+                            display: "flex",
+                            alignItems: "center",
                             textDecoration: "none",
+                            userSelect: "none",
                         }}
                     >
-                        {SITE_NAME}<span style={{ color: "#e8002d" }}>.</span>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/missus-logo.webp"
+                            alt="Missus"
+                            style={{ height: "45px", width: "auto", display: "block" }}
+                        />
                     </Link>
 
                     {/* Right: search + icons */}

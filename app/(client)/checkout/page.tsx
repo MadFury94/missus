@@ -225,7 +225,14 @@ export default function CheckoutPage() {
                                         onBlur={(e) => e.target.style.borderColor = "#ddd"}
                                     >
                                         <option value="">Select State</option>
-                                        {["Lagos", "Abuja", "Port Harcourt", "Kano", "Ibadan", "Enugu", "Benin City", "Kaduna", "Oyo", "Ondo", "Osun", "Ogun", "Delta", "Rivers", "Anambra"].map((s) => (
+                                        {[
+                                            "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa",
+                                            "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo",
+                                            "Ekiti", "Enugu", "FCT — Abuja", "Gombe", "Imo", "Jigawa",
+                                            "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara",
+                                            "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun",
+                                            "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara",
+                                        ].map((s) => (
                                             <option key={s} value={s}>{s}</option>
                                         ))}
                                     </select>

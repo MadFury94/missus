@@ -29,9 +29,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* Sidebar */}
             <div style={{ width: "160px", background: "#23282d", color: "#fff", display: "flex", flexDirection: "column", position: "fixed", height: "100vh", left: 0, top: 0 }}>
                 {/* Logo */}
-                <div style={{ padding: "12px 16px", borderBottom: "1px solid #32373c" }}>
-                    <Link href="/admin" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "20px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", color: "#fff", textDecoration: "none", display: "block" }}>
-                        MISSUS<span style={{ color: "#e8002d" }}>.</span>
+                <div style={{ padding: "14px 16px", borderBottom: "1px solid #32373c" }}>
+                    <Link href="/admin" style={{ display: "block", textDecoration: "none" }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/missus-logo.webp"
+                            alt="Missus Admin"
+                            style={{ height: "31px", width: "auto", filter: "brightness(0) invert(1)" }}
+                        />
                     </Link>
                 </div>
 

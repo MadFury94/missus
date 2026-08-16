@@ -13,10 +13,20 @@ export default function NewsletterPage() {
         e.preventDefault();
         if (!email) return;
         setLoading(true);
-        // TODO: wire to Mailchimp / Klaviyo / your email provider
-        await new Promise((r) => setTimeout(r, 800));
-        setLoading(false);
-        setDone(true);
+        try {
+            const res = await fetch("/api/newsletter", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, name }),
+            });
+            const data = await res.json();
+            if (!data.ok) throw new Error(data.error || "Failed");
+            setDone(true);
+        } catch {
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

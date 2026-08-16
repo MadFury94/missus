@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminAuth } from "@/lib/admin-auth";
+import { wcFetch } from "@/lib/wp-fetch";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -8,17 +9,13 @@ const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
 function getWCAuth(): Record<string, string> | null {
     if (!WC_CONSUMER_KEY || !WC_CONSUMER_SECRET) return null;
     const auth = Buffer.from(`${WC_CONSUMER_KEY}:${WC_CONSUMER_SECRET}`).toString("base64");
-    return {
-        "Authorization": `Basic ${auth}`,
-        "Content-Type": "application/json",
-    };
+    return { "Authorization": `Basic ${auth}`, "Content-Type": "application/json" };
 }
 
 async function wcGet(path: string, headers: Record<string, string>) {
-    const res = await fetch(`${WC_API_URL}${path}`, { headers, cache: "no-store" });
-    if (!res.ok) {
-        const body = await res.text();
-        throw new Error(`WC ${res.status} ${path}: ${body.slice(0, 200)}`);
+    const res = await wcFetch(`${WC_API_URL}${path}`, { headers, cache: "no-store" });
+    if (!res || !res.ok) {
+        throw new Error(`WC ${res?.status ?? "timeout"} ${path}`);
     }
     return res;
 }

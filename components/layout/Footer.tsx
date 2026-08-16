@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { SITE_NAME, FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/config";
+import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/config";
 
 const SOCIALS = [
     {
@@ -90,8 +90,13 @@ export default function Footer() {
                 <div className="footer-grid">
                     {/* Brand */}
                     <div className="footer-brand">
-                        <div style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "28px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", color: "#fff", marginBottom: "12px" }}>
-                            {SITE_NAME}<span style={{ color: "#e8002d" }}>.</span>
+                        <div style={{ marginBottom: "12px" }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src="/missus-logo.webp"
+                                alt="Missus"
+                                style={{ height: "39px", width: "auto", filter: "brightness(0) invert(1)" }}
+                            />
                         </div>
                         <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
                             Trendy, affordable women&apos;s fashion built for the modern Nigerian woman. Delivering style from Lagos to Abuja and beyond.

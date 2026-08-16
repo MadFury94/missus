@@ -28,9 +28,15 @@ export const metadata: Metadata = {
   },
   description: "Trend-forward, affordable fashion for the modern Nigerian girl. Shop dresses, tops, sets and more.",
   metadataBase: new URL(SITE_URL),
+  icons: {
+    icon: [{ url: "/icon.webp", type: "image/webp" }],
+    shortcut: "/icon.webp",
+    apple: "/icon.webp",
+  },
   openGraph: {
     siteName: SITE_NAME,
     type: "website",
+    images: [{ url: "/missus-logo.webp" }],
   },
 };
 

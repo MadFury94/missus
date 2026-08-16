@@ -40,8 +40,9 @@ export default function UserLoginPage() {
                 <div className="absolute inset-0" style={{ background: "repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px)" }} />
                 <div className="absolute bottom-0 left-0 right-0 h-[50%]" style={{ background: "linear-gradient(to top, rgba(232,0,45,0.08), transparent)" }} />
 
-                <Link href="/" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, letterSpacing: ".06em", textTransform: "uppercase", color: "#fff", position: "relative", zIndex: 1, textDecoration: "none" }}>
-                    MISSUS<span style={{ color: "#e8002d" }}>.</span>
+                <Link href="/" style={{ position: "relative", zIndex: 1, textDecoration: "none", display: "block" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/missus-logo.webp" alt="Missus" style={{ height: "39px", width: "auto", filter: "brightness(0) invert(1)" }} />
                 </Link>
 
                 <div style={{ position: "relative", zIndex: 1 }}>

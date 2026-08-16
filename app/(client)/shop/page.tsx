@@ -94,7 +94,7 @@ export default function ShopPage() {
     return (
         <>
             <style>{`
-                .shop-layout { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 24px 20px 60px; align-items: start; }
+                .shop-layout { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 24px 20px 60px; align-items: start; }
                 .shop-filter-sidebar { position: sticky; top: 72px; }
                 .shop-filter-toggle { display: none; }
                 .shop-filter-drawer { display: block; }
@@ -115,8 +115,8 @@ export default function ShopPage() {
                 <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(40px,6vw,72px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", letterSpacing: ".02em", lineHeight: 1, position: "relative", zIndex: 2 }}>
                     Shop All Women&apos;s
                 </h1>
-                <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "6px", position: "relative", zIndex: 2 }}>
-                    {loading ? "Loading…" : `${products.length} products`}
+                <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "6px", position: "relative", zIndex: 2, display: "none" }}>
+                    {loading ? "" : `${products.length} products`}
                 </p>
             </div>
 
@@ -186,9 +186,9 @@ export default function ShopPage() {
                 {/* Product grid */}
                 <div>
                     {/* Toolbar */}
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8", flexWrap: "wrap", gap: "8px" }}>
-                        <span style={{ fontSize: "12px", color: "#767676" }}>
-                            {loading ? "Loading…" : `${products.length} product${products.length !== 1 ? "s" : ""}`}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8", flexWrap: "wrap", gap: "8px" }}>
+                        <span style={{ fontSize: "12px", color: "#767676", display: "none" }}>
+                            {loading ? "" : `${products.length} product${products.length !== 1 ? "s" : ""}`}
                         </span>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <label htmlFor="shop-per-page" style={{ fontSize: "11px", color: "#767676", textTransform: "uppercase", letterSpacing: ".06em" }}>Show</label>

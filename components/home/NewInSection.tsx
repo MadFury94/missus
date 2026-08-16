@@ -1,8 +1,34 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
 
-export default function NewInSection({ products }: { products: StoreProduct[] }) {
+// Skeleton placeholder card
+function Skeleton() {
+    return (
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <div style={{ aspectRatio: "2/3", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
+            <div style={{ height: "14px", width: "70%", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
+            <div style={{ height: "12px", width: "40%", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
+        </div>
+    );
+}
+
+export default function NewInSection() {
+    const [products, setProducts] = useState<StoreProduct[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch("/api/products?category=whats-new&per_page=8&orderby=date&order=desc")
+            .then((r) => r.ok ? r.json() : null)
+            .then((data) => {
+                if (data?.products) setProducts(data.products);
+            })
+            .catch(() => { })
+            .finally(() => setLoading(false));
+    }, []);
+
     return (
         <>
             <div style={{ background: "#000", color: "#fff", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
@@ -15,18 +41,29 @@ export default function NewInSection({ products }: { products: StoreProduct[] })
                 </Link>
             </div>
 
-            <div style={{ padding: "20px 20px 32px" }}>
-                <div className="grid-5">
-                    {products.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
+            <div style={{ padding: "20px 72px 32px" }}>
+                <div className="grid-4">
+                    {loading
+                        ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} />)
+                        : products.map((product) => <ProductCard key={product.id} product={product} />)
+                    }
                 </div>
-                <div style={{ textAlign: "center", marginTop: "28px" }}>
-                    <Link href="/category/whats-new" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "13px" }}>
-                        View All New Arrivals
-                    </Link>
-                </div>
+
+                {!loading && products.length > 0 && (
+                    <div style={{ textAlign: "center", marginTop: "28px" }}>
+                        <Link href="/category/whats-new" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "13px" }}>
+                            View All New Arrivals
+                        </Link>
+                    </div>
+                )}
             </div>
+
+            <style>{`
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.4; }
+                }
+            `}</style>
         </>
     );
 }

@@ -68,11 +68,11 @@ const FAQS = [
         items: [
             {
                 q: "What payment methods do you accept?",
-                a: "We accept Visa, Mastercard, bank transfers via Paystack, Flutterwave, and OPay. Pay on Delivery is available for Lagos orders.",
+                a: "We accept Visa, Mastercard, Verve, and bank transfers via Paystack. Pay on Delivery is available for Lagos orders only.",
             },
             {
                 q: "Is it safe to pay on your website?",
-                a: "Yes. All payments are processed through Paystack and Flutterwave — both are PCI-DSS compliant and fully encrypted. We never store your card details.",
+                a: "Yes. All payments are processed through Paystack — a PCI-DSS compliant, fully encrypted payment processor. We never store your card details.",
             },
         ],
     },

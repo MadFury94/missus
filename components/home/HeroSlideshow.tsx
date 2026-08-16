@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Slide {
-    type: "image" | "video";
+    type: "image";
     src: string;
     alt?: string;
     label?: string;
@@ -36,8 +36,9 @@ const SLIDES: Slide[] = [
         cta2: { label: "View Sale", href: "/sale" },
     },
     {
-        type: "video",
-        src: "https://res.cloudinary.com/dqwfjxn8g/video/upload/q_auto/f_auto/v1775315538/dc9bd786acf346d0a6447d038c87492e_fhimrw.mp4",
+        type: "image",
+        src: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-93.jpeg",
+        alt: "MissusDeals Sale",
         label: "MissusDeals",
         heading: "Up to\n60% Off.",
         sub: "MissusDeals — prices as marked. While stocks last. Don't sleep on it.",
@@ -61,7 +62,6 @@ export default function HeroSlideshow() {
     const [current, setCurrent] = useState(0);
     const [transitioning, setTransitioning] = useState(false);
     const [paused, setPaused] = useState(false);
-    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const goTo = useCallback((idx: number) => {
@@ -84,20 +84,6 @@ export default function HeroSlideshow() {
         return () => { if (timerRef.current) clearTimeout(timerRef.current); };
     }, [current, paused, next]);
 
-    // Play/pause video slides
-    useEffect(() => {
-        SLIDES.forEach((slide, i) => {
-            const vid = videoRefs.current[i];
-            if (!vid) return;
-            if (i === current) {
-                vid.currentTime = 0;
-                vid.play().catch(() => { });
-            } else {
-                vid.pause();
-            }
-        });
-    }, [current]);
-
     const slide = SLIDES[current];
 
     return (
@@ -118,27 +104,15 @@ export default function HeroSlideshow() {
                         pointerEvents: i === current ? "auto" : "none",
                     }}
                 >
-                    {s.type === "video" ? (
-                        <video
-                            ref={(el) => { videoRefs.current[i] = el; }}
-                            muted
-                            loop
-                            playsInline
-                            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                        >
-                            <source src={s.src} type="video/mp4" />
-                        </video>
-                    ) : (
-                        <Image
-                            src={s.src}
-                            alt={s.alt || s.heading}
-                            fill
-                            style={{ objectFit: "cover", objectPosition: "top center" }}
-                            sizes="100vw"
-                            loading={i === 0 ? "eager" : "lazy"}
-                            preload={i === 0}
-                        />
-                    )}
+                    <Image
+                        src={s.src}
+                        alt={s.alt || s.heading}
+                        fill
+                        style={{ objectFit: "cover", objectPosition: "top center" }}
+                        sizes="100vw"
+                        loading={i === 0 ? "eager" : "lazy"}
+                        priority={i === 0}
+                    />
                 </div>
             ))}
 
@@ -148,7 +122,7 @@ export default function HeroSlideshow() {
             {/* Content */}
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3, padding: "clamp(28px,5vw,60px) clamp(20px,5vw,60px) clamp(60px,8vw,90px)" }}>
                 {slide.label && (
-                    <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#e8002d", marginBottom: "10px" }}>
+                    <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: "10px" }}>
                         {slide.label}
                     </p>
                 )}
@@ -158,7 +132,7 @@ export default function HeroSlideshow() {
                 >
                     {slide.heading.split("\n").map((line, i) => (
                         <span key={i} style={{ display: "block" }}>
-                            {i === 1 ? <span style={{ color: "#e8002d" }}>{line}</span> : line}
+                            {line}
                         </span>
                     ))}
                 </h1>

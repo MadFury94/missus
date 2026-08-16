@@ -2,49 +2,57 @@ import HeroSlideshow from "@/components/home/HeroSlideshow";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrustBar from "@/components/home/TrustBar";
 import TrendReportCards from "@/components/home/TrendReportCards";
+import VideoSection from "@/components/home/VideoSection";
+import GiftShopBanner from "@/components/home/GiftShopBanner";
 import NewInSection from "@/components/home/NewInSection";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import WideBanner from "@/components/home/WideBanner";
 import ReviewsSection from "@/components/home/ReviewsSection";
 import AppDownloadBanner from "@/components/home/AppDownloadBanner";
 import NewsletterBar from "@/components/home/NewsletterBar";
-import { getNewArrivals } from "@/lib/woocommerce";
 
+// No server-side data fetching on the home page — all product data is
+// loaded client-side so the page renders instantly even in dev when
+// the WP host isn't reachable from this machine.
 export const revalidate = 60;
 
-export default async function HomePage() {
-  const newArrivals = await getNewArrivals(10);
-
+export default function HomePage() {
   return (
     <>
-      {/* 1. Hero — full-screen slideshow with video support */}
+      {/* 1. Hero slideshow */}
       <HeroSlideshow />
 
-      {/* 2. Marquee — trust signals immediately below fold */}
+      {/* 2. Marquee */}
       <MarqueeStrip />
 
-      {/* 3. Trust bar — builds confidence before product content */}
+      {/* 3. Trust bar */}
       <TrustBar />
 
-      {/* 4. Trend cards — editorial category entry points */}
+      {/* 4. Trend Report cards */}
       <TrendReportCards />
 
-      {/* 5. New arrivals — live product grid */}
-      <NewInSection products={newArrivals} />
+      {/* 5. Video section */}
+      <VideoSection />
 
-      {/* 6. Category grid — browse by category */}
+      {/* 6. Gift shop hero banner */}
+      <GiftShopBanner />
+
+      {/* 7. New arrivals — client-side fetch, renders skeletons first */}
+      <NewInSection />
+
+      {/* 8. Shop by category */}
       <CategoryGrid />
 
-      {/* 7. Sale banner — promotional mid-page */}
+      {/* 9. Sale banner */}
       <WideBanner />
 
-      {/* 8. Reviews — social proof */}
+      {/* 10. Reviews */}
       <ReviewsSection />
 
-      {/* 9. Social follow — replaces fake app download */}
+      {/* 11. Social follow */}
       <AppDownloadBanner />
 
-      {/* 10. Newsletter */}
+      {/* 12. Newsletter */}
       <NewsletterBar />
     </>
   );

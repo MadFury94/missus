@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCurrentUser, logoutUser, type User } from "@/lib/auth";
 import { formatPrice } from "@/lib/woocommerce";
+import { getWishlistCount } from "@/lib/wishlist";
 import { Package, Heart, MapPin, LogOut, ChevronRight, ShoppingBag } from "lucide-react";
 
 const STATUS_LABELS: Record<string, { label: string; color: string; bg: string }> = {
@@ -34,11 +35,13 @@ export default function AccountPage() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loadingOrders, setLoadingOrders] = useState(true);
     const [tab, setTab] = useState<"orders" | "wishlist" | "details">("orders");
+    const [wishlistCount, setWishlistCount] = useState(0);
 
     useEffect(() => {
         const u = getCurrentUser();
         if (!u) { router.push("/account/login"); return; }
         setUser(u);
+        setWishlistCount(getWishlistCount());
         fetch(`/api/account/orders?email=${encodeURIComponent(u.email)}`)
             .then((r) => r.json())
             .then((d) => setOrders(d.orders ?? []))
@@ -84,7 +87,7 @@ export default function AccountPage() {
                 {[
                     { icon: ShoppingBag, label: "Total Orders", value: orders.length },
                     { icon: Package, label: "In Progress", value: orders.filter((o) => ["processing", "on-hold"].includes(o.status)).length },
-                    { icon: Heart, label: "Wishlist", value: "—" },
+                    { icon: Heart, label: "Wishlist", value: wishlistCount },
                 ].map(({ icon: Icon, label, value }) => (
                     <div key={label} style={{ border: "1px solid #e8e8e8", padding: "16px 20px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
@@ -144,6 +147,12 @@ export default function AccountPage() {
                                                 <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 800, color: "#000" }}>
                                                     ₦{parseFloat(order.total).toLocaleString("en-NG")}
                                                 </span>
+                                                <Link
+                                                    href={`/account/orders/${order.id}`}
+                                                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1.5px solid #000", paddingBottom: "1px", whiteSpace: "nowrap" }}
+                                                >
+                                                    View →
+                                                </Link>
                                             </div>
                                         </div>
 

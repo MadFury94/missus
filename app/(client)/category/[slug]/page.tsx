@@ -32,14 +32,13 @@ export default function CategoryPage() {
                 <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(40px,6vw,72px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", letterSpacing: ".02em", lineHeight: 1, position: "relative", zIndex: 2 }}>
                     {label}
                 </h1>
-                <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "6px", position: "relative", zIndex: 2 }}>
+                <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "6px", position: "relative", zIndex: 2, display: "none" }}>
                     {products.length} products
                 </p>
             </div>
 
             <div style={{ padding: "16px 20px 40px" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8" }}>
-                    <span style={{ fontSize: "12px", color: "#767676" }}>1 – {products.length} of {products.length} products</span>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8" }}>
                     <select value={sort} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSort(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 28px 7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
                         <option value="">Sort: Featured</option>
                         <option value="date">Newest First</option>

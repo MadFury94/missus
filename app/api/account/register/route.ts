@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { wcFetch } from "@/lib/wp-fetch";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -9,11 +10,6 @@ function getWCAuth() {
     return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
 }
 
-/**
- * POST /api/account/register
- * Creates a WooCommerce customer account.
- * Called as a fallback when the WP REST /users/register endpoint is unavailable.
- */
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
@@ -23,7 +19,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
         }
 
-        const res = await fetch(`${WC_API_URL}/customers`, {
+        const res = await wcFetch(`${WC_API_URL}/customers`, {
             method: "POST",
             headers: getWCAuth(),
             body: JSON.stringify({
@@ -41,10 +37,13 @@ export async function POST(request: NextRequest) {
             }),
         });
 
+        if (!res) {
+            return NextResponse.json({ error: "Could not reach the server. Please try again." }, { status: 504 });
+        }
+
         const data = await res.json();
 
         if (!res.ok) {
-            // WooCommerce returns {code, message} on error
             const message: string =
                 typeof data.message === "string"
                     ? data.message
@@ -54,7 +53,6 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: message }, { status: res.status });
         }
 
-        // Don't return password or sensitive WC internals
         return NextResponse.json({
             id: data.id,
             email: data.email,

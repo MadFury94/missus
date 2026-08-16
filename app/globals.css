@@ -103,6 +103,52 @@ button {
   grid-row: span 2;
 }
 
+/* New In section — side padding like FashionNova, zero gap between cards */
+.newin-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding: 0 72px;
+}
+
+@media (max-width: 1280px) {
+  .newin-grid {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .newin-grid {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .newin-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 12px;
+  }
+}
+
+/* FashionNova-style category grid: 1 large feature left + 3×4 right */
+.cat-fn-grid {
+  display: grid;
+  /* Feature card gets ~28% width, then 3 equal columns */
+  grid-template-columns: 2fr repeat(3, 1fr);
+  /* 4 rows — feature spans all 4 */
+  grid-template-rows: repeat(4, 130px);
+  gap: 6px;
+}
+
+.cat-fn-feature {
+  grid-row: span 4;
+  grid-column: 1;
+}
+
+.cat-fn-card {
+  grid-column: auto;
+}
+
 .reviews-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -234,6 +280,11 @@ button {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+
+  .cat-fn-grid {
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    grid-template-rows: repeat(4, 110px);
+  }
 }
 
 /* ── Mobile ≤ 768px ───────────────────────────────────────── */
@@ -271,6 +322,25 @@ button {
 
   .cat-tall {
     grid-row: span 1;
+  }
+
+  /* Mobile: stack feature card full width, then 2-col grid */
+  .cat-fn-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: unset;
+  }
+
+  .cat-fn-feature {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .cat-fn-feature>div {
+    min-height: 240px !important;
+  }
+
+  .cat-fn-card>div {
+    min-height: 90px !important;
   }
 
   .reviews-grid {

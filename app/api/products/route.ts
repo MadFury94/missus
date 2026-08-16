@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
-
-// WordPress may apply hotlink/origin checks — send the site's own origin as Referer
-const WP_ORIGIN = "https://missusoutfits.com";
+import { storeFetch } from "@/lib/wp-fetch";
+import type { StoreProduct } from "@/lib/woocommerce";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl;
@@ -25,25 +22,18 @@ export async function GET(req: NextRequest) {
     const exclude = searchParams.get("exclude");
     if (exclude) params.set("exclude", exclude);
 
-    try {
-        const res = await fetch(`${STORE_API}/products?${params}`, {
-            next: { revalidate: 60 },
-            headers: {
-                "Content-Type": "application/json",
-                Referer: WP_ORIGIN,
-                Origin: WP_ORIGIN,
-            },
-        });
+    const include = searchParams.get("include");
+    if (include) params.set("include", include);
 
-        if (!res.ok) {
-            console.warn(`[api/products] Store API ${res.status} for ${params}`);
-            return NextResponse.json({ products: [], total: 0 }, { status: res.status });
-        }
+    const slug = searchParams.get("slug");
+    if (slug) params.set("slug", slug);
 
-        const products = await res.json();
-        return NextResponse.json({ products, total: products.length });
-    } catch (err) {
-        console.error("[api/products] fetch error:", err);
-        return NextResponse.json({ products: [], total: 0 }, { status: 500 });
+    const products = await storeFetch<StoreProduct[]>(`/products?${params}`, 60);
+
+    if (products === null) {
+        // Timed out or unreachable — return empty rather than 500
+        return NextResponse.json({ products: [], total: 0 });
     }
+
+    return NextResponse.json({ products, total: products.length });
 }

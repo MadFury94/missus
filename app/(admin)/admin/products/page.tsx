@@ -13,6 +13,9 @@ export default function AdminProducts() {
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [selected, setSelected] = useState<Set<number>>(new Set());
+    const [bulkAction, setBulkAction] = useState("delete");
+    const [bulkWorking, setBulkWorking] = useState(false);
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -28,14 +31,7 @@ export default function AdminProducts() {
         try {
             const response = await adminFetch("/api/admin/products?per_page=100");
             const data = await response.json();
-
-            // Check if data is an array, otherwise set empty array
-            if (Array.isArray(data)) {
-                setProducts(data);
-            } else {
-                console.error("API returned non-array:", data);
-                setProducts([]);
-            }
+            setProducts(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Failed to load products:", error);
             setProducts([]);
@@ -44,9 +40,49 @@ export default function AdminProducts() {
         }
     };
 
-    const filteredProducts = Array.isArray(products) ? products.filter(p =>
+    const filteredProducts = products.filter(p =>
         p.name.toLowerCase().includes(search.toLowerCase())
-    ) : [];
+    );
+
+    const allFilteredIds = filteredProducts.map((p) => p.id);
+    const allSelected = allFilteredIds.length > 0 && allFilteredIds.every((id) => selected.has(id));
+
+    function toggleSelectAll() {
+        if (allSelected) {
+            setSelected(new Set());
+        } else {
+            setSelected(new Set(allFilteredIds));
+        }
+    }
+
+    function toggleOne(id: number) {
+        setSelected((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id); else next.add(id);
+            return next;
+        });
+    }
+
+    async function applyBulk() {
+        if (selected.size === 0) return;
+        if (bulkAction === "delete") {
+            if (!confirm(`Delete ${selected.size} product${selected.size !== 1 ? "s" : ""}? This cannot be undone.`)) return;
+            setBulkWorking(true);
+            try {
+                await Promise.all(
+                    [...selected].map((id) =>
+                        adminFetch(`/api/admin/products/${id}`, { method: "DELETE" })
+                    )
+                );
+                setProducts((prev) => prev.filter((p) => !selected.has(p.id)));
+                setSelected(new Set());
+            } catch {
+                alert("Some deletions failed. Please refresh and try again.");
+            } finally {
+                setBulkWorking(false);
+            }
+        }
+    }
 
     if (loading) {
         return (
@@ -67,41 +103,54 @@ export default function AdminProducts() {
                             ({products.length})
                         </span>
                     </h1>
-                    <Link
-                        href="/admin/products/new"
-                        style={{ background: "#2271b1", color: "#fff", padding: "6px 12px", borderRadius: "3px", fontSize: "13px", textDecoration: "none", border: "1px solid #2271b1", transition: "background .15s" }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = "#135e96"}
-                        onMouseLeave={(e) => e.currentTarget.style.background = "#2271b1"}
-                    >
-                        Add New
-                    </Link>
-                    <Link
-                        href="/admin/products/import"
-                        style={{ background: "#007a3d", color: "#fff", padding: "6px 12px", borderRadius: "3px", fontSize: "13px", textDecoration: "none", border: "1px solid #007a3d", transition: "background .15s", marginLeft: "8px" }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = "#005a2d"}
-                        onMouseLeave={(e) => e.currentTarget.style.background = "#007a3d"}
-                    >
-                        ↑ Bulk Import CSV
-                    </Link>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                        <Link
+                            href="/admin/products/new"
+                            style={{ background: "#2271b1", color: "#fff", padding: "6px 12px", borderRadius: "3px", fontSize: "13px", textDecoration: "none", border: "1px solid #2271b1", transition: "background .15s" }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = "#135e96"}
+                            onMouseLeave={(e) => e.currentTarget.style.background = "#2271b1"}
+                        >
+                            Add New
+                        </Link>
+                        <Link
+                            href="/admin/products/import"
+                            style={{ background: "#007a3d", color: "#fff", padding: "6px 12px", borderRadius: "3px", fontSize: "13px", textDecoration: "none", border: "1px solid #007a3d", transition: "background .15s" }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = "#005a2d"}
+                            onMouseLeave={(e) => e.currentTarget.style.background = "#007a3d"}
+                        >
+                            ↑ Bulk Import CSV
+                        </Link>
+                    </div>
                 </div>
 
-                {/* Search Bar */}
-                <div style={{ padding: "12px 20px", borderBottom: "1px solid #ccd0d4", background: "#f6f7f7" }}>
+                {/* Search + bulk actions bar */}
+                <div style={{ padding: "12px 20px", borderBottom: "1px solid #ccd0d4", background: "#f6f7f7", display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
                     <input
                         type="text"
                         placeholder="Search products..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        style={{
-                            width: "100%",
-                            maxWidth: "400px",
-                            padding: "6px 12px",
-                            border: "1px solid #8c8f94",
-                            borderRadius: "3px",
-                            fontSize: "13px",
-                            outline: "none"
-                        }}
+                        style={{ maxWidth: "300px", flex: "1 1 200px", padding: "6px 12px", border: "1px solid #8c8f94", borderRadius: "3px", fontSize: "13px", outline: "none" }}
                     />
+                    {selected.size > 0 && (
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <span style={{ fontSize: "13px", color: "#50575e" }}>{selected.size} selected</span>
+                            <select
+                                value={bulkAction}
+                                onChange={(e) => setBulkAction(e.target.value)}
+                                style={{ padding: "5px 8px", border: "1px solid #8c8f94", borderRadius: "3px", fontSize: "13px", background: "#fff" }}
+                            >
+                                <option value="delete">Delete</option>
+                            </select>
+                            <button
+                                onClick={applyBulk}
+                                disabled={bulkWorking}
+                                style={{ padding: "5px 12px", background: bulkWorking ? "#ccc" : "#d63638", color: "#fff", border: "none", borderRadius: "3px", fontSize: "13px", cursor: bulkWorking ? "not-allowed" : "pointer" }}
+                            >
+                                {bulkWorking ? "Working…" : "Apply"}
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 {/* Products Table */}
@@ -110,7 +159,13 @@ export default function AdminProducts() {
                         <thead>
                             <tr style={{ background: "#f6f7f7" }}>
                                 <th style={{ padding: "10px 12px", textAlign: "left", fontSize: "13px", fontWeight: 600, color: "#2c3338", borderBottom: "1px solid #c3c4c7" }}>
-                                    <input type="checkbox" style={{ margin: 0 }} />
+                                    <input
+                                        type="checkbox"
+                                        style={{ margin: 0 }}
+                                        checked={allSelected}
+                                        onChange={toggleSelectAll}
+                                        aria-label="Select all"
+                                    />
                                 </th>
                                 <th style={{ padding: "10px 12px", textAlign: "left", fontSize: "13px", fontWeight: 600, color: "#2c3338", borderBottom: "1px solid #c3c4c7" }}>Image</th>
                                 <th style={{ padding: "10px 12px", textAlign: "left", fontSize: "13px", fontWeight: 600, color: "#2c3338", borderBottom: "1px solid #c3c4c7" }}>Name</th>
@@ -123,9 +178,15 @@ export default function AdminProducts() {
                         </thead>
                         <tbody>
                             {filteredProducts.map((product) => (
-                                <tr key={product.id} style={{ borderBottom: "1px solid #c3c4c7" }}>
+                                <tr key={product.id} style={{ borderBottom: "1px solid #c3c4c7", background: selected.has(product.id) ? "#f0f6fc" : "transparent" }}>
                                     <td style={{ padding: "10px 12px" }}>
-                                        <input type="checkbox" style={{ margin: 0 }} />
+                                        <input
+                                            type="checkbox"
+                                            style={{ margin: 0 }}
+                                            checked={selected.has(product.id)}
+                                            onChange={() => toggleOne(product.id)}
+                                            aria-label={`Select ${product.name}`}
+                                        />
                                     </td>
                                     <td style={{ padding: "10px 12px" }}>
                                         <div style={{ width: "40px", height: "50px", background: "#f0f0f1", position: "relative", borderRadius: "2px", overflow: "hidden" }}>

@@ -1,20 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminAuth } from "@/lib/admin-auth";
+import { wcFetch } from "@/lib/wp-fetch";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
 const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
 
-// Helper to create WooCommerce auth headers
 function getWCAuth() {
     const auth = Buffer.from(`${WC_CONSUMER_KEY}:${WC_CONSUMER_SECRET}`).toString("base64");
-    return {
-        "Authorization": `Basic ${auth}`,
-        "Content-Type": "application/json",
-    };
+    return { "Authorization": `Basic ${auth}`, "Content-Type": "application/json" };
 }
 
-// GET - List all products
 export async function GET(request: NextRequest) {
     const authError = await requireAdminAuth(request);
     if (authError) return authError;
@@ -28,12 +24,9 @@ export async function GET(request: NextRequest) {
         let url = `${WC_API_URL}/products?page=${page}&per_page=${perPage}`;
         if (search) url += `&search=${encodeURIComponent(search)}`;
 
-        const response = await fetch(url, {
-            headers: getWCAuth(),
-        });
-
-        if (!response.ok) {
-            throw new Error(`WooCommerce API error: ${response.statusText}`);
+        const response = await wcFetch(url, { headers: getWCAuth() });
+        if (!response || !response.ok) {
+            return NextResponse.json([], { status: response?.status ?? 504 });
         }
 
         const products = await response.json();
@@ -45,30 +38,26 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// POST - Create new product
 export async function POST(request: NextRequest) {
     const authError = await requireAdminAuth(request);
     if (authError) return authError;
 
     try {
         const body = await request.json();
-
-        const response = await fetch(`${WC_API_URL}/products`, {
+        const response = await wcFetch(`${WC_API_URL}/products`, {
             method: "POST",
             headers: getWCAuth(),
             body: JSON.stringify(body),
         });
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || "Failed to create product");
+        if (!response || !response.ok) {
+            const err = response ? await response.json() : { message: "Timeout" };
+            throw new Error(err.message || "Failed to create product");
         }
 
-        const product = await response.json();
-        return NextResponse.json(product);
+        return NextResponse.json(await response.json());
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : String(error);
-        console.error("Failed to create product:", message);
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
