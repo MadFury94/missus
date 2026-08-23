@@ -120,7 +120,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
             <Link
                 href={`/product/${product.slug}`}
                 aria-label={product.name}
-                style={{ display: "block", position: "relative", aspectRatio: "2/3", overflow: "hidden", background: "#f0ece8" }}
+                style={{ display: "block", position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f0ece8" }}
             >
                 {img1 ? (
                     <>
@@ -128,7 +128,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                             src={img1}
                             alt={product.name}
                             fill
-                            style={{ objectFit: "cover", objectPosition: "top", opacity: hovered && img2 ? 0 : 1, transition: "opacity .3s" }}
+                            style={{ objectFit: "cover", objectPosition: "center", opacity: hovered && img2 ? 0 : 1, transition: "opacity .3s" }}
                             sizes="(max-width: 640px) 50vw, 20vw"
                         />
                         {img2 && (
@@ -137,7 +137,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                 alt=""
                                 aria-hidden="true"
                                 fill
-                                style={{ objectFit: "cover", objectPosition: "top", opacity: hovered ? 1 : 0, transition: "opacity .3s" }}
+                                style={{ objectFit: "cover", objectPosition: "center", opacity: hovered ? 1 : 0, transition: "opacity .3s" }}
                                 sizes="(max-width: 640px) 50vw, 20vw"
                             />
                         )}
@@ -273,24 +273,24 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
             </Link>
 
             {/* Product info */}
-            <div style={{ padding: "7px 0 10px" }}>
-                <p style={{ fontSize: "12px", fontWeight: 400, color: "#111", lineHeight: 1.35, marginBottom: "4px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textAlign: "left" }}>
+            <div style={{ padding: "8px 0 12px" }}>
+                <p style={{ fontSize: "13px", fontWeight: 500, color: "#111", lineHeight: 1.4, marginBottom: "5px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textAlign: "left" }}>
                     {product.name}
                 </p>
 
-                <p style={{ fontSize: "12px", fontWeight: 700, color: "#000", textAlign: "left" }}>
+                <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", textAlign: "left", marginBottom: "6px" }}>
                     {isOnSale && (
-                        <span style={{ color: "#767676", fontWeight: 400, textDecoration: "line-through", marginRight: "4px" }}>{regularNaira}</span>
+                        <span style={{ color: "#999", fontWeight: 400, textDecoration: "line-through", marginRight: "6px", fontSize: "12px" }}>{regularNaira}</span>
                     )}
                     <span style={{ color: isOnSale ? "#e8002d" : "#000" }}>{priceNaira}</span>
                 </p>
 
-                {/* Colour swatches — resolved from a comprehensive map, not 9 hardcoded ifs */}
+                {/* Colour swatches */}
                 {colourTerms.length > 0 && (
-                    <div style={{ display: "flex", gap: "4px", alignItems: "center", marginTop: "6px" }}>
+                    <div style={{ display: "flex", gap: "5px", alignItems: "center", marginTop: "4px" }}>
                         {colourTerms.slice(0, 5).map((colour) => {
                             const hex = colourNameToHex(colour.name);
-                            const isLight = ["#fff", "#fffff0", "#fffdd0", "#faf9f6", "#faf9f6"].includes(hex.toLowerCase());
+                            const isLight = ["#fff", "#fffff0", "#fffdd0", "#faf9f6"].includes(hex.toLowerCase());
                             return (
                                 <button
                                     key={colour.id}
@@ -298,8 +298,8 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                     aria-label={`View ${colour.name} colour`}
                                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push(`/product/${product.slug}`); }}
                                     style={{
-                                        width: "16px", height: "16px", borderRadius: "50%",
-                                        border: `1px solid ${isLight ? "#ccc" : "transparent"}`,
+                                        width: "18px", height: "18px", borderRadius: "50%",
+                                        border: `1.5px solid ${isLight ? "#ccc" : "transparent"}`,
                                         background: hex,
                                         cursor: "pointer", padding: 0, flexShrink: 0,
                                     }}
@@ -307,25 +307,23 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                             );
                         })}
                         {colourTerms.length > 5 && (
-                            <span style={{ fontSize: "11px", color: "#666", fontWeight: 600 }}>
-                                +{colourTerms.length - 5}
-                            </span>
+                            <span style={{ fontSize: "11px", color: "#666", fontWeight: 600 }}>+{colourTerms.length - 5}</span>
                         )}
                     </div>
                 )}
 
-                {/* Size pills — keyboard accessible alternative to hover */}
+                {/* Size pills */}
                 {sizes.length > 0 && (
-                    <div style={{ display: "flex", gap: "3px", marginTop: "5px", flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: "4px", marginTop: "6px", flexWrap: "wrap" }}>
                         {sizes.slice(0, 4).map((s) => (
                             <span
                                 key={s}
-                                style={{ fontSize: "10px", fontWeight: 500, border: "1px solid #e8e8e8", padding: "2px 5px", color: "#888", background: "#fff" }}
+                                style={{ fontSize: "11px", fontWeight: 500, border: "1px solid #e0e0e0", padding: "3px 7px", color: "#777", background: "#fff" }}
                             >
                                 {s}
                             </span>
                         ))}
-                        {sizes.length > 4 && <span style={{ fontSize: "10px", color: "#aaa" }}>+{sizes.length - 4}</span>}
+                        {sizes.length > 4 && <span style={{ fontSize: "11px", color: "#aaa", alignSelf: "center" }}>+{sizes.length - 4}</span>}
                     </div>
                 )}
             </div>

@@ -48,15 +48,17 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                 .gender-tab-link:hover { border-bottom-color: #000; color: #000; }
                 .gender-tab-link:focus-visible { outline: 2px solid #000; outline-offset: -2px; }
                 .nav-icon-link:focus-visible { outline: 2px solid #000; outline-offset: 2px; border-radius: 2px; }
+                .nav-mobile-search { display: none; padding: 8px 16px 10px; border-top: 1px solid #f0f0f0; }
                 @media (max-width: 768px) {
                     .nav-gender { display: none; }
                     .nav-search-wrap { display: none; }
                     .nav-label { display: none; }
                     .nav-hamburger { display: flex; align-items: center; justify-content: center; }
+                    .nav-mobile-search { display: block; }
                 }
             `}</style>
 
-            <div style={{ background: "#fff", borderBottom: "1px solid #e0e0e0", position: "sticky", top: 0, zIndex: 100 }}>
+            <div style={{ background: "#fff", borderBottom: "1px solid #e0e0e0", position: "sticky", top: 0, zIndex: 100 }} data-navbar>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: "68px", position: "relative" }}>
 
                     {/* Left: nav tabs (desktop) */}
@@ -178,6 +180,30 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                             </svg>
                         </button>
                     </div>
+                </div>
+
+                {/* Mobile search bar — always visible below the nav bar on small screens */}
+                <div className="nav-mobile-search">
+                    <button
+                        onClick={() => setSearchOpen(true)}
+                        aria-label="Search products"
+                        aria-expanded={searchOpen}
+                        aria-haspopup="dialog"
+                        style={{
+                            display: "flex", alignItems: "center", gap: "10px",
+                            width: "100%", border: "1.5px solid #e0e0e0",
+                            borderRadius: "4px", padding: "9px 14px",
+                            background: "#f8f8f8", cursor: "text",
+                            textAlign: "left",
+                        }}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
+                            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                        </svg>
+                        <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif", flex: 1 }}>
+                            Search for dresses, tops, sets…
+                        </span>
+                    </button>
                 </div>
             </div>
 

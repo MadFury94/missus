@@ -112,7 +112,7 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                             textTransform: "uppercase",
                         }}
                     >
-                        {SALE_TABS[activeTab].label} — {filtered.length} Products
+                        {SALE_TABS[activeTab].label}
                     </h2>
                     <select
                         value={sort}
@@ -147,7 +147,7 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                             color: "#767676",
                         }}
                     >
-                        No sale items in this category right now.{" "}
+                        MISS US WITH THE UGLY CLOTHES.{" "}
                         <Link href="/shop" style={{ color: "#e8002d", textDecoration: "underline" }}>
                             Shop All →
                         </Link>
