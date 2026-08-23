@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SUB_NAV, SOCIAL_LINKS } from "@/lib/config";
@@ -11,15 +11,14 @@ interface MobileMenuProps {
     isOpen: boolean;
     onClose: () => void;
     onBagClick?: () => void;
+    onSearchOpen?: () => void;
 }
 
-export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuProps) {
+export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }: MobileMenuProps) {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [wishlistCount, setWishlistCount] = useState(0);
     const [bagCount, setBagCount] = useState(0);
-    const [search, setSearch] = useState("");
-    const searchRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setUser(getCurrentUser());
@@ -38,22 +37,11 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = "hidden";
-            // Focus search input after animation
-            setTimeout(() => searchRef.current?.focus(), 300);
         } else {
             document.body.style.overflow = "";
-            setSearch("");
         }
         return () => { document.body.style.overflow = ""; };
     }, [isOpen]);
-
-    function handleSearch(e: React.FormEvent) {
-        e.preventDefault();
-        const q = search.trim();
-        if (!q) return;
-        onClose();
-        router.push(`/search?q=${encodeURIComponent(q)}`);
-    }
 
     function handleLogout() {
         logoutUser();
@@ -114,27 +102,25 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
 
                 <div style={{ flex: 1, padding: "0 0 32px" }}>
 
-                    {/* ── Search ── */}
+                    {/* ── Search — opens the same overlay as desktop ── */}
                     <div style={{ padding: "16px 20px", borderBottom: "1px solid #f0f0f0" }}>
-                        <form onSubmit={handleSearch} style={{ display: "flex", border: "1.5px solid #000", height: "42px" }}>
-                            <input
-                                ref={searchRef}
-                                type="search"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                placeholder="Search women's clothing"
-                                style={{ flex: 1, border: "none", outline: "none", padding: "0 14px", fontFamily: "'Barlow', sans-serif", fontSize: "13px", background: "#fff" }}
-                            />
-                            <button
-                                type="submit"
-                                aria-label="Search"
-                                style={{ width: "44px", background: "#000", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0 }}
-                            >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
-                                    <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                                </svg>
-                            </button>
-                        </form>
+                        <button
+                            onClick={() => { onClose(); setTimeout(() => onSearchOpen?.(), 50); }}
+                            aria-label="Open search"
+                            style={{
+                                display: "flex", alignItems: "center", gap: "10px",
+                                width: "100%", border: "1.5px solid #e0e0e0",
+                                borderRadius: "4px", padding: "10px 14px",
+                                background: "#f8f8f8", cursor: "text", textAlign: "left",
+                            }}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
+                                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                            </svg>
+                            <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif" }}>
+                                Search for dresses, tops, sets…
+                            </span>
+                        </button>
                     </div>
 
                     {/* ── Account row ── */}

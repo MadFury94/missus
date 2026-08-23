@@ -124,9 +124,9 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src="/missus-logo.webp"
+                            src={transparent ? "/missus-light.png" : "/missus-logo.webp"}
                             alt="Missus"
-                            style={{ height: "67px", width: "auto", display: "block" }}
+                            style={{ height: "67px", width: "auto", display: "block", transition: "opacity .3s" }}
                         />
                     </Link>
 
@@ -247,7 +247,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
             </div>
 
             {/* Mobile menu — slide-in drawer with body scroll lock */}
-            <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} onBagClick={onBagClick} />
+            <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} onBagClick={onBagClick} onSearchOpen={() => setSearchOpen(true)} />
 
             {/* Search overlay */}
             <SearchOverlay
