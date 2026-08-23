@@ -126,7 +126,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
             {/* Backdrop */}
             <div
                 onClick={onClose}
-                style={{ position: "fixed", inset: 0, top: "52px", background: "rgba(0,0,0,0.45)", zIndex: 199 }}
+                style={{ position: "fixed", inset: 0, top: "68px", background: "rgba(0,0,0,0.45)", zIndex: 199 }}
                 aria-hidden="true"
             />
 
@@ -137,10 +137,10 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                 aria-modal="true"
                 aria-label="Search"
                 style={{
-                    position: "fixed", top: "52px", left: 0, right: 0,
+                    position: "fixed", top: "68px", left: 0, right: 0,
                     background: "#fff", zIndex: 200,
                     boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-                    maxHeight: "calc(100vh - 52px)", overflowY: "auto",
+                    maxHeight: "calc(100vh - 68px)", overflowY: "auto",
                 }}
             >
                 {/* Input bar */}
