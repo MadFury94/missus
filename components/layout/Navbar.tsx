@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { getCart, cartCount } from "@/lib/cart";
 import { getWishlistCount } from "@/lib/wishlist";
 import MobileMenu from "@/components/layout/MobileMenu";
+import SearchOverlay from "@/components/layout/SearchOverlay";
 
 export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
     const router = useRouter();
@@ -12,11 +13,10 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
     const [wishlistCount, setWishlistCount] = useState(0);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchVal, setSearchVal] = useState("");
+    const [searchOpen, setSearchOpen] = useState(false);
 
-    function handleSearch(e: React.FormEvent) {
-        e.preventDefault();
-        const q = searchVal.trim();
-        if (q) router.push(`/search?q=${encodeURIComponent(q)}`);
+    function handleSearch(q: string) {
+        router.push(`/search?q=${encodeURIComponent(q)}`);
     }
 
     useEffect(() => {
@@ -96,14 +96,24 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     {/* Right: search + icons */}
                     <div style={{ display: "flex", alignItems: "center", gap: "16px", marginLeft: "auto" }}>
                         {/* Search (desktop) */}
-                        <form onSubmit={handleSearch} className="nav-search-wrap" role="search">
+                        <form
+                            onSubmit={(e) => { e.preventDefault(); if (searchVal.trim()) { setSearchOpen(false); handleSearch(searchVal); } }}
+                            className="nav-search-wrap"
+                            role="search"
+                            onClick={() => setSearchOpen(true)}
+                        >
                             <input
                                 name="q"
                                 type="search"
                                 placeholder="Search women's clothing"
                                 value={searchVal}
                                 onChange={(e) => setSearchVal(e.target.value)}
+                                onFocus={() => setSearchOpen(true)}
                                 aria-label="Search products"
+                                aria-expanded={searchOpen}
+                                aria-haspopup="dialog"
+                                autoComplete="off"
+                                readOnly
                             />
                             <button type="submit" aria-label="Submit search">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" aria-hidden="true">
@@ -173,6 +183,15 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
 
             {/* Mobile menu — slide-in drawer with body scroll lock */}
             <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} onBagClick={onBagClick} />
+
+            {/* Search overlay */}
+            <SearchOverlay
+                isOpen={searchOpen}
+                inputValue={searchVal}
+                onInputChange={setSearchVal}
+                onClose={() => { setSearchOpen(false); setSearchVal(""); }}
+                onSubmit={(q) => { setSearchOpen(false); setSearchVal(""); handleSearch(q); }}
+            />
         </>
     );
 }
