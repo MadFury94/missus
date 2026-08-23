@@ -56,12 +56,11 @@ export const FOOTER_LINKS = {
 };
 
 export const MARQUEE_ITEMS = [
-    "Free Delivery ₦150k+",
+    "Miss Us With The Ugly Clothes",
     "New Drops Weekly",
-    "Pay On Delivery",
     "It-Girl Approved",
     "Shop Dresses · Tops · Sets",
-    "Lagos 1-Hour Delivery",
+    "Lagos Same Day Delivery",
 ];
 
 export const TRUST_ITEMS = [
