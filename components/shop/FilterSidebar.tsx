@@ -157,24 +157,40 @@ export default function FilterSidebar({ filters, onChange, showCategories }: Fil
                 <>
                     <FilterGroup title="Category">
                         <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-                            {CATEGORIES.map((cat) => (
-                                <a
-                                    key={cat.slug}
-                                    href={`/category/${cat.slug}`}
-                                    style={{
-                                        fontSize: "13px",
-                                        color: "#333",
-                                        padding: "5px 0",
-                                        display: "block",
-                                        textDecoration: "none",
-                                        transition: "color .15s",
-                                    }}
-                                    onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
-                                    onMouseLeave={(e) => (e.currentTarget.style.color = "#333")}
-                                >
-                                    {cat.label}
-                                </a>
-                            ))}
+                            {CATEGORIES.map((cat) => {
+                                const active = filters.category === cat.slug;
+                                return (
+                                    <button
+                                        key={cat.slug}
+                                        onClick={() => onChange({
+                                            ...filters,
+                                            category: active ? undefined : cat.slug,
+                                        })}
+                                        style={{
+                                            fontSize: "13px",
+                                            color: active ? "#000" : "#333",
+                                            fontWeight: active ? 700 : 400,
+                                            padding: "6px 0",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            background: "none",
+                                            border: "none",
+                                            cursor: "pointer",
+                                            textAlign: "left",
+                                            fontFamily: "'Barlow', sans-serif",
+                                            width: "100%",
+                                        }}
+                                    >
+                                        {cat.label}
+                                        {active && (
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        )}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </FilterGroup>
                     <Divider />

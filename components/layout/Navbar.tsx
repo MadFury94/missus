@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getCart, cartCount } from "@/lib/cart";
 import { getWishlistCount } from "@/lib/wishlist";
 import MobileMenu from "@/components/layout/MobileMenu";
@@ -9,38 +9,11 @@ import SearchOverlay from "@/components/layout/SearchOverlay";
 
 export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
     const router = useRouter();
-    const pathname = usePathname();
-    const isHome = pathname === "/";
     const [bagCount, setBagCount] = useState(0);
     const [wishlistCount, setWishlistCount] = useState(0);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchVal, setSearchVal] = useState("");
     const [searchOpen, setSearchOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-
-    // Go transparent on homepage until user scrolls past hero
-    useEffect(() => {
-        if (!isHome) return;
-        function onScroll() { setScrolled(window.scrollY > 40); }
-        onScroll();
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
-    }, [isHome]);
-
-    // Expose navbar height as CSS var so hero can pull up behind it
-    useEffect(() => {
-        function measure() {
-            const nav = document.querySelector("[data-navbar]") as HTMLElement | null;
-            if (nav) {
-                document.documentElement.style.setProperty("--navbar-total-h", `${nav.offsetHeight}px`);
-            }
-        }
-        measure();
-        window.addEventListener("resize", measure);
-        return () => window.removeEventListener("resize", measure);
-    }, []);
-
-    const transparent = isHome && !scrolled && !searchOpen;
 
     function handleSearch(q: string) {
         router.push(`/search?q=${encodeURIComponent(q)}`);
@@ -86,12 +59,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
             `}</style>
 
             <div
-                style={{
-                    background: transparent ? "transparent" : "#fff",
-                    borderBottom: transparent ? "none" : "1px solid #e0e0e0",
-                    position: "sticky", top: 0, zIndex: 100,
-                    transition: "background .3s ease, border-color .3s ease",
-                }}
+                style={{ background: "#fff", borderBottom: "1px solid #e0e0e0", position: "sticky", top: 0, zIndex: 100 }}
                 data-navbar
             >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: "68px", position: "relative" }}>
@@ -102,7 +70,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                             { label: "NEW DROPS", href: "/new-in" },
                             { label: "GIFT SHOP", href: "/category/gift-shop" },
                         ].map(({ label, href }) => (
-                            <Link key={label} href={href} className="gender-tab-link" style={{ color: transparent ? "rgba(255,255,255,.85)" : "#555" }}>
+                            <Link key={label} href={href} className="gender-tab-link">
                                 {label}
                             </Link>
                         ))}
@@ -124,9 +92,9 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={transparent ? "/missus-light.png" : "/missus-logo.webp"}
+                            src="/missus-logo.webp"
                             alt="Missus"
-                            style={{ height: "67px", width: "auto", display: "block", transition: "opacity .3s" }}
+                            style={{ height: "67px", width: "auto", display: "block" }}
                         />
                     </Link>
 
@@ -138,7 +106,6 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                             className="nav-search-wrap"
                             role="search"
                             onClick={() => setSearchOpen(true)}
-                            style={{ borderColor: transparent ? "rgba(255,255,255,.5)" : "#000" }}
                         >
                             <input
                                 name="q"
@@ -152,9 +119,8 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                                 aria-haspopup="dialog"
                                 autoComplete="off"
                                 readOnly
-                                style={{ background: transparent ? "transparent" : "#fff", color: transparent ? "#fff" : "#000" }}
                             />
-                            <button type="submit" aria-label="Submit search" style={{ background: transparent ? "rgba(255,255,255,.15)" : "#000" }}>
+                            <button type="submit" aria-label="Submit search">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" aria-hidden="true">
                                     <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
                                 </svg>
@@ -162,7 +128,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                         </form>
 
                         {/* Login */}
-                        <Link href="/account" className="nav-icon-link" style={{ color: transparent ? "#fff" : "#000", display: "flex", alignItems: "center", gap: "5px", textDecoration: "none" }}>
+                        <Link href="/account" className="nav-icon-link" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", textDecoration: "none" }}>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                             </svg>
@@ -170,7 +136,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                         </Link>
 
                         {/* Wishlist */}
-                        <Link href="/wishlist" className="nav-icon-link" style={{ color: transparent ? "#fff" : "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", textDecoration: "none" }} aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ""}`}>
+                        <Link href="/wishlist" className="nav-icon-link" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", textDecoration: "none" }} aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ""}`}>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
@@ -187,7 +153,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                             onClick={onBagClick}
                             className="nav-icon-link"
                             aria-label={`Shopping bag${bagCount > 0 ? `, ${bagCount} items` : ""}`}
-                            style={{ color: transparent ? "#fff" : "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                            style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0 }}
                         >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -210,7 +176,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                             aria-expanded={mobileOpen}
                             aria-controls="mobile-menu"
                         >
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={transparent ? "#fff" : "#000"} strokeWidth="2" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2" aria-hidden="true">
                                 <line x1="3" y1="6" x2="21" y2="6" />
                                 <line x1="3" y1="12" x2="21" y2="12" />
                                 <line x1="3" y1="18" x2="21" y2="18" />
@@ -219,31 +185,29 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     </div>
                 </div>
 
-                {/* Mobile search bar — visible below nav bar on small screens, hidden when hero is transparent */}
-                {!transparent && (
-                    <div className="nav-mobile-search">
-                        <button
-                            onClick={() => setSearchOpen(true)}
-                            aria-label="Search products"
-                            aria-expanded={searchOpen}
-                            aria-haspopup="dialog"
-                            style={{
-                                display: "flex", alignItems: "center", gap: "10px",
-                                width: "100%", border: "1.5px solid #e0e0e0",
-                                borderRadius: "4px", padding: "9px 14px",
-                                background: "#f8f8f8", cursor: "text",
-                                textAlign: "left",
-                            }}
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
-                                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                            </svg>
-                            <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif", flex: 1 }}>
-                                Search for dresses, tops, sets…
-                            </span>
-                        </button>
-                    </div>
-                )}
+                {/* Mobile search bar — always visible below the nav bar on small screens */}
+                <div className="nav-mobile-search">
+                    <button
+                        onClick={() => setSearchOpen(true)}
+                        aria-label="Search products"
+                        aria-expanded={searchOpen}
+                        aria-haspopup="dialog"
+                        style={{
+                            display: "flex", alignItems: "center", gap: "10px",
+                            width: "100%", border: "1.5px solid #e0e0e0",
+                            borderRadius: "4px", padding: "9px 14px",
+                            background: "#f8f8f8", cursor: "text",
+                            textAlign: "left",
+                        }}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
+                            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                        </svg>
+                        <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif", flex: 1 }}>
+                            Search for dresses, tops, sets…
+                        </span>
+                    </button>
+                </div>
             </div>
 
             {/* Mobile menu — slide-in drawer with body scroll lock */}

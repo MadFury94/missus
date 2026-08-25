@@ -11,7 +11,6 @@ import CartDrawer from "@/components/cart/CartDrawer";
 export default function ClientShell({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const isAdminRoute = pathname?.startsWith("/admin");
-    const isHome = pathname === "/";
 
     const [cartOpen, setCartOpen] = useState(false);
 
@@ -26,10 +25,10 @@ export default function ClientShell({ children }: { children: React.ReactNode })
         <>
             {!isAdminRoute && (
                 <>
-                    {!isHome && <AnnouncementBar />}
+                    <AnnouncementBar />
                     <Navbar onBagClick={() => setCartOpen(true)} />
-                    {!isHome && <CategoryNav />}
-                    {!isHome && <ShipBar />}
+                    <CategoryNav />
+                    <ShipBar />
                 </>
             )}
             <main style={{ flex: 1 }}>{children}</main>
