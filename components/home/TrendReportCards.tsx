@@ -3,17 +3,17 @@ import Image from "next/image";
 
 const TREND_CARDS = [
     {
-        title: "Rodeo Ready",
+        title: "Independence Day Ready",
         href: "/category/dresses",
         img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-96.jpeg",
     },
     {
-        title: "Prom Queen Energy",
+        title: "Sugar & Spice",
         href: "/category/dresses",
         img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
     },
     {
-        title: "Aries Behavior",
+        title: "Night Mode",
         href: "/category/matching-sets",
         img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png",
     },
@@ -38,7 +38,7 @@ export default function TrendReportCards() {
                     marginBottom: "24px",
                     color: "#000"
                 }}>
-                    THE TREND REPORT
+                    The Style Radar
                 </h2>
 
                 {/* 4 Cards Grid */}

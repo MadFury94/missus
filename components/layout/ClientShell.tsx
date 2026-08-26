@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import Navbar from "@/components/layout/Navbar";
 import CategoryNav from "@/components/layout/CategoryNav";
-import ShipBar from "@/components/layout/ShipBar";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 
@@ -28,7 +27,6 @@ export default function ClientShell({ children }: { children: React.ReactNode })
                     <AnnouncementBar />
                     <Navbar onBagClick={() => setCartOpen(true)} />
                     <CategoryNav />
-                    <ShipBar />
                 </>
             )}
             <main style={{ flex: 1 }}>{children}</main>

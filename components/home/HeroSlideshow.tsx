@@ -45,28 +45,33 @@ const SLIDES: Slide[] = [
         cta: { label: "Shop New In", href: "/new-in" },
         cta2: { label: "View Sale", href: "/sale" },
     },
-
 ];
 
 const INTERVAL = 5000;
 
 export default function HeroSlideshow() {
     const [current, setCurrent] = useState(0);
-    const [transitioning, setTransitioning] = useState(false);
+    const [prev, setPrev] = useState<number | null>(null);
+    const [sliding, setSliding] = useState(false);
+    const [direction, setDirection] = useState<"left" | "right">("left");
     const [paused, setPaused] = useState(false);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const goTo = useCallback((idx: number) => {
-        if (transitioning) return;
-        setTransitioning(true);
+    const goTo = useCallback((idx: number, dir?: "left" | "right") => {
+        if (sliding || idx === current) return;
+        const resolvedDir = dir ?? (idx > current ? "left" : "right");
+        setDirection(resolvedDir);
+        setPrev(current);
+        setCurrent(idx);
+        setSliding(true);
         setTimeout(() => {
-            setCurrent(idx);
-            setTransitioning(false);
-        }, 400);
-    }, [transitioning]);
+            setPrev(null);
+            setSliding(false);
+        }, 550);
+    }, [sliding, current]);
 
     const next = useCallback(() => {
-        goTo((current + 1) % SLIDES.length);
+        goTo((current + 1) % SLIDES.length, "left");
     }, [current, goTo]);
 
     useEffect(() => {
@@ -83,29 +88,65 @@ export default function HeroSlideshow() {
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
         >
+            <style>{`
+                @keyframes slideInFromRight {
+                    from { transform: translateX(100%); }
+                    to   { transform: translateX(0); }
+                }
+                @keyframes slideInFromLeft {
+                    from { transform: translateX(-100%); }
+                    to   { transform: translateX(0); }
+                }
+                @keyframes slideOutToLeft {
+                    from { transform: translateX(0); }
+                    to   { transform: translateX(-100%); }
+                }
+                @keyframes slideOutToRight {
+                    from { transform: translateX(0); }
+                    to   { transform: translateX(100%); }
+                }
+                @keyframes heroFadeUp {
+                    from { opacity: 0; transform: translateY(16px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
+
             {/* Slides */}
-            {SLIDES.map((s, i) => (
-                <div
-                    key={i}
-                    style={{
-                        position: "absolute",
-                        inset: 0,
-                        opacity: i === current ? (transitioning ? 0 : 1) : 0,
-                        transition: "opacity .45s ease",
-                        pointerEvents: i === current ? "auto" : "none",
-                    }}
-                >
-                    <Image
-                        src={s.src}
-                        alt={s.alt || s.heading}
-                        fill
-                        style={{ objectFit: "cover", objectPosition: "center 20%" }}
-                        sizes="100vw"
-                        loading={i === 0 ? "eager" : "lazy"}
-                        priority={i === 0}
-                    />
-                </div>
-            ))}
+            {SLIDES.map((s, i) => {
+                const isCurrent = i === current;
+                const isPrev = i === prev;
+                if (!isCurrent && !isPrev) return null;
+
+                let animName = "none";
+                if (sliding) {
+                    if (isCurrent) animName = direction === "left" ? "slideInFromRight" : "slideInFromLeft";
+                    if (isPrev) animName = direction === "left" ? "slideOutToLeft" : "slideOutToRight";
+                }
+
+                return (
+                    <div
+                        key={i}
+                        style={{
+                            position: "absolute",
+                            inset: 0,
+                            zIndex: isCurrent ? 1 : 0,
+                            animation: animName !== "none"
+                                ? `${animName} 0.55s cubic-bezier(0.77,0,0.18,1) forwards`
+                                : "none",
+                        }}
+                    >
+                        <Image
+                            src={s.src}
+                            alt={s.alt || s.heading}
+                            fill
+                            style={{ objectFit: "cover", objectPosition: "center 20%" }}
+                            sizes="100vw"
+                            loading={i === 0 ? "eager" : "lazy"}
+                            priority={i === 0}
+                        />
+                    </div>
+                );
+            })}
 
             {/* Gradient overlay */}
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.2) 55%, transparent 100%)", zIndex: 2 }} />
@@ -145,43 +186,12 @@ export default function HeroSlideshow() {
                 {SLIDES.map((_, i) => (
                     <button
                         key={i}
-                        onClick={() => goTo(i)}
+                        onClick={() => goTo(i, i > current ? "left" : "right")}
                         aria-label={`Go to slide ${i + 1}`}
                         style={{ width: i === current ? "28px" : "8px", height: "8px", borderRadius: "4px", background: i === current ? "#fff" : "rgba(255,255,255,.4)", border: "none", cursor: "pointer", padding: 0, transition: "all .3s ease" }}
                     />
                 ))}
             </div>
-
-            {/* Prev / Next arrows */}
-            {[
-                { dir: -1, label: "Previous", side: "left" },
-                { dir: 1, label: "Next", side: "right" },
-            ].map(({ dir, label, side }) => (
-                <button
-                    key={side}
-                    onClick={() => goTo((current + dir + SLIDES.length) % SLIDES.length)}
-                    aria-label={label}
-                    style={{ position: "absolute", top: "50%", [side]: "16px", transform: "translateY(-50%)", zIndex: 4, background: "rgba(0,0,0,.35)", border: "1px solid rgba(255,255,255,.2)", color: "#fff", width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", backdropFilter: "blur(4px)", transition: "background .2s" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,.65)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(0,0,0,.35)")}
-                >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        {dir === -1 ? <polyline points="15 18 9 12 15 6" /> : <polyline points="9 18 15 12 9 6" />}
-                    </svg>
-                </button>
-            ))}
-
-            {/* Sale badge */}
-            <div style={{ position: "absolute", top: "24px", right: "clamp(20px,5vw,60px)", zIndex: 4, background: "#e8002d", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase", padding: "12px 20px", textAlign: "center", lineHeight: 1.3 }}>
-                UP TO<br /><span style={{ fontSize: "22px" }}>60%</span><br />OFF SALE
-            </div>
-
-            <style>{`
-                @keyframes heroFadeUp {
-                    from { opacity: 0; transform: translateY(16px); }
-                    to   { opacity: 1; transform: translateY(0); }
-                }
-            `}</style>
         </div>
     );
 }

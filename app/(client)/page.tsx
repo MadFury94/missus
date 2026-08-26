@@ -1,6 +1,5 @@
 import HeroSlideshow from "@/components/home/HeroSlideshow";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
-import TrustBar from "@/components/home/TrustBar";
 import TrendReportCards from "@/components/home/TrendReportCards";
 import VideoSection from "@/components/home/VideoSection";
 import GiftShopBanner from "@/components/home/GiftShopBanner";
@@ -18,7 +17,6 @@ export default function HomePage() {
     <>
       <HeroSlideshow />
       <MarqueeStrip />
-      <TrustBar />
       <TrendReportCards />
       <VideoSection />
       <GiftShopBanner />
