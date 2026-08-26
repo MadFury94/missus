@@ -37,7 +37,13 @@ export default function CategoryPage() {
                 </p>
             </div>
 
-            <div style={{ padding: "16px 20px 40px" }}>
+            <div style={{ padding: "16px 20px 40px" }} className="cat-page-wrap">
+                <style>{`
+                    @media (max-width: 768px) {
+                        .cat-page-wrap { padding-left: 0 !important; padding-right: 0 !important; }
+                        .cat-page-wrap .grid-4 { gap: 1px; }
+                    }
+                `}</style>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8" }}>
                     <select value={sort} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSort(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 28px 7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
                         <option value="">Sort: Featured</option>

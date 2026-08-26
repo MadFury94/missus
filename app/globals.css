@@ -293,14 +293,23 @@ button {
     font-size: 13px;
   }
 
-  .grid-5 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px 8px;
-  }
-
   .grid-4 {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px 8px;
+    gap: 1px;
+  }
+
+  .grid-5 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+  }
+
+  /* Edge-to-edge product grids on mobile */
+  .grid-4-wrap,
+  .grid-5-wrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
   .trend-grid {

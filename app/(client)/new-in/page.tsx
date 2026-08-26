@@ -174,7 +174,13 @@ export default function NewInPage() {
                     </div>
 
                     {/* Grid */}
-                    <div style={{ padding: "0 20px 60px" }}>
+                    <div style={{ padding: "0 20px 60px" }} className="new-in-grid-wrap">
+                        <style>{`
+                            @media (max-width: 1024px) {
+                                .new-in-grid-wrap { padding-left: 0 !important; padding-right: 0 !important; }
+                                .new-in-grid-wrap .grid-4 { gap: 1px; }
+                            }
+                        `}</style>
                         {loading ? (
                             <div className="grid-4" style={{ paddingTop: "20px" }}>
                                 {Array.from({ length: 12 }).map((_, i) => (

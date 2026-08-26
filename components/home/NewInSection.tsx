@@ -4,7 +4,6 @@ import Link from "next/link";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
 
-// Skeleton placeholder card
 function Skeleton() {
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -22,15 +21,35 @@ export default function NewInSection() {
     useEffect(() => {
         fetch("/api/products?category=whats-new&per_page=8&orderby=date&order=desc")
             .then((r) => r.ok ? r.json() : null)
-            .then((data) => {
-                if (data?.products) setProducts(data.products);
-            })
+            .then((data) => { if (data?.products) setProducts(data.products); })
             .catch(() => { })
             .finally(() => setLoading(false));
     }, []);
 
     return (
         <>
+            <style>{`
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50%       { opacity: 0.4; }
+                }
+                .newin-section-wrap {
+                    padding: 20px 72px 32px;
+                }
+                @media (max-width: 1024px) {
+                    .newin-section-wrap {
+                        padding: 0 0 24px;
+                    }
+                    .newin-section-wrap .grid-4 {
+                        gap: 1px;
+                    }
+                    .newin-view-all {
+                        padding: 20px;
+                    }
+                }
+            `}</style>
+
+            {/* Section header */}
             <div style={{ background: "#000", color: "#fff", padding: "11px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
                 <div>
                     <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "20px", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>New In</span>
@@ -41,7 +60,7 @@ export default function NewInSection() {
                 </Link>
             </div>
 
-            <div style={{ padding: "20px 72px 32px" }}>
+            <div className="newin-section-wrap">
                 <div className="grid-4">
                     {loading
                         ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} />)
@@ -50,20 +69,13 @@ export default function NewInSection() {
                 </div>
 
                 {!loading && products.length > 0 && (
-                    <div style={{ textAlign: "center", marginTop: "28px" }}>
+                    <div className="newin-view-all" style={{ textAlign: "center", marginTop: "28px" }}>
                         <Link href="/category/whats-new" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "13px" }}>
                             View All New Arrivals
                         </Link>
                     </div>
                 )}
             </div>
-
-            <style>{`
-                @keyframes pulse {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0.4; }
-                }
-            `}</style>
         </>
     );
 }

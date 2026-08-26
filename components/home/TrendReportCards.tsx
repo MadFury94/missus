@@ -16,39 +16,49 @@ const DEFAULT_CARDS: Card[] = [
 
 export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Card[] }) {
     return (
-        <div style={{ background: "#fff", padding: "40px 20px" }}>
-            <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-                <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", marginBottom: "24px", color: "#000" }}>
-                    The Style Radar
-                </h2>
+        <>
+            <style>{`
+                .style-radar-wrap { background: #fff; padding: 40px 20px; }
+                @media (max-width: 768px) {
+                    .style-radar-wrap { padding: 24px 0 0; }
+                    .style-radar-wrap h2 { padding: 0 12px 16px; margin-bottom: 0 !important; }
+                    .trend-report-cards { gap: 1px !important; }
+                }
+            `}</style>
+            <div className="style-radar-wrap">
+                <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+                    <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", marginBottom: "24px", color: "#000" }}>
+                        The Style Radar
+                    </h2>
 
-                <div className="trend-report-cards">
-                    {cards.map((card) => (
-                        <Link
-                            key={card.title}
-                            href={card.href}
-                            style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f5f5f5", display: "block", textDecoration: "none" }}
-                        >
-                            <Image
-                                src={card.img}
-                                alt={card.title}
-                                fill
-                                style={{ objectFit: "cover", objectPosition: "top center" }}
-                                sizes="25vw"
-                            />
-                            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.6) 100%)" }} />
-                            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px", zIndex: 2 }}>
-                                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 700, color: "#fff", marginBottom: "8px", lineHeight: 1.2 }}>
-                                    {card.title}
+                    <div className="trend-report-cards">
+                        {cards.map((card) => (
+                            <Link
+                                key={card.title}
+                                href={card.href}
+                                style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f5f5f5", display: "block", textDecoration: "none" }}
+                            >
+                                <Image
+                                    src={card.img}
+                                    alt={card.title}
+                                    fill
+                                    style={{ objectFit: "cover", objectPosition: "top center" }}
+                                    sizes="25vw"
+                                />
+                                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.6) 100%)" }} />
+                                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px", zIndex: 2 }}>
+                                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 700, color: "#fff", marginBottom: "8px", lineHeight: 1.2 }}>
+                                        {card.title}
+                                    </div>
+                                    <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff", display: "flex", alignItems: "center", gap: "4px" }}>
+                                        <span>→</span>
+                                    </div>
                                 </div>
-                                <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff", display: "flex", alignItems: "center", gap: "4px" }}>
-                                    <span>→</span>
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -132,6 +132,7 @@ export default function ShopPage() {
                     .shop-sidebar-desktop { display: none; }
                     .shop-filter-bar { display: flex; }
                     .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 1px; }
+                    .shop-products-wrap { padding-left: 0 !important; padding-right: 0 !important; }
                 }
                 @media (min-width: 1025px) {
                     .grid-4 { grid-template-columns: repeat(4, 1fr); gap: 20px; }

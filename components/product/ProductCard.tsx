@@ -174,9 +174,11 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         width: "30px", height: "30px",
                         background: "rgba(255,255,255,.85)", border: "none", borderRadius: "50%",
                         display: "flex", alignItems: "center", justifyContent: "center",
-                        opacity: hovered ? 1 : 0, transition: "opacity .2s",
+                        opacity: hovered ? 1 : 0,
+                        transition: "opacity .2s",
                         zIndex: 2, cursor: "pointer",
                     }}
+                    className="product-wishlist-btn"
                     onFocus={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.outline = "2px solid #000"; }}
                     onBlur={(e) => { e.currentTarget.style.outline = "none"; if (!hovered) e.currentTarget.style.opacity = "0"; }}
                 >
@@ -273,12 +275,12 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
             </Link>
 
             {/* Product info */}
-            <div style={{ padding: "8px 0 12px" }}>
+            <div className="product-card-info" style={{ padding: "8px 8px 12px" }}>
                 <p style={{ fontSize: "13px", fontWeight: 500, color: "#111", lineHeight: 1.4, marginBottom: "5px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", textAlign: "left" }}>
                     {product.name}
                 </p>
 
-                <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", textAlign: "left", marginBottom: "6px" }}>
+                <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", textAlign: "left", marginBottom: "4px" }}>
                     {isOnSale && (
                         <span style={{ color: "#999", fontWeight: 400, textDecoration: "line-through", marginRight: "6px", fontSize: "12px" }}>{regularNaira}</span>
                     )}
@@ -298,7 +300,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                     aria-label={`View ${colour.name} colour`}
                                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push(`/product/${product.slug}`); }}
                                     style={{
-                                        width: "18px", height: "18px", borderRadius: "50%",
+                                        width: "14px", height: "14px", borderRadius: "50%",
                                         border: `1.5px solid ${isLight ? "#ccc" : "transparent"}`,
                                         background: hex,
                                         cursor: "pointer", padding: 0, flexShrink: 0,
@@ -312,9 +314,9 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                     </div>
                 )}
 
-                {/* Size pills */}
+                {/* Size pills — hidden on mobile */}
                 {sizes.length > 0 && (
-                    <div style={{ display: "flex", gap: "4px", marginTop: "6px", flexWrap: "wrap" }}>
+                    <div className="product-sizes" style={{ display: "flex", gap: "4px", marginTop: "6px", flexWrap: "wrap" }}>
                         {sizes.slice(0, 4).map((s) => (
                             <span
                                 key={s}
@@ -327,6 +329,14 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                     </div>
                 )}
             </div>
+
+            <style>{`
+                @media (max-width: 768px) {
+                    .product-wishlist-btn { opacity: 1 !important; }
+                    .product-sizes { display: none !important; }
+                    .product-card-info { padding: 6px 6px 10px !important; }
+                }
+            `}</style>
         </div>
     );
 }
