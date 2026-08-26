@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+// Shared types and defaults — no Node.js imports, safe for client and server
 
 export const HOMEPAGE_DEFAULTS = {
     announcement: "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVALS EVERY WEEK  |  PAY ON DELIVERY AVAILABLE",
@@ -49,14 +48,3 @@ export const HOMEPAGE_DEFAULTS = {
 };
 
 export type HomepageContent = typeof HOMEPAGE_DEFAULTS;
-
-export function getHomepageContent(): HomepageContent {
-    try {
-        const file = path.join(process.cwd(), "data", "homepage-content.json");
-        if (!fs.existsSync(file)) return HOMEPAGE_DEFAULTS;
-        const saved = JSON.parse(fs.readFileSync(file, "utf-8"));
-        return { ...HOMEPAGE_DEFAULTS, ...saved };
-    } catch {
-        return HOMEPAGE_DEFAULTS;
-    }
-}

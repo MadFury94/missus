@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Slide {
-    type: "image";
     src: string;
     alt?: string;
     label?: string;
@@ -16,7 +15,6 @@ interface Slide {
 
 const SLIDES: Slide[] = [
     {
-        type: "image",
         src: "/missus.home.png",
         alt: "Missus Collection",
         label: "The Edit",
@@ -26,7 +24,6 @@ const SLIDES: Slide[] = [
         cta2: { label: "What's New", href: "/category/whats-new" },
     },
     {
-        type: "image",
         src: "/missus-hero.png",
         alt: "Spring Collection",
         label: "Spring / Summer 2026",
@@ -36,7 +33,6 @@ const SLIDES: Slide[] = [
         cta2: { label: "What's New", href: "/category/whats-new" },
     },
     {
-        type: "image",
         src: "/missus2.png",
         alt: "New Arrivals",
         label: "New Drops",

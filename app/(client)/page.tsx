@@ -1,4 +1,4 @@
-import { getHomepageContent } from "@/lib/homepage-content";
+import { getHomepageContent } from "@/lib/homepage-content.server";
 import HeroSlideshow from "@/components/home/HeroSlideshow";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReportCards from "@/components/home/TrendReportCards";

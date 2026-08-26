@@ -3,7 +3,7 @@ import { Barlow, Barlow_Condensed, Geist } from "next/font/google";
 import "./globals.css";
 import ClientShell from "@/components/layout/ClientShell";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
-import { getHomepageContent } from "@/lib/homepage-content";
+import { getHomepageContent } from "@/lib/homepage-content.server";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
