@@ -1,3 +1,4 @@
+import { getHomepageContent } from "@/lib/homepage-content";
 import HeroSlideshow from "@/components/home/HeroSlideshow";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReportCards from "@/components/home/TrendReportCards";
@@ -13,11 +14,13 @@ import NewsletterBar from "@/components/home/NewsletterBar";
 export const revalidate = 60;
 
 export default function HomePage() {
+  const content = getHomepageContent();
+
   return (
     <>
-      <HeroSlideshow />
-      <MarqueeStrip />
-      <TrendReportCards />
+      <HeroSlideshow slides={content.hero} />
+      <MarqueeStrip items={content.marquee} />
+      <TrendReportCards cards={content.styleRadar} />
       <VideoSection />
       <GiftShopBanner />
       <CategoryGrid />
@@ -25,7 +28,7 @@ export default function HomePage() {
       <NewInSection />
       <ReviewsSection />
       <AppDownloadBanner />
-      <NewsletterBar />
+      <NewsletterBar heading={content.newsletter.heading} sub={content.newsletter.sub} />
     </>
   );
 }

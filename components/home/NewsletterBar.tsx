@@ -45,7 +45,13 @@ const TRUST_ITEMS = [
     },
 ];
 
-export default function NewsletterBar() {
+export default function NewsletterBar({
+    heading = "Join The Missus Circle",
+    sub = "Early drops, exclusive deals & style inspo — straight to your inbox.",
+}: {
+    heading?: string;
+    sub?: string;
+}) {
     const [email, setEmail] = useState("");
     const [done, setDone] = useState(false);
 
@@ -109,10 +115,10 @@ export default function NewsletterBar() {
                             The Missus Inner Circle
                         </p>
                         <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", lineHeight: 1, marginBottom: "6px" }}>
-                            Join The Missus Circle
+                            {heading}
                         </h3>
                         <p style={{ fontSize: "12px", color: "#555", lineHeight: 1.6 }}>
-                            Early drops, exclusive deals & style inspo — straight to your inbox.{" "}
+                            {sub}{" "}
                             <Link href="/newsletter" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Learn more →</Link>
                         </p>
                     </div>

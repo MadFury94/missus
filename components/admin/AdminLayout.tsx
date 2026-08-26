@@ -18,6 +18,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
     const menuItems = [
         { icon: "📊", label: "Dashboard", href: "/admin" },
+        { icon: "🏠", label: "Homepage", href: "/admin/homepage" },
         { icon: "📋", label: "Orders", href: "/admin/orders" },
         { icon: "👥", label: "Customers", href: "/admin/customers" },
         { icon: "🏷️", label: "Categories", href: "/admin/categories" },

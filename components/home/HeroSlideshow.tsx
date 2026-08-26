@@ -49,7 +49,7 @@ const SLIDES: Slide[] = [
 
 const INTERVAL = 5000;
 
-export default function HeroSlideshow() {
+export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] }) {
     const [current, setCurrent] = useState(0);
     const [prev, setPrev] = useState<number | null>(null);
     const [sliding, setSliding] = useState(false);

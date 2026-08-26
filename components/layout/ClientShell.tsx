@@ -7,7 +7,7 @@ import CategoryNav from "@/components/layout/CategoryNav";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 
-export default function ClientShell({ children }: { children: React.ReactNode }) {
+export default function ClientShell({ children, announcement }: { children: React.ReactNode; announcement?: string }) {
     const pathname = usePathname();
     const isAdminRoute = pathname?.startsWith("/admin");
 
@@ -24,7 +24,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
         <>
             {!isAdminRoute && (
                 <>
-                    <AnnouncementBar />
+                    <AnnouncementBar text={announcement} />
                     <Navbar onBagClick={() => setCartOpen(true)} />
                     <CategoryNav />
                 </>

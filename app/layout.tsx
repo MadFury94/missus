@@ -3,6 +3,7 @@ import { Barlow, Barlow_Condensed, Geist } from "next/font/google";
 import "./globals.css";
 import ClientShell from "@/components/layout/ClientShell";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
+import { getHomepageContent } from "@/lib/homepage-content";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -41,6 +42,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const { announcement } = getHomepageContent();
   return (
     <html
       lang="en"
@@ -52,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
         suppressHydrationWarning
       >
-        <ClientShell>{children}</ClientShell>
+        <ClientShell announcement={announcement}>{children}</ClientShell>
       </body>
     </html>
   );
