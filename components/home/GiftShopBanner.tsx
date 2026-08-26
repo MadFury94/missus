@@ -5,75 +5,105 @@ export default function GiftShopBanner() {
     return (
         <Link
             href="/category/gift-shop"
-            style={{ display: "block", position: "relative", width: "100%", overflow: "hidden" }}
+            style={{ display: "block", textDecoration: "none" }}
         >
-            {/* Full-bleed image — same proportions as FashionNova formal shop banner */}
-            <div style={{ position: "relative", width: "100%", aspectRatio: "16/6", minHeight: "260px", maxHeight: "480px" }}>
-                <Image
-                    src="https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg"
-                    alt="Gift Shop"
-                    fill
-                    style={{ objectFit: "cover", objectPosition: "center 20%" }}
-                    sizes="100vw"
-                    priority
-                />
-                {/* Dark scrim — stronger on left side so text pops */}
+            <div style={{
+                position: "relative",
+                width: "100%",
+                minHeight: "340px",
+                background: "linear-gradient(110deg, #0a0a0a 0%, #1a1a1a 55%, #2a1a0a 100%)",
+                overflow: "hidden",
+                display: "flex",
+                alignItems: "center",
+            }}>
+                {/* Subtle warm texture overlay */}
                 <div style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "linear-gradient(to right, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.32) 60%, transparent 100%)",
+                    position: "absolute", inset: 0,
+                    background: "radial-gradient(ellipse at 70% 50%, rgba(212,160,60,0.08) 0%, transparent 65%)",
+                    pointerEvents: "none",
                 }} />
 
-                {/* Text overlay */}
+                {/* Gold accent line — left edge */}
+                <div style={{
+                    position: "absolute", left: 0, top: "15%", bottom: "15%",
+                    width: "3px",
+                    background: "linear-gradient(to bottom, transparent, #c9923a, transparent)",
+                }} />
+
+                {/* Text content */}
+                <div style={{
+                    position: "relative", zIndex: 2,
+                    padding: "clamp(32px, 5vw, 72px)",
+                    maxWidth: "520px",
+                }}>
+                    <p style={{
+                        fontFamily: "var(--font-display, 'Cormorant', serif)",
+                        fontSize: "clamp(10px, 1vw, 12px)",
+                        fontWeight: 500,
+                        letterSpacing: ".35em",
+                        textTransform: "uppercase",
+                        color: "#c9923a",
+                        marginBottom: "14px",
+                    }}>
+                        Curated Picks
+                    </p>
+                    <h2 style={{
+                        fontFamily: "var(--font-display, 'Cormorant', serif)",
+                        fontSize: "clamp(52px, 7vw, 96px)",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        color: "#fff",
+                        lineHeight: 0.88,
+                        letterSpacing: "-.02em",
+                        marginBottom: "28px",
+                    }}>
+                        Gift<br />Shop
+                    </h2>
+                    <span style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        letterSpacing: ".18em",
+                        textTransform: "uppercase",
+                        color: "rgba(255,255,255,0.6)",
+                        borderBottom: "1px solid rgba(201,146,58,0.5)",
+                        paddingBottom: "3px",
+                        transition: "color .2s",
+                    }}>
+                        Shop Now →
+                    </span>
+                </div>
+
+                {/* Gift image — positioned as a design element, right-anchored */}
                 <div style={{
                     position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    padding: "clamp(24px,5vw,60px)",
-                    zIndex: 2,
+                    right: "clamp(-20px, 2vw, 40px)",
+                    bottom: 0,
+                    height: "95%",
+                    aspectRatio: "1/1",
+                    pointerEvents: "none",
                 }}>
-                    <div>
-                        <p style={{
-                            fontFamily: "'Barlow Condensed', sans-serif",
-                            fontSize: "clamp(10px,1.2vw,13px)",
-                            fontWeight: 700,
-                            letterSpacing: ".28em",
-                            textTransform: "uppercase",
-                            color: "rgba(255,255,255,0.7)",
-                            marginBottom: "10px",
-                        }}>
-                            Curated Picks
-                        </p>
-                        <h2 style={{
-                            fontFamily: "'Barlow Condensed', sans-serif",
-                            fontSize: "clamp(36px,6vw,80px)",
-                            fontWeight: 900,
-                            textTransform: "uppercase",
-                            color: "#fff",
-                            lineHeight: 0.9,
-                            letterSpacing: "-.01em",
-                            marginBottom: "20px",
-                        }}>
-                            GIFT<br />SHOP
-                        </h2>
-                        <span style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            fontFamily: "'Barlow Condensed', sans-serif",
-                            fontSize: "clamp(11px,1.2vw,13px)",
-                            fontWeight: 700,
-                            letterSpacing: ".12em",
-                            textTransform: "uppercase",
-                            color: "#fff",
-                            borderBottom: "1.5px solid rgba(255,255,255,0.7)",
-                            paddingBottom: "2px",
-                            gap: "6px",
-                        }}>
-                            SHOP NOW →
-                        </span>
-                    </div>
+                    <Image
+                        src="/missus-giftbox.png"
+                        alt=""
+                        fill
+                        style={{ objectFit: "contain", objectPosition: "bottom right" }}
+                        sizes="(max-width: 768px) 60vw, 40vw"
+                        priority
+                        aria-hidden="true"
+                    />
                 </div>
+
+                {/* Fade-in from left — keeps gifts from bleeding into text on small screens */}
+                <div style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(to right, #0a0a0a 0%, #0a0a0a 28%, transparent 55%)",
+                    pointerEvents: "none",
+                    zIndex: 1,
+                }} />
             </div>
         </Link>
     );

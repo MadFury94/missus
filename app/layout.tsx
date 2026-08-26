@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
-import { Barlow, Barlow_Condensed, Geist } from "next/font/google";
+import { Cormorant, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ClientShell from "@/components/layout/ClientShell";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
 import { getHomepageContent } from "@/lib/homepage-content.server";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+// ── FONT CONFIGURATION ───────────────────────────────────────
+// Change fonts sitewide by swapping these two imports only.
+// --font-display → headings, hero, labels, nav display text
+// --font-body    → body copy, UI, inputs, prices
 
-const barlow = Barlow({
-  weight: ["300", "400", "500", "600"],
+const displayFont = Cormorant({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-barlow",
+  variable: "--font-display",
   display: "swap",
 });
 
-const barlowCondensed = Barlow_Condensed({
-  weight: ["400", "500", "600", "700", "800", "900"],
+const bodyFont = DM_Sans({
+  weight: ["300", "400", "500"],
   subsets: ["latin"],
-  variable: "--font-barlow-condensed",
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -30,9 +33,9 @@ export const metadata: Metadata = {
   description: "Trend-forward, affordable fashion for the modern Nigerian girl. Shop dresses, tops, sets and more.",
   metadataBase: new URL(SITE_URL),
   icons: {
-    icon: [{ url: "/icon.webp", type: "image/webp" }],
-    shortcut: "/icon.webp",
-    apple: "/icon.webp",
+    icon: [{ url: "/IMG_4389.PNG", type: "image/png" }],
+    shortcut: "/IMG_4389.PNG",
+    apple: "/IMG_4389.PNG",
   },
   openGraph: {
     siteName: SITE_NAME,
@@ -46,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={cn(barlow.variable, barlowCondensed.variable, "font-sans", geist.variable)}
+      className={cn(displayFont.variable, bodyFont.variable)}
       suppressHydrationWarning
     >
       <body

@@ -36,22 +36,32 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
         <>
             <style>{`
                 .nav-gender { display: flex; align-items: center; }
-                .nav-search-wrap { display: flex; border: 1.5px solid #000; height: 36px; overflow: hidden; max-width: 280px; flex: 1; }
-                .nav-search-wrap input { flex: 1; border: none; outline: none; font-family: 'Barlow', sans-serif; font-size: 13px; padding: 0 12px; background: #fff; }
-                .nav-search-wrap input:focus { outline: 2px solid #000; outline-offset: -2px; }
-                .nav-search-wrap button { background: #000; border: none; width: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-                .nav-search-wrap button:focus-visible { outline: 2px solid #e8002d; outline-offset: 2px; }
-                .nav-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+                /* Search trigger — underline style, no box */
+                .nav-search-trigger {
+                    display: flex; align-items: center; gap: 8px;
+                    border: none; border-bottom: 1px solid #ccc;
+                    background: none; padding: 4px 0; cursor: pointer;
+                    width: 220px; transition: border-color .2s;
+                }
+                .nav-search-trigger:hover,
+                .nav-search-trigger:focus-visible { border-bottom-color: #000; outline: none; }
+                .nav-search-trigger span {
+                    font-family: var(--font-body, 'DM Sans', sans-serif);
+                    font-size: 12px; font-weight: 300; letter-spacing: .04em;
+                    color: #aaa; flex: 1; text-align: left;
+                }
+                .nav-label { font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
                 .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
                 .nav-hamburger:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
-                .gender-tab-link { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 0 14px; height: 68px; display: flex; align-items: center; border-bottom: 3px solid transparent; color: #555; white-space: nowrap; transition: border-color .15s, color .15s; }
+                .gender-tab-link { font-family: var(--font-display, 'Cormorant', serif); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 0 14px; height: 68px; display: flex; align-items: center; border-bottom: 2px solid transparent; color: #555; white-space: nowrap; transition: border-color .15s, color .15s; }
                 .gender-tab-link:hover { border-bottom-color: #000; color: #000; }
                 .gender-tab-link:focus-visible { outline: 2px solid #000; outline-offset: -2px; }
                 .nav-icon-link:focus-visible { outline: 2px solid #000; outline-offset: 2px; border-radius: 2px; }
-                .nav-mobile-search { display: none; padding: 8px 16px 10px; border-top: 1px solid #f0f0f0; }
+                /* Mobile search — flat, borderless, matches brand aesthetic */
+                .nav-mobile-search { display: none; padding: 0; border-top: 1px solid #f0f0f0; }
                 @media (max-width: 768px) {
                     .nav-gender { display: none; }
-                    .nav-search-wrap { display: none; }
+                    .nav-search-trigger { display: none; }
                     .nav-label { display: none; }
                     .nav-hamburger { display: flex; align-items: center; justify-content: center; }
                     .nav-mobile-search { display: block; }
@@ -100,32 +110,18 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
 
                     {/* Right: search + icons */}
                     <div style={{ display: "flex", alignItems: "center", gap: "16px", marginLeft: "auto" }}>
-                        {/* Search (desktop) */}
-                        <form
-                            onSubmit={(e) => { e.preventDefault(); if (searchVal.trim()) { setSearchOpen(false); handleSearch(searchVal); } }}
-                            className="nav-search-wrap"
-                            role="search"
+                        {/* Search trigger (desktop) — overlay trigger, not a fake input */}
+                        <button
+                            className="nav-search-trigger"
                             onClick={() => setSearchOpen(true)}
+                            aria-label="Open search"
+                            aria-haspopup="dialog"
                         >
-                            <input
-                                name="q"
-                                type="search"
-                                placeholder="Search women's clothing"
-                                value={searchVal}
-                                onChange={(e) => setSearchVal(e.target.value)}
-                                onFocus={() => setSearchOpen(true)}
-                                aria-label="Search products"
-                                aria-expanded={searchOpen}
-                                aria-haspopup="dialog"
-                                autoComplete="off"
-                                readOnly
-                            />
-                            <button type="submit" aria-label="Submit search">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" aria-hidden="true">
-                                    <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                                </svg>
-                            </button>
-                        </form>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="1.8" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                            </svg>
+                            <span>Search…</span>
+                        </button>
 
                         {/* Login */}
                         <Link href="/account" className="nav-icon-link" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", textDecoration: "none" }}>
@@ -185,26 +181,24 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     </div>
                 </div>
 
-                {/* Mobile search bar — always visible below the nav bar on small screens */}
+                {/* Mobile search bar — flat, full-width, no rounded corners */}
                 <div className="nav-mobile-search">
                     <button
                         onClick={() => setSearchOpen(true)}
                         aria-label="Search products"
-                        aria-expanded={searchOpen}
                         aria-haspopup="dialog"
                         style={{
                             display: "flex", alignItems: "center", gap: "10px",
-                            width: "100%", border: "1.5px solid #e0e0e0",
-                            borderRadius: "4px", padding: "9px 14px",
-                            background: "#f8f8f8", cursor: "text",
+                            width: "100%", border: "none", borderTop: "1px solid #f0f0f0",
+                            padding: "10px 20px", background: "#fff", cursor: "pointer",
                             textAlign: "left",
                         }}
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="1.8" aria-hidden="true" style={{ flexShrink: 0 }}>
                             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
                         </svg>
-                        <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif", flex: 1 }}>
-                            Search for dresses, tops, sets…
+                        <span style={{ fontSize: "13px", color: "#bbb", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 300, flex: 1, letterSpacing: ".02em" }}>
+                            Search…
                         </span>
                     </button>
                 </div>

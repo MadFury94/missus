@@ -203,8 +203,8 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                 }}
             >
                 {/* Input bar */}
-                <div style={{ borderBottom: "1px solid #e8e8e8", padding: "12px 16px", display: "flex", alignItems: "center", gap: "10px", maxWidth: "1200px", margin: "0 auto" }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" style={{ flexShrink: 0 }} aria-hidden="true">
+                <div style={{ borderBottom: "1px solid #e8e8e8", padding: "14px 24px", display: "flex", alignItems: "center", gap: "12px", maxWidth: "1200px", margin: "0 auto" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="1.8" style={{ flexShrink: 0 }} aria-hidden="true">
                         <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
                     </svg>
                     <input
@@ -213,35 +213,29 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                         value={inputValue}
                         onChange={(e) => onInputChange(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") submitSearch(inputValue); }}
-                        placeholder="Search for dresses, tops, sets…"
+                        placeholder="Search…"
                         aria-label="Search products"
-                        style={{ flex: 1, border: "none", outline: "none", fontSize: "15px", fontFamily: "'Barlow', sans-serif", color: "#000", background: "transparent", minWidth: 0 }}
+                        style={{ flex: 1, border: "none", outline: "none", fontSize: "16px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 300, color: "#000", background: "transparent", minWidth: 0, letterSpacing: ".02em" }}
                     />
                     {inputValue && (
                         <button onClick={() => onInputChange("")} aria-label="Clear search"
-                            style={{ background: "none", border: "none", cursor: "pointer", color: "#999", padding: "4px", display: "flex", flexShrink: 0 }}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                            style={{ background: "none", border: "none", cursor: "pointer", color: "#bbb", padding: "4px", display: "flex", flexShrink: 0, transition: "color .15s" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
+                            onMouseLeave={(e) => (e.currentTarget.style.color = "#bbb")}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                             </svg>
                         </button>
                     )}
-                    <button
-                        onClick={() => submitSearch(inputValue)}
-                        style={{ background: "#000", color: "#fff", border: "none", padding: "8px 16px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", cursor: "pointer", flexShrink: 0, whiteSpace: "nowrap" }}
-                    >
-                        Search
-                    </button>
-                    {/* Close button — always visible */}
+                    {/* Close — text link, not a box */}
                     <button
                         onClick={onClose}
                         aria-label="Close search"
-                        style={{ background: "none", border: "1.5px solid #e0e0e0", borderRadius: "50%", width: "34px", height: "34px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: "#555", transition: "border-color .15s, color .15s" }}
-                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#000"; e.currentTarget.style.color = "#000"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#555"; }}
+                        style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, color: "#999", fontSize: "12px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", letterSpacing: ".06em", textTransform: "uppercase", padding: "4px 0", transition: "color .15s" }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#999")}
                     >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
+                        Close
                     </button>
                 </div>
 

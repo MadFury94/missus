@@ -13,7 +13,7 @@
 }
 
 body {
-  font-family: 'Barlow', sans-serif;
+  font-family: var(--font-body), 'DM Sans', sans-serif;
   background: #fff;
   color: #000;
   overflow-x: hidden;
@@ -28,7 +28,28 @@ a {
 
 button {
   cursor: pointer;
-  font-family: 'Barlow', sans-serif;
+  font-family: var(--font-body), 'DM Sans', sans-serif;
+}
+
+/* ── Font aliasing ──────────────────────────────────────────
+   All inline styles that reference the old Barlow font names
+   are overridden here. To change fonts sitewide, update the
+   two imports in app/layout.tsx — these rules handle the rest.
+──────────────────────────────────────────────────────────── */
+
+/* Display font — headings, hero, labels, marquee, nav display */
+*[style*="Barlow Condensed"],
+*[style*="barlow-condensed"],
+*[style*="Barlow_Condensed"] {
+  font-family: var(--font-display), 'Cormorant', serif !important;
+  letter-spacing: 0.02em;
+}
+
+/* Body font — UI, inputs, prices, body copy */
+*[style*="'Barlow'"],
+*[style*="Barlow, sans-serif"],
+*[style*='"Barlow"'] {
+  font-family: var(--font-body), 'DM Sans', sans-serif !important;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -545,8 +566,11 @@ button {
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-display);
+  --font-sans: var(--font-body);
+  /* Legacy aliases — keeps components using old variable names working */
+  --font-barlow: var(--font-body);
+  --font-barlow-condensed: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
