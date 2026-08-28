@@ -26,7 +26,6 @@ export const TOP_NAV = [
 export const SUB_NAV = [
     { label: "What's New", href: "/category/whats-new", hot: true },
     { label: "Shop All", href: "/shop" },
-    { label: "MissusDeals", href: "/sale", sale: true },
     { label: "Dresses", href: "/category/dresses" },
     { label: "Matching Sets", href: "/category/matching-sets" },
     { label: "Tops", href: "/category/tops" },

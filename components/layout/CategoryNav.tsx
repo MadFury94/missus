@@ -1,75 +1,98 @@
 "use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { SUB_NAV } from "@/lib/config";
 
+const SALE_COLOR = "#6b2737"; // burgundy
+
 export default function CategoryNav() {
+    const pathname = usePathname();
+    const isHome = pathname === "/";
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        if (!isHome) { setScrolled(true); return; }
+        setScrolled(window.scrollY > 10);
+        const onScroll = () => setScrolled(window.scrollY > 10);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [isHome]);
+
+    const transparent = isHome && !scrolled;
+    const bg = transparent ? "transparent" : "#fff";
+    const border = transparent ? "rgba(255,255,255,.12)" : "#e8e8e8";
+
     return (
         <>
             <nav
                 aria-label="Category navigation"
                 style={{
-                    background: "#fff",
-                    borderBottom: "1px solid #e8e8e8",
+                    background: bg,
+                    borderBottom: `1px solid ${border}`,
                     overflowX: "auto",
                     overflowY: "hidden",
-                    // iOS momentum scrolling
                     WebkitOverflowScrolling: "touch",
-                    // hide scrollbar on all browsers
                     scrollbarWidth: "none",
                     msOverflowStyle: "none",
-                    // force full viewport width — critical on mobile
                     width: "100%",
-                    position: "relative",
+                    transition: "background .3s, border-color .3s",
                 }}
-                className="scrollbar-hide"
+                className="scrollbar-hide cat-nav"
             >
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "stretch",
-                        // min-content keeps the row from wrapping — forces horizontal scroll
-                        width: "max-content",
-                        minWidth: "100%",
-                        padding: "0 12px",
-                    }}
-                >
-                    {SUB_NAV.map((link) => (
-                        <Link
-                            key={link.href + link.label}
-                            href={link.href}
-                            style={{
-                                fontFamily: "'Barlow', sans-serif",
-                                fontSize: "13px",
-                                fontWeight: link.sale ? 700 : 500,
-                                letterSpacing: ".02em",
-                                color: link.sale ? "#e8002d" : link.hot ? "#000" : "#111",
-                                // generous tap target — min 44px height
-                                padding: "12px 14px",
-                                borderBottom: "2px solid transparent",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                transition: "border-color .15s, color .15s",
-                                whiteSpace: "nowrap",
-                                textDecoration: "none",
-                                flexShrink: 0,
-                            }}
-                            className="subnav-link"
-                        >
-                            {link.hot && (
-                                <span style={{ marginRight: "4px", fontSize: "13px" }}>🔥</span>
-                            )}
-                            {link.label}
-                        </Link>
-                    ))}
+                <div style={{
+                    display: "flex",
+                    alignItems: "stretch",
+                    justifyContent: "center",
+                    width: "100%",
+                    padding: "0 12px",
+                    overflowX: "auto",
+                    scrollbarWidth: "none",
+                }}>
+                    {SUB_NAV.map((link) => {
+                        const color = link.sale
+                            ? SALE_COLOR
+                            : transparent
+                                ? "rgba(255,255,255,.85)"
+                                : link.hot ? "#000" : "#333";
+
+                        return (
+                            <Link
+                                key={link.href + link.label}
+                                href={link.href}
+                                style={{
+                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                                    fontSize: "12px",
+                                    fontWeight: link.sale ? 600 : 400,
+                                    letterSpacing: ".04em",
+                                    color,
+                                    padding: "11px 13px",
+                                    borderBottom: "2px solid transparent",
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    transition: "border-color .15s, color .3s",
+                                    whiteSpace: "nowrap",
+                                    textDecoration: "none",
+                                    flexShrink: 0,
+                                }}
+                                className="subnav-link"
+                            >
+                                {link.hot && (
+                                    <span style={{ marginRight: "4px", fontSize: "12px" }}>🔥</span>
+                                )}
+                                {link.label}
+                            </Link>
+                        );
+                    })}
                 </div>
             </nav>
 
             <style>{`
-                /* Hide webkit scrollbar */
                 nav[aria-label="Category navigation"]::-webkit-scrollbar { display: none; }
-                /* Hover underline */
-                .subnav-link:hover { border-bottom-color: #000 !important; color: #000 !important; }
-                .subnav-link[style*="e8002d"]:hover { color: #c00020 !important; border-bottom-color: #e8002d !important; }
+                .subnav-link:hover { border-bottom-color: currentColor !important; opacity: .75; }
+                @media (max-width: 768px) {
+                    .cat-nav { display: none !important; }
+                }
             `}</style>
         </>
     );

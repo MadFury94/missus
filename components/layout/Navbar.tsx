@@ -1,19 +1,23 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { getCart, cartCount } from "@/lib/cart";
 import { getWishlistCount } from "@/lib/wishlist";
 import MobileMenu from "@/components/layout/MobileMenu";
 import SearchOverlay from "@/components/layout/SearchOverlay";
 
-export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
+export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: () => void; annHeight?: number }) {
     const router = useRouter();
+    const pathname = usePathname();
+    const isHome = pathname === "/";
+
     const [bagCount, setBagCount] = useState(0);
     const [wishlistCount, setWishlistCount] = useState(0);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchVal, setSearchVal] = useState("");
     const [searchOpen, setSearchOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
     function handleSearch(q: string) {
         router.push(`/search?q=${encodeURIComponent(q)}`);
@@ -32,61 +36,100 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
         };
     }, []);
 
+    // Transparent navbar — only on homepage, becomes solid on scroll
+    useEffect(() => {
+        if (!isHome) { setScrolled(true); return; }
+        setScrolled(window.scrollY > annHeight + 10);
+        const onScroll = () => setScrolled(window.scrollY > annHeight + 10);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [isHome, annHeight]);
+
+    const transparent = isHome && !scrolled;
+    const iconColor = transparent ? "#fff" : "#000";
+    const borderColor = transparent ? "rgba(255,255,255,.15)" : "#e0e0e0";
+    const bg = transparent ? "transparent" : "#fff";
+
     return (
         <>
             <style>{`
                 .nav-gender { display: flex; align-items: center; }
-                /* Search trigger — underline style, no box */
                 .nav-search-trigger {
                     display: flex; align-items: center; gap: 8px;
-                    border: none; border-bottom: 1px solid #ccc;
+                    border: none; border-bottom: 1px solid ${transparent ? "rgba(255,255,255,.4)" : "#ccc"};
                     background: none; padding: 4px 0; cursor: pointer;
-                    width: 220px; transition: border-color .2s;
+                    width: 200px; transition: border-color .2s;
                 }
-                .nav-search-trigger:hover,
-                .nav-search-trigger:focus-visible { border-bottom-color: #000; outline: none; }
+                .nav-search-trigger:hover { border-bottom-color: ${transparent ? "#fff" : "#000"}; outline: none; }
                 .nav-search-trigger span {
                     font-family: var(--font-body, 'DM Sans', sans-serif);
                     font-size: 12px; font-weight: 300; letter-spacing: .04em;
-                    color: #aaa; flex: 1; text-align: left;
+                    color: ${transparent ? "rgba(255,255,255,.6)" : "#aaa"}; flex: 1; text-align: left;
                 }
                 .nav-label { font-size: 10px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
                 .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-                .nav-hamburger:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
-                .gender-tab-link { font-family: var(--font-display, 'Cormorant', serif); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 0 14px; height: 52px; display: flex; align-items: center; border-bottom: 2px solid transparent; color: #555; white-space: nowrap; transition: border-color .15s, color .15s; }
-                .gender-tab-link:hover { border-bottom-color: #000; color: #000; }
-                .gender-tab-link:focus-visible { outline: 2px solid #000; outline-offset: -2px; }
-                .nav-icon-link:focus-visible { outline: 2px solid #000; outline-offset: 2px; border-radius: 2px; }
-                /* Mobile search — flat, borderless, matches brand aesthetic */
-                .nav-mobile-search { display: none; padding: 0; border-top: 1px solid #f0f0f0; }
+                .nav-hamburger:focus-visible { outline: 2px solid ${iconColor}; outline-offset: 2px; }
+                .gender-tab-link {
+                    font-family: var(--font-display, 'Cormorant', serif);
+                    font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+                    padding: 0 14px; height: 52px; display: flex; align-items: center;
+                    border-bottom: 2px solid transparent;
+                    color: ${transparent ? "rgba(255,255,255,.9)" : "#555"};
+                    white-space: nowrap; transition: border-color .15s, color .3s;
+                }
+                .gender-tab-link:hover { border-bottom-color: ${transparent ? "#fff" : "#000"}; color: ${transparent ? "#fff" : "#000"}; }
+                .nav-icon-link:focus-visible { outline: 2px solid ${iconColor}; outline-offset: 2px; border-radius: 2px; }
+                /* Hide mobile search bar entirely */
+                .nav-mobile-search { display: none !important; }
                 @media (max-width: 768px) {
                     .nav-gender { display: none; }
                     .nav-search-trigger { display: none; }
                     .nav-label { display: none; }
                     .nav-hamburger { display: flex; align-items: center; justify-content: center; }
-                    .nav-mobile-search { display: block; }
                 }
             `}</style>
 
             <div
-                style={{ background: "#fff", borderBottom: "1px solid #e0e0e0", position: "sticky", top: 0, zIndex: 100 }}
+                style={{
+                    background: bg,
+                    borderBottom: `1px solid ${borderColor}`,
+                    transition: "background .3s, border-color .3s",
+                }}
                 data-navbar
             >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: "52px", position: "relative" }}>
+                <div style={{ display: "flex", alignItems: "center", padding: "0 20px", height: "52px", position: "relative" }}>
 
-                    {/* Left: nav tabs (desktop) */}
-                    <nav className="nav-gender" aria-label="Main navigation">
-                        {[
-                            { label: "NEW DROPS", href: "/new-in" },
-                            { label: "GIFT SHOP", href: "/category/gift-shop" },
-                        ].map(({ label, href }) => (
-                            <Link key={label} href={href} className="gender-tab-link">
-                                {label}
-                            </Link>
-                        ))}
-                    </nav>
+                    {/* LEFT: hamburger on mobile, nav tabs on desktop */}
+                    <div style={{ display: "flex", alignItems: "center", minWidth: "120px" }}>
+                        {/* Hamburger — mobile only, LEFT side */}
+                        <button
+                            className="nav-hamburger"
+                            onClick={() => setMobileOpen(true)}
+                            aria-label="Open navigation menu"
+                            aria-expanded={mobileOpen}
+                            aria-controls="mobile-menu"
+                        >
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" aria-hidden="true">
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <line x1="3" y1="12" x2="21" y2="12" />
+                                <line x1="3" y1="18" x2="21" y2="18" />
+                            </svg>
+                        </button>
 
-                    {/* Center: Logo */}
+                        {/* Nav tabs — desktop only */}
+                        <nav className="nav-gender" aria-label="Main navigation">
+                            {[
+                                { label: "NEW DROPS", href: "/new-in" },
+                                { label: "GIFT SHOP", href: "/category/gift-shop" },
+                            ].map(({ label, href }) => (
+                                <Link key={label} href={href} className="gender-tab-link">
+                                    {label}
+                                </Link>
+                            ))}
+                        </nav>
+                    </div>
+
+                    {/* CENTER: Logo — absolutely centered */}
                     <Link
                         href="/"
                         aria-label="Missus — go to homepage"
@@ -104,107 +147,71 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                         <img
                             src="/missus-logo.webp"
                             alt="Missus"
-                            style={{ height: "55px", width: "auto", display: "block" }}
+                            style={{
+                                height: "55px", width: "auto", display: "block",
+                                filter: transparent ? "brightness(0) invert(1)" : "none",
+                                transition: "filter .3s",
+                            }}
                         />
                     </Link>
 
-                    {/* Right: search + icons */}
+                    {/* RIGHT: search + icons */}
                     <div style={{ display: "flex", alignItems: "center", gap: "16px", marginLeft: "auto" }}>
-                        {/* Search trigger (desktop) — overlay trigger, not a fake input */}
+                        {/* Search trigger — desktop only */}
                         <button
                             className="nav-search-trigger"
                             onClick={() => setSearchOpen(true)}
                             aria-label="Open search"
                             aria-haspopup="dialog"
                         >
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="1.8" aria-hidden="true">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={transparent ? "rgba(255,255,255,.6)" : "#999"} strokeWidth="1.8" aria-hidden="true">
                                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
                             </svg>
                             <span>Search…</span>
                         </button>
 
-                        {/* Login */}
-                        <Link href="/account" className="nav-icon-link" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", textDecoration: "none" }}>
+                        {/* Account */}
+                        <Link href="/account" className="nav-icon-link" style={{ color: iconColor, display: "flex", alignItems: "center", gap: "5px", textDecoration: "none", transition: "color .3s" }}>
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                             </svg>
-                            <span className="nav-label">Account</span>
                         </Link>
 
                         {/* Wishlist */}
-                        <Link href="/wishlist" className="nav-icon-link" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", textDecoration: "none" }} aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ""}`}>
+                        <Link href="/wishlist" className="nav-icon-link" style={{ color: iconColor, display: "flex", alignItems: "center", gap: "5px", position: "relative", textDecoration: "none", transition: "color .3s" }} aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ""}`}>
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
-                            <span className="nav-label" aria-hidden="true">Wishlist</span>
                             {wishlistCount > 0 && (
-                                <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-8px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-6px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                     {wishlistCount}
                                 </span>
                             )}
                         </Link>
 
-                        {/* Bag — opens drawer instead of navigating */}
+                        {/* Bag */}
                         <button
                             onClick={onBagClick}
                             className="nav-icon-link"
                             aria-label={`Shopping bag${bagCount > 0 ? `, ${bagCount} items` : ""}`}
-                            style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                            style={{ color: iconColor, display: "flex", alignItems: "center", gap: "5px", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0, transition: "color .3s" }}
                         >
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
                                 <line x1="3" y1="6" x2="21" y2="6" />
                                 <path d="M16 10a4 4 0 0 1-8 0" />
                             </svg>
-                            <span className="nav-label" aria-hidden="true">Bag</span>
                             {bagCount > 0 && (
-                                <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-8px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-6px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                     {bagCount}
                                 </span>
                             )}
                         </button>
-
-                        {/* Hamburger (mobile) */}
-                        <button
-                            className="nav-hamburger"
-                            onClick={() => setMobileOpen(true)}
-                            aria-label="Open navigation menu"
-                            aria-expanded={mobileOpen}
-                            aria-controls="mobile-menu"
-                        >
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2" aria-hidden="true">
-                                <line x1="3" y1="6" x2="21" y2="6" />
-                                <line x1="3" y1="12" x2="21" y2="12" />
-                                <line x1="3" y1="18" x2="21" y2="18" />
-                            </svg>
-                        </button>
                     </div>
-                </div>
-
-                {/* Mobile search bar — flat, full-width, no rounded corners */}
-                <div className="nav-mobile-search">
-                    <button
-                        onClick={() => setSearchOpen(true)}
-                        aria-label="Search products"
-                        aria-haspopup="dialog"
-                        style={{
-                            display: "flex", alignItems: "center", gap: "10px",
-                            width: "100%", border: "none", borderTop: "1px solid #f0f0f0",
-                            padding: "10px 20px", background: "#fff", cursor: "pointer",
-                            textAlign: "left",
-                        }}
-                    >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="1.8" aria-hidden="true" style={{ flexShrink: 0 }}>
-                            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                        </svg>
-                        <span style={{ fontSize: "13px", color: "#bbb", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 300, flex: 1, letterSpacing: ".02em" }}>
-                            Search…
-                        </span>
-                    </button>
                 </div>
             </div>
 
-            {/* Mobile menu — slide-in drawer with body scroll lock */}
+            {/* Mobile menu */}
             <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} onBagClick={onBagClick} onSearchOpen={() => setSearchOpen(true)} />
 
             {/* Search overlay */}
