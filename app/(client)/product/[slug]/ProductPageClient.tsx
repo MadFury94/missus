@@ -101,7 +101,7 @@ export default function ProductPageClient({ params, product, related }: {
                     margin: 0 auto;
                 }
                 .pdp-thumb-col { display: flex; flex-direction: column; gap: 6px; padding: 12px 8px 12px 0; }
-                .pdp-info-col { padding: 24px 32px 48px; position: sticky; top: 72px; }
+                .pdp-info-col { padding: 24px 32px 48px; position: sticky; top: 52px; }
                 .pdp-breadcrumb { display: block; }
                 .pdp-mobile-dots { display: none; }
 

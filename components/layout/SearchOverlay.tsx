@@ -199,7 +199,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                     background: "#fff", zIndex: 200,
                     boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
                     maxHeight: "100vh", overflowY: "auto",
-                    paddingTop: "var(--navbar-h, 68px)",
+                    paddingTop: "var(--navbar-h, 52px)",
                 }}
             >
                 {/* Input bar */}

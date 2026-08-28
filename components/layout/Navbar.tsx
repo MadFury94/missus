@@ -53,7 +53,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                 .nav-label { font-size: 10px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
                 .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
                 .nav-hamburger:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
-                .gender-tab-link { font-family: var(--font-display, 'Cormorant', serif); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 0 14px; height: 68px; display: flex; align-items: center; border-bottom: 2px solid transparent; color: #555; white-space: nowrap; transition: border-color .15s, color .15s; }
+                .gender-tab-link { font-family: var(--font-display, 'Cormorant', serif); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 0 14px; height: 52px; display: flex; align-items: center; border-bottom: 2px solid transparent; color: #555; white-space: nowrap; transition: border-color .15s, color .15s; }
                 .gender-tab-link:hover { border-bottom-color: #000; color: #000; }
                 .gender-tab-link:focus-visible { outline: 2px solid #000; outline-offset: -2px; }
                 .nav-icon-link:focus-visible { outline: 2px solid #000; outline-offset: 2px; border-radius: 2px; }
@@ -72,7 +72,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                 style={{ background: "#fff", borderBottom: "1px solid #e0e0e0", position: "sticky", top: 0, zIndex: 100 }}
                 data-navbar
             >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: "68px", position: "relative" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: "52px", position: "relative" }}>
 
                     {/* Left: nav tabs (desktop) */}
                     <nav className="nav-gender" aria-label="Main navigation">
@@ -104,7 +104,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                         <img
                             src="/missus-logo.webp"
                             alt="Missus"
-                            style={{ height: "67px", width: "auto", display: "block" }}
+                            style={{ height: "55px", width: "auto", display: "block" }}
                         />
                     </Link>
 

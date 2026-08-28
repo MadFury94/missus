@@ -123,7 +123,7 @@ export default function ShopPage() {
         <>
             <style>{`
                 .shop-layout { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 24px 20px 60px; align-items: start; }
-                .shop-filter-sidebar { position: sticky; top: 72px; }
+                .shop-filter-sidebar { position: sticky; top: 52px; }
                 .shop-sidebar-desktop { display: block; }
                 .shop-filter-bar { display: none; }
                 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -203,7 +203,7 @@ export default function ShopPage() {
 
             <div className="shop-layout">
                 {/* Sidebar — desktop only */}
-                <aside className="shop-sidebar-desktop" style={{ position: "sticky", top: "72px" }} aria-label="Product filters">
+                <aside className="shop-sidebar-desktop" style={{ position: "sticky", top: "52px" }} aria-label="Product filters">
                     <FilterSidebar filters={filters} onChange={setFilters} />
                 </aside>
 
