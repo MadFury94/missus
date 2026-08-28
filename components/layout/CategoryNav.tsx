@@ -42,7 +42,7 @@ export default function CategoryNav() {
                                 fontSize: "13px",
                                 fontWeight: link.sale ? 700 : 500,
                                 letterSpacing: ".02em",
-                                color: link.sale ? "#e8002d" : link.hot ? "#e8002d" : "#111",
+                                color: link.sale ? "#e8002d" : link.hot ? "#000" : "#111",
                                 // generous tap target — min 44px height
                                 padding: "12px 14px",
                                 borderBottom: "2px solid transparent",
@@ -56,19 +56,7 @@ export default function CategoryNav() {
                             className="subnav-link"
                         >
                             {link.hot && (
-                                <span style={{
-                                    background: "#e8002d",
-                                    color: "#fff",
-                                    fontSize: "7px",
-                                    fontWeight: 800,
-                                    letterSpacing: ".06em",
-                                    padding: "2px 4px",
-                                    marginRight: "5px",
-                                    verticalAlign: "middle",
-                                    lineHeight: 1,
-                                }}>
-                                    HOT
-                                </span>
+                                <span style={{ marginRight: "4px", fontSize: "13px" }}>🔥</span>
                             )}
                             {link.label}
                         </Link>

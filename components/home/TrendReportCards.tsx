@@ -18,47 +18,145 @@ export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Ca
     return (
         <>
             <style>{`
-                .style-radar-wrap { background: #fff; padding: 40px 20px; }
+                /* ── Desktop: 4-column grid ── */
+                .style-radar-section {
+                    background: #fff;
+                    padding: 48px 20px 52px;
+                }
+                .style-radar-header {
+                    max-width: 1400px;
+                    margin: 0 auto 28px;
+                    display: flex;
+                    align-items: baseline;
+                    justify-content: space-between;
+                }
+                .style-radar-grid {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 12px;
+                }
+                .style-radar-card {
+                    position: relative;
+                    aspect-ratio: 3/4;
+                    overflow: hidden;
+                    background: #f0ece8;
+                    display: block;
+                    text-decoration: none;
+                }
+                .style-radar-card img {
+                    transition: transform .5s ease;
+                }
+                .style-radar-card:hover img {
+                    transform: scale(1.04);
+                }
+
+                /* ── Mobile: horizontal snap scroll ── */
                 @media (max-width: 768px) {
-                    .style-radar-wrap { padding: 24px 0 0; }
-                    .style-radar-wrap h2 { padding: 0 12px 16px; margin-bottom: 0 !important; }
-                    .trend-report-cards { gap: 1px !important; }
+                    .style-radar-section {
+                        padding: 32px 0 28px;
+                    }
+                    .style-radar-header {
+                        padding: 0 16px;
+                        margin-bottom: 16px;
+                    }
+                    .style-radar-grid {
+                        display: flex;
+                        overflow-x: auto;
+                        scroll-snap-type: x mandatory;
+                        -webkit-overflow-scrolling: touch;
+                        scrollbar-width: none;
+                        gap: 0;
+                        padding: 0 16px;
+                        /* Show peek of next card */
+                    }
+                    .style-radar-grid::-webkit-scrollbar { display: none; }
+                    .style-radar-card {
+                        flex: 0 0 68vw;
+                        scroll-snap-align: start;
+                        aspect-ratio: 3/4;
+                        margin-right: 10px;
+                    }
+                    .style-radar-card:last-child {
+                        margin-right: 0;
+                    }
                 }
             `}</style>
-            <div className="style-radar-wrap">
-                <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-                    <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", marginBottom: "24px", color: "#000" }}>
+
+            <section className="style-radar-section">
+                <div className="style-radar-header">
+                    <h2 style={{
+                        fontFamily: "var(--font-display, 'Cormorant', serif)",
+                        fontSize: "clamp(22px, 3vw, 30px)",
+                        fontWeight: 600,
+                        letterSpacing: ".02em",
+                        textTransform: "uppercase",
+                        color: "#000",
+                        margin: 0,
+                    }}>
                         The Style Radar
                     </h2>
-
-                    <div className="trend-report-cards">
-                        {cards.map((card) => (
-                            <Link
-                                key={card.title}
-                                href={card.href}
-                                style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f5f5f5", display: "block", textDecoration: "none" }}
-                            >
-                                <Image
-                                    src={card.img}
-                                    alt={card.title}
-                                    fill
-                                    style={{ objectFit: "cover", objectPosition: "top center" }}
-                                    sizes="25vw"
-                                />
-                                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.6) 100%)" }} />
-                                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px", zIndex: 2 }}>
-                                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 700, color: "#fff", marginBottom: "8px", lineHeight: 1.2 }}>
-                                        {card.title}
-                                    </div>
-                                    <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff", display: "flex", alignItems: "center", gap: "4px" }}>
-                                        <span>→</span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                    <Link href="/shop" style={{
+                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        letterSpacing: ".1em",
+                        textTransform: "uppercase",
+                        color: "#777",
+                        textDecoration: "none",
+                        borderBottom: "1px solid #ccc",
+                        paddingBottom: "1px",
+                    }}>
+                        View All →
+                    </Link>
                 </div>
-            </div>
+
+                <div className="style-radar-grid">
+                    {cards.map((card) => (
+                        <Link key={card.title} href={card.href} className="style-radar-card">
+                            <Image
+                                src={card.img}
+                                alt={card.title}
+                                fill
+                                style={{ objectFit: "cover", objectPosition: "top center" }}
+                                sizes="(max-width: 768px) 68vw, 25vw"
+                            />
+                            {/* Gradient */}
+                            <div style={{
+                                position: "absolute", inset: 0,
+                                background: "linear-gradient(to bottom, transparent 45%, rgba(0,0,0,.72) 100%)",
+                            }} />
+                            {/* Label */}
+                            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "16px 18px 18px", zIndex: 2 }}>
+                                <p style={{
+                                    fontFamily: "var(--font-display, 'Cormorant', serif)",
+                                    fontSize: "clamp(16px, 2vw, 20px)",
+                                    fontWeight: 600,
+                                    color: "#fff",
+                                    lineHeight: 1.2,
+                                    marginBottom: "6px",
+                                    letterSpacing: ".01em",
+                                }}>
+                                    {card.title}
+                                </p>
+                                <span style={{
+                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                                    fontSize: "11px",
+                                    fontWeight: 500,
+                                    letterSpacing: ".1em",
+                                    textTransform: "uppercase",
+                                    color: "rgba(255,255,255,.7)",
+                                    borderBottom: "1px solid rgba(255,255,255,.4)",
+                                    paddingBottom: "1px",
+                                }}>
+                                    Shop →
+                                </span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </section>
         </>
     );
 }

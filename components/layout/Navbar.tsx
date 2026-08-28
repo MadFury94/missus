@@ -50,7 +50,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                     font-size: 12px; font-weight: 300; letter-spacing: .04em;
                     color: #aaa; flex: 1; text-align: left;
                 }
-                .nav-label { font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+                .nav-label { font-size: 10px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
                 .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
                 .nav-hamburger:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
                 .gender-tab-link { font-family: var(--font-display, 'Cormorant', serif); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 0 14px; height: 68px; display: flex; align-items: center; border-bottom: 2px solid transparent; color: #555; white-space: nowrap; transition: border-color .15s, color .15s; }
@@ -125,7 +125,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
 
                         {/* Login */}
                         <Link href="/account" className="nav-icon-link" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", textDecoration: "none" }}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                             </svg>
                             <span className="nav-label">Account</span>
@@ -133,7 +133,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
 
                         {/* Wishlist */}
                         <Link href="/wishlist" className="nav-icon-link" style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", textDecoration: "none" }} aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ""}`}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
                             <span className="nav-label" aria-hidden="true">Wishlist</span>
@@ -151,7 +151,7 @@ export default function Navbar({ onBagClick }: { onBagClick?: () => void }) {
                             aria-label={`Shopping bag${bagCount > 0 ? `, ${bagCount} items` : ""}`}
                             style={{ color: "#000", display: "flex", alignItems: "center", gap: "5px", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0 }}
                         >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
                                 <line x1="3" y1="6" x2="21" y2="6" />
                                 <path d="M16 10a4 4 0 0 1-8 0" />
