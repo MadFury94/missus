@@ -68,7 +68,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
             {/* Drawer */}
             <div style={{
                 position: "fixed", top: 0, right: 0, bottom: 0,
-                width: "min(88vw, 360px)",
+                width: "100%",
                 background: "#fff",
                 zIndex: 200,
                 overflowY: "auto",
@@ -87,7 +87,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                 }}>
                     <Link href="/" onClick={onClose}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src="/missus-logo.webp" alt="Missus" style={{ height: "30px", width: "auto" }} />
+                        <img src="/missus-logo.webp" alt="Missus" style={{ height: "42px", width: "auto" }} />
                     </Link>
                     <button
                         onClick={onClose}
@@ -161,7 +161,8 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                             onClick={() => { onClose(); onBagClick?.(); }}
                             style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "14px", background: "none", border: "none", borderRight: "1px solid #f0f0f0", cursor: "pointer", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#000", position: "relative" }}
                         >
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/tote-bag.png" alt="" aria-hidden="true" width={18} height={18} style={{ display: "block", filter: "brightness(0)" }} />
                             Bag
                             {bagCount > 0 && (
                                 <span style={{ background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", position: "absolute", top: "8px", right: "28px" }}>
@@ -201,7 +202,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                                     fontWeight: 700,
                                     letterSpacing: ".06em",
                                     textTransform: "uppercase",
-                                    color: link.sale ? "#e8002d" : link.hot ? "#e8002d" : "#000",
+                                    color: link.sale ? "#e8002d" : "#000",
                                     textDecoration: "none",
                                     borderBottom: "1px solid #f5f5f5",
                                     transition: "background .1s",
@@ -211,9 +212,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                             >
                                 <span>
                                     {link.hot && (
-                                        <span style={{ background: "#e8002d", color: "#fff", fontSize: "8px", fontWeight: 700, letterSpacing: ".06em", padding: "2px 5px", marginRight: "6px", verticalAlign: "middle" }}>
-                                            HOT
-                                        </span>
+                                        <span style={{ marginRight: "6px", verticalAlign: "middle", fontSize: "15px" }}>🔥</span>
                                     )}
                                     {link.label}
                                 </span>
@@ -238,9 +237,12 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                                 key={link.href}
                                 href={link.href}
                                 onClick={onClose}
-                                style={{ display: "block", fontSize: "13px", color: "#555", padding: "6px 0", textDecoration: "none", borderBottom: "1px solid #f5f5f5" }}
+                                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", color: "#444", padding: "11px 0", textDecoration: "none", borderBottom: "1px solid #f5f5f5" }}
                             >
                                 {link.label}
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.3, flexShrink: 0 }}>
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
                             </Link>
                         ))}
                     </div>

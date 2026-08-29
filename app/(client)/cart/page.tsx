@@ -98,10 +98,9 @@ export default function CartPage() {
     if (cart.items.length === 0) {
         return (
             <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 20px", textAlign: "center" }}>
-                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" strokeWidth="1" style={{ marginBottom: "20px" }}>
-                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <path d="M16 10a4 4 0 0 1-8 0" />
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: "20px" }}>
+                    <path d="M6 9h12l-1.5 10H7.5L6 9z" />
+                    <path d="M9 9V7a3 3 0 0 1 6 0v2" />
                 </svg>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "28px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em", color: "#ccc", marginBottom: "8px" }}>
                     Your Bag is Empty

@@ -91,24 +91,30 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                     </button>
                 </div>
 
-                {/* Empty state */}
+                {/* Empty state — FashionNova style */}
                 {cart.items.length === 0 ? (
-                    <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 20px", textAlign: "center" }}>
-                        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" strokeWidth="1" style={{ marginBottom: "16px" }} aria-hidden="true">
-                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                            <line x1="3" y1="6" x2="21" y2="6" />
-                            <path d="M16 10a4 4 0 0 1-8 0" />
-                        </svg>
-                        <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", color: "#ccc", marginBottom: "8px" }}>
-                            Your bag is empty
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 24px", textAlign: "center" }}>
+                        <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", color: "#111", marginBottom: "8px" }}>
+                            Your bag is empty.
                         </p>
-                        <p style={{ fontSize: "13px", color: "#aaa", marginBottom: "24px" }}>Add something beautiful.</p>
-                        <button
-                            onClick={onClose}
-                            style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "13px 28px", border: "none", cursor: "pointer" }}
-                        >
-                            Continue Shopping
-                        </button>
+                        <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px", lineHeight: 1.5 }}>
+                            Have an account? Sign in to view your bag
+                        </p>
+                        <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                            <button
+                                onClick={onClose}
+                                style={{ flex: 1, background: "#111", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 16px", border: "none", cursor: "pointer" }}
+                            >
+                                Start Shopping
+                            </button>
+                            <Link
+                                href="/account/login"
+                                onClick={onClose}
+                                style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", background: "#fff", color: "#111", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 16px", border: "1.5px solid #ddd", textDecoration: "none" }}
+                            >
+                                Sign In
+                            </Link>
+                        </div>
                     </div>
                 ) : (
                     <>

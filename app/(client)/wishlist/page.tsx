@@ -251,7 +251,7 @@ export default function WishlistPage() {
                         onMouseEnter={(e) => (e.currentTarget.style.background = "#333")}
                         onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
                     >
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9h12l-1.5 10H7.5L6 9z" /><path d="M9 9V7a3 3 0 0 1 6 0v2" /></svg>
                         Move All to Bag
                     </button>
                 </div>
@@ -392,10 +392,9 @@ function WishlistCard({
                     }}
                     className="wishlist-add-btn"
                 >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                        <line x1="3" y1="6" x2="21" y2="6" />
-                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M6 9h12l-1.5 10H7.5L6 9z" />
+                        <path d="M9 9V7a3 3 0 0 1 6 0v2" />
                     </svg>
                     Add to Bag
                 </button>
@@ -464,7 +463,7 @@ function WishlistListRow({
                     onClick={() => onAddToBag(item)}
                     style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "9px 16px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px", whiteSpace: "nowrap" }}
                 >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9h12l-1.5 10H7.5L6 9z" /><path d="M9 9V7a3 3 0 0 1 6 0v2" /></svg>
                     Add to Bag
                 </button>
                 <button

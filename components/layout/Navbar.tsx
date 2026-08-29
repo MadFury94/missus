@@ -429,12 +429,16 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         </Link>
 
                         {/* Bag */}
-                        <button onClick={onBagClick} className="nav-icon-link" aria-label={`Shopping bag${bagCount > 0 ? `, ${bagCount} items` : ""}`} style={{ color: iconColor, display: "flex", alignItems: "center", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0, transition: "color .3s" }}>
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                                <line x1="3" y1="6" x2="21" y2="6" />
-                                <path d="M16 10a4 4 0 0 1-8 0" />
-                            </svg>
+                        <button onClick={onBagClick} className="nav-icon-link" aria-label={`Shopping bag${bagCount > 0 ? `, ${bagCount} items` : ""}`} style={{ display: "flex", alignItems: "center", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src="/tote-bag.png"
+                                alt=""
+                                aria-hidden="true"
+                                width={20}
+                                height={20}
+                                style={{ display: "block", filter: transparent ? "brightness(0) invert(1)" : "brightness(0)", transition: "filter .3s" }}
+                            />
                             {bagCount > 0 && (
                                 <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-6px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{bagCount}</span>
                             )}

@@ -62,18 +62,16 @@ export default function AccountPage() {
     ] as const;
 
     return (
-        <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "36px 20px 80px" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "28px 16px 80px" }}>
             {/* Header */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "32px", flexWrap: "wrap", gap: "12px" }}>
-                <div>
-                    <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(28px,5vw,40px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em", color: "#000", marginBottom: "4px" }}>
-                        Hey, {user.displayName || user.username} 👋
-                    </h1>
-                    <p style={{ fontSize: "13px", color: "#767676" }}>{user.email}</p>
-                </div>
+            <div style={{ marginBottom: "28px" }}>
+                <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(24px,6vw,40px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em", color: "#000", marginBottom: "4px", wordBreak: "break-all", lineHeight: 1.1 }}>
+                    Hey, {user.displayName || user.username} 👋
+                </h1>
+                <p style={{ fontSize: "13px", color: "#767676", wordBreak: "break-all", marginBottom: "14px" }}>{user.email}</p>
                 <button
                     onClick={handleLogout}
-                    style={{ display: "flex", alignItems: "center", gap: "6px", background: "none", border: "1.5px solid #e0e0e0", padding: "8px 16px", cursor: "pointer", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#555", transition: "all .15s" }}
+                    style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "none", border: "1.5px solid #e0e0e0", padding: "8px 16px", cursor: "pointer", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#555", transition: "all .15s" }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#000"; e.currentTarget.style.color = "#000"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#555"; }}
                 >
@@ -83,29 +81,29 @@ export default function AccountPage() {
             </div>
 
             {/* Quick stats */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "32px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px", marginBottom: "28px" }}>
                 {[
                     { icon: ShoppingBag, label: "Total Orders", value: orders.length },
                     { icon: Package, label: "In Progress", value: orders.filter((o) => ["processing", "on-hold"].includes(o.status)).length },
                     { icon: Heart, label: "Wishlist", value: wishlistCount },
                 ].map(({ icon: Icon, label, value }) => (
-                    <div key={label} style={{ border: "1px solid #e8e8e8", padding: "16px 20px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-                            <Icon style={{ width: "16px", height: "16px", color: "#aaa" }} />
-                            <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#aaa" }}>{label}</span>
+                    <div key={label} style={{ border: "1px solid #e8e8e8", padding: "12px 14px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+                            <Icon style={{ width: "14px", height: "14px", color: "#aaa", flexShrink: 0 }} />
+                            <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#aaa", lineHeight: 1.2 }}>{label}</span>
                         </div>
-                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, color: "#000" }}>{value}</div>
+                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "26px", fontWeight: 900, color: "#000" }}>{value}</div>
                     </div>
                 ))}
             </div>
 
             {/* Tab nav */}
-            <div style={{ display: "flex", borderBottom: "2px solid #e8e8e8", marginBottom: "28px", gap: "0" }}>
+            <div style={{ display: "flex", borderBottom: "2px solid #e8e8e8", marginBottom: "24px" }}>
                 {TAB_ITEMS.map(({ key, label, icon: Icon }) => (
                     <button
                         key={key}
                         onClick={() => setTab(key)}
-                        style={{ display: "flex", alignItems: "center", gap: "6px", padding: "10px 20px", background: "none", border: "none", borderBottom: tab === key ? "2px solid #000" : "2px solid transparent", marginBottom: "-2px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: tab === key ? "#000" : "#767676", cursor: "pointer", transition: "color .15s" }}
+                        style={{ display: "flex", alignItems: "center", gap: "6px", padding: "10px 16px", background: "none", border: "none", borderBottom: tab === key ? "2px solid #000" : "2px solid transparent", marginBottom: "-2px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: tab === key ? "#000" : "#767676", cursor: "pointer", transition: "color .15s", whiteSpace: "nowrap" }}
                     >
                         <Icon style={{ width: "14px", height: "14px" }} />
                         {label}
@@ -121,7 +119,7 @@ export default function AccountPage() {
                             {[1, 2, 3].map((i) => <div key={i} style={{ height: "100px", background: "#f5f5f5" }} />)}
                         </div>
                     ) : orders.length === 0 ? (
-                        <div style={{ textAlign: "center", padding: "80px 20px" }}>
+                        <div style={{ textAlign: "center", padding: "60px 20px" }}>
                             <ShoppingBag style={{ width: "48px", height: "48px", color: "#e0e0e0", margin: "0 auto 16px" }} />
                             <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".04em", color: "#ccc", marginBottom: "8px" }}>No orders yet</h2>
                             <p style={{ fontSize: "13px", color: "#aaa", marginBottom: "24px" }}>Time to treat yourself.</p>
@@ -132,24 +130,29 @@ export default function AccountPage() {
                             {orders.map((order) => {
                                 const statusInfo = STATUS_LABELS[order.status] ?? { label: order.status, color: "#374151", bg: "#f3f4f6" };
                                 return (
-                                    <div key={order.id} style={{ border: "1px solid #e8e8e8", padding: "16px 20px" }}>
-                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
-                                            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-                                                <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".04em", color: "#000" }}>Order #{order.number}</span>
-                                                <span style={{ fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "99px", background: statusInfo.bg, color: statusInfo.color, letterSpacing: ".04em", textTransform: "uppercase" }}>
+                                    <div key={order.id} style={{ border: "1px solid #e8e8e8", padding: "14px 16px" }}>
+                                        {/* Order header row */}
+                                        <div style={{ marginBottom: "10px" }}>
+                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", marginBottom: "6px" }}>
+                                                <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".04em", color: "#000" }}>
+                                                    Order #{order.number}
+                                                </span>
+                                                <span style={{ fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "99px", background: statusInfo.bg, color: statusInfo.color, letterSpacing: ".04em", textTransform: "uppercase", flexShrink: 0 }}>
                                                     {statusInfo.label}
                                                 </span>
                                             </div>
-                                            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                                                <span style={{ fontSize: "12px", color: "#767676" }}>
-                                                    {new Date(order.date_created).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" })}
-                                                </span>
-                                                <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 800, color: "#000" }}>
-                                                    ₦{parseFloat(order.total).toLocaleString("en-NG")}
-                                                </span>
+                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+                                                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                                                    <span style={{ fontSize: "12px", color: "#767676" }}>
+                                                        {new Date(order.date_created).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" })}
+                                                    </span>
+                                                    <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 800, color: "#000" }}>
+                                                        ₦{parseFloat(order.total).toLocaleString("en-NG")}
+                                                    </span>
+                                                </div>
                                                 <Link
                                                     href={`/account/orders/${order.id}`}
-                                                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1.5px solid #000", paddingBottom: "1px", whiteSpace: "nowrap" }}
+                                                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1.5px solid #000", paddingBottom: "1px", whiteSpace: "nowrap", flexShrink: 0 }}
                                                 >
                                                     View →
                                                 </Link>
@@ -159,10 +162,10 @@ export default function AccountPage() {
                                         {/* Line items */}
                                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                             {order.line_items.slice(0, 4).map((li) => (
-                                                <div key={li.id} style={{ display: "flex", gap: "10px", alignItems: "center", flex: "1 1 200px", minWidth: 0 }}>
+                                                <div key={li.id} style={{ display: "flex", gap: "8px", alignItems: "center", flex: "1 1 140px", minWidth: 0 }}>
                                                     {li.image && (
-                                                        <div style={{ width: "44px", height: "56px", background: "#f0ece8", position: "relative", flexShrink: 0, overflow: "hidden" }}>
-                                                            <Image src={li.image} alt={li.name} fill style={{ objectFit: "cover" }} sizes="44px" />
+                                                        <div style={{ width: "40px", height: "52px", background: "#f0ece8", position: "relative", flexShrink: 0, overflow: "hidden" }}>
+                                                            <Image src={li.image} alt={li.name} fill style={{ objectFit: "cover" }} sizes="40px" />
                                                         </div>
                                                     )}
                                                     <div style={{ minWidth: 0 }}>
@@ -188,16 +191,16 @@ export default function AccountPage() {
             {/* Details tab */}
             {tab === "details" && (
                 <div style={{ maxWidth: "480px" }}>
-                    <div style={{ border: "1px solid #e8e8e8", padding: "24px", marginBottom: "16px" }}>
+                    <div style={{ border: "1px solid #e8e8e8", padding: "20px 16px", marginBottom: "16px" }}>
                         <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", color: "#000" }}>Account Info</h2>
                         {[
                             { label: "Name", value: user.displayName || `${user.username}` },
                             { label: "Username", value: user.username },
                             { label: "Email", value: user.email },
                         ].map(({ label, value }) => (
-                            <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid #f0f0f0", fontSize: "13px" }}>
-                                <span style={{ color: "#767676", fontWeight: 500 }}>{label}</span>
-                                <span style={{ color: "#000", fontWeight: 600 }}>{value}</span>
+                            <div key={label} style={{ display: "flex", justifyContent: "space-between", gap: "12px", padding: "10px 0", borderBottom: "1px solid #f0f0f0", fontSize: "13px" }}>
+                                <span style={{ color: "#767676", fontWeight: 500, flexShrink: 0 }}>{label}</span>
+                                <span style={{ color: "#000", fontWeight: 600, wordBreak: "break-all", textAlign: "right" }}>{value}</span>
                             </div>
                         ))}
                     </div>

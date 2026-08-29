@@ -97,19 +97,7 @@ export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Ca
                     }}>
                         The Style Radar
                     </h2>
-                    <Link href="/shop" style={{
-                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                        fontSize: "11px",
-                        fontWeight: 500,
-                        letterSpacing: ".1em",
-                        textTransform: "uppercase",
-                        color: "#777",
-                        textDecoration: "none",
-                        borderBottom: "1px solid #ccc",
-                        paddingBottom: "1px",
-                    }}>
-                        View All →
-                    </Link>
+                    {/* View All removed — no more to show */}
                 </div>
 
                 <div className="style-radar-grid">

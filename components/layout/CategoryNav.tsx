@@ -63,8 +63,9 @@ export default function CategoryNav() {
                                 style={{
                                     fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                                     fontSize: "12px",
-                                    fontWeight: link.sale ? 600 : 400,
-                                    letterSpacing: ".04em",
+                                    fontWeight: link.sale ? 600 : 500,
+                                    letterSpacing: ".06em",
+                                    textTransform: "uppercase",
                                     color,
                                     padding: "11px 13px",
                                     borderBottom: "2px solid transparent",
