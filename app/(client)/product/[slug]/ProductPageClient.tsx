@@ -7,6 +7,7 @@ import { formatPrice, getDiscount, getSizes, getColors, toNaira } from "@/lib/wo
 import { addToCart } from "@/lib/cart";
 import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
 import ProductCard from "@/components/product/ProductCard";
+import { useCurrency } from "@/lib/currency";
 
 function AccordionItem({ title, content }: { title: string; content: string }) {
     const [open, setOpen] = useState(false);
@@ -46,6 +47,7 @@ export default function ProductPageClient({ params, product, related }: {
         setIsWished(isInWishlist(product.id));
     }, [product.id]);
 
+    const { convert } = useCurrency();
     const sizes = getSizes(product);
     const colors = getColors(product);
     const discount = getDiscount(product.prices.regular_price, product.prices.sale_price);
@@ -250,11 +252,11 @@ export default function ProductPageClient({ params, product, related }: {
                     {/* Price */}
                     <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "16px", flexWrap: "wrap" }}>
                         <span style={{ fontSize: "22px", fontWeight: 700, color: isOnSale ? "#e8002d" : "#000", letterSpacing: "-.01em" }}>
-                            {formatPrice(product.prices.price)}
+                            {convert(parseInt(product.prices.price))}
                         </span>
                         {isOnSale && (
                             <span style={{ fontSize: "15px", fontWeight: 400, color: "#bbb", textDecoration: "line-through" }}>
-                                {formatPrice(product.prices.regular_price)}
+                                {convert(parseInt(product.prices.regular_price))}
                             </span>
                         )}
                     </div>

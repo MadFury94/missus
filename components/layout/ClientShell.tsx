@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import CategoryNav from "@/components/layout/CategoryNav";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
+import { CurrencyProvider } from "@/lib/currency";
 
 // Heights of fixed layers — keep in sync with actual component heights
 const ANN_H = 34;   // AnnouncementBar
@@ -40,7 +41,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
     const solidHeaderH = annH + NAV_H + CAT_H;
 
     return (
-        <>
+        <CurrencyProvider>
             {/* ── Fixed header stack ─────────────────────── */}
             <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200 }}>
                 {/* 1. Announcement bar */}
@@ -68,6 +69,6 @@ export default function ClientShell({ children, announcement }: { children: Reac
             <Footer />
 
             <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
-        </>
+        </CurrencyProvider>
     );
 }

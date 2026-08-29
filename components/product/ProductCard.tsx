@@ -7,6 +7,7 @@ import type { StoreProduct } from "@/lib/woocommerce";
 import { formatPrice, getDiscount, getProductImage, getSizes, toNaira } from "@/lib/woocommerce";
 import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
 import { addToCart } from "@/lib/cart";
+import { useCurrency } from "@/lib/currency";
 
 // CSS colour name → hex. Falls back to the name itself (browsers handle many CSS named colours).
 function colourNameToHex(name: string): string {
@@ -78,8 +79,9 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const badgeLabel = isDeal && discount ? `${discount}% OFF` : isDeal ? "DEAL" : isNew ? "NEW" : null;
     const badgeBg = isDeal ? "#e8002d" : "#000";
 
-    const priceNaira = formatPrice(product.prices.price);
-    const regularNaira = formatPrice(product.prices.regular_price);
+    const { convert } = useCurrency();
+    const priceNaira = convert(parseInt(product.prices.price));
+    const regularNaira = convert(parseInt(product.prices.regular_price));
     const isOnSale = product.on_sale && product.prices.sale_price !== product.prices.regular_price;
 
     const colourAttr = product.attributes?.find(
