@@ -135,23 +135,11 @@ export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Ca
                                     fontWeight: 600,
                                     color: "#fff",
                                     lineHeight: 1.2,
-                                    marginBottom: "6px",
+                                    margin: 0,
                                     letterSpacing: ".01em",
                                 }}>
                                     {card.title}
                                 </p>
-                                <span style={{
-                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                                    fontSize: "11px",
-                                    fontWeight: 500,
-                                    letterSpacing: ".1em",
-                                    textTransform: "uppercase",
-                                    color: "rgba(255,255,255,.7)",
-                                    borderBottom: "1px solid rgba(255,255,255,.4)",
-                                    paddingBottom: "1px",
-                                }}>
-                                    Shop →
-                                </span>
                             </div>
                         </Link>
                     ))}
