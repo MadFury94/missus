@@ -81,6 +81,7 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
 
     return (
         <div
+            className="hero-slideshow"
             style={{ position: "relative", width: "100%", height: "clamp(480px, 85vh, 860px)", overflow: "hidden", background: "#111" }}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
@@ -105,6 +106,12 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                 @keyframes heroFadeUp {
                     from { opacity: 0; transform: translateY(16px); }
                     to   { opacity: 1; transform: translateY(0); }
+                }
+                @media (max-width: 768px) {
+                    .hero-slideshow {
+                        height: 100svh !important;
+                        height: 100dvh !important;
+                    }
                 }
             `}</style>
 
