@@ -28,10 +28,10 @@ export const HOMEPAGE_DEFAULTS = {
         },
     ],
     styleRadar: [
-        { title: "Independence Day Ready", href: "/category/dresses", img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-96.jpeg" },
-        { title: "Sugar & Spice", href: "/category/dresses", img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg" },
-        { title: "Night Mode", href: "/category/matching-sets", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png" },
-        { title: "Wife of the Party", href: "/category/dresses", img: "https://missusoutfits.com/wp-content/uploads/2026/03/Leila-Halter-Mini-Dress.jpg" },
+        { title: "Croquetish", href: "/category/dresses", img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-96.jpeg" },
+        { title: "Flights Sans Feelings", href: "/category/dresses", img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg" },
+        { title: "Birthday Behavior", href: "/category/matching-sets", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png" },
+        { title: "Table For Two", href: "/category/dresses", img: "https://missusoutfits.com/wp-content/uploads/2026/03/Leila-Halter-Mini-Dress.jpg" },
     ],
     newsletter: {
         heading: "Join Missus Girls Club",
