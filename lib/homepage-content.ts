@@ -11,7 +11,7 @@ export const HOMEPAGE_DEFAULTS = {
     ],
     hero: [
         {
-            src: "/missus.home.png",
+            src: "/Desktop view 1.jpg",
             label: "The Edit",
             heading: "Made for\nHer.",
             sub: "Trend-forward, affordable fashion for the modern Nigerian girl.",
@@ -19,17 +19,9 @@ export const HOMEPAGE_DEFAULTS = {
             cta2: { label: "What's New", href: "/category/whats-new" },
         },
         {
-            src: "/missus-hero.png",
-            label: "Spring / Summer 2026",
-            heading: "Dress Like\nHer.",
-            sub: "Trend-forward, affordable fashion for the modern Nigerian girl. From Lagos to Abuja — we deliver style to your door.",
-            cta: { label: "Shop Women", href: "/shop" },
-            cta2: { label: "What's New", href: "/category/whats-new" },
-        },
-        {
-            src: "/missus2.png",
+            src: "/Desktop view 3.WEBP",
             label: "New Drops",
-            heading: "Fresh\nFits.",
+            heading: "Dress Like\nHer.",
             sub: "New arrivals every week. Be the first to wear what everyone else will be talking about.",
             cta: { label: "Shop New In", href: "/new-in" },
             cta2: { label: "View Sale", href: "/sale" },

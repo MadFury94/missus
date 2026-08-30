@@ -15,7 +15,7 @@ interface Slide {
 
 const SLIDES: Slide[] = [
     {
-        src: "/missus.home.png",
+        src: "/Desktop view 1.jpg",
         alt: "Missus Collection",
         label: "The Edit",
         heading: "Made for\nHer.",
@@ -24,27 +24,24 @@ const SLIDES: Slide[] = [
         cta2: { label: "What's New", href: "/category/whats-new" },
     },
     {
-        src: "/missus-hero.png",
-        alt: "Spring Collection",
-        label: "Spring / Summer 2026",
+        src: "/Desktop view 3.WEBP",
+        alt: "New Collection",
+        label: "New Drops",
         heading: "Dress Like\nHer.",
-        sub: "Trend-forward, affordable fashion for the modern Nigerian girl. From Lagos to Abuja — we deliver style to your door.",
-        cta: { label: "Shop Women", href: "/shop" },
-        cta2: { label: "What's New", href: "/category/whats-new" },
+        sub: "New arrivals every week. Be the first to wear what everyone else will be talking about.",
+        cta: { label: "Shop New In", href: "/new-in" },
+        cta2: { label: "View Sale", href: "/sale" },
     },
     {
-        src: "/missus2.png",
-        alt: "New Arrivals",
+        src: "/Desktop view 2.WEBP",
+        alt: "New Collection",
         label: "New Drops",
-        heading: "Fresh\nFits.",
+        heading: "Dress Like\nHer.",
         sub: "New arrivals every week. Be the first to wear what everyone else will be talking about.",
         cta: { label: "Shop New In", href: "/new-in" },
         cta2: { label: "View Sale", href: "/sale" },
     },
 ];
-
-// The fixed content shown at all times — use slide 0 as the constant
-const FIXED = SLIDES[0];
 
 const INTERVAL = 5000;
 
@@ -82,11 +79,18 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
     return (
         <div
             className="hero-slideshow"
-            style={{ position: "relative", width: "100%", height: "clamp(480px, 85vh, 860px)", overflow: "hidden", background: "#111" }}
+            style={{ position: "relative", width: "100%", height: "100svh", overflow: "hidden", background: "#111" }}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
         >
             <style>{`
+                .hero-slideshow {
+                    height: 100svh;
+                    height: 100dvh;
+                }
+                @supports not (height: 100svh) {
+                    .hero-slideshow { height: 100vh; }
+                }
                 @keyframes slideInFromRight {
                     from { transform: translateX(100%); }
                     to   { transform: translateX(0); }
@@ -104,14 +108,11 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                     to   { transform: translateX(100%); }
                 }
                 @keyframes heroFadeUp {
-                    from { opacity: 0; transform: translateY(16px); }
+                    from { opacity: 0; transform: translateY(12px); }
                     to   { opacity: 1; transform: translateY(0); }
                 }
-                @media (max-width: 768px) {
-                    .hero-slideshow {
-                        height: 100svh !important;
-                        height: 100dvh !important;
-                    }
+                .hero-content {
+                    animation: heroFadeUp .6s ease forwards;
                 }
             `}</style>
 
@@ -143,8 +144,8 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                             src={s.src}
                             alt={s.alt || ""}
                             fill
-                            style={{ objectFit: "cover", objectPosition: "center 20%" }}
-                            sizes="100vw"
+                            style={{ objectFit: "cover", objectPosition: "center top" }}
+                            sizes="(max-width: 768px) 100vw, 100vw"
                             loading={i === 0 ? "eager" : "lazy"}
                             priority={i === 0}
                         />
@@ -152,31 +153,45 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                 );
             })}
 
-            {/* ── Gradient overlay — even scrim so centered text always reads ── */}
-            <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.42)", zIndex: 2, pointerEvents: "none" }} />
+            {/* ── Gradient — even scrim so centered text always reads ── */}
+            <div style={{
+                position: "absolute", inset: 0,
+                background: "rgba(0,0,0,0.42)",
+                zIndex: 2, pointerEvents: "none",
+            }} />
 
-            {/* ── Fixed text content — never moves, perfectly centered ── */}
-            <div style={{ position: "absolute", inset: 0, zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "clamp(20px,5vw,60px)" }}>
-                {FIXED.label && (
+            {/* ── Text content — centered ── */}
+            <div
+                key={current}
+                className="hero-content"
+                style={{
+                    position: "absolute", inset: 0, zIndex: 3,
+                    display: "flex", flexDirection: "column",
+                    alignItems: "center", justifyContent: "center",
+                    textAlign: "center",
+                    padding: "clamp(20px, 5vw, 60px)",
+                }}
+            >
+                {slides[current].label && (
                     <p style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "12px", fontWeight: 500, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: "14px" }}>
-                        {FIXED.label}
+                        {slides[current].label}
                     </p>
                 )}
                 <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(56px,9vw,120px)", fontWeight: 700, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.88, marginBottom: "20px", whiteSpace: "pre-line" }}>
-                    {FIXED.heading.split("\n").map((line, i) => (
+                    {slides[current].heading.split("\n").map((line, i) => (
                         <span key={i} style={{ display: "block" }}>{line}</span>
                     ))}
                 </h1>
                 <p style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 300, marginBottom: "32px", maxWidth: "480px", lineHeight: 1.65 }}>
-                    {FIXED.sub}
+                    {slides[current].sub}
                 </p>
                 <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
-                    <Link href={FIXED.cta.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "12px", textDecoration: "none" }}>
-                        {FIXED.cta.label}
+                    <Link href={slides[current].cta.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "12px", textDecoration: "none" }}>
+                        {slides[current].cta.label}
                     </Link>
-                    {FIXED.cta2 && (
-                        <Link href={FIXED.cta2.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "rgba(255,255,255,.12)", color: "#fff", padding: "13px 28px", fontSize: "12px", border: "1.5px solid rgba(255,255,255,.5)", textDecoration: "none", backdropFilter: "blur(4px)" }}>
-                            {FIXED.cta2.label}
+                    {slides[current].cta2 && (
+                        <Link href={slides[current].cta2!.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "rgba(255,255,255,.12)", color: "#fff", padding: "13px 28px", fontSize: "12px", border: "1.5px solid rgba(255,255,255,.5)", textDecoration: "none", backdropFilter: "blur(4px)" }}>
+                            {slides[current].cta2!.label}
                         </Link>
                     )}
                 </div>
