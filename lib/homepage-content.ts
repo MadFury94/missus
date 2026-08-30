@@ -34,7 +34,7 @@ export const HOMEPAGE_DEFAULTS = {
         { title: "Wife of the Party", href: "/category/dresses", img: "https://missusoutfits.com/wp-content/uploads/2026/03/Leila-Halter-Mini-Dress.jpg" },
     ],
     newsletter: {
-        heading: "Join The Missus Circle",
+        heading: "Join Missus Girls Club",
         sub: "Early drops, exclusive deals & style inspo — straight to your inbox.",
     },
 };

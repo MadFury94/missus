@@ -46,7 +46,7 @@ const TRUST_ITEMS = [
 ];
 
 export default function NewsletterBar({
-    heading = "Join The Missus Circle",
+    heading = "Join Missus Girls Club",
     sub = "Early drops, exclusive deals & style inspo — straight to your inbox.",
 }: {
     heading?: string;
