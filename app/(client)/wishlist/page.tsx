@@ -50,8 +50,8 @@ function SizePickerModal({
             <div style={{ background: "#fff", width: "100%", maxWidth: "380px", padding: "28px 24px" }}>
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "18px" }}>
                     <div>
-                        <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#aaa", marginBottom: "4px" }}>Select Size</p>
-                        <p style={{ fontSize: "13px", fontWeight: 600, color: "#000", lineHeight: 1.3, maxWidth: "260px" }}>{item.name}</p>
+                        <p style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "10px", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#aaa", marginBottom: "4px" }}>Select Size</p>
+                        <p style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "13px", fontWeight: 500, color: "#000", lineHeight: 1.3, maxWidth: "260px" }}>{item.name}</p>
                     </div>
                     <button onClick={onClose} aria-label="Close" style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "22px", lineHeight: 1, padding: "0 0 0 8px" }}>×</button>
                 </div>
@@ -68,7 +68,7 @@ function SizePickerModal({
                                     border: selected === size ? "2px solid #000" : "1.5px solid #d0d0d0",
                                     background: selected === size ? "#000" : "#fff",
                                     color: selected === size ? "#fff" : "#000",
-                                    fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700,
+                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600,
                                     letterSpacing: ".04em", textTransform: "uppercase", cursor: "pointer", transition: "all .15s",
                                 }}
                             >
@@ -91,8 +91,8 @@ function SizePickerModal({
                     style={{
                         width: "100%", height: "46px",
                         background: selected ? "#000" : "#ccc", color: "#fff", border: "none",
-                        fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 800,
-                        letterSpacing: ".1em", textTransform: "uppercase",
+                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600,
+                        letterSpacing: ".08em", textTransform: "uppercase",
                         cursor: selected ? "pointer" : "not-allowed", transition: "background .2s",
                     }}
                 >
@@ -100,7 +100,7 @@ function SizePickerModal({
                 </button>
                 <button
                     onClick={() => onConfirm("")}
-                    style={{ width: "100%", background: "none", border: "none", marginTop: "8px", fontSize: "11px", color: "#999", cursor: "pointer", textDecoration: "underline" }}
+                    style={{ width: "100%", background: "none", border: "none", marginTop: "8px", fontSize: "11px", color: "#999", cursor: "pointer", textDecoration: "underline", fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}
                 >
                     Skip — add without size
                 </button>
@@ -184,7 +184,7 @@ export default function WishlistPage() {
                     </div>
                 </div>
 
-                <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(24px,4vw,36px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em", color: "#000", marginBottom: "12px" }}>
+                <h1 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "clamp(22px,4vw,32px)", fontWeight: 700, letterSpacing: "-.01em", color: "#000", marginBottom: "12px" }}>
                     Your Wishlist is Empty
                 </h1>
                 <p style={{ fontSize: "14px", color: "#767676", lineHeight: 1.7, maxWidth: "360px", margin: "0 auto 32px" }}>
@@ -192,17 +192,17 @@ export default function WishlistPage() {
                 </p>
 
                 <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap", marginBottom: "56px" }}>
-                    <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none" }}>
+                    <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none" }}>
                         Shop Now
                     </Link>
-                    <Link href="/new-in" style={{ background: "#fff", color: "#000", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none", border: "1.5px solid #000" }}>
+                    <Link href="/new-in" style={{ background: "#fff", color: "#000", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none", border: "1.5px solid #000" }}>
                         New Arrivals
                     </Link>
                 </div>
 
                 {trending.length > 0 && (
                     <div style={{ textAlign: "left" }}>
-                        <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "16px", paddingLeft: "4px", borderLeft: "3px solid #e8002d" }}>
+                        <h2 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "16px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", paddingLeft: "4px", borderLeft: "3px solid #e8002d" }}>
                             &nbsp;Trending Now
                         </h2>
                         <div className="grid-4">
@@ -229,7 +229,7 @@ export default function WishlistPage() {
             {/* ── Header ── */}
             <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
                 <div>
-                    <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(28px,4vw,40px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em", color: "#000", marginBottom: "2px" }}>
+                    <h1 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "clamp(22px,3vw,32px)", fontWeight: 700, letterSpacing: "-.01em", color: "#000", marginBottom: "2px" }}>
                         My Wishlist
                     </h1>
                     <p style={{ fontSize: "12px", color: "#767676" }}>{items.length} saved item{items.length !== 1 ? "s" : ""}</p>
@@ -238,7 +238,7 @@ export default function WishlistPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                     <button
                         onClick={handleClear}
-                        style={{ display: "flex", alignItems: "center", gap: "6px", background: "none", border: "1.5px solid #e0e0e0", padding: "8px 14px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#555", cursor: "pointer", transition: "all .15s" }}
+                        style={{ display: "flex", alignItems: "center", gap: "6px", background: "none", border: "1.5px solid #e0e0e0", padding: "8px 14px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", color: "#555", cursor: "pointer", transition: "all .15s" }}
                         onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#e8002d"; e.currentTarget.style.color = "#e8002d"; }}
                         onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#555"; }}
                     >
@@ -247,7 +247,7 @@ export default function WishlistPage() {
                     </button>
                     <button
                         onClick={handleMoveAll}
-                        style={{ display: "flex", alignItems: "center", gap: "6px", background: "#000", color: "#fff", border: "none", padding: "8px 18px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer", transition: "background .15s" }}
+                        style={{ display: "flex", alignItems: "center", gap: "6px", background: "#000", color: "#fff", border: "none", padding: "8px 18px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", cursor: "pointer", transition: "background .15s" }}
                         onMouseEnter={(e) => (e.currentTarget.style.background = "#333")}
                         onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
                     >
@@ -264,7 +264,7 @@ export default function WishlistPage() {
                     <select
                         value={sort}
                         onChange={(e) => setSort(e.target.value)}
-                        style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "6px 10px", background: "#fff", cursor: "pointer", outline: "none" }}
+                        style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", border: "1px solid #e0e0e0", padding: "6px 10px", background: "#fff", cursor: "pointer", outline: "none" }}
                     >
                         <option value="recent">Sort: Recently Added</option>
                         <option value="price-asc">Price: Low to High</option>
@@ -297,7 +297,7 @@ export default function WishlistPage() {
 
             {/* ── Grid view ── */}
             {view === "grid" && (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0" }} className="wishlist-grid">
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1px", background: "#e8e8e8" }} className="wishlist-grid">
                     {sorted.map((item) => (
                         <WishlistCard key={item.productId} item={item} onRemove={handleRemove} onAddToBag={handleAddToBag} />
                     ))}
@@ -401,15 +401,15 @@ function WishlistCard({
             </Link>
 
             {/* Info */}
-            <div style={{ padding: "8px 6px 12px" }}>
-                <Link href={`/product/${item.slug}`} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".02em", color: "#000", display: "block", marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textDecoration: "none" }}>
+            <div style={{ padding: "10px 10px 14px", background: "#fff" }}>
+                <Link href={`/product/${item.slug}`} style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "13px", fontWeight: 500, color: "#111", display: "block", marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textDecoration: "none", lineHeight: 1.4 }}>
                     {item.name}
                 </Link>
-                <p style={{ fontSize: "13px", fontWeight: 700, color: "#000" }}>{fmtNaira(item.price)}</p>
+                <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}>{fmtNaira(item.price)}</p>
                 {/* Mobile add-to-bag button — always visible */}
                 <button
                     onClick={() => onAddToBag(item)}
-                    style={{ marginTop: "8px", width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "9px", border: "none", cursor: "pointer", display: "none" }}
+                    style={{ marginTop: "8px", width: "100%", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px", border: "none", cursor: "pointer", display: "none" }}
                     className="wishlist-mobile-add"
                 >
                     Add to Bag
@@ -418,8 +418,8 @@ function WishlistCard({
 
             <style>{`
                 @media (hover: none) {
-                    .wishlist-add-btn { opacity: 0 !important; }
-                    .wishlist-mobile-add { display: block !important; }
+                    .wishlist-add-btn { opacity: 1 !important; }
+                    .wishlist-mobile-add { display: none !important; }
                 }
                 @media (max-width: 768px) {
                     .wishlist-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -452,19 +452,19 @@ function WishlistListRow({
 
             {/* Name */}
             <div style={{ flex: 1, minWidth: 0 }}>
-                <Link href={`/product/${item.slug}`} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".02em", color: "#000", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textDecoration: "none" }}>
+                <Link href={`/product/${item.slug}`} style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "14px", fontWeight: 500, color: "#111", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textDecoration: "none" }}>
                     {item.name}
                 </Link>
             </div>
 
             {/* Price */}
-            <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", flexShrink: 0 }}>{fmtNaira(item.price)}</p>
+            <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", flexShrink: 0, fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}>{fmtNaira(item.price)}</p>
 
             {/* Actions */}
             <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                 <button
                     onClick={() => onAddToBag(item)}
-                    style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "9px 16px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px", whiteSpace: "nowrap" }}
+                    style={{ background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px 16px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px", whiteSpace: "nowrap" }}
                 >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9h12l-1.5 10H7.5L6 9z" /><path d="M9 9V7a3 3 0 0 1 6 0v2" /></svg>
                     Add to Bag

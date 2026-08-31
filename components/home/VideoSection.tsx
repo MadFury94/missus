@@ -1,11 +1,9 @@
 "use client";
-import Link from "next/link";
 import { useRef, useEffect } from "react";
 
 export default function VideoSection() {
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    // Auto-play when the section scrolls into view
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
@@ -26,8 +24,7 @@ export default function VideoSection() {
     }, []);
 
     return (
-        <div style={{ position: "relative", width: "100%", overflow: "hidden", background: "#000" }}>
-            {/* Video — full width, auto-play muted */}
+        <div style={{ position: "relative", width: "100%", overflow: "hidden", background: "#000", lineHeight: 0 }}>
             <video
                 ref={videoRef}
                 muted
@@ -47,93 +44,6 @@ export default function VideoSection() {
                     type="video/mp4"
                 />
             </video>
-
-            {/* Overlay — subtle darkening + text */}
-            <div
-                style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.1) 60%, transparent 100%)",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    padding: "clamp(28px,5vw,60px)",
-                    zIndex: 2,
-                }}
-            >
-                <div>
-                    <p style={{
-                        fontFamily: "var(--font-barlow-condensed)",
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        letterSpacing: ".3em",
-                        textTransform: "uppercase",
-                        color: "rgba(255,255,255,0.7)",
-                        marginBottom: "10px",
-                    }}>
-                        MissusDeals
-                    </p>
-                    <h2 style={{
-                        fontFamily: "var(--font-barlow-condensed)",
-                        fontSize: "clamp(48px,7vw,100px)",
-                        fontWeight: 900,
-                        textTransform: "uppercase",
-                        color: "#fff",
-                        lineHeight: 0.9,
-                        letterSpacing: "-.01em",
-                        marginBottom: "20px",
-                    }}>
-                        Up to<br />60% Off.
-                    </h2>
-                    <p style={{
-                        fontSize: "14px",
-                        color: "rgba(255,255,255,.7)",
-                        fontWeight: 300,
-                        marginBottom: "24px",
-                        maxWidth: "400px",
-                        lineHeight: 1.65,
-                    }}>
-                        Prices as marked. While stocks last. Don&apos;t sleep on it.
-                    </p>
-                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                        <Link
-                            href="/sale"
-                            style={{
-                                fontFamily: "var(--font-barlow-condensed)",
-                                fontWeight: 700,
-                                letterSpacing: ".1em",
-                                textTransform: "uppercase",
-                                background: "#e8002d",
-                                color: "#fff",
-                                padding: "13px 28px",
-                                fontSize: "13px",
-                                textDecoration: "none",
-                                display: "inline-block",
-                            }}
-                        >
-                            Shop Sale
-                        </Link>
-                        <Link
-                            href="/shop"
-                            style={{
-                                fontFamily: "var(--font-barlow-condensed)",
-                                fontWeight: 700,
-                                letterSpacing: ".1em",
-                                textTransform: "uppercase",
-                                background: "rgba(255,255,255,.12)",
-                                color: "#fff",
-                                padding: "13px 28px",
-                                fontSize: "13px",
-                                border: "1.5px solid rgba(255,255,255,.5)",
-                                textDecoration: "none",
-                                display: "inline-block",
-                                backdropFilter: "blur(4px)",
-                            }}
-                        >
-                            Shop All
-                        </Link>
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }

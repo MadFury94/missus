@@ -28,8 +28,8 @@ const GRID = [
         img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-17.png",
     },
     {
-        label: "New Arrivals",
-        href: "/new-in",
+        label: "Athleisure & Loungewear",
+        href: "/category/athleisure-loungewear",
         img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
     },
 ];

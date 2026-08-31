@@ -31,6 +31,12 @@ button {
   font-family: var(--font-body), 'DM Sans', sans-serif;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   FONT SWAP — one-line change in app/layout.tsx
+   Change `displayFont` (Cormorant) → any Google font for headings
+   Change `bodyFont`    (DM Sans)   → any Google font for UI/body
+   ══════════════════════════════════════════════════════════════ */
+
 /* ── Font aliasing ──────────────────────────────────────────
    All inline styles that reference the old Barlow font names
    are overridden here. To change fonts sitewide, update the
@@ -59,6 +65,23 @@ button {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ── Brand color token usage ────────────────────────────────
+   Components that hardcode #e8002d (sale red / brand primary)
+   are overridden here so changing --color-brand-primary above
+   propagates sitewide without touching component files.
+──────────────────────────────────────────────────────────── */
+.sale-badge,
+.badge-primary,
+.cart-count-badge,
+.wishlist-count-badge {
+  background: var(--color-brand-primary) !important;
+}
+
+/* Inline-style overrides for the most common brand-color patterns */
+*[style*="#e8002d"] {
+  --_override: var(--color-brand-primary);
 }
 
 @keyframes mq {
@@ -612,6 +635,16 @@ button {
 }
 
 :root {
+  /* ══════════════════════════════════════════════════════════════
+     BRAND TOKENS — change these two lines to retheme the site
+     ══════════════════════════════════════════════════════════════
+     --color-brand-primary   : main CTA buttons, badges, accents
+     --color-brand-secondary : secondary highlights (currently unused, ready to use)
+     Font: swap the two imports at the top of app/layout.tsx
+     ══════════════════════════════════════════════════════════════ */
+  --color-brand-primary: #e8002d;
+  --color-brand-secondary: #000000;
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);

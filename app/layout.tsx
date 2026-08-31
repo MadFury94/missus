@@ -7,9 +7,10 @@ import { getHomepageContent } from "@/lib/homepage-content.server";
 import { cn } from "@/lib/utils";
 
 // ── FONT CONFIGURATION ───────────────────────────────────────
-// Change fonts sitewide by swapping these two imports only.
+// ★ SWAP FONTS SITEWIDE: change only these two imports.
 // --font-display → headings, hero, labels, nav display text
 // --font-body    → body copy, UI, inputs, prices
+// Primary & secondary brand colors: globals.css → :root → --color-brand-primary / --color-brand-secondary
 
 const displayFont = Cormorant({
   weight: ["400", "500", "600", "700"],

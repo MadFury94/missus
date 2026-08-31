@@ -34,12 +34,12 @@ const SLIDES: Slide[] = [
     },
     {
         src: "/Desktop view 2.WEBP",
-        alt: "New Collection",
-        label: "New Drops",
-        heading: "Dress Like\nHer.",
-        sub: "New arrivals every week. Be the first to wear what everyone else will be talking about.",
-        cta: { label: "Shop New In", href: "/new-in" },
-        cta2: { label: "View Sale", href: "/sale" },
+        alt: "Sale Collection",
+        label: "MissusDeals",
+        heading: "Up to\n60% Off.",
+        sub: "Prices as marked. While stocks last. Don't sleep on it.",
+        cta: { label: "Shop Sale", href: "/sale" },
+        cta2: { label: "Shop All", href: "/shop" },
     },
 ];
 

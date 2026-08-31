@@ -122,7 +122,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
             <Link
                 href={`/product/${product.slug}`}
                 aria-label={product.name}
-                style={{ display: "block", position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f0ece8" }}
+                style={{ display: "block", position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f5f5f5" }}
             >
                 {img1 ? (
                     <>
@@ -130,7 +130,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                             src={img1}
                             alt={product.name}
                             fill
-                            style={{ objectFit: "cover", objectPosition: "center", opacity: hovered && img2 ? 0 : 1, transition: "opacity .3s" }}
+                            style={{ objectFit: "cover", objectPosition: "top center", opacity: hovered && img2 ? 0 : 1, transition: "opacity .3s" }}
                             sizes="(max-width: 640px) 50vw, 20vw"
                         />
                         {img2 && (
@@ -139,7 +139,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                 alt=""
                                 aria-hidden="true"
                                 fill
-                                style={{ objectFit: "cover", objectPosition: "center", opacity: hovered ? 1 : 0, transition: "opacity .3s" }}
+                                style={{ objectFit: "cover", objectPosition: "top center", opacity: hovered ? 1 : 0, transition: "opacity .3s" }}
                                 sizes="(max-width: 640px) 50vw, 20vw"
                             />
                         )}

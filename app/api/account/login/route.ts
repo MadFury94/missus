@@ -18,13 +18,30 @@ export async function POST(request: NextRequest) {
         });
 
         if (!res) {
-            // In dev this means the WP host is unreachable (connect timeout).
-            // In production this should not happen.
+            // WordPress is unreachable (timeout / CORS). In dev, allow login via a
+            // local fallback credential defined in .env.local so development is not
+            // blocked by the remote WP host.
             const isDev = process.env.NODE_ENV === "development";
+            const devPassword = process.env.DEV_ADMIN_PASSWORD;
+
+            if (isDev && devPassword && password === devPassword) {
+                return NextResponse.json({
+                    success: true,
+                    user: {
+                        id: 1,
+                        username: username,
+                        email: username,
+                        displayName: "Dev Admin",
+                        roles: ["administrator"],
+                        token: "dev-token",
+                    },
+                });
+            }
+
             return NextResponse.json({
                 success: false,
                 error: isDev
-                    ? "Cannot reach WordPress in dev — this will work on the live server."
+                    ? "WordPress is unreachable from localhost. Add DEV_ADMIN_PASSWORD to .env.local to log in without a live connection."
                     : "Could not connect to the server. Please try again.",
             }, { status: 504 });
         }

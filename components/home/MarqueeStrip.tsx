@@ -15,51 +15,39 @@ const DEFAULT_ITEMS = [
 
 export default function MarqueeStrip({ items = DEFAULT_ITEMS }: Props) {
     const [current, setCurrent] = useState(0);
-    const [visible, setVisible] = useState(true);
+    const [opacity, setOpacity] = useState(1);
 
     useEffect(() => {
         const interval = setInterval(() => {
             // Fade out
-            setVisible(false);
+            setOpacity(0);
             setTimeout(() => {
+                // Swap text while invisible
                 setCurrent((i) => (i + 1) % items.length);
-                // Fade in
-                setVisible(true);
-            }, 400);
-        }, 3000);
+                // Fade back in
+                setOpacity(1);
+            }, 500);
+        }, 3500);
         return () => clearInterval(interval);
     }, [items.length]);
 
     return (
-        <div style={{ background: "#000", padding: "10px 0", textAlign: "center", overflow: "hidden" }}>
-            <style>{`
-                @keyframes fadeItem {
-                    from { opacity: 0; transform: translateY(4px); }
-                    to   { opacity: 1; transform: translateY(0); }
-                }
-                .marquee-item {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 10px;
-                    font-family: var(--font-body, 'DM Sans', sans-serif);
-                    font-size: 11px;
-                    font-weight: 400;
-                    letter-spacing: .18em;
-                    text-transform: uppercase;
-                    color: rgba(255,255,255,.85);
-                    transition: opacity .4s ease, transform .4s ease;
-                }
-                .marquee-item.visible {
-                    opacity: 1;
-                    transform: translateY(0);
-                    animation: fadeItem .4s ease forwards;
-                }
-                .marquee-item.hidden {
-                    opacity: 0;
-                    transform: translateY(-4px);
-                }
-            `}</style>
-            <span className={`marquee-item ${visible ? "visible" : "hidden"}`}>
+        <div style={{ background: "#000", padding: "10px 0", textAlign: "center" }}>
+            <span
+                style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                    fontSize: "11px",
+                    fontWeight: 400,
+                    letterSpacing: ".18em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,.85)",
+                    opacity,
+                    transition: "opacity 0.5s ease",
+                }}
+            >
                 <span style={{ width: "4px", height: "4px", background: "rgba(255,255,255,.4)", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} aria-hidden="true" />
                 {items[current]}
                 <span style={{ width: "4px", height: "4px", background: "rgba(255,255,255,.4)", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} aria-hidden="true" />

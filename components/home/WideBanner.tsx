@@ -27,7 +27,7 @@ export default function WideBanner() {
                 />
 
                 {/* Dark overlay */}
-                <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.68)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.35) 100%)", pointerEvents: "none" }} />
 
                 {/* Headline */}
                 <p style={{
