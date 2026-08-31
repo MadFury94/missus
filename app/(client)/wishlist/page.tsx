@@ -297,7 +297,7 @@ export default function WishlistPage() {
 
             {/* ── Grid view ── */}
             {view === "grid" && (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0" }} className="wishlist-grid">
                     {sorted.map((item) => (
                         <WishlistCard key={item.productId} item={item} onRemove={handleRemove} onAddToBag={handleAddToBag} />
                     ))}
@@ -420,6 +420,9 @@ function WishlistCard({
                 @media (hover: none) {
                     .wishlist-add-btn { opacity: 0 !important; }
                     .wishlist-mobile-add { display: block !important; }
+                }
+                @media (max-width: 768px) {
+                    .wishlist-grid { grid-template-columns: repeat(2, 1fr) !important; }
                 }
             `}</style>
         </div>

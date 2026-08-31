@@ -261,7 +261,8 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                             onClick={handleAddToBag}
                             disabled={adding}
                             style={{
-                                display: "block", width: "100%",
+                                display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
+                                width: "100%",
                                 background: adding ? "#007a3d" : "#000",
                                 color: "#fff",
                                 fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700,
@@ -270,7 +271,13 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                 border: "none", cursor: "pointer",
                             }}
                         >
-                            {adding ? "✓ Added!" : "Add to Bag"}
+                            {adding ? "✓ Added!" : (
+                                <>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img src="/shopping-bag.png" alt="" aria-hidden="true" width={13} height={13} style={{ filter: "brightness(0) invert(1)", display: "block" }} />
+                                    Add to Bag
+                                </>
+                            )}
                         </button>
                     )}
                 </div>

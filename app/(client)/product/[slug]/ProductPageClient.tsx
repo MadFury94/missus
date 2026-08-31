@@ -331,7 +331,13 @@ export default function ProductPageClient({ params, product, related }: {
                             fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                         }}
                     >
-                        {added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
+                        {added ? "✓ Added to Bag" : adding ? "Adding…" : (
+                            <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src="/shopping-bag.png" alt="" aria-hidden="true" width={18} height={18} style={{ filter: "brightness(0) invert(1)", display: "block" }} />
+                                Add to Bag
+                            </span>
+                        )}
                     </button>
 
                     {/* Payment note */}

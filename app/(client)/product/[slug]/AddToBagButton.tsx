@@ -76,8 +76,16 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
             </div>
 
             {/* CTAs */}
-            <button onClick={handleAdd} style={{ width: "100%", height: "52px", background: added ? "#2d7a2d" : "#000", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer", marginBottom: "8px", transition: "background .2s" }}>
-                {added ? "Added to Bag ✓" : "Add to Bag"}
+            <button onClick={handleAdd} style={{ width: "100%", height: "52px", background: added ? "#2d7a2d" : "#000", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer", marginBottom: "8px", transition: "background .2s", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+                {added ? (
+                    "Added to Bag ✓"
+                ) : (
+                    <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/shopping-bag.png" alt="" aria-hidden="true" width={18} height={18} style={{ filter: "brightness(0) invert(1)", display: "block" }} />
+                        Add to Bag
+                    </>
+                )}
             </button>
             <button style={{ width: "100%", height: "52px", background: "#e8002d", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer" }}>
                 Buy Now — Pay on Delivery
