@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useMemo } from "react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
@@ -59,7 +59,7 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                     display: "flex",
                     gap: 0,
                     padding: "0 20px",
-                    borderBottom: "3px solid #e8002d",
+                    borderBottom: "3px solid #630D13",
                     overflowX: "auto",
                     background: "#fff",
                     scrollbarWidth: "none",
@@ -78,11 +78,11 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                             textTransform: "uppercase",
                             padding: "12px 20px",
                             cursor: "pointer",
-                            color: activeTab === i ? "#e8002d" : "#555",
+                            color: activeTab === i ? "#630D13" : "#555",
                             whiteSpace: "nowrap",
                             background: "none",
                             border: "none",
-                            borderBottom: activeTab === i ? "3px solid #e8002d" : "3px solid transparent",
+                            borderBottom: activeTab === i ? "3px solid #630D13" : "3px solid transparent",
                             marginBottom: "-3px",
                         }}
                     >
@@ -148,7 +148,7 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                         }}
                     >
                         MISS US WITH THE UGLY CLOTHES.{" "}
-                        <Link href="/shop" style={{ color: "#e8002d", textDecoration: "underline" }}>
+                        <Link href="/shop" style={{ color: "#630D13", textDecoration: "underline" }}>
                             Shop All →
                         </Link>
                     </div>

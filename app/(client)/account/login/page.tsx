@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -68,11 +68,11 @@ export default function UserLoginPage() {
                 </Link>
 
                 <div style={{ position: "relative", zIndex: 1 }}>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#e8002d", marginBottom: "16px" }}>
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "16px" }}>
                         Welcome Back
                     </p>
                     <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(48px,5vw,64px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: .92, marginBottom: "20px" }}>
-                        Dress Like<br /><span style={{ color: "#e8002d" }}>Her.</span>
+                        Dress Like<br /><span style={{ color: "#630D13" }}>Her.</span>
                     </h2>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", fontWeight: 300, lineHeight: 1.6, maxWidth: "340px" }}>
                         Log in to track your orders, manage your wishlist, and get early access to new drops and exclusive Missus deals.
@@ -84,7 +84,7 @@ export default function UserLoginPage() {
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "10px" }}>
                         &quot;Missus is really for the IT girls. Delivery in 45 mins, quality is unreal. Never switching.&quot;
                     </p>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#e8002d" }}>
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#630D13" }}>
                         Sarah O. — Lagos
                     </p>
                 </div>

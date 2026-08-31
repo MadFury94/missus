@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -15,7 +15,7 @@ function colourNameToHex(name: string): string {
     const MAP: Record<string, string> = {
         white: "#fff",
         black: "#111",
-        red: "#e8002d",
+        red: "#630D13",
         blue: "#0066cc",
         "navy blue": "#001f5b",
         navy: "#001f5b",
@@ -77,7 +77,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const img2 = getProductImage(product, 1);
 
     const badgeLabel = isDeal && discount ? `${discount}% OFF` : isDeal ? "DEAL" : isNew ? "NEW" : null;
-    const badgeBg = isDeal ? "#e8002d" : "#000";
+    const badgeBg = isDeal ? "#630D13" : "#000";
 
     const { convert } = useCurrency();
     const priceNaira = convert(parseInt(product.prices.price));
@@ -122,7 +122,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
             <Link
                 href={`/product/${product.slug}`}
                 aria-label={product.name}
-                style={{ display: "block", position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#f5f5f5" }}
+                style={{ display: "block", position: "relative", aspectRatio: "2/3", overflow: "hidden", background: "#f5f5f5" }}
             >
                 {img1 ? (
                     <>
@@ -184,103 +184,39 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                     onFocus={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.outline = "2px solid #000"; }}
                     onBlur={(e) => { e.currentTarget.style.outline = "none"; if (!hovered) e.currentTarget.style.opacity = "0"; }}
                 >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? "#e8002d" : "none"} stroke={isWished ? "#e8002d" : "#000"} strokeWidth="1.8" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? "#630D13" : "none"} stroke={isWished ? "#630D13" : "#000"} strokeWidth="1.8" aria-hidden="true">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
                 </button>
 
-                {/* Quick-add overlay — shows size picker if sizes exist, otherwise adds directly */}
-                <div
+                {/* Floating bag button — bottom right, FashionNova style */}
+                <button
+                    aria-label={`Add ${product.name} to bag`}
+                    onClick={handleAddToBag}
+                    disabled={adding}
+                    className="product-quick-add"
                     style={{
-                        position: "absolute", bottom: 0, left: 0, right: 0,
-                        background: "#fff",
-                        borderTop: "1px solid #e8e8e8",
-                        padding: sizes.length > 0 ? "10px 8px" : "0",
+                        position: "absolute", bottom: "10px", right: "10px",
+                        width: "36px", height: "36px", borderRadius: "50%",
+                        background: adding ? "#2d7a2d" : "#fff",
+                        border: "none",
+                        boxShadow: "0 2px 8px rgba(0,0,0,.18)",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        cursor: "pointer", zIndex: 3,
                         opacity: hovered ? 1 : 0,
-                        transform: hovered ? "translateY(0)" : "translateY(6px)",
-                        transition: "opacity .2s ease, transform .2s ease",
-                        zIndex: 3,
+                        transition: "opacity .2s ease, background .2s ease",
                     }}
                 >
-                    {sizes.length > 0 ? (
-                        /* Inline size pills — click picks size and adds to cart */
-                        <div style={{ display: "flex", gap: "4px", flexWrap: "wrap", justifyContent: "center" }}>
-                            {sizes.slice(0, 6).map((s) => (
-                                <button
-                                    key={s}
-                                    aria-label={`Add size ${s} to bag`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        setAdding(true);
-                                        addToCart({
-                                            productId: product.id,
-                                            name: product.name,
-                                            slug: product.slug,
-                                            price: toNaira(product.prices.price),
-                                            regularPrice: isOnSale ? toNaira(product.prices.regular_price) : toNaira(product.prices.price),
-                                            quantity: 1,
-                                            image: img1,
-                                            size: s,
-                                            color: undefined,
-                                        });
-                                        window.dispatchEvent(new Event("cart-updated"));
-                                        window.dispatchEvent(new Event("open-cart-drawer"));
-                                        setTimeout(() => setAdding(false), 1000);
-                                    }}
-                                    style={{
-                                        fontSize: "10px", fontWeight: 700,
-                                        fontFamily: "'Barlow Condensed', sans-serif",
-                                        letterSpacing: ".06em",
-                                        border: "1px solid #000",
-                                        padding: "4px 8px",
-                                        color: "#000", background: "#fff",
-                                        cursor: "pointer",
-                                        transition: "all .15s",
-                                        minWidth: "34px", textAlign: "center",
-                                    }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.background = "#000"; e.currentTarget.style.color = "#fff"; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#000"; }}
-                                >
-                                    {s}
-                                </button>
-                            ))}
-                            {sizes.length > 6 && (
-                                <button
-                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push(`/product/${product.slug}`); }}
-                                    style={{ fontSize: "10px", fontWeight: 700, border: "1px solid #ccc", padding: "4px 8px", color: "#767676", background: "#fff", cursor: "pointer" }}
-                                >
-                                    +{sizes.length - 6}
-                                </button>
-                            )}
-                        </div>
+                    {adding ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" aria-hidden="true">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
                     ) : (
-                        /* No sizes — single add-to-bag strip */
-                        <button
-                            aria-label={`Add ${product.name} to bag`}
-                            onClick={handleAddToBag}
-                            disabled={adding}
-                            style={{
-                                display: "flex", alignItems: "center", justifyContent: "center", gap: "7px",
-                                width: "100%",
-                                background: adding ? "#007a3d" : "#000",
-                                color: "#fff",
-                                fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700,
-                                letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center",
-                                padding: "10px",
-                                border: "none", cursor: "pointer",
-                            }}
-                        >
-                            {adding ? "✓ Added!" : (
-                                <>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src="/shopping-bag.png" alt="" aria-hidden="true" width={13} height={13} style={{ filter: "brightness(0) invert(1)", display: "block" }} />
-                                    Add to Bag
-                                </>
-                            )}
-                        </button>
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="#111" aria-hidden="true">
+                            <path d="M19.5 8.25H16.5V7.75C16.5 6.55653 16.0259 5.41193 15.182 4.56802C14.3381 3.72411 13.1935 3.25 12 3.25C10.8065 3.25 9.66193 3.72411 8.81802 4.56802C7.97411 5.41193 7.5 6.55653 7.5 7.75V8.25H4.5C4.16848 8.25 3.85054 8.3817 3.61612 8.61612C3.3817 8.85054 3.25 9.16848 3.25 9.5V18C3.25 18.7293 3.53973 19.4288 4.05546 19.9445C4.57118 20.4603 5.27065 20.75 6 20.75H18C18.7293 20.75 19.4288 20.4603 19.9445 19.9445C20.4603 19.4288 20.75 18.7293 20.75 18V9.5C20.75 9.16848 20.6183 8.85054 20.3839 8.61612C20.1495 8.3817 19.8315 8.25 19.5 8.25ZM9 7.75C9 6.95435 9.31607 6.19129 9.87868 5.62868C10.4413 5.06607 11.2044 4.75 12 4.75C12.7956 4.75 13.5587 5.06607 14.1213 5.62868C14.6839 6.19129 15 6.95435 15 7.75V8.25H9V7.75ZM19.25 18C19.25 18.3315 19.1183 18.6495 18.8839 18.8839C18.6495 19.1183 18.3315 19.25 18 19.25H6C5.66848 19.25 5.35054 19.1183 5.11612 18.8839C4.8817 18.6495 4.75 18.3315 4.75 18V9.75H7.5V12C7.5 12.1989 7.57902 12.3897 7.71967 12.5303C7.86032 12.671 8.05109 12.75 8.25 12.75C8.44891 12.75 8.63968 12.671 8.78033 12.5303C8.92098 12.3897 9 12.1989 9 12V9.75H15V12C15 12.1989 15.079 12.3897 15.2197 12.5303C15.3603 12.671 15.5511 12.75 15.75 12.75C15.9489 12.75 16.1397 12.671 16.2803 12.5303C16.421 12.3897 16.5 12.1989 16.5 12V9.75H19.25V18Z" />
+                        </svg>
                     )}
-                </div>
+                </button>
             </Link>
 
             {/* Product info */}
@@ -293,7 +229,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                     {isOnSale && (
                         <span style={{ color: "#999", fontWeight: 400, textDecoration: "line-through", marginRight: "6px", fontSize: "12px" }}>{regularNaira}</span>
                     )}
-                    <span style={{ color: isOnSale ? "#e8002d" : "#000" }}>{priceNaira}</span>
+                    <span style={{ color: isOnSale ? "#630D13" : "#000" }}>{priceNaira}</span>
                 </p>
 
                 {/* Colour swatches */}
@@ -344,6 +280,9 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                     .product-wishlist-btn { opacity: 1 !important; }
                     .product-sizes { display: none !important; }
                     .product-card-info { padding: 6px 6px 10px !important; }
+                    .product-card-info p:first-child { font-size: 12px !important; margin-bottom: 3px !important; -webkit-line-clamp: 1 !important; }
+                    .product-card-info p:nth-child(2) { font-size: 13px !important; }
+                    .product-quick-add { opacity: 1 !important; }
                 }
             `}</style>
         </div>

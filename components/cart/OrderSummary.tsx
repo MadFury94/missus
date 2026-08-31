@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { formatPrice } from "@/lib/woocommerce";
@@ -43,7 +43,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     {discount > 0 && (
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid #f0f0f0" }}>
                             <span style={{ fontSize: "13px", color: "#555" }}>Discount</span>
-                            <span style={{ fontSize: "13px", fontWeight: 600, color: "#e8002d" }}>
+                            <span style={{ fontSize: "13px", fontWeight: 600, color: "#630D13" }}>
                                 −{formatPrice(discount)}
                             </span>
                         </div>

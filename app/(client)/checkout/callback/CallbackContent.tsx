@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -83,7 +83,7 @@ export default function CallbackContent() {
         }}>
             <div style={{
                 width: "72px", height: "72px", borderRadius: "50%",
-                background: "#e8002d",
+                background: "#630D13",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 marginBottom: "24px",
             }}>

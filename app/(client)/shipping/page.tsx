@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function ShippingPage() {
 
             {/* Header */}
             <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#e8002d", marginBottom: "10px" }}>
+                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
                     Delivery
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
@@ -24,7 +24,7 @@ export default function ShippingPage() {
 
                 {/* Free shipping callout */}
                 <div style={{ background: "#000", color: "#fff", padding: "20px 24px", marginBottom: "40px", display: "flex", alignItems: "center", gap: "16px" }}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e8002d" strokeWidth="1.8" style={{ flexShrink: 0 }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#630D13" strokeWidth="1.8" style={{ flexShrink: 0 }}>
                         <rect x="1" y="3" width="15" height="13" />
                         <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
                         <circle cx="5.5" cy="18.5" r="2.5" />

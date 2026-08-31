@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SUB_NAV } from "@/lib/config";
 
-const SALE_COLOR = "#6b2737"; // burgundy
+const SALE_COLOR = "#630D13"; // burgundy
 
 export default function CategoryNav() {
     const pathname = usePathname();

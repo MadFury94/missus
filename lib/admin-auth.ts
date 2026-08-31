@@ -4,7 +4,8 @@ const WP_API_URL = process.env.WP_API_URL || "https://missusoutfits.com/wp-json"
 
 /**
  * Validates the Bearer JWT token in the Authorization header against WordPress.
- * Returns a NextResponse 401 if invalid, or null if the request should proceed.
+ * In development, accepts the DEV_ADMIN_PASSWORD token bypass without hitting WordPress.
+ * Returns a NextResponse 401/503 if invalid, or null if the request should proceed.
  */
 export async function requireAdminAuth(request: NextRequest): Promise<NextResponse | null> {
     const authHeader = request.headers.get("authorization");
@@ -15,6 +16,11 @@ export async function requireAdminAuth(request: NextRequest): Promise<NextRespon
 
     const token = authHeader.slice(7);
 
+    // Dev bypass — accept the local dev token without hitting WordPress
+    if (process.env.NODE_ENV === "development" && token === "dev-token") {
+        return null;
+    }
+
     try {
         const res = await fetch(`${WP_API_URL}/jwt-auth/v1/token/validate`, {
             method: "POST",
@@ -22,7 +28,6 @@ export async function requireAdminAuth(request: NextRequest): Promise<NextRespon
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            // Don't cache token validation
             cache: "no-store",
         });
 

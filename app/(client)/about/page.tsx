@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -13,11 +13,11 @@ export default function AboutPage() {
 
             {/* Hero */}
             <div style={{ background: "#000", padding: "80px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#e8002d", marginBottom: "12px" }}>
+                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "12px" }}>
                     Our Story
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(48px, 8vw, 96px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9, letterSpacing: "-.01em" }}>
-                    Built for<br /><span style={{ color: "#e8002d" }}>Her.</span>
+                    Built for<br /><span style={{ color: "#630D13" }}>Her.</span>
                 </h1>
                 <p style={{ fontSize: "15px", color: "rgba(255,255,255,.6)", fontWeight: 300, marginTop: "20px", maxWidth: "520px", margin: "20px auto 0", lineHeight: 1.7 }}>
                     Missus started with one idea — that Nigerian women deserve fashion that actually fits their lives, their bodies, and their budget.

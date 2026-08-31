@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -179,7 +179,7 @@ export default function WishlistPage() {
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d0d0d0" strokeWidth="1.2">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
-                    <div style={{ position: "absolute", top: "-4px", right: "-4px", width: "22px", height: "22px", background: "#e8002d", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ position: "absolute", top: "-4px", right: "-4px", width: "22px", height: "22px", background: "#630D13", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <span style={{ color: "#fff", fontSize: "10px", fontWeight: 700 }}>0</span>
                     </div>
                 </div>
@@ -202,7 +202,7 @@ export default function WishlistPage() {
 
                 {trending.length > 0 && (
                     <div style={{ textAlign: "left" }}>
-                        <h2 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "16px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", paddingLeft: "4px", borderLeft: "3px solid #e8002d" }}>
+                        <h2 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "16px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", paddingLeft: "4px", borderLeft: "3px solid #630D13" }}>
                             &nbsp;Trending Now
                         </h2>
                         <div className="grid-4">
@@ -239,7 +239,7 @@ export default function WishlistPage() {
                     <button
                         onClick={handleClear}
                         style={{ display: "flex", alignItems: "center", gap: "6px", background: "none", border: "1.5px solid #e0e0e0", padding: "8px 14px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", color: "#555", cursor: "pointer", transition: "all .15s" }}
-                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#e8002d"; e.currentTarget.style.color = "#e8002d"; }}
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#630D13"; e.currentTarget.style.color = "#630D13"; }}
                         onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#555"; }}
                     >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4h6v2" /></svg>
@@ -473,7 +473,7 @@ function WishlistListRow({
                     onClick={() => { setRemoving(true); setTimeout(() => onRemove(item.productId), 250); }}
                     aria-label="Remove from wishlist"
                     style={{ width: "34px", height: "34px", border: "1.5px solid #e0e0e0", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, transition: "all .15s" }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#e8002d"; e.currentTarget.style.color = "#e8002d"; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#630D13"; e.currentTarget.style.color = "#630D13"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#000"; }}
                 >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">

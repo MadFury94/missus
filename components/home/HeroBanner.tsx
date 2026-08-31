@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 
 // Real Missus product images
@@ -25,11 +25,11 @@ export default function HeroBanner() {
 
             {/* Content */}
             <div style={{ position: "relative", zIndex: 3, padding: "40px 40px 50px", width: "100%" }}>
-                <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#e8002d", marginBottom: "10px" }}>
+                <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
                     Spring / Summer 2026
                 </p>
                 <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(60px,8vw,110px)", fontWeight: 900, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: .9, marginBottom: "16px" }}>
-                    Dress Like<br /><span style={{ color: "#e8002d" }}>Her.</span>
+                    Dress Like<br /><span style={{ color: "#630D13" }}>Her.</span>
                 </h1>
                 <p style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 300, marginBottom: "28px", maxWidth: "420px", lineHeight: 1.6 }}>
                     Trend-forward, affordable fashion for the modern Nigerian girl. From Lagos to Abuja — we deliver style to your door.
@@ -45,7 +45,7 @@ export default function HeroBanner() {
             </div>
 
             {/* Sale badge */}
-            <div style={{ position: "absolute", top: "30px", right: "30px", zIndex: 3, background: "#e8002d", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase", padding: "12px 20px", textAlign: "center", lineHeight: 1.3 }}>
+            <div style={{ position: "absolute", top: "30px", right: "30px", zIndex: 3, background: "#630D13", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase", padding: "12px 20px", textAlign: "center", lineHeight: 1.3 }}>
                 UP TO<br /><span style={{ fontSize: "22px" }}>60%</span><br />OFF SALE
             </div>
         </div>

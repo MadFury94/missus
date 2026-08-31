@@ -31,7 +31,12 @@ export default function AdminDashboard() {
                     : {},
             });
             const data = await response.json();
-            setStats(data);
+            setStats({
+                products: data.products ?? 0,
+                orders: data.orders ?? 0,
+                revenue: data.revenue ?? 0,
+                customers: data.customers ?? 0,
+            });
             if (!data.configured) {
                 setConfigError(data.error || "WooCommerce API credentials not configured.");
             } else if (data.error) {

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -101,7 +101,7 @@ export default function CheckoutPage() {
             {/* Header Banner */}
             {/* <div style={{ background: "#f8f8f8", borderBottom: "1px solid #e8e8e8", padding: "16px 0", textAlign: "center" }}>
                 <p style={{ fontSize: "13px", color: "#000" }}>
-                    Spend <strong>{formatPrice(FREE_SHIPPING_THRESHOLD)}</strong> or more to unlock <strong style={{ color: "#e8002d" }}>FREE SHIPPING!</strong> <Link href="/shop" style={{ textDecoration: "underline", color: "#000" }}>Shop Now →</Link>
+                    Spend <strong>{formatPrice(FREE_SHIPPING_THRESHOLD)}</strong> or more to unlock <strong style={{ color: "#630D13" }}>FREE SHIPPING!</strong> <Link href="/shop" style={{ textDecoration: "underline", color: "#000" }}>Shop Now →</Link>
                 </p>
             </div> */}
 
@@ -266,7 +266,7 @@ export default function CheckoutPage() {
                             <div style={{ marginBottom: "20px", maxHeight: "280px", overflowY: "auto" }}>
                                 {cart.items.length === 0 ? (
                                     <p style={{ fontSize: "14px", color: "#666", textAlign: "center", padding: "20px 0" }}>
-                                        Your cart is empty. <Link href="/shop" style={{ color: "#e8002d", textDecoration: "underline" }}>Shop now</Link>
+                                        Your cart is empty. <Link href="/shop" style={{ color: "#630D13", textDecoration: "underline" }}>Shop now</Link>
                                     </p>
                                 ) : (
                                     cart.items.map((item) => (
@@ -322,7 +322,7 @@ export default function CheckoutPage() {
                                                 {promoLoading ? "..." : "Apply"}
                                             </button>
                                         </div>
-                                        {promoError && <p style={{ fontSize: "12px", color: "#e8002d", marginTop: "6px" }}>{promoError}</p>}
+                                        {promoError && <p style={{ fontSize: "12px", color: "#630D13", marginTop: "6px" }}>{promoError}</p>}
                                     </>
                                 )}
                             </div>

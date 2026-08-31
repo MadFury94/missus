@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getSaleProducts } from "@/lib/woocommerce";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import SaleClient from "./SaleClient";
@@ -14,7 +14,7 @@ export default async function SalePage() {
             {/* Sale hero */}
             <div
                 style={{
-                    background: "#e8002d",
+                    background: "#630D13",
                     padding: "36px 20px",
                     textAlign: "center",
                     position: "relative",

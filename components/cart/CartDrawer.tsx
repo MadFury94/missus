@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -142,7 +142,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                                             {formatPrice(item.regularPrice!)}
                                                         </span>
                                                     )}
-                                                    <span style={{ fontSize: "13px", fontWeight: 700, color: hasDiscount ? "#e8002d" : "#000" }}>
+                                                    <span style={{ fontSize: "13px", fontWeight: 700, color: hasDiscount ? "#630D13" : "#000" }}>
                                                         {formatPrice(item.price)}
                                                     </span>
                                                 </div>
@@ -170,7 +170,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                                     aria-label={`Remove ${item.name}`}
                                                     onClick={() => { removeFromCart(item.productId, item.size); refresh(); window.dispatchEvent(new Event("cart-updated")); }}
                                                     style={{ background: "none", border: "none", cursor: "pointer", fontSize: "11px", color: "#aaa", textDecoration: "underline", fontFamily: "'Barlow', sans-serif", padding: 0 }}
-                                                    onMouseEnter={(e) => (e.currentTarget.style.color = "#e8002d")}
+                                                    onMouseEnter={(e) => (e.currentTarget.style.color = "#630D13")}
                                                     onMouseLeave={(e) => (e.currentTarget.style.color = "#aaa")}
                                                 >Remove</button>
                                             </div>

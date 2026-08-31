@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/woocommerce";
 
@@ -58,7 +58,7 @@ export default function CartUpsell({ products }: Props) {
                                     {formatPrice(product.regularPrice)}
                                 </span>
                             )}
-                            <span style={{ color: product.regularPrice && product.regularPrice > product.price ? "#e8002d" : "#000" }}>
+                            <span style={{ color: product.regularPrice && product.regularPrice > product.price ? "#630D13" : "#000" }}>
                                 {formatPrice(product.price)}
                             </span>
                         </p>

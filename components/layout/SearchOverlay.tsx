@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { StoreProduct } from "@/lib/woocommerce";
@@ -346,7 +346,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                             <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={`/category/${cat.slug}`} />
                                         ))}
                                         <AccentRow rank={colA.length + 1} label="New Drops" href="/new-in" bg="#111" accent="#fff" />
-                                        <AccentRow rank={colA.length + 2} label="MissusDeals" href="/sale" bg="#e8002d" accent="#fff" />
+                                        <AccentRow rank={colA.length + 2} label="MissusDeals" href="/sale" bg="#630D13" accent="#fff" />
                                     </div>
                                 </div>
 

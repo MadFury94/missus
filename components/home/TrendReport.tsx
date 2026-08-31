@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 
 // Real Missus product images for trend cards
@@ -32,7 +32,7 @@ const TREND_CARDS = [
 export default function TrendReport() {
     return (
         <div style={{ padding: "24px 20px" }}>
-            <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: "16px", borderLeft: "4px solid #e8002d", paddingLeft: "12px" }}>
+            <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 800, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: "16px", borderLeft: "4px solid #630D13", paddingLeft: "12px" }}>
                 THE TREND REPORT
             </h2>
             <div className="trend-grid">

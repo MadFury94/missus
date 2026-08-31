@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { formatPrice } from "@/lib/woocommerce";
@@ -34,7 +34,7 @@ export default function CartUnlockBar({ total }: Props) {
 
             {/* Free gift / shipping promo banner */}
             <div style={{ background: "linear-gradient(90deg,#000 0%,#1a1a1a 100%)", padding: "14px 20px", display: "flex", alignItems: "center", gap: "14px" }}>
-                <div style={{ width: "36px", height: "36px", background: "#e8002d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: "36px", height: "36px", background: "#630D13", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8">
                         <polyline points="20 12 20 22 4 22 4 12" />
                         <rect x="2" y="7" width="20" height="5" />

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -68,7 +68,7 @@ button {
 }
 
 /* ── Brand color token usage ────────────────────────────────
-   Components that hardcode #e8002d (sale red / brand primary)
+   Components that hardcode #630D13 (sale red / brand primary)
    are overridden here so changing --color-brand-primary above
    propagates sitewide without touching component files.
 ──────────────────────────────────────────────────────────── */
@@ -80,7 +80,7 @@ button {
 }
 
 /* Inline-style overrides for the most common brand-color patterns */
-*[style*="#e8002d"] {
+*[style*="#630D13"] {
   --_override: var(--color-brand-primary);
 }
 
@@ -642,7 +642,7 @@ button {
      --color-brand-secondary : secondary highlights (currently unused, ready to use)
      Font: swap the two imports at the top of app/layout.tsx
      ══════════════════════════════════════════════════════════════ */
-  --color-brand-primary: #e8002d;
+  --color-brand-primary: #630D13;
   --color-brand-secondary: #000000;
 
   --card: oklch(1 0 0);

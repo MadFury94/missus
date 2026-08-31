@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
@@ -216,9 +216,9 @@ export default function BulkImportPage() {
                                     <tbody>
                                         {preview.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #f0f0f1", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-                                                <td style={{ padding: "8px 12px", fontWeight: 600 }}>{row.name || <span style={{ color: "#e8002d" }}>Missing!</span>}</td>
+                                                <td style={{ padding: "8px 12px", fontWeight: 600 }}>{row.name || <span style={{ color: "#630D13" }}>Missing!</span>}</td>
                                                 <td style={{ padding: "8px 12px" }}>₦{row.regular_price}</td>
-                                                <td style={{ padding: "8px 12px", color: "#e8002d" }}>{row.sale_price ? `₦${row.sale_price}` : "—"}</td>
+                                                <td style={{ padding: "8px 12px", color: "#630D13" }}>{row.sale_price ? `₦${row.sale_price}` : "—"}</td>
                                                 <td style={{ padding: "8px 12px", color: "#767676" }}>{row.sku || "—"}</td>
                                                 <td style={{ padding: "8px 12px" }}>{row.categories || "—"}</td>
                                                 <td style={{ padding: "8px 12px" }}>{row.sizes || "—"}</td>
@@ -261,7 +261,7 @@ export default function BulkImportPage() {
                                     ✓ {successCount} imported successfully
                                 </span>
                                 {errorCount > 0 && (
-                                    <span style={{ background: "#fde8e8", color: "#e8002d", padding: "6px 14px", fontSize: "13px", fontWeight: 600 }}>
+                                    <span style={{ background: "#fde8e8", color: "#630D13", padding: "6px 14px", fontSize: "13px", fontWeight: 600 }}>
                                         ✗ {errorCount} failed
                                     </span>
                                 )}
@@ -269,7 +269,7 @@ export default function BulkImportPage() {
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 {results.map((r, i) => (
                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 12px", background: r.status === "success" ? "#f0faf4" : "#fef2f2", fontSize: "13px" }}>
-                                        <span style={{ color: r.status === "success" ? "#007a3d" : "#e8002d", fontWeight: 700 }}>
+                                        <span style={{ color: r.status === "success" ? "#007a3d" : "#630D13", fontWeight: 700 }}>
                                             {r.status === "success" ? "✓" : "✗"}
                                         </span>
                                         <span style={{ fontWeight: 600 }}>{r.name}</span>

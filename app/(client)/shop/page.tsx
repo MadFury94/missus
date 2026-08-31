@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
@@ -220,7 +220,7 @@ export default function ShopPage() {
                             </svg>
                             Filter
                             {activeFilterCount > 0 && (
-                                <span style={{ background: "#e8002d", color: "#fff", borderRadius: "99px", fontSize: "10px", padding: "1px 6px", fontWeight: 700 }}>
+                                <span style={{ background: "#630D13", color: "#fff", borderRadius: "99px", fontSize: "10px", padding: "1px 6px", fontWeight: 700 }}>
                                     {activeFilterCount}
                                 </span>
                             )}

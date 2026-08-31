@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 
@@ -64,7 +64,7 @@ export default function ContactPage() {
 
             {/* Header */}
             <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#e8002d", marginBottom: "10px" }}>
+                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
                     We&apos;re Here
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                             </div>
                         ))}
 
-                        <div style={{ marginTop: "32px", padding: "20px", background: "#f5f5f5", borderLeft: "3px solid #e8002d" }}>
+                        <div style={{ marginTop: "32px", padding: "20px", background: "#f5f5f5", borderLeft: "3px solid #630D13" }}>
                             <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "6px" }}>
                                 Response Time
                             </p>
@@ -138,7 +138,7 @@ export default function ContactPage() {
 
                         {/* Collab anchor */}
                         <div id="collab" style={{ marginTop: "32px", padding: "20px", background: "#000", color: "#fff" }}>
-                            <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#e8002d", marginBottom: "6px" }}>
+                            <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#630D13", marginBottom: "6px" }}>
                                 Want to Collab?
                             </p>
                             <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", lineHeight: 1.6 }}>

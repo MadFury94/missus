@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
@@ -139,7 +139,7 @@ export default function NewInPage() {
                                 type="checkbox"
                                 checked={onSaleOnly}
                                 onChange={(e) => setOnSaleOnly(e.target.checked)}
-                                style={{ accentColor: "#e8002d", width: "15px", height: "15px", cursor: "pointer" }}
+                                style={{ accentColor: "#630D13", width: "15px", height: "15px", cursor: "pointer" }}
                             />
                             <span style={{ fontSize: "13px", color: "#000", fontWeight: onSaleOnly ? 700 : 400 }}>On Sale Only</span>
                         </label>
@@ -162,9 +162,9 @@ export default function NewInPage() {
                                 </span>
                             ))}
                             {onSaleOnly && (
-                                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #e8002d", padding: "2px 8px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#e8002d" }}>
+                                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #630D13", padding: "2px 8px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#630D13" }}>
                                     Sale
-                                    <button onClick={() => setOnSaleOnly(false)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", lineHeight: 1, padding: 0, color: "#e8002d" }}>×</button>
+                                    <button onClick={() => setOnSaleOnly(false)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", lineHeight: 1, padding: 0, color: "#630D13" }}>×</button>
                                 </span>
                             )}
                         </div>

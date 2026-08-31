@@ -1,4 +1,4 @@
-import { formatPrice } from "@/lib/woocommerce";
+﻿import { formatPrice } from "@/lib/woocommerce";
 
 interface FreeGiftBarProps {
     remaining: number;
@@ -9,7 +9,7 @@ export default function FreeGiftBar({ remaining }: FreeGiftBarProps) {
 
     return (
         <div className="bg-gradient-to-r from-black to-gray-900 px-5 py-3.5 flex items-center gap-3.5">
-            <div className="w-9 h-9 bg-[#e8002d] flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 bg-[#630D13] flex items-center justify-center flex-shrink-0">
                 <svg className="w-5 h-5 stroke-white" fill="none" strokeWidth="1.8" viewBox="0 0 24 24">
                     <polyline points="20 12 20 22 4 22 4 12" />
                     <rect x="2" y="7" width="20" height="5" />

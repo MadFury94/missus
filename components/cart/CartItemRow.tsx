@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -77,7 +77,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
                                 {formatPrice(item.regularPrice! * item.quantity)}
                             </span>
                         )}
-                        <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, color: hasDiscount ? "#e8002d" : "#000" }}>
+                        <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, color: hasDiscount ? "#630D13" : "#000" }}>
                             {formatPrice(lineTotal)}
                         </span>
                     </div>
@@ -111,7 +111,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
                     <button
                         onClick={handleRemove}
                         style={{ fontSize: "12px", color: "#767676", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-barlow)", padding: 0 }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = "#e8002d")}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#630D13")}
                         onMouseLeave={(e) => (e.currentTarget.style.color = "#767676")}
                     >
                         Remove
@@ -146,7 +146,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
 
             {/* SALE badge */}
             {hasDiscount && (
-                <span style={{ position: "absolute", top: "20px", right: 0, background: "#e8002d", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "3px 8px" }}>
+                <span style={{ position: "absolute", top: "20px", right: 0, background: "#630D13", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "3px 8px" }}>
                     SALE
                 </span>
             )}
