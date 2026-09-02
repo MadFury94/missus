@@ -79,7 +79,7 @@ export default function CategoryNav() {
                                 className="subnav-link"
                             >
                                 {link.hot && (
-                                    <span style={{ marginRight: "4px", fontSize: "12px" }}>??</span>
+                                    <span style={{ marginRight: "4px", fontSize: "12px" }}>🔥</span>
                                 )}
                                 {link.label}
                             </Link>

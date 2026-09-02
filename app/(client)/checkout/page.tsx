@@ -363,7 +363,7 @@ export default function CheckoutPage() {
                             </button>
 
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "12px" }}>
-                                <span style={{ fontSize: "14px" }}>??</span>
+                                <span style={{ fontSize: "14px" }}>🔒</span>
                                 <span style={{ fontSize: "11px", color: "#666" }}>Secured by Paystack · SSL Encrypted</span>
                             </div>
                         </div>

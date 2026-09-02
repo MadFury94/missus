@@ -217,7 +217,7 @@ export default function BulkImportPage() {
                                         {preview.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #f0f0f1", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                                                 <td style={{ padding: "8px 12px", fontWeight: 600 }}>{row.name || <span style={{ color: "#7F0E12" }}>Missing!</span>}</td>
-                                                <td style={{ padding: "8px 12px" }}>?{row.regular_price}</td>
+                                                <td style={{ padding: "8px 12px" }}>₦{row.regular_price}</td>
                                                 <td style={{ padding: "8px 12px", color: "#7F0E12" }}>{row.sale_price ? `?${row.sale_price}` : ""}</td>
                                                 <td style={{ padding: "8px 12px", color: "#767676" }}>{row.sku || ""}</td>
                                                 <td style={{ padding: "8px 12px" }}>{row.categories || ""}</td>
@@ -270,7 +270,7 @@ export default function BulkImportPage() {
                                 {results.map((r, i) => (
                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 12px", background: r.status === "success" ? "#f0faf4" : "#fef2f2", fontSize: "13px" }}>
                                         <span style={{ color: r.status === "success" ? "#007a3d" : "#7F0E12", fontWeight: 700 }}>
-                                            {r.status === "success" ? "?" : "?"}
+                                            {r.status === "success" ? "✅" : "❌"}
                                         </span>
                                         <span style={{ fontWeight: 600 }}>{r.name}</span>
                                         <span style={{ color: "#767676" }}>{r.message}</span>

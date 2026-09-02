@@ -91,7 +91,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                     </button>
                 </div>
 
-                {/* Empty state  FashionNova style */}
+                {/* Empty state — FashionNova style */}
                 {cart.items.length === 0 ? (
                     <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 24px", textAlign: "center" }}>
                         <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", color: "#111", marginBottom: "8px" }}>
@@ -137,14 +137,14 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                                 </Link>
                                                 {item.size && <p style={{ fontSize: "11px", color: "#767676", marginTop: "3px" }}>Size: {item.size}</p>}
                                                 <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
+                                                    <span style={{ fontSize: "13px", fontWeight: 700, color: hasDiscount ? "#7F0E12" : "#000" }}>
+                                                        {formatPrice(item.price)}
+                                                    </span>
                                                     {hasDiscount && (
                                                         <span style={{ fontSize: "12px", color: "#aaa", textDecoration: "line-through" }}>
                                                             {formatPrice(item.regularPrice!)}
                                                         </span>
                                                     )}
-                                                    <span style={{ fontSize: "13px", fontWeight: 700, color: hasDiscount ? "#7F0E12" : "#000" }}>
-                                                        {formatPrice(item.price)}
-                                                    </span>
                                                 </div>
                                             </div>
 
@@ -182,12 +182,37 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
 
                         {/* Footer */}
                         <div style={{ borderTop: "1.5px solid #000", padding: "20px" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "16px" }}>
+                            {/* Free shipping progress bar */}
+                            {(() => {
+                                const FREE_SHIPPING = 150000;
+                                const remaining = Math.max(0, FREE_SHIPPING - cart.subtotal);
+                                const pct = Math.min(100, (cart.subtotal / FREE_SHIPPING) * 100);
+                                return (
+                                    <div style={{ marginBottom: "16px" }}>
+                                        {remaining > 0 ? (
+                                            <p style={{ fontSize: "12px", color: "#333", marginBottom: "8px", textAlign: "center" }}>
+                                                {"You're "}<strong>{"₦"}{remaining.toLocaleString("en-NG")}</strong>{" away from free shipping!"}
+                                            </p>
+                                        ) : (
+                                            <p style={{ fontSize: "12px", color: "#00a32a", fontWeight: 700, marginBottom: "8px", textAlign: "center" }}>
+                                                {"You've unlocked free shipping! "}
+                                            </p>
+                                        )}
+                                        <div style={{ height: "4px", background: "#e8e8e8", borderRadius: "2px", overflow: "hidden" }}>
+                                            <div style={{ height: "100%", width: `${pct}%`, background: remaining === 0 ? "#00a32a" : "#000", borderRadius: "2px", transition: "width .4s ease" }} />
+                                        </div>
+                                    </div>
+                                );
+                            })()}
+
+                            {/* Subtotal row */}
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
                                 <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em" }}>Subtotal</span>
                                 <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 900 }}>
                                     {formatPrice(cart.subtotal)}
                                 </span>
                             </div>
+
                             <p style={{ fontSize: "11px", color: "#aaa", marginBottom: "16px", textAlign: "center" }}>
                                 Shipping calculated at checkout
                             </p>
@@ -196,7 +221,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                 onClick={onClose}
                                 style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase", padding: "16px", textDecoration: "none", marginBottom: "10px" }}
                             >
-                                Checkout  {formatPrice(cart.subtotal)}
+                                Checkout &mdash; {formatPrice(cart.subtotal)}
                             </Link>
                             <Link
                                 href="/cart"

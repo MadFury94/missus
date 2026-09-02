@@ -270,7 +270,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                             >
                                 <span>
                                     {link.hot && (
-                                        <span style={{ marginRight: "6px", verticalAlign: "middle", fontSize: "15px" }}>??</span>
+                                        <span style={{ marginRight: "6px", verticalAlign: "middle", fontSize: "15px" }}>🔥</span>
                                     )}
                                     {link.label}
                                 </span>

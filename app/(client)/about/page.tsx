@@ -59,17 +59,17 @@ export default function AboutPage() {
                     <div className="about-values-grid">
                         {[
                             {
-                                icon: "?",
+                                icon: "💸",
                                 title: "Affordable Style",
                                 body: "Trend-forward pieces that don't require a second mortgage. We keep prices real so you can keep your wardrobe fresh.",
                             },
                             {
-                                icon: "?",
+                                icon: "⚡",
                                 title: "Fast Delivery",
                                 body: "Lagos orders delivered in 12 hours. Nationwide in 13 days. Because waiting a week for a fit is not it.",
                             },
                             {
-                                icon: "?",
+                                icon: "💫",
                                 title: "Made for You",
                                 body: "Every piece is chosen with the Nigerian woman in mind  her shape, her climate, her lifestyle, her moment.",
                             },

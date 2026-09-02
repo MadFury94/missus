@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -56,7 +56,7 @@ function colourNameToHex(name: string): string {
         rust: "#b7410e",
         mustard: "#ffdb58",
     };
-    return MAP[n] ?? n; // pass unknown names directly  browser will resolve known CSS colours
+    return MAP[n] ?? n; // pass unknown names directly  browser will resolve known CSS colours
 }
 
 export default function ProductCard({ product }: { product: StoreProduct }) {
@@ -136,7 +136,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                 <p style={{ fontFamily: "var(--font-body)", fontSize: "11px", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#aaa", marginBottom: "2px" }}>Select Size</p>
                                 <p style={{ fontFamily: "var(--font-body)", fontSize: "13px", fontWeight: 600, color: "#000", lineHeight: 1.3 }}>{product.name}</p>
                             </div>
-                            <button onClick={() => setSizePickerOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "24px", lineHeight: 1, padding: "0 0 0 12px" }}>×</button>
+                            <button onClick={() => setSizePickerOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "24px", lineHeight: 1, padding: "0 0 0 12px" }}>x</button>
                         </div>
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px" }}>
                             {sizes.map((s) => (
@@ -152,7 +152,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                             ))}
                         </div>
                         <Link href={`/product/${product.slug}`} style={{ fontSize: "12px", color: "#999", textDecoration: "underline", fontFamily: "var(--font-body)" }}>
-                            View size guide ?
+                            View size guide
                         </Link>
                     </div>
                 </div>
@@ -173,7 +173,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                 src={img1}
                                 alt={product.name}
                                 fill
-                                style={{ objectFit: "cover", objectPosition: "top center", opacity: hovered && img2 ? 0 : 1, transition: "opacity .3s" }}
+                                style={{ objectFit: "cover", objectPosition: "center top", opacity: hovered && img2 ? 0 : 1, transition: "opacity .3s" }}
                                 sizes="(max-width: 640px) 50vw, 20vw"
                             />
                             {img2 && (
@@ -182,7 +182,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                     alt=""
                                     aria-hidden="true"
                                     fill
-                                    style={{ objectFit: "cover", objectPosition: "top center", opacity: hovered ? 1 : 0, transition: "opacity .3s" }}
+                                    style={{ objectFit: "cover", objectPosition: "center top", opacity: hovered ? 1 : 0, transition: "opacity .3s" }}
                                     sizes="(max-width: 640px) 50vw, 20vw"
                                 />
                             )}
@@ -199,67 +199,71 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         </span>
                     )}
 
-                    {/* Wishlist button */}
-                    <button
-                        aria-label={isWished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            const newState = toggleWishlist({
-                                productId: product.id,
-                                name: product.name,
-                                price: toNaira(product.prices.price),
-                                image: img1,
-                                slug: product.slug,
-                            });
-                            setIsWished(newState);
-                        }}
-                        style={{
-                            position: "absolute", top: "8px", right: "8px",
-                            width: "30px", height: "30px",
-                            background: "rgba(255,255,255,.85)", border: "none", borderRadius: "50%",
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                            opacity: hovered ? 1 : 0,
-                            transition: "opacity .2s",
-                            zIndex: 2, cursor: "pointer",
-                        }}
-                        className="product-wishlist-btn"
-                        onFocus={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.outline = "2px solid #000"; }}
-                        onBlur={(e) => { e.currentTarget.style.outline = "none"; if (!hovered) e.currentTarget.style.opacity = "0"; }}
-                    >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? "#ff0000" : "none"} stroke={isWished ? "#ff0000" : "#000"} strokeWidth="1.8" aria-hidden="true">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                        </svg>
-                    </button>
-
-                    {/* Floating bag button  bottom right, FashionNova style */}
-                    <button
-                        aria-label={`Add ${product.name} to bag`}
-                        onClick={handleAddToBag}
-                        disabled={adding}
+                    {/* Combined wishlist + bag button container - bottom right */}
+                    <div
                         className="product-quick-add"
                         style={{
                             position: "absolute", bottom: "10px", right: "10px",
-                            width: "36px", height: "36px", borderRadius: "50%",
-                            background: adding ? "#2d7a2d" : "#fff",
-                            border: "none",
-                            boxShadow: "0 2px 8px rgba(0,0,0,.18)",
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                            cursor: "pointer", zIndex: 3,
+                            display: "flex", gap: "6px",
                             opacity: hovered ? 1 : 0,
-                            transition: "opacity .2s ease, background .2s ease",
+                            transition: "opacity .2s ease",
+                            zIndex: 3,
                         }}
                     >
-                        {adding ? (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" aria-hidden="true">
-                                <polyline points="20 6 9 17 4 12" />
+                        {/* Wishlist button */}
+                        <button
+                            aria-label={isWished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const newState = toggleWishlist({
+                                    productId: product.id,
+                                    name: product.name,
+                                    price: toNaira(product.prices.price),
+                                    image: img1,
+                                    slug: product.slug,
+                                });
+                                setIsWished(newState);
+                            }}
+                            style={{
+                                width: "34px", height: "34px", borderRadius: "50%",
+                                background: "rgba(255,255,255,.92)", border: "none",
+                                boxShadow: "0 2px 8px rgba(0,0,0,.15)",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                cursor: "pointer",
+                            }}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? "#ff0000" : "none"} stroke={isWished ? "#ff0000" : "#333"} strokeWidth="1.8" aria-hidden="true">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
-                        ) : (
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="#111" aria-hidden="true">
-                                <path d="M19.5 8.25H16.5V7.75C16.5 6.55653 16.0259 5.41193 15.182 4.56802C14.3381 3.72411 13.1935 3.25 12 3.25C10.8065 3.25 9.66193 3.72411 8.81802 4.56802C7.97411 5.41193 7.5 6.55653 7.5 7.75V8.25H4.5C4.16848 8.25 3.85054 8.3817 3.61612 8.61612C3.3817 8.85054 3.25 9.16848 3.25 9.5V18C3.25 18.7293 3.53973 19.4288 4.05546 19.9445C4.57118 20.4603 5.27065 20.75 6 20.75H18C18.7293 20.75 19.4288 20.4603 19.9445 19.9445C20.4603 19.4288 20.75 18.7293 20.75 18V9.5C20.75 9.16848 20.6183 8.85054 20.3839 8.61612C20.1495 8.3817 19.8315 8.25 19.5 8.25ZM9 7.75C9 6.95435 9.31607 6.19129 9.87868 5.62868C10.4413 5.06607 11.2044 4.75 12 4.75C12.7956 4.75 13.5587 5.06607 14.1213 5.62868C14.6839 6.19129 15 6.95435 15 7.75V8.25H9V7.75ZM19.25 18C19.25 18.3315 19.1183 18.6495 18.8839 18.8839C18.6495 19.1183 18.3315 19.25 18 19.25H6C5.66848 19.25 5.35054 19.1183 5.11612 18.8839C4.8817 18.6495 4.75 18.3315 4.75 18V9.75H7.5V12C7.5 12.1989 7.57902 12.3897 7.71967 12.5303C7.86032 12.671 8.05109 12.75 8.25 12.75C8.44891 12.75 8.63968 12.671 8.78033 12.5303C8.92098 12.3897 9 12.1989 9 12V9.75H15V12C15 12.1989 15.079 12.3897 15.2197 12.5303C15.3603 12.671 15.5511 12.75 15.75 12.75C15.9489 12.75 16.1397 12.671 16.2803 12.5303C16.421 12.3897 16.5 12.1989 16.5 12V9.75H19.25V18Z" />
-                            </svg>
-                        )}
-                    </button>
+                        </button>
+
+                        {/* Bag button */}
+                        <button
+                            aria-label={`Add ${product.name} to bag`}
+                            onClick={handleAddToBag}
+                            disabled={adding}
+                            style={{
+                                width: "34px", height: "34px", borderRadius: "50%",
+                                background: adding ? "#2d7a2d" : "#fff",
+                                border: "none",
+                                boxShadow: "0 2px 8px rgba(0,0,0,.18)",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                cursor: "pointer",
+                                transition: "background .2s ease",
+                            }}
+                        >
+                            {adding ? (
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" aria-hidden="true">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            ) : (
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="#111" aria-hidden="true">
+                                    <path d="M19.5 8.25H16.5V7.75C16.5 6.55653 16.0259 5.41193 15.182 4.56802C14.3381 3.72411 13.1935 3.25 12 3.25C10.8065 3.25 9.66193 3.72411 8.81802 4.56802C7.97411 5.41193 7.5 6.55653 7.5 7.75V8.25H4.5C4.16848 8.25 3.85054 8.3817 3.61612 8.61612C3.3817 8.85054 3.25 9.16848 3.25 9.5V18C3.25 18.7293 3.53973 19.4288 4.05546 19.9445C4.57118 20.4603 5.27065 20.75 6 20.75H18C18.7293 20.75 19.4288 20.4603 19.9445 19.9445C20.4603 19.4288 20.75 18.7293 20.75 18V9.5C20.75 9.16848 20.6183 8.85054 20.3839 8.61612C20.1495 8.3817 19.8315 8.25 19.5 8.25ZM9 7.75C9 6.95435 9.31607 6.19129 9.87868 5.62868C10.4413 5.06607 11.2044 4.75 12 4.75C12.7956 4.75 13.5587 5.06607 14.1213 5.62868C14.6839 6.19129 15 6.95435 15 7.75V8.25H9V7.75ZM19.25 18C19.25 18.3315 19.1183 18.6495 18.8839 18.8839C18.6495 19.1183 18.3315 19.25 18 19.25H6C5.66848 19.25 5.35054 19.1183 5.11612 18.8839C4.8817 18.6495 4.75 18.3315 4.75 18V9.75H7.5V12C7.5 12.1989 7.57902 12.3897 7.71967 12.5303C7.86032 12.671 8.05109 12.75 8.25 12.75C8.44891 12.75 8.63968 12.671 8.78033 12.5303C8.92098 12.3897 9 12.1989 9 12V9.75H15V12C15 12.1989 15.079 12.3897 15.2197 12.5303C15.3603 12.671 15.5511 12.75 15.75 12.75C15.9489 12.75 16.1397 12.671 16.2803 12.5303C16.421 12.3897 16.5 12.1989 16.5 12V9.75H19.25V18Z" />
+                                </svg>
+                            )}
+                        </button>
+                    </div>
                 </Link>
 
                 {/* Product info */}
@@ -269,10 +273,10 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                     </p>
 
                     <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", textAlign: "left", marginBottom: "4px" }}>
-                        {isOnSale && (
-                            <span style={{ color: "#999", fontWeight: 400, textDecoration: "line-through", marginRight: "6px", fontSize: "12px" }}>{regularNaira}</span>
-                        )}
                         <span style={{ color: isOnSale ? "#7F0E12" : "#000" }}>{priceNaira}</span>
+                        {isOnSale && (
+                            <span style={{ color: "#aaa", fontWeight: 400, textDecoration: "line-through", marginLeft: "6px", fontSize: "11px" }}>{regularNaira}</span>
+                        )}
                     </p>
 
                     {/* Colour swatches */}
@@ -302,9 +306,9 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         </div>
                     )}
 
-                    {/* Size pills  hidden on mobile */}
+                    {/* Size pills  hidden on mobile */}
                     {sizes.length > 0 && (
-                        <div className="product-sizes" style={{ display: "flex", gap: "4px", marginTop: "6px", flexWrap: "wrap" }}>
+                        <div className="product-sizes" style={{ display: "none", gap: "4px", marginTop: "6px", flexWrap: "wrap" }}>
                             {sizes.slice(0, 4).map((s) => (
                                 <span
                                     key={s}
@@ -320,7 +324,6 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
 
                 <style>{`
                 @media (max-width: 768px) {
-                    .product-wishlist-btn { opacity: 1 !important; }
                     .product-sizes { display: none !important; }
                     .product-card-info { padding: 6px 6px 10px !important; }
                     .product-card-info p:first-child { font-size: 12px !important; margin-bottom: 3px !important; -webkit-line-clamp: 1 !important; }

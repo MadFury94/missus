@@ -26,8 +26,8 @@ export default function ReturnsPage() {
                 <div className="returns-summary-grid">
                     {[
                         { icon: "7", label: "Days to Return", sub: "From delivery date" },
-                        { icon: "?", label: "Store Credit", sub: "Issued within 24hrs" },
-                        { icon: "?", label: "Easy Process", sub: "Just DM us" },
+                        { icon: "💳", label: "Store Credit", sub: "Issued within 24hrs" },
+                        { icon: "✅", label: "Easy Process", sub: "Just DM us" },
                     ].map((item) => (
                         <div key={item.label} style={{ border: "1.5px solid #000", padding: "20px", textAlign: "center" }}>
                             <div style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "28px", fontWeight: 900, marginBottom: "6px" }}>{item.icon}</div>

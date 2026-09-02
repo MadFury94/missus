@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
+import ProductSkeleton from "@/components/product/ProductSkeleton";
 import { Search, X } from "lucide-react";
 
 const SORT_OPTIONS = [
@@ -119,7 +120,7 @@ export default function SearchContent() {
                 {loading && (
                     <div className="grid-4">
                         {Array.from({ length: 8 }).map((_, i) => (
-                            <div key={i} style={{ aspectRatio: "2/3", background: "#f0ece8" }} aria-hidden="true" />
+                            <ProductSkeleton key={i} />
                         ))}
                     </div>
                 )}

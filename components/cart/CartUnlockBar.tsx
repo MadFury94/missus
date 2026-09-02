@@ -18,7 +18,7 @@ export default function CartUnlockBar({ total }: Props) {
             {/* Progress unlock bar */}
             <div style={{ background: "#fff", borderBottom: "2px solid #000", padding: "10px 24px", fontSize: "13px", fontWeight: 500, color: "#000" }}>
                 {isUnlocked ? (
-                    <span>?? You&apos;ve unlocked <strong>FREE SHIPPING!</strong> Enjoy.</span>
+                    <span>🎉 You&apos;ve unlocked <strong>FREE SHIPPING!</strong> Enjoy.</span>
                 ) : (
                     <span>
                         Spend <strong>{formatPrice(remaining)}</strong> more to unlock <strong>FREE SHIPPING!</strong>{" "}
@@ -47,7 +47,7 @@ export default function CartUnlockBar({ total }: Props) {
                     {isUnlocked ? (
                         <>
                             <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#fff", lineHeight: 1.3 }}>
-                                Free shipping unlocked! ??
+                                Free shipping unlocked! 🎉
                             </p>
                             <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)", fontWeight: 300 }}>
                                 Your order ships free nationwide

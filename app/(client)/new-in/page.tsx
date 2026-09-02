@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/product/ProductCard";
+import ProductSkeleton from "@/components/product/ProductSkeleton";
 import type { StoreProduct } from "@/lib/woocommerce";
 
 const SORT_OPTIONS = [
@@ -184,11 +185,7 @@ export default function NewInPage() {
                         {loading ? (
                             <div className="grid-4" style={{ paddingTop: "20px" }}>
                                 {Array.from({ length: 12 }).map((_, i) => (
-                                    <div key={i} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                                        <div style={{ aspectRatio: "2/3", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
-                                        <div style={{ height: "14px", width: "70%", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
-                                        <div style={{ height: "12px", width: "40%", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
-                                    </div>
+                                    <ProductSkeleton key={i} />
                                 ))}
                             </div>
                         ) : products.length === 0 ? (

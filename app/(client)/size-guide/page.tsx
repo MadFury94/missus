@@ -17,10 +17,10 @@ const SIZES = [
 ];
 
 const TIPS = [
-    { icon: "??", title: "Measure Yourself", body: "Use a soft measuring tape. Measure over your underwear, not over clothing. Keep the tape snug but not tight." },
-    { icon: "??", title: "Bust", body: "Measure around the fullest part of your chest, keeping the tape parallel to the floor." },
-    { icon: "?", title: "Waist", body: "Measure around your natural waistline  the narrowest part of your torso, usually just above your belly button." },
-    { icon: "??", title: "Hips", body: "Measure around the fullest part of your hips and bottom, about 20cm below your waist." },
+    { icon: "📏", title: "Measure Yourself", body: "Use a soft measuring tape. Measure over your underwear, not over clothing. Keep the tape snug but not tight." },
+    { icon: "📐", title: "Bust", body: "Measure around the fullest part of your chest, keeping the tape parallel to the floor." },
+    { icon: "〰️", title: "Waist", body: "Measure around your natural waistline  the narrowest part of your torso, usually just above your belly button." },
+    { icon: "📊", title: "Hips", body: "Measure around the fullest part of your hips and bottom, about 20cm below your waist." },
 ];
 
 export default function SizeGuidePage() {

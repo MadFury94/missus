@@ -151,7 +151,7 @@ export default function ContactPage() {
                     <div>
                         {sent ? (
                             <div style={{ textAlign: "center", padding: "48px 24px", border: "1.5px solid #e0e0e0" }}>
-                                <div style={{ fontSize: "40px", marginBottom: "16px" }}>?</div>
+                                <div style={{ fontSize: "40px", marginBottom: "16px" }}>✉️</div>
                                 <h3 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "22px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "10px" }}>
                                     Message Sent!
                                 </h3>

@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
+import ProductSkeleton from "@/components/product/ProductSkeleton";
 import FilterSidebar from "@/components/shop/FilterSidebar";
 import type { ProductFilters } from "@/types";
 
@@ -284,7 +285,7 @@ export default function ShopPage() {
                     {loading && (
                         <div className="grid-4">
                             {Array.from({ length: 8 }).map((_, i) => (
-                                <div key={i} style={{ aspectRatio: "3/4", background: "#f0ece8", animation: "pulse 1.5s ease-in-out infinite" }} aria-hidden="true" />
+                                <ProductSkeleton key={i} />
                             ))}
                         </div>
                     )}

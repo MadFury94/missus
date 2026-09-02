@@ -44,7 +44,7 @@ export default function NewsletterPage() {
             <div style={{ maxWidth: "560px", margin: "0 auto", padding: "56px 24px 64px", textAlign: "center" }}>
                 {done ? (
                     <div>
-                        <div style={{ fontSize: "56px", marginBottom: "20px" }}>?</div>
+                        <div style={{ fontSize: "56px", marginBottom: "20px" }}>💌</div>
                         <h2 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "28px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "12px" }}>
                             You&apos;re In!
                         </h2>
@@ -64,10 +64,10 @@ export default function NewsletterPage() {
                         {/* Perks */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "36px", textAlign: "left" }}>
                             {[
-                                { icon: "?", text: "Early access to new collections before anyone else" },
-                                { icon: "??", text: "Exclusive subscriber-only discount codes" },
-                                { icon: "?", text: "Style inspo, trend reports & outfit ideas" },
-                                { icon: "??", text: "Flash sale alerts & free shipping events" },
+                                { icon: "✨", text: "Early access to new collections before anyone else" },
+                                { icon: "🎁", text: "Exclusive subscriber-only discount codes" },
+                                { icon: "💅", text: "Style inspo, trend reports & outfit ideas" },
+                                { icon: "⚡", text: "Flash sale alerts & free shipping events" },
                             ].map((perk) => (
                                 <div key={perk.text} style={{ display: "flex", alignItems: "flex-start", gap: "12px", padding: "12px 16px", background: "#f5f5f5" }}>
                                     <span style={{ fontSize: "18px", flexShrink: 0 }}>{perk.icon}</span>

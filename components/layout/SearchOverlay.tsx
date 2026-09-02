@@ -248,8 +248,8 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))", gap: "12px" }}>
                                     {Array.from({ length: 6 }).map((_, i) => (
                                         <div key={i}>
-                                            <div style={{ aspectRatio: "3/4", background: "#f0ece8" }} aria-hidden="true" />
-                                            <div style={{ height: "10px", background: "#f0ece8", marginTop: "8px", width: "70%" }} aria-hidden="true" />
+                                            <div style={{ aspectRatio: "3/4", background: "linear-gradient(90deg,#efefef 25%,#e0e0e0 50%,#efefef 75%)", backgroundSize: "200% 100%", animation: "shimmer 1.6s ease-in-out infinite" }} aria-hidden="true" />
+                                            <div style={{ height: "10px", background: "#efefef", marginTop: "8px", width: "70%", borderRadius: "2px" }} aria-hidden="true" />
                                         </div>
                                     ))}
                                 </div>

@@ -3,16 +3,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
+import ProductSkeleton from "@/components/product/ProductSkeleton";
 
-function Skeleton() {
-    return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <div style={{ aspectRatio: "2/3", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
-            <div style={{ height: "14px", width: "70%", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
-            <div style={{ height: "12px", width: "40%", background: "#f0ece8", animation: "pulse 1.4s ease-in-out infinite" }} />
-        </div>
-    );
-}
 
 export default function NewInSection() {
     const [products, setProducts] = useState<StoreProduct[]>([]);
@@ -63,7 +55,7 @@ export default function NewInSection() {
             <div className="newin-section-wrap">
                 <div className="grid-4">
                     {loading
-                        ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} />)
+                        ? Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
                         : products.map((product) => <ProductCard key={product.id} product={product} />)
                     }
                 </div>

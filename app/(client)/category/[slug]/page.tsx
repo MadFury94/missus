@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
+import ProductSkeleton from "@/components/product/ProductSkeleton";
 
 export default function CategoryPage() {
     const { slug } = useParams<{ slug: string }>();
@@ -56,7 +57,7 @@ export default function CategoryPage() {
                 {loading ? (
                     <div className="grid-4">
                         {Array.from({ length: 8 }).map((_, i) => (
-                            <div key={i} style={{ aspectRatio: "2/3", background: "#f0ece8" }} />
+                            <ProductSkeleton key={i} />
                         ))}
                     </div>
                 ) : products.length === 0 ? (

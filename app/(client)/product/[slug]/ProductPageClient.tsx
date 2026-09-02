@@ -96,13 +96,13 @@ export default function ProductPageClient({ params, product, related }: {
                 /* ── PDP layout ─────────────────────────────── */
                 .pdp-wrap {
                     display: grid;
-                    grid-template-columns: 60px 1fr 440px;
+                    grid-template-columns: 80px 480px 1fr;
                     gap: 0;
-                    align-items: start;
-                    max-width: 1400px;
+                    max-width: 1100px;
                     margin: 0 auto;
+                    align-items: start;
                 }
-                .pdp-thumb-col { display: flex; flex-direction: column; gap: 6px; padding: 12px 8px 12px 0; }
+                .pdp-thumb-col { display: flex; flex-direction: column; gap: 6px; padding: 12px 8px 12px 12px; width: 80px; }
                 .pdp-info-col { padding: 24px 32px 48px; position: sticky; top: 52px; }
                 .pdp-breadcrumb { display: block; }
                 .pdp-mobile-dots { display: none; }
@@ -172,14 +172,14 @@ export default function ProductPageClient({ params, product, related }: {
                     onTouchStart={onTouchStart}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="pdp-main-img" style={{ position: "relative", width: "100%", aspectRatio: "3/4", minHeight: "560px" }}>
+                    <div className="pdp-main-img" style={{ position: "relative", width: "100%", aspectRatio: "3/4", maxHeight: "600px" }}>
                         {images[selectedImageIndex] && (
                             <Image
                                 key={selectedImageIndex}
                                 src={images[selectedImageIndex].src}
                                 alt={images[selectedImageIndex].alt || product.name}
                                 fill
-                                style={{ objectFit: "cover", objectPosition: "top center" }}
+                                style={{ objectFit: "cover", objectPosition: "center 20%" }}
                                 loading={selectedImageIndex === 0 ? "eager" : "lazy"}
                                 sizes="(max-width: 900px) 100vw, 55vw"
                                 priority={selectedImageIndex === 0}
@@ -311,34 +311,57 @@ export default function ProductPageClient({ params, product, related }: {
                         </div>
                     )}
 
-                    {/* Add to Bag — full width, sharp, no pill */}
-                    <button
-                        onClick={handleAddToCart}
-                        disabled={adding}
-                        style={{
-                            width: "100%",
-                            padding: "16px",
-                            background: added ? "#1a7a3d" : "#000",
-                            color: "#fff",
-                            border: "none",
-                            fontSize: "13px",
-                            fontWeight: 600,
-                            letterSpacing: ".1em",
-                            textTransform: "uppercase",
-                            cursor: adding ? "not-allowed" : "pointer",
-                            transition: "background .3s",
-                            marginBottom: "10px",
-                            fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                        }}
-                    >
-                        {added ? "✓ Added to Bag" : adding ? "Adding…" : (
-                            <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src="/shopping-bag.png" alt="" aria-hidden="true" width={18} height={18} style={{ filter: "brightness(0) invert(1)", display: "block" }} />
-                                Add to Bag
-                            </span>
-                        )}
-                    </button>
+                    {/* Add to Bag + Wishlist row */}
+                    <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+                        <button
+                            onClick={handleAddToCart}
+                            disabled={adding}
+                            style={{
+                                flex: 1,
+                                padding: "16px",
+                                background: added ? "#1a7a3d" : "#000",
+                                color: "#fff",
+                                border: "none",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                letterSpacing: ".1em",
+                                textTransform: "uppercase",
+                                cursor: adding ? "not-allowed" : "pointer",
+                                transition: "background .3s",
+                                fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                            }}
+                        >
+                            {added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
+                        </button>
+                        <button
+                            onClick={() => {
+                                const newState = toggleWishlist({
+                                    productId: product.id,
+                                    name: product.name,
+                                    price: toNaira(product.prices.price),
+                                    image: product.images[0]?.src || "",
+                                    slug: product.slug,
+                                });
+                                setIsWished(newState);
+                            }}
+                            aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
+                            style={{
+                                width: "52px",
+                                padding: "16px",
+                                background: isWished ? "#fff0f0" : "#fff",
+                                color: "#000",
+                                border: `1.5px solid ${isWished ? "#ff0000" : "#e0e0e0"}`,
+                                cursor: "pointer",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                flexShrink: 0,
+                                transition: "all .2s",
+                            }}
+                        >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill={isWished ? "#ff0000" : "none"} stroke={isWished ? "#ff0000" : "#000"} strokeWidth="1.8" aria-hidden="true">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                        </button>
+                    </div>
 
                     {/* Payment note */}
                     <p style={{ fontSize: "11px", color: "#aaa", letterSpacing: ".04em", marginBottom: "24px", textAlign: "center" }}>
