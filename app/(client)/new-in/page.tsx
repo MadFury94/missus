@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
@@ -75,7 +75,7 @@ export default function NewInPage() {
 
             <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: "0", alignItems: "start", minHeight: "60vh" }} className="new-in-layout">
 
-                {/* ── Sidebar ── */}
+                {/* -- Sidebar -- */}
                 <aside style={{ borderRight: "1px solid #e8e8e8", padding: "24px 20px", position: "sticky", top: "52px", maxHeight: "calc(100vh - 52px)", overflowY: "auto" }}>
 
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
@@ -139,14 +139,14 @@ export default function NewInPage() {
                                 type="checkbox"
                                 checked={onSaleOnly}
                                 onChange={(e) => setOnSaleOnly(e.target.checked)}
-                                style={{ accentColor: "#630D13", width: "15px", height: "15px", cursor: "pointer" }}
+                                style={{ accentColor: "#7F0E12", width: "15px", height: "15px", cursor: "pointer" }}
                             />
                             <span style={{ fontSize: "13px", color: "#000", fontWeight: onSaleOnly ? 700 : 400 }}>On Sale Only</span>
                         </label>
                     </div>
                 </aside>
 
-                {/* ── Product area ── */}
+                {/* -- Product area -- */}
                 <div>
                     {/* Toolbar */}
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderBottom: "1px solid #e8e8e8", position: "sticky", top: "52px", background: "#fff", zIndex: 5 }}>
@@ -162,14 +162,14 @@ export default function NewInPage() {
                                 </span>
                             ))}
                             {onSaleOnly && (
-                                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #630D13", padding: "2px 8px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#630D13" }}>
+                                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #7F0E12", padding: "2px 8px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#7F0E12" }}>
                                     Sale
-                                    <button onClick={() => setOnSaleOnly(false)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", lineHeight: 1, padding: 0, color: "#630D13" }}>×</button>
+                                    <button onClick={() => setOnSaleOnly(false)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", lineHeight: 1, padding: 0, color: "#7F0E12" }}>×</button>
                                 </span>
                             )}
                         </div>
                         <Link href="/shop" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#767676", textDecoration: "none", whiteSpace: "nowrap" }}>
-                            Shop All →
+                            Shop All ?
                         </Link>
                     </div>
 

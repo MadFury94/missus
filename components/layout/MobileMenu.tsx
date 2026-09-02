@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -81,7 +81,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                 boxShadow: "-8px 0 40px rgba(0,0,0,0.18)",
             }}>
 
-                {/* ── Top bar ── */}
+                {/* -- Top bar -- */}
                 <div style={{
                     display: "flex", alignItems: "center", justifyContent: "space-between",
                     padding: "16px 20px",
@@ -105,7 +105,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
 
                 <div style={{ flex: 1, padding: "0 0 32px" }}>
 
-                    {/* ── Search — opens the same overlay as desktop ── */}
+                    {/* -- Search  opens the same overlay as desktop -- */}
                     <div style={{ padding: "16px 20px", borderBottom: "1px solid #f0f0f0" }}>
                         <button
                             onClick={() => { onClose(); setTimeout(() => onSearchOpen?.(), 50); }}
@@ -121,12 +121,12 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
                             </svg>
                             <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif" }}>
-                                Search for dresses, tops, sets…
+                                Search for dresses, tops, sets
                             </span>
                         </button>
                     </div>
 
-                    {/* ── Account row ── */}
+                    {/* -- Account row -- */}
                     <div style={{ padding: "12px 20px 0", borderBottom: "1px solid #f0f0f0" }}>
                         {user ? (
                             <div style={{ paddingBottom: "12px" }}>
@@ -158,7 +158,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                         )}
                     </div>
 
-                    {/* ── Bag + Wishlist ── */}
+                    {/* -- Bag + Wishlist -- */}
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: "1px solid #f0f0f0" }}>
                         <button
                             onClick={() => { onClose(); onBagClick?.(); }}
@@ -170,7 +170,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                             </svg>
                             Bag
                             {bagCount > 0 && (
-                                <span style={{ background: "#630D13", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", position: "absolute", top: "8px", right: "28px" }}>
+                                <span style={{ background: "#7F0E12", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", position: "absolute", top: "8px", right: "28px" }}>
                                     {bagCount}
                                 </span>
                             )}
@@ -183,14 +183,14 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
                             Wishlist
                             {wishlistCount > 0 && (
-                                <span style={{ background: "#630D13", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", position: "absolute", top: "8px", right: "28px" }}>
+                                <span style={{ background: "#7F0E12", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", position: "absolute", top: "8px", right: "28px" }}>
                                     {wishlistCount}
                                 </span>
                             )}
                         </Link>
                     </div>
 
-                    {/* ── Currency switcher ── */}
+                    {/* -- Currency switcher -- */}
                     <div style={{ borderBottom: "1px solid #f0f0f0" }}>
                         {!currencyOpen ? (
                             <button
@@ -243,7 +243,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                         )}
                     </div>
 
-                    {/* ── Navigation ── */}
+                    {/* -- Navigation -- */}
                     <nav style={{ paddingTop: "8px" }}>
                         {SUB_NAV.map((link) => (
                             <Link
@@ -260,7 +260,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                                     fontWeight: 700,
                                     letterSpacing: ".06em",
                                     textTransform: "uppercase",
-                                    color: link.sale ? "#630D13" : "#000",
+                                    color: link.sale ? "#7F0E12" : "#000",
                                     textDecoration: "none",
                                     borderBottom: "1px solid #f5f5f5",
                                     transition: "background .1s",
@@ -270,7 +270,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                             >
                                 <span>
                                     {link.hot && (
-                                        <span style={{ marginRight: "6px", verticalAlign: "middle", fontSize: "15px" }}>🔥</span>
+                                        <span style={{ marginRight: "6px", verticalAlign: "middle", fontSize: "15px" }}>??</span>
                                     )}
                                     {link.label}
                                 </span>
@@ -281,7 +281,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                         ))}
                     </nav>
 
-                    {/* ── Help links ── */}
+                    {/* -- Help links -- */}
                     <div style={{ padding: "20px 20px 0", borderTop: "1px solid #f0f0f0", marginTop: "8px" }}>
                         <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#aaa", marginBottom: "10px" }}>Help</p>
                         {[
@@ -305,7 +305,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                         ))}
                     </div>
 
-                    {/* ── Social ── */}
+                    {/* -- Social -- */}
                     <div style={{ padding: "20px 20px 0" }}>
                         <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#aaa", marginBottom: "12px" }}>Follow Us</p>
                         <div style={{ display: "flex", gap: "10px" }}>
@@ -328,15 +328,15 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                         </div>
                     </div>
 
-                    {/* ── Trust bar ── */}
+                    {/* -- Trust bar -- */}
                     <div style={{ margin: "20px 20px 0", padding: "14px 16px", background: "#f5f5f5" }}>
                         <p style={{ fontSize: "12px", color: "#555", display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2"><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>
-                            Lagos 1–2 hour delivery
+                            Lagos 12 hour delivery
                         </p>
                         <p style={{ fontSize: "12px", color: "#555", display: "flex", alignItems: "center", gap: "6px" }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                            Free shipping over ₦150,000
+                            Free shipping over ?150,000
                         </p>
                     </div>
                 </div>

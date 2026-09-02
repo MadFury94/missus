@@ -1,26 +1,26 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Size Guide — Missus",
+    title: "Size Guide  Missus",
     description: "Find your perfect fit with the Missus size guide for dresses, tops, bottoms and sets.",
 };
 
 const SIZES = [
-    { size: "XS", uk: "6", us: "2", eu: "34", bust: "80–83", waist: "60–63", hips: "86–89" },
-    { size: "S", uk: "8", us: "4", eu: "36", bust: "84–87", waist: "64–67", hips: "90–93" },
-    { size: "M", uk: "10", us: "6", eu: "38", bust: "88–91", waist: "68–71", hips: "94–97" },
-    { size: "L", uk: "12", us: "8", eu: "40", bust: "92–95", waist: "72–75", hips: "98–101" },
-    { size: "XL", uk: "14", us: "10", eu: "42", bust: "96–99", waist: "76–79", hips: "102–105" },
-    { size: "XXL", uk: "16", us: "12", eu: "44", bust: "100–103", waist: "80–83", hips: "106–109" },
-    { size: "3XL", uk: "18", us: "14", eu: "46", bust: "104–107", waist: "84–87", hips: "110–113" },
+    { size: "XS", uk: "6", us: "2", eu: "34", bust: "8083", waist: "6063", hips: "8689" },
+    { size: "S", uk: "8", us: "4", eu: "36", bust: "8487", waist: "6467", hips: "9093" },
+    { size: "M", uk: "10", us: "6", eu: "38", bust: "8891", waist: "6871", hips: "9497" },
+    { size: "L", uk: "12", us: "8", eu: "40", bust: "9295", waist: "7275", hips: "98101" },
+    { size: "XL", uk: "14", us: "10", eu: "42", bust: "9699", waist: "7679", hips: "102105" },
+    { size: "XXL", uk: "16", us: "12", eu: "44", bust: "100103", waist: "8083", hips: "106109" },
+    { size: "3XL", uk: "18", us: "14", eu: "46", bust: "104107", waist: "8487", hips: "110113" },
 ];
 
 const TIPS = [
-    { icon: "📏", title: "Measure Yourself", body: "Use a soft measuring tape. Measure over your underwear, not over clothing. Keep the tape snug but not tight." },
-    { icon: "👗", title: "Bust", body: "Measure around the fullest part of your chest, keeping the tape parallel to the floor." },
-    { icon: "⌛", title: "Waist", body: "Measure around your natural waistline — the narrowest part of your torso, usually just above your belly button." },
-    { icon: "🍑", title: "Hips", body: "Measure around the fullest part of your hips and bottom, about 20cm below your waist." },
+    { icon: "??", title: "Measure Yourself", body: "Use a soft measuring tape. Measure over your underwear, not over clothing. Keep the tape snug but not tight." },
+    { icon: "??", title: "Bust", body: "Measure around the fullest part of your chest, keeping the tape parallel to the floor." },
+    { icon: "?", title: "Waist", body: "Measure around your natural waistline  the narrowest part of your torso, usually just above your belly button." },
+    { icon: "??", title: "Hips", body: "Measure around the fullest part of your hips and bottom, about 20cm below your waist." },
 ];
 
 export default function SizeGuidePage() {
@@ -28,7 +28,7 @@ export default function SizeGuidePage() {
         <div style={{ background: "#fff" }}>
             {/* Header */}
             <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
+                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "10px" }}>
                     Find Your Fit
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
@@ -94,8 +94,8 @@ export default function SizeGuidePage() {
                     <ul style={{ paddingLeft: "18px", display: "flex", flexDirection: "column", gap: "8px" }}>
                         {[
                             "If you're between sizes, we recommend sizing up for a more comfortable fit.",
-                            "Bodycon and fitted styles run true to size — size up if you prefer a relaxed fit.",
-                            "Dresses with stretch fabric are more forgiving — go with your usual size.",
+                            "Bodycon and fitted styles run true to size  size up if you prefer a relaxed fit.",
+                            "Dresses with stretch fabric are more forgiving  go with your usual size.",
                             "For matching sets, size based on your largest measurement.",
                             "Still unsure? DM us on Instagram @missusoutfits and we'll help you pick.",
                         ].map((note) => (

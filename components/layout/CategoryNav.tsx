@@ -1,10 +1,10 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SUB_NAV } from "@/lib/config";
 
-const SALE_COLOR = "#630D13"; // burgundy
+const SALE_COLOR = "#7F0E12"; // burgundy
 
 export default function CategoryNav() {
     const pathname = usePathname();
@@ -79,7 +79,7 @@ export default function CategoryNav() {
                                 className="subnav-link"
                             >
                                 {link.hot && (
-                                    <span style={{ marginRight: "4px", fontSize: "12px" }}>🔥</span>
+                                    <span style={{ marginRight: "4px", fontSize: "12px" }}>??</span>
                                 )}
                                 {link.label}
                             </Link>

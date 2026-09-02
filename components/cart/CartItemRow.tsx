@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -77,7 +77,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
                                 {formatPrice(item.regularPrice! * item.quantity)}
                             </span>
                         )}
-                        <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, color: hasDiscount ? "#630D13" : "#000" }}>
+                        <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, color: hasDiscount ? "#7F0E12" : "#000" }}>
                             {formatPrice(lineTotal)}
                         </span>
                     </div>
@@ -93,7 +93,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
                             style={{ width: "32px", height: "100%", border: "none", background: "#fff", fontSize: "16px", fontWeight: 300, cursor: item.quantity <= 1 ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#000", opacity: item.quantity <= 1 ? 0.3 : 1 }}
                             aria-label="Decrease quantity"
                         >
-                            −
+                            -
                         </button>
                         <span style={{ width: "36px", textAlign: "center", fontFamily: "var(--font-barlow-condensed)", fontSize: "14px", fontWeight: 700, color: "#000", userSelect: "none" }}>
                             {item.quantity}
@@ -111,7 +111,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
                     <button
                         onClick={handleRemove}
                         style={{ fontSize: "12px", color: "#767676", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-barlow)", padding: 0 }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = "#630D13")}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#7F0E12")}
                         onMouseLeave={(e) => (e.currentTarget.style.color = "#767676")}
                     >
                         Remove
@@ -146,7 +146,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
 
             {/* SALE badge */}
             {hasDiscount && (
-                <span style={{ position: "absolute", top: "20px", right: 0, background: "#630D13", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "3px 8px" }}>
+                <span style={{ position: "absolute", top: "20px", right: 0, background: "#7F0E12", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "3px 8px" }}>
                     SALE
                 </span>
             )}

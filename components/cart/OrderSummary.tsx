@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { formatPrice } from "@/lib/woocommerce";
@@ -43,8 +43,8 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     {discount > 0 && (
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid #f0f0f0" }}>
                             <span style={{ fontSize: "13px", color: "#555" }}>Discount</span>
-                            <span style={{ fontSize: "13px", fontWeight: 600, color: "#630D13" }}>
-                                −{formatPrice(discount)}
+                            <span style={{ fontSize: "13px", fontWeight: 600, color: "#7F0E12" }}>
+                                -{formatPrice(discount)}
                             </span>
                         </div>
                     )}
@@ -59,7 +59,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0" }}>
                         <span style={{ fontSize: "13px", color: "#555" }}>Promo Code</span>
                         <span style={{ fontSize: "12px", color: "#767676" }}>
-                            {promoCode && promoDiscount > 0 ? `−${formatPrice(promoDiscount)}` : "—"}
+                            {promoCode && promoDiscount > 0 ? `-${formatPrice(promoDiscount)}` : ""}
                         </span>
                     </div>
                 </div>
@@ -124,7 +124,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                 {/* Express checkout */}
                 <div style={{ marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #e8e8e8" }}>
                     <p style={{ fontSize: "11px", color: "#aaa", textAlign: "center", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "10px", position: "relative" }}>
-                        <span style={{ position: "relative", zIndex: 1, background: "#fff", padding: "0 8px" }}>— Express Checkout —</span>
+                        <span style={{ position: "relative", zIndex: 1, background: "#fff", padding: "0 8px" }}> Express Checkout </span>
                         <span style={{ position: "absolute", left: 0, right: 0, top: "50%", height: "1px", background: "#e0e0e0", transform: "translateY(-50%)", zIndex: 0 }} />
                     </p>
                     <div style={{ display: "flex", gap: "8px" }}>
@@ -150,8 +150,8 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                         <circle cx="18.5" cy="18.5" r="2.5" />
                     </svg>
                     <div style={{ fontSize: "12px", color: "#333", lineHeight: 1.55 }}>
-                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Lagos:</strong> Estimated delivery in 1–2 hours</p>
-                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Nationwide:</strong> 1–3 business days</p>
+                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Lagos:</strong> Estimated delivery in 12 hours</p>
+                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Nationwide:</strong> 13 business days</p>
                     </div>
                 </div>
 

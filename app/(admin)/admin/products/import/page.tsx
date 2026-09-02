@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
@@ -138,7 +138,7 @@ export default function BulkImportPage() {
                         onClick={() => router.push("/admin/products")}
                         style={{ background: "none", border: "1px solid #ccd0d4", padding: "6px 14px", fontSize: "13px", cursor: "pointer", color: "#555" }}
                     >
-                        ← Back to Products
+                        ? Back to Products
                     </button>
                 </div>
 
@@ -167,7 +167,7 @@ export default function BulkImportPage() {
                             }}
                             style={{ background: "#2271b1", color: "#fff", border: "none", padding: "8px 16px", fontSize: "13px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "6px" }}
                         >
-                            ↓ Download CSV Template
+                            ? Download CSV Template
                         </button>
                     </div>
 
@@ -202,7 +202,7 @@ export default function BulkImportPage() {
                     {preview.length > 0 && (
                         <div style={{ marginBottom: "24px" }}>
                             <h3 style={{ fontSize: "14px", fontWeight: 600, marginBottom: "12px", color: "#1d2327" }}>
-                                Preview — {preview.length} product{preview.length !== 1 ? "s" : ""} ready to import
+                                Preview  {preview.length} product{preview.length !== 1 ? "s" : ""} ready to import
                             </h3>
                             <div style={{ overflowX: "auto" }}>
                                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
@@ -216,12 +216,12 @@ export default function BulkImportPage() {
                                     <tbody>
                                         {preview.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #f0f0f1", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-                                                <td style={{ padding: "8px 12px", fontWeight: 600 }}>{row.name || <span style={{ color: "#630D13" }}>Missing!</span>}</td>
-                                                <td style={{ padding: "8px 12px" }}>₦{row.regular_price}</td>
-                                                <td style={{ padding: "8px 12px", color: "#630D13" }}>{row.sale_price ? `₦${row.sale_price}` : "—"}</td>
-                                                <td style={{ padding: "8px 12px", color: "#767676" }}>{row.sku || "—"}</td>
-                                                <td style={{ padding: "8px 12px" }}>{row.categories || "—"}</td>
-                                                <td style={{ padding: "8px 12px" }}>{row.sizes || "—"}</td>
+                                                <td style={{ padding: "8px 12px", fontWeight: 600 }}>{row.name || <span style={{ color: "#7F0E12" }}>Missing!</span>}</td>
+                                                <td style={{ padding: "8px 12px" }}>?{row.regular_price}</td>
+                                                <td style={{ padding: "8px 12px", color: "#7F0E12" }}>{row.sale_price ? `?${row.sale_price}` : ""}</td>
+                                                <td style={{ padding: "8px 12px", color: "#767676" }}>{row.sku || ""}</td>
+                                                <td style={{ padding: "8px 12px" }}>{row.categories || ""}</td>
+                                                <td style={{ padding: "8px 12px" }}>{row.sizes || ""}</td>
                                                 <td style={{ padding: "8px 12px" }}>
                                                     <span style={{ background: row.status === "publish" ? "#d7f0d7" : "#f0f0f0", color: row.status === "publish" ? "#007a3d" : "#555", padding: "2px 8px", fontSize: "11px", fontWeight: 600 }}>
                                                         {row.status || "publish"}
@@ -258,19 +258,19 @@ export default function BulkImportPage() {
                         <div>
                             <div style={{ display: "flex", gap: "16px", marginBottom: "16px", flexWrap: "wrap" }}>
                                 <span style={{ background: "#d7f0d7", color: "#007a3d", padding: "6px 14px", fontSize: "13px", fontWeight: 600 }}>
-                                    ✓ {successCount} imported successfully
+                                    ? {successCount} imported successfully
                                 </span>
                                 {errorCount > 0 && (
-                                    <span style={{ background: "#fde8e8", color: "#630D13", padding: "6px 14px", fontSize: "13px", fontWeight: 600 }}>
-                                        ✗ {errorCount} failed
+                                    <span style={{ background: "#fde8e8", color: "#7F0E12", padding: "6px 14px", fontSize: "13px", fontWeight: 600 }}>
+                                        ? {errorCount} failed
                                     </span>
                                 )}
                             </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                                 {results.map((r, i) => (
                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 12px", background: r.status === "success" ? "#f0faf4" : "#fef2f2", fontSize: "13px" }}>
-                                        <span style={{ color: r.status === "success" ? "#007a3d" : "#630D13", fontWeight: 700 }}>
-                                            {r.status === "success" ? "✓" : "✗"}
+                                        <span style={{ color: r.status === "success" ? "#007a3d" : "#7F0E12", fontWeight: 700 }}>
+                                            {r.status === "success" ? "?" : "?"}
                                         </span>
                                         <span style={{ fontWeight: 600 }}>{r.name}</span>
                                         <span style={{ color: "#767676" }}>{r.message}</span>

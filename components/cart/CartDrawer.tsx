@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -91,7 +91,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                     </button>
                 </div>
 
-                {/* Empty state — FashionNova style */}
+                {/* Empty state  FashionNova style */}
                 {cart.items.length === 0 ? (
                     <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 24px", textAlign: "center" }}>
                         <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", color: "#111", marginBottom: "8px" }}>
@@ -142,7 +142,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                                             {formatPrice(item.regularPrice!)}
                                                         </span>
                                                     )}
-                                                    <span style={{ fontSize: "13px", fontWeight: 700, color: hasDiscount ? "#630D13" : "#000" }}>
+                                                    <span style={{ fontSize: "13px", fontWeight: 700, color: hasDiscount ? "#7F0E12" : "#000" }}>
                                                         {formatPrice(item.price)}
                                                     </span>
                                                 </div>
@@ -156,7 +156,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                                         onClick={() => { updateQuantity(item.productId, item.size, item.quantity - 1); refresh(); window.dispatchEvent(new Event("cart-updated")); }}
                                                         disabled={item.quantity <= 1}
                                                         style={{ width: "28px", height: "100%", border: "none", background: "#fff", cursor: item.quantity <= 1 ? "not-allowed" : "pointer", opacity: item.quantity <= 1 ? 0.3 : 1, fontSize: "14px" }}
-                                                    >−</button>
+                                                    >-</button>
                                                     <span style={{ width: "28px", textAlign: "center", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700 }}>{item.quantity}</span>
                                                     <button
                                                         aria-label="Increase quantity"
@@ -170,7 +170,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                                     aria-label={`Remove ${item.name}`}
                                                     onClick={() => { removeFromCart(item.productId, item.size); refresh(); window.dispatchEvent(new Event("cart-updated")); }}
                                                     style={{ background: "none", border: "none", cursor: "pointer", fontSize: "11px", color: "#aaa", textDecoration: "underline", fontFamily: "'Barlow', sans-serif", padding: 0 }}
-                                                    onMouseEnter={(e) => (e.currentTarget.style.color = "#630D13")}
+                                                    onMouseEnter={(e) => (e.currentTarget.style.color = "#7F0E12")}
                                                     onMouseLeave={(e) => (e.currentTarget.style.color = "#aaa")}
                                                 >Remove</button>
                                             </div>
@@ -196,7 +196,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                 onClick={onClose}
                                 style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase", padding: "16px", textDecoration: "none", marginBottom: "10px" }}
                             >
-                                Checkout — {formatPrice(cart.subtotal)}
+                                Checkout  {formatPrice(cart.subtotal)}
                             </Link>
                             <Link
                                 href="/cart"

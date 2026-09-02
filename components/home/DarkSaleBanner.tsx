@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 
 export default function DarkSaleBanner() {
@@ -21,16 +21,16 @@ export default function DarkSaleBanner() {
                 </div>
 
                 <div style={{ position: "relative", zIndex: 2 }}>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "10px" }}>
                         Limited Time Offer
                     </p>
                     <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(48px,8vw,100px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: .9, letterSpacing: "-.02em" }}>
-                        UP TO 60%<br /><span style={{ color: "#630D13" }}>OFF SITEWIDE</span>
+                        UP TO 60%<br /><span style={{ color: "#7F0E12" }}>OFF SITEWIDE</span>
                     </h2>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "12px" }}>
-                        MissusDeals — prices as marked. While stocks last.
+                        MissusDeals  prices as marked. While stocks last.
                     </p>
-                    <button style={{ marginTop: "24px", background: "#630D13", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", border: "none", cursor: "pointer", padding: "15px 40px", fontSize: "14px" }}>
+                    <button style={{ marginTop: "24px", background: "#7F0E12", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", border: "none", cursor: "pointer", padding: "15px 40px", fontSize: "14px" }}>
                         Shop Sale Now
                     </button>
                 </div>

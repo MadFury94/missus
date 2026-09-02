@@ -1,4 +1,4 @@
-﻿import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss";
 
 const config: Config = {
     content: [
@@ -13,10 +13,10 @@ const config: Config = {
                 display: ["var(--font-barlow-condensed)", "sans-serif"],
             },
             colors: {
-                primary: "#630D13",
+                primary: "#7F0E12",
                 secondary: "#000",
                 muted: "#f5f5f5",
-                accent: "#630D13",
+                accent: "#7F0E12",
             },
         },
     },

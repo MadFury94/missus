@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { formatPrice } from "@/lib/woocommerce";
@@ -18,12 +18,12 @@ export default function CartUnlockBar({ total }: Props) {
             {/* Progress unlock bar */}
             <div style={{ background: "#fff", borderBottom: "2px solid #000", padding: "10px 24px", fontSize: "13px", fontWeight: 500, color: "#000" }}>
                 {isUnlocked ? (
-                    <span>🎉 You&apos;ve unlocked <strong>FREE SHIPPING!</strong> Enjoy.</span>
+                    <span>?? You&apos;ve unlocked <strong>FREE SHIPPING!</strong> Enjoy.</span>
                 ) : (
                     <span>
                         Spend <strong>{formatPrice(remaining)}</strong> more to unlock <strong>FREE SHIPPING!</strong>{" "}
                         <Link href="/shop" style={{ fontWeight: 700, textDecoration: "underline", color: "#000" }}>
-                            Shop New →
+                            Shop New ?
                         </Link>
                     </span>
                 )}
@@ -34,7 +34,7 @@ export default function CartUnlockBar({ total }: Props) {
 
             {/* Free gift / shipping promo banner */}
             <div style={{ background: "linear-gradient(90deg,#000 0%,#1a1a1a 100%)", padding: "14px 20px", display: "flex", alignItems: "center", gap: "14px" }}>
-                <div style={{ width: "36px", height: "36px", background: "#630D13", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: "36px", height: "36px", background: "#7F0E12", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8">
                         <polyline points="20 12 20 22 4 22 4 12" />
                         <rect x="2" y="7" width="20" height="5" />
@@ -47,7 +47,7 @@ export default function CartUnlockBar({ total }: Props) {
                     {isUnlocked ? (
                         <>
                             <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#fff", lineHeight: 1.3 }}>
-                                Free shipping unlocked! 🎉
+                                Free shipping unlocked! ??
                             </p>
                             <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)", fontWeight: 300 }}>
                                 Your order ships free nationwide
@@ -59,7 +59,7 @@ export default function CartUnlockBar({ total }: Props) {
                                 Add {formatPrice(remaining)} more for FREE SHIPPING
                             </p>
                             <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)", fontWeight: 300 }}>
-                                Orders ₦150,000+ ship free nationwide
+                                Orders ?150,000+ ship free nationwide
                             </span>
                         </>
                     )}

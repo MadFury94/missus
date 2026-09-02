@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { adminFetch } from "@/lib/admin-fetch";
@@ -223,7 +223,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
 
                     <div>
                         <label style={{ display: "block", fontSize: "13px", fontWeight: 600, marginBottom: "8px" }}>
-                            Regular Price (₦) *
+                            Regular Price (?) *
                         </label>
                         <input
                             type="number"
@@ -237,7 +237,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
 
                     <div>
                         <label style={{ display: "block", fontSize: "13px", fontWeight: 600, marginBottom: "8px" }}>
-                            Sale Price (₦)
+                            Sale Price (?)
                         </label>
                         <input
                             type="number"
@@ -420,7 +420,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                                 <button
                                     type="button"
                                     onClick={() => setForm({ ...form, images: form.images.filter((_: any, i: number) => i !== idx) })}
-                                    style={{ position: "absolute", top: "8px", right: "8px", background: "#630D13", color: "#fff", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: "pointer", fontSize: "16px", lineHeight: "1" }}
+                                    style={{ position: "absolute", top: "8px", right: "8px", background: "#7F0E12", color: "#fff", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: "pointer", fontSize: "16px", lineHeight: "1" }}
                                 >
                                     ×
                                 </button>

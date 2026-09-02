@@ -1,8 +1,8 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Returns & Refunds — Missus",
+    title: "Returns & Refunds  Missus",
     description: "Our returns and refund policy. Easy 7-day returns on eligible items.",
 };
 
@@ -12,7 +12,7 @@ export default function ReturnsPage() {
 
             {/* Header */}
             <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
+                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "10px" }}>
                     Hassle-Free
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
@@ -26,8 +26,8 @@ export default function ReturnsPage() {
                 <div className="returns-summary-grid">
                     {[
                         { icon: "7", label: "Days to Return", sub: "From delivery date" },
-                        { icon: "✓", label: "Store Credit", sub: "Issued within 24hrs" },
-                        { icon: "↩", label: "Easy Process", sub: "Just DM us" },
+                        { icon: "?", label: "Store Credit", sub: "Issued within 24hrs" },
+                        { icon: "?", label: "Easy Process", sub: "Just DM us" },
                     ].map((item) => (
                         <div key={item.label} style={{ border: "1.5px solid #000", padding: "20px", textAlign: "center" }}>
                             <div style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "28px", fontWeight: 900, marginBottom: "6px" }}>{item.icon}</div>
@@ -39,7 +39,7 @@ export default function ReturnsPage() {
 
                 <Section title="Return Policy">
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8, marginBottom: "12px" }}>
-                        We accept returns within <strong>7 days</strong> of delivery. Items must be unworn, unwashed, and in their original condition with tags attached. Returns are issued as <strong>store credit</strong> — we do not offer cash refunds.
+                        We accept returns within <strong>7 days</strong> of delivery. Items must be unworn, unwashed, and in their original condition with tags attached. Returns are issued as <strong>store credit</strong>  we do not offer cash refunds.
                     </p>
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8 }}>
                         Store credit never expires and can be used on any future order.
@@ -66,7 +66,7 @@ export default function ReturnsPage() {
                             "DM us on Instagram @missusoutfits or email hello@missusoutfits.com within 7 days of receiving your order.",
                             "Include your order number and reason for return.",
                             "We'll confirm eligibility and send you return instructions.",
-                            "Drop off or arrange pickup (Lagos only — nationwide customers cover return shipping).",
+                            "Drop off or arrange pickup (Lagos only  nationwide customers cover return shipping).",
                             "Once we receive and inspect the item, store credit is issued within 24 hours.",
                         ].map((step, i) => (
                             <li key={i} style={{ fontSize: "13px", color: "#444", lineHeight: 1.7 }}>
@@ -78,7 +78,7 @@ export default function ReturnsPage() {
 
                 <Section title="Damaged or Wrong Item?">
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8, marginBottom: "16px" }}>
-                        If you received a damaged, defective, or incorrect item, we&apos;ll make it right immediately — no questions asked. Contact us within 48 hours of delivery with a photo of the item.
+                        If you received a damaged, defective, or incorrect item, we&apos;ll make it right immediately  no questions asked. Contact us within 48 hours of delivery with a photo of the item.
                     </p>
                     <Link href="/contact" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", display: "inline-block" }}>
                         Contact Us

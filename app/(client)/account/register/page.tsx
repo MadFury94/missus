@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -63,20 +63,20 @@ export default function RegisterPage() {
                     <img src="/missus-logo.webp" alt="Missus" style={{ height: "39px", width: "auto", filter: "brightness(0) invert(1)" }} />
                 </Link>
                 <div>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "16px" }}>Join the Club</p>
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "16px" }}>Join the Club</p>
                     <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(48px,5vw,64px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: .92, marginBottom: "20px" }}>
-                        Dress Like<br /><span style={{ color: "#630D13" }}>Her.</span>
+                        Dress Like<br /><span style={{ color: "#7F0E12" }}>Her.</span>
                     </h2>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", fontWeight: 300, lineHeight: 1.6, maxWidth: "340px" }}>
                         Create your account to track orders, save your wishlist and get early access to new drops.
                     </p>
                 </div>
                 <div style={{ border: "1px solid rgba(255,255,255,.1)", padding: "20px" }}>
-                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "8px" }}>★★★★★</div>
+                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "8px" }}>?????</div>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "8px" }}>
                         &quot;I ordered my dress at noon and it was at my door by 2pm. Missus is built different.&quot;
                     </p>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#630D13" }}>Temi A. — Lagos</p>
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#7F0E12" }}>Temi A.  Lagos</p>
                 </div>
             </div>
 
@@ -88,7 +88,7 @@ export default function RegisterPage() {
                     </h1>
                     <p style={{ fontSize: "13px", color: "#767676", marginBottom: "28px" }}>
                         Already have an account?{" "}
-                        <Link href="/account/login" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Sign in →</Link>
+                        <Link href="/account/login" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Sign in ?</Link>
                     </p>
 
                     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -202,7 +202,7 @@ export default function RegisterPage() {
                             onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = "#222"; }}
                             onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = "#000"; }}
                         >
-                            {loading ? "Creating Account…" : "Create Account"}
+                            {loading ? "Creating Account" : "Create Account"}
                             {!loading && <ArrowRight style={{ width: "16px", height: "16px" }} strokeWidth={2.5} />}
                         </button>
 

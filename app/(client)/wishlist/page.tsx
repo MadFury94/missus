@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,12 +8,12 @@ import { addToCart } from "@/lib/cart";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
 
-// price in WishlistItem is already in naira — format directly
+// price in WishlistItem is already in naira  format directly
 function fmtNaira(naira: number) {
-    return `₦${naira.toLocaleString("en-NG")}`;
+    return `?${naira.toLocaleString("en-NG")}`;
 }
 
-// ─── SIZE PICKER MODAL ────────────────────────────────────────────────────────
+// --- SIZE PICKER MODAL --------------------------------------------------------
 const DEFAULT_SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
 function SizePickerModal({
@@ -81,7 +81,7 @@ function SizePickerModal({
                 <p style={{ fontSize: "11px", color: "#aaa", marginBottom: "14px" }}>
                     Not sure?{" "}
                     <Link href="/size-guide" target="_blank" style={{ color: "#000", textDecoration: "underline" }}>
-                        Size Guide →
+                        Size Guide ?
                     </Link>
                 </p>
 
@@ -96,20 +96,20 @@ function SizePickerModal({
                         cursor: selected ? "pointer" : "not-allowed", transition: "background .2s",
                     }}
                 >
-                    {selected ? `Add to Bag — ${selected}` : "Select a Size"}
+                    {selected ? `Add to Bag  ${selected}` : "Select a Size"}
                 </button>
                 <button
                     onClick={() => onConfirm("")}
                     style={{ width: "100%", background: "none", border: "none", marginTop: "8px", fontSize: "11px", color: "#999", cursor: "pointer", textDecoration: "underline", fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}
                 >
-                    Skip — add without size
+                    Skip  add without size
                 </button>
             </div>
         </div>
     );
 }
 
-// ─── MAIN PAGE ────────────────────────────────────────────────────────────────
+// --- MAIN PAGE ----------------------------------------------------------------
 export default function WishlistPage() {
     const [items, setItems] = useState<WishlistItem[]>([]);
     const [view, setView] = useState<"grid" | "list">("grid");
@@ -171,7 +171,7 @@ export default function WishlistPage() {
         return b.productId - a.productId; // recently added
     });
 
-    // ── EMPTY STATE ──────────────────────────────────────────────────────────
+    // -- EMPTY STATE ----------------------------------------------------------
     if (items.length === 0) {
         return (
             <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "60px 20px 80px", textAlign: "center" }}>
@@ -179,7 +179,7 @@ export default function WishlistPage() {
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d0d0d0" strokeWidth="1.2">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
-                    <div style={{ position: "absolute", top: "-4px", right: "-4px", width: "22px", height: "22px", background: "#630D13", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ position: "absolute", top: "-4px", right: "-4px", width: "22px", height: "22px", background: "#7F0E12", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <span style={{ color: "#fff", fontSize: "10px", fontWeight: 700 }}>0</span>
                     </div>
                 </div>
@@ -202,7 +202,7 @@ export default function WishlistPage() {
 
                 {trending.length > 0 && (
                     <div style={{ textAlign: "left" }}>
-                        <h2 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "16px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", paddingLeft: "4px", borderLeft: "3px solid #630D13" }}>
+                        <h2 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "16px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", paddingLeft: "4px", borderLeft: "3px solid #7F0E12" }}>
                             &nbsp;Trending Now
                         </h2>
                         <div className="grid-4">
@@ -214,7 +214,7 @@ export default function WishlistPage() {
         );
     }
 
-    // ── FILLED STATE ─────────────────────────────────────────────────────────
+    // -- FILLED STATE ---------------------------------------------------------
     return (
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "28px 20px 80px" }}>
 
@@ -226,7 +226,7 @@ export default function WishlistPage() {
                 />
             )}
 
-            {/* ── Header ── */}
+            {/* -- Header -- */}
             <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
                 <div>
                     <h1 style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "clamp(22px,3vw,32px)", fontWeight: 700, letterSpacing: "-.01em", color: "#000", marginBottom: "2px" }}>
@@ -239,7 +239,7 @@ export default function WishlistPage() {
                     <button
                         onClick={handleClear}
                         style={{ display: "flex", alignItems: "center", gap: "6px", background: "none", border: "1.5px solid #e0e0e0", padding: "8px 14px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", color: "#555", cursor: "pointer", transition: "all .15s" }}
-                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#630D13"; e.currentTarget.style.color = "#630D13"; }}
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#7F0E12"; e.currentTarget.style.color = "#7F0E12"; }}
                         onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#555"; }}
                     >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4h6v2" /></svg>
@@ -257,7 +257,7 @@ export default function WishlistPage() {
                 </div>
             </div>
 
-            {/* ── Toolbar ── */}
+            {/* -- Toolbar -- */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid #e8e8e8", borderBottom: "1px solid #e8e8e8", padding: "10px 0", marginBottom: "20px" }}>
                 <span style={{ fontSize: "12px", color: "#767676" }}>{items.length} item{items.length !== 1 ? "s" : ""}</span>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -295,7 +295,7 @@ export default function WishlistPage() {
                 </div>
             </div>
 
-            {/* ── Grid view ── */}
+            {/* -- Grid view -- */}
             {view === "grid" && (
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1px", background: "#e8e8e8" }} className="wishlist-grid">
                     {sorted.map((item) => (
@@ -304,7 +304,7 @@ export default function WishlistPage() {
                 </div>
             )}
 
-            {/* ── List view ── */}
+            {/* -- List view -- */}
             {view === "list" && (
                 <div style={{ borderTop: "1px solid #e8e8e8" }}>
                     {sorted.map((item) => (
@@ -313,7 +313,7 @@ export default function WishlistPage() {
                 </div>
             )}
 
-            {/* ── Footer CTA ── */}
+            {/* -- Footer CTA -- */}
             <div style={{ marginTop: "48px", paddingTop: "24px", borderTop: "1px solid #e8e8e8", textAlign: "center" }}>
                 <p style={{ fontSize: "13px", color: "#767676", marginBottom: "14px" }}>Want to discover more?</p>
                 <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "13px 40px", textDecoration: "none" }}>
@@ -324,7 +324,7 @@ export default function WishlistPage() {
     );
 }
 
-// ─── GRID CARD ────────────────────────────────────────────────────────────────
+// --- GRID CARD ----------------------------------------------------------------
 function WishlistCard({
     item,
     onRemove,
@@ -375,7 +375,7 @@ function WishlistCard({
                     </svg>
                 </button>
 
-                {/* Add to bag bar — visible on hover on desktop, always visible on touch */}
+                {/* Add to bag bar  visible on hover on desktop, always visible on touch */}
                 <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToBag(item); }}
                     style={{
@@ -406,7 +406,7 @@ function WishlistCard({
                     {item.name}
                 </Link>
                 <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}>{fmtNaira(item.price)}</p>
-                {/* Mobile add-to-bag button — always visible */}
+                {/* Mobile add-to-bag button  always visible */}
                 <button
                     onClick={() => onAddToBag(item)}
                     style={{ marginTop: "8px", width: "100%", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px", border: "none", cursor: "pointer", display: "none" }}
@@ -429,7 +429,7 @@ function WishlistCard({
     );
 }
 
-// ─── LIST ROW ────────────────────────────────────────────────────────────────
+// --- LIST ROW ----------------------------------------------------------------
 function WishlistListRow({
     item,
     onRemove,
@@ -473,7 +473,7 @@ function WishlistListRow({
                     onClick={() => { setRemoving(true); setTimeout(() => onRemove(item.productId), 250); }}
                     aria-label="Remove from wishlist"
                     style={{ width: "34px", height: "34px", border: "1.5px solid #e0e0e0", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, transition: "all .15s" }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#630D13"; e.currentTarget.style.color = "#630D13"; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#7F0E12"; e.currentTarget.style.color = "#7F0E12"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#000"; }}
                 >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">

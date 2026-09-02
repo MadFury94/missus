@@ -1,8 +1,8 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Careers — Missus",
+    title: "Careers  Missus",
     description: "Join the Missus team. We're a small but fast-moving Lagos fashion brand always looking for passionate people.",
 };
 
@@ -11,7 +11,7 @@ const ROLES = [
         title: "Social Media & Content Creator",
         type: "Part-time / Freelance",
         location: "Lagos (Remote-friendly)",
-        desc: "We need someone who lives on Instagram and TikTok, understands fashion content, and can make our pieces look irresistible. Reels, styling videos, product shoots — that's you.",
+        desc: "We need someone who lives on Instagram and TikTok, understands fashion content, and can make our pieces look irresistible. Reels, styling videos, product shoots  that's you.",
     },
     {
         title: "Customer Experience Rep",
@@ -33,22 +33,22 @@ export default function CareersPage() {
 
             {/* Header */}
             <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
+                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "10px" }}>
                     Join the Team
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
                     Careers
                 </h1>
                 <p style={{ fontSize: "14px", color: "rgba(255,255,255,.55)", fontWeight: 300, marginTop: "18px", maxWidth: "480px", margin: "18px auto 0", lineHeight: 1.7 }}>
-                    We&apos;re a small, fast-moving team building something real. If you love fashion, hustle hard, and want to grow with a brand — read on.
+                    We&apos;re a small, fast-moving team building something real. If you love fashion, hustle hard, and want to grow with a brand  read on.
                 </p>
             </div>
 
             {/* Intro */}
             <div style={{ maxWidth: "760px", margin: "0 auto", padding: "56px 24px 40px" }}>
-                <div style={{ borderLeft: "3px solid #630D13", paddingLeft: "20px", marginBottom: "48px" }}>
+                <div style={{ borderLeft: "3px solid #7F0E12", paddingLeft: "20px", marginBottom: "48px" }}>
                     <p style={{ fontSize: "15px", color: "#333", lineHeight: 1.8 }}>
-                        Missus is a Lagos-based women&apos;s fashion brand. We&apos;re not a corporation — we&apos;re a tight team that moves fast, cares deeply about our customers, and is building something the Nigerian fashion space has never seen. Every role here matters.
+                        Missus is a Lagos-based women&apos;s fashion brand. We&apos;re not a corporation  we&apos;re a tight team that moves fast, cares deeply about our customers, and is building something the Nigerian fashion space has never seen. Every role here matters.
                     </p>
                 </div>
 
@@ -80,7 +80,7 @@ export default function CareersPage() {
                                 href={`/contact?subject=careers&role=${encodeURIComponent(role.title)}`}
                                 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1.5px solid #000", paddingBottom: "1px" }}
                             >
-                                Apply Now →
+                                Apply Now ?
                             </Link>
                         </div>
                     ))}

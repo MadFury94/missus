@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -47,7 +47,7 @@ export default function UserLoginPage() {
     return (
         <div style={{ display: "flex", minHeight: "100svh" }}>
 
-            {/* ── Left branding panel (desktop only) ── */}
+            {/* -- Left branding panel (desktop only) -- */}
             <div style={{
                 display: "none",
                 width: "45%",
@@ -68,11 +68,11 @@ export default function UserLoginPage() {
                 </Link>
 
                 <div style={{ position: "relative", zIndex: 1 }}>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "16px" }}>
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "16px" }}>
                         Welcome Back
                     </p>
                     <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(48px,5vw,64px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: .92, marginBottom: "20px" }}>
-                        Dress Like<br /><span style={{ color: "#630D13" }}>Her.</span>
+                        Dress Like<br /><span style={{ color: "#7F0E12" }}>Her.</span>
                     </h2>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", fontWeight: 300, lineHeight: 1.6, maxWidth: "340px" }}>
                         Log in to track your orders, manage your wishlist, and get early access to new drops and exclusive Missus deals.
@@ -80,21 +80,21 @@ export default function UserLoginPage() {
                 </div>
 
                 <div style={{ position: "relative", zIndex: 1, border: "1px solid rgba(255,255,255,.1)", padding: "20px" }}>
-                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "10px" }}>★★★★★</div>
+                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "10px" }}>?????</div>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "10px" }}>
                         &quot;Missus is really for the IT girls. Delivery in 45 mins, quality is unreal. Never switching.&quot;
                     </p>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#630D13" }}>
-                        Sarah O. — Lagos
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#7F0E12" }}>
+                        Sarah O.  Lagos
                     </p>
                 </div>
             </div>
 
-            {/* ── Right / mobile form panel ── */}
+            {/* -- Right / mobile form panel -- */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 24px", background: "#fff", minWidth: 0 }}>
                 <div style={{ width: "100%", maxWidth: "420px" }}>
 
-                    {/* Mobile logo — hidden on desktop where the left panel has it */}
+                    {/* Mobile logo  hidden on desktop where the left panel has it */}
                     <div style={{ marginBottom: "28px", display: "block" }} className="login-mobile-logo">
                         <Link href="/" style={{ display: "inline-block", textDecoration: "none" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -108,13 +108,13 @@ export default function UserLoginPage() {
                     <p style={{ fontSize: "13px", color: "#767676", marginBottom: justRegistered ? "16px" : "28px" }}>
                         Don&apos;t have an account?{" "}
                         <Link href="/account/register" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>
-                            Create one →
+                            Create one ?
                         </Link>
                     </p>
 
                     {justRegistered && (
                         <div style={{ background: "#f0faf4", border: "1px solid #c8e6d4", color: "#007a3d", padding: "12px 14px", fontSize: "13px", marginBottom: "20px" }}>
-                            ✓ Account created! Sign in below.
+                            ? Account created! Sign in below.
                         </div>
                     )}
 
@@ -157,7 +157,7 @@ export default function UserLoginPage() {
                                     type={showPassword ? "text" : "password"}
                                     value={form.password}
                                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                                    placeholder="••••••••"
+                                    placeholder=""
                                     required
                                     autoComplete="current-password"
                                     style={{ ...inputStyle, paddingLeft: "42px", paddingRight: "48px" }}
@@ -198,7 +198,7 @@ export default function UserLoginPage() {
                             onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = "#222"; }}
                             onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = loading ? "#555" : "#000"; }}
                         >
-                            {loading ? "Signing In…" : "Sign In"}
+                            {loading ? "Signing In" : "Sign In"}
                             {!loading && <ArrowRight style={{ width: "16px", height: "16px" }} strokeWidth={2.5} />}
                         </button>
                     </form>

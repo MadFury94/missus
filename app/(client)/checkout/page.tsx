@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -101,7 +101,7 @@ export default function CheckoutPage() {
             {/* Header Banner */}
             {/* <div style={{ background: "#f8f8f8", borderBottom: "1px solid #e8e8e8", padding: "16px 0", textAlign: "center" }}>
                 <p style={{ fontSize: "13px", color: "#000" }}>
-                    Spend <strong>{formatPrice(FREE_SHIPPING_THRESHOLD)}</strong> or more to unlock <strong style={{ color: "#630D13" }}>FREE SHIPPING!</strong> <Link href="/shop" style={{ textDecoration: "underline", color: "#000" }}>Shop Now →</Link>
+                    Spend <strong>{formatPrice(FREE_SHIPPING_THRESHOLD)}</strong> or more to unlock <strong style={{ color: "#7F0E12" }}>FREE SHIPPING!</strong> <Link href="/shop" style={{ textDecoration: "underline", color: "#000" }}>Shop Now ?</Link>
                 </p>
             </div> */}
 
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
                                         {[
                                             "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa",
                                             "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo",
-                                            "Ekiti", "Enugu", "FCT — Abuja", "Gombe", "Imo", "Jigawa",
+                                            "Ekiti", "Enugu", "FCT  Abuja", "Gombe", "Imo", "Jigawa",
                                             "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara",
                                             "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun",
                                             "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara",
@@ -266,7 +266,7 @@ export default function CheckoutPage() {
                             <div style={{ marginBottom: "20px", maxHeight: "280px", overflowY: "auto" }}>
                                 {cart.items.length === 0 ? (
                                     <p style={{ fontSize: "14px", color: "#666", textAlign: "center", padding: "20px 0" }}>
-                                        Your cart is empty. <Link href="/shop" style={{ color: "#630D13", textDecoration: "underline" }}>Shop now</Link>
+                                        Your cart is empty. <Link href="/shop" style={{ color: "#7F0E12", textDecoration: "underline" }}>Shop now</Link>
                                     </p>
                                 ) : (
                                     cart.items.map((item) => (
@@ -297,7 +297,7 @@ export default function CheckoutPage() {
                                 {promoCode ? (
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#f0faf4", border: "1px solid #c8e6d4", padding: "10px 14px" }}>
                                         <span style={{ fontSize: "13px", color: "#007a3d", fontWeight: 600 }}>
-                                            ✓ {promoCode} — {promoLabel} applied
+                                            ? {promoCode}  {promoLabel} applied
                                         </span>
                                         <button onClick={removePromo} type="button" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#555", lineHeight: 1 }}>×</button>
                                     </div>
@@ -322,7 +322,7 @@ export default function CheckoutPage() {
                                                 {promoLoading ? "..." : "Apply"}
                                             </button>
                                         </div>
-                                        {promoError && <p style={{ fontSize: "12px", color: "#630D13", marginTop: "6px" }}>{promoError}</p>}
+                                        {promoError && <p style={{ fontSize: "12px", color: "#7F0E12", marginTop: "6px" }}>{promoError}</p>}
                                     </>
                                 )}
                             </div>
@@ -336,7 +336,7 @@ export default function CheckoutPage() {
                                 {promoDiscount > 0 && (
                                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", fontSize: "14px" }}>
                                         <span style={{ color: "#007a3d" }}>Promo ({promoCode})</span>
-                                        <span style={{ fontWeight: 600, color: "#007a3d" }}>−{formatPrice(promoDiscount)}</span>
+                                        <span style={{ fontWeight: 600, color: "#007a3d" }}>-{formatPrice(promoDiscount)}</span>
                                     </div>
                                 )}
                                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", fontSize: "14px" }}>
@@ -363,7 +363,7 @@ export default function CheckoutPage() {
                             </button>
 
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "12px" }}>
-                                <span style={{ fontSize: "14px" }}>🔒</span>
+                                <span style={{ fontSize: "14px" }}>??</span>
                                 <span style={{ fontSize: "11px", color: "#666" }}>Secured by Paystack · SSL Encrypted</span>
                             </div>
                         </div>

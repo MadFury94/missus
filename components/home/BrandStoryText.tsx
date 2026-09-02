@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 
 export default function BrandStoryText() {
@@ -22,7 +22,7 @@ export default function BrandStoryText() {
                     fontWeight: 600,
                     letterSpacing: ".25em",
                     textTransform: "uppercase",
-                    color: "#630D13",
+                    color: "#7F0E12",
                     marginBottom: "20px"
                 }}>
                     Our Story
@@ -135,7 +135,7 @@ export default function BrandStoryText() {
                 marginTop: "60px",
                 width: "60px",
                 height: "1px",
-                background: "linear-gradient(to right, transparent, #630D13, transparent)"
+                background: "linear-gradient(to right, transparent, #7F0E12, transparent)"
             }} />
         </div>
     );

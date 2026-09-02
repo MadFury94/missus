@@ -1,17 +1,17 @@
-﻿"use client";
+"use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { StoreProduct } from "@/lib/woocommerce";
 import { toNaira, formatPrice } from "@/lib/woocommerce";
 
-// ── Static ────────────────────────────────────────────────────────────────
+// -- Static ----------------------------------------------------------------
 
 const HOT_SEARCHES = [
     "Dresses", "Matching Sets", "Bandage Dress", "Tops",
     "Night Out", "Snatched", "Vacation", "Faux Leather",
 ];
 
-// ── Types ─────────────────────────────────────────────────────────────────
+// -- Types -----------------------------------------------------------------
 interface CatItem { slug: string; name: string; image: string | null; }
 
 interface Props {
@@ -22,7 +22,7 @@ interface Props {
     onSubmit: (q: string) => void;
 }
 
-// ── Module-level cache ────────────────────────────────────────────────────
+// -- Module-level cache ----------------------------------------------------
 let catCache: CatItem[] | null = null;
 
 function titleCase(str: string) {
@@ -34,7 +34,7 @@ function titleCase(str: string) {
         .join(" ");
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
+// -- Component -------------------------------------------------------------
 
 export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClose, onSubmit }: Props) {
     const router = useRouter();
@@ -46,7 +46,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
         catCache ? catCache.filter((c) => c.image) : []
     );
 
-    // Measure navbar height → CSS var for overlay offset
+    // Measure navbar height ? CSS var for overlay offset
     useEffect(() => {
         function measure() {
             const nav = document.querySelector("[data-navbar]") as HTMLElement | null;
@@ -84,7 +84,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
             .catch(() => { });
     }, [isOpen]);
 
-    // Debounced live search — only products with images
+    // Debounced live search  only products with images
     useEffect(() => {
         const q = inputValue.trim();
         if (!q) { setLiveResults([]); return; }
@@ -136,7 +136,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
         );
     }
 
-    // Accent row (for New In / Sale — no WC image, use a colour block)
+    // Accent row (for New In / Sale  no WC image, use a colour block)
     function AccentRow({ rank, label, href, bg, accent }: {
         rank: number; label: string; href: string; bg: string; accent: string;
     }) {
@@ -160,7 +160,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
         );
     }
 
-    // Split the 4 imaged cats across two columns: first 2 → col A, last 2 → col B
+    // Split the 4 imaged cats across two columns: first 2 ? col A, last 2 ? col B
     const colA = imagedCats.slice(0, 2);   // e.g. Dresses, Matching Sets
     const colB = imagedCats.slice(2, 4);   // e.g. Tops, Bottoms
 
@@ -213,7 +213,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                         value={inputValue}
                         onChange={(e) => onInputChange(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") submitSearch(inputValue); }}
-                        placeholder="Search…"
+                        placeholder="Search"
                         aria-label="Search products"
                         style={{ flex: 1, border: "none", outline: "none", fontSize: "16px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 300, color: "#000", background: "transparent", minWidth: 0, letterSpacing: ".02em" }}
                     />
@@ -227,7 +227,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                             </svg>
                         </button>
                     )}
-                    {/* Close — text link, not a box */}
+                    {/* Close  text link, not a box */}
                     <button
                         onClick={onClose}
                         aria-label="Close search"
@@ -241,7 +241,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
 
                 <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "16px 16px 32px" }}>
 
-                    {/* ── Live results when typing ── */}
+                    {/* -- Live results when typing -- */}
                     {hasQuery && (
                         <div>
                             {liveLoading && (
@@ -278,19 +278,19 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </div>
                                     <button onClick={() => submitSearch(inputValue)}
                                         style={{ fontSize: "12px", color: "#000", fontWeight: 700, background: "none", border: "1.5px solid #000", padding: "9px 20px", cursor: "pointer", fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: ".08em", textTransform: "uppercase" }}>
-                                        See all results for &ldquo;{inputValue.trim()}&rdquo; →
+                                        See all results for &ldquo;{inputValue.trim()}&rdquo; ?
                                     </button>
                                 </>
                             )}
                             {!liveLoading && liveResults.length === 0 && (
                                 <p style={{ fontSize: "14px", color: "#888", padding: "20px 0" }}>
-                                    No results for &ldquo;{inputValue.trim()}&rdquo; — try different keywords.
+                                    No results for &ldquo;{inputValue.trim()}&rdquo;  try different keywords.
                                 </p>
                             )}
                         </div>
                     )}
 
-                    {/* ── Default state ── */}
+                    {/* -- Default state -- */}
                     {!hasQuery && (
                         <>
                             {/* Hot Searches */}
@@ -313,7 +313,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                             {/* Three cols desktop / Two cols mobile */}
                             <div className="search-overlay-cols">
 
-                                {/* Col 1: Shop by Style — desktop only, text links */}
+                                {/* Col 1: Shop by Style  desktop only, text links */}
                                 <div className="search-col-desktop">
                                     <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#999", marginBottom: "10px" }}>
                                         Shop by Style
@@ -336,7 +336,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </div>
                                 </div>
 
-                                {/* Col 2: It-Girl Picks — first 2 imaged cats + accent rows */}
+                                {/* Col 2: It-Girl Picks  first 2 imaged cats + accent rows */}
                                 <div>
                                     <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#999", marginBottom: "10px" }}>
                                         It-Girl Picks
@@ -346,11 +346,11 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                             <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={`/category/${cat.slug}`} />
                                         ))}
                                         <AccentRow rank={colA.length + 1} label="New Drops" href="/new-in" bg="#111" accent="#fff" />
-                                        <AccentRow rank={colA.length + 2} label="MissusDeals" href="/sale" bg="#630D13" accent="#fff" />
+                                        <AccentRow rank={colA.length + 2} label="MissusDeals" href="/sale" bg="#7F0E12" accent="#fff" />
                                     </div>
                                 </div>
 
-                                {/* Col 3: Fresh Fits — last 2 imaged cats + Shop All */}
+                                {/* Col 3: Fresh Fits  last 2 imaged cats + Shop All */}
                                 <div>
                                     <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#999", marginBottom: "10px" }}>
                                         Fresh Fits

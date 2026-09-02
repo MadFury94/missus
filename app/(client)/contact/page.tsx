@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 
@@ -64,7 +64,7 @@ export default function ContactPage() {
 
             {/* Header */}
             <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#630D13", marginBottom: "10px" }}>
+                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "10px" }}>
                     We&apos;re Here
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
@@ -75,7 +75,7 @@ export default function ContactPage() {
             <div style={{ maxWidth: "960px", margin: "0 auto", padding: "60px 24px" }}>
                 <div className="contact-grid">
 
-                    {/* Left — info */}
+                    {/* Left  info */}
                     <div>
                         <h2 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "22px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "20px" }}>
                             Get in Touch
@@ -127,31 +127,31 @@ export default function ContactPage() {
                             </div>
                         ))}
 
-                        <div style={{ marginTop: "32px", padding: "20px", background: "#f5f5f5", borderLeft: "3px solid #630D13" }}>
+                        <div style={{ marginTop: "32px", padding: "20px", background: "#f5f5f5", borderLeft: "3px solid #7F0E12" }}>
                             <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "6px" }}>
                                 Response Time
                             </p>
                             <p style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}>
-                                We reply to all DMs and emails within <strong>1 hour</strong> during business hours (9am–9pm WAT, Mon–Sat).
+                                We reply to all DMs and emails within <strong>1 hour</strong> during business hours (9am9pm WAT, MonSat).
                             </p>
                         </div>
 
                         {/* Collab anchor */}
                         <div id="collab" style={{ marginTop: "32px", padding: "20px", background: "#000", color: "#fff" }}>
-                            <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#630D13", marginBottom: "6px" }}>
+                            <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#7F0E12", marginBottom: "6px" }}>
                                 Want to Collab?
                             </p>
                             <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", lineHeight: 1.6 }}>
-                                Influencers, stylists, and content creators — we&apos;d love to work with you. Send us a message with your handle and rates.
+                                Influencers, stylists, and content creators  we&apos;d love to work with you. Send us a message with your handle and rates.
                             </p>
                         </div>
                     </div>
 
-                    {/* Right — form */}
+                    {/* Right  form */}
                     <div>
                         {sent ? (
                             <div style={{ textAlign: "center", padding: "48px 24px", border: "1.5px solid #e0e0e0" }}>
-                                <div style={{ fontSize: "40px", marginBottom: "16px" }}>✓</div>
+                                <div style={{ fontSize: "40px", marginBottom: "16px" }}>?</div>
                                 <h3 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "22px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "10px" }}>
                                     Message Sent!
                                 </h3>

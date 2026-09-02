@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -31,19 +31,19 @@ button {
   font-family: var(--font-body), 'DM Sans', sans-serif;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FONT SWAP — one-line change in app/layout.tsx
-   Change `displayFont` (Cormorant) → any Google font for headings
-   Change `bodyFont`    (DM Sans)   → any Google font for UI/body
-   ══════════════════════════════════════════════════════════════ */
+/* --------------------------------------------------------------
+   FONT SWAP  one-line change in app/layout.tsx
+   Change `displayFont` (Cormorant) ? any Google font for headings
+   Change `bodyFont`    (DM Sans)   ? any Google font for UI/body
+   -------------------------------------------------------------- */
 
-/* ── Font aliasing ──────────────────────────────────────────
+/* -- Font aliasing ------------------------------------------
    All inline styles that reference the old Barlow font names
    are overridden here. To change fonts sitewide, update the
-   two imports in app/layout.tsx — these rules handle the rest.
-──────────────────────────────────────────────────────────── */
+   two imports in app/layout.tsx  these rules handle the rest.
+------------------------------------------------------------ */
 
-/* Display font — headings, hero, labels, marquee, nav display */
+/* Display font  headings, hero, labels, marquee, nav display */
 *[style*="Barlow Condensed"],
 *[style*="barlow-condensed"],
 *[style*="Barlow_Condensed"] {
@@ -51,7 +51,7 @@ button {
   letter-spacing: 0.02em;
 }
 
-/* Body font — UI, inputs, prices, body copy */
+/* Body font  UI, inputs, prices, body copy */
 *[style*="'Barlow'"],
 *[style*="Barlow, sans-serif"],
 *[style*='"Barlow"'] {
@@ -67,11 +67,11 @@ button {
   scrollbar-width: none;
 }
 
-/* ── Brand color token usage ────────────────────────────────
-   Components that hardcode #630D13 (sale red / brand primary)
+/* -- Brand color token usage --------------------------------
+   Components that hardcode #7F0E12 (sale red / brand primary)
    are overridden here so changing --color-brand-primary above
    propagates sitewide without touching component files.
-──────────────────────────────────────────────────────────── */
+------------------------------------------------------------ */
 .sale-badge,
 .badge-primary,
 .cart-count-badge,
@@ -80,7 +80,7 @@ button {
 }
 
 /* Inline-style overrides for the most common brand-color patterns */
-*[style*="#630D13"] {
+*[style*="#7F0E12"] {
   --_override: var(--color-brand-primary);
 }
 
@@ -102,7 +102,7 @@ button {
   animation-play-state: paused;
 }
 
-/* ── Responsive grids ─────────────────────────────────────── */
+/* -- Responsive grids --------------------------------------- */
 
 .grid-5 {
   display: grid;
@@ -147,7 +147,7 @@ button {
   grid-row: span 2;
 }
 
-/* New In section — side padding like FashionNova, zero gap between cards */
+/* New In section  side padding like FashionNova, zero gap between cards */
 .newin-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -179,7 +179,7 @@ button {
   display: grid;
   /* Feature card gets ~28% width, then 3 equal columns */
   grid-template-columns: 2fr repeat(3, 1fr);
-  /* 4 rows — feature spans all 4 */
+  /* 4 rows  feature spans all 4 */
   grid-template-rows: repeat(4, 130px);
   gap: 6px;
 }
@@ -293,7 +293,7 @@ button {
   gap: 20px;
 }
 
-/* ── Tablet ≤ 1024px ──────────────────────────────────────── */
+/* -- Tablet = 1024px ---------------------------------------- */
 @media (max-width: 1024px) {
   .grid-5 {
     grid-template-columns: repeat(3, 1fr);
@@ -331,7 +331,7 @@ button {
   }
 }
 
-/* ── Mobile ≤ 768px ───────────────────────────────────────── */
+/* -- Mobile = 768px ----------------------------------------- */
 @media (max-width: 768px) {
   body {
     font-size: 13px;
@@ -459,7 +459,7 @@ button {
   }
 }
 
-/* ── Small mobile ≤ 480px ─────────────────────────────────── */
+/* -- Small mobile = 480px ----------------------------------- */
 @media (max-width: 480px) {
   .reviews-grid {
     grid-template-columns: 1fr;
@@ -591,7 +591,7 @@ button {
 @theme inline {
   --font-heading: var(--font-display);
   --font-sans: var(--font-body);
-  /* Legacy aliases — keeps components using old variable names working */
+  /* Legacy aliases  keeps components using old variable names working */
   --font-barlow: var(--font-body);
   --font-barlow-condensed: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -635,14 +635,14 @@ button {
 }
 
 :root {
-  /* ══════════════════════════════════════════════════════════════
-     BRAND TOKENS — change these two lines to retheme the site
-     ══════════════════════════════════════════════════════════════
+  /* --------------------------------------------------------------
+     BRAND TOKENS  change these two lines to retheme the site
+     --------------------------------------------------------------
      --color-brand-primary   : main CTA buttons, badges, accents
      --color-brand-secondary : secondary highlights (currently unused, ready to use)
      Font: swap the two imports at the top of app/layout.tsx
-     ══════════════════════════════════════════════════════════════ */
-  --color-brand-primary: #630D13;
+     -------------------------------------------------------------- */
+  --color-brand-primary: #7F0E12;
   --color-brand-secondary: #000000;
 
   --card: oklch(1 0 0);

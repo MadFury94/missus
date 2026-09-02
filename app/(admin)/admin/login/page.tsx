@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser, saveUser, isAdmin } from "@/lib/auth";
@@ -43,7 +43,7 @@ export default function AdminLogin() {
                     {/* Logo */}
                     <div style={{ textAlign: "center", marginBottom: "32px" }}>
                         <Link href="/" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "36px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", color: "#000", textDecoration: "none" }}>
-                            MISSUS<span style={{ color: "#630D13" }}>.</span>
+                            MISSUS<span style={{ color: "#7F0E12" }}>.</span>
                         </Link>
                         <p style={{ fontSize: "14px", color: "#666", marginTop: "8px" }}>Admin Dashboard</p>
                     </div>
@@ -130,7 +130,7 @@ export default function AdminLogin() {
                     {/* Footer */}
                     <div style={{ marginTop: "24px", textAlign: "center" }}>
                         <Link href="/" style={{ fontSize: "13px", color: "#667eea", textDecoration: "none", fontWeight: 600 }}>
-                            ← Back to Store
+                            ? Back to Store
                         </Link>
                     </div>
                 </div>

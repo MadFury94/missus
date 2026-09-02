@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -153,7 +153,7 @@ export default function CategoryHeroImage() {
                         boxShadow: "0 4px 20px rgba(0,0,0,0.3)"
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "#630D13";
+                        e.currentTarget.style.background = "#7F0E12";
                         e.currentTarget.style.color = "#fff";
                         e.currentTarget.style.transform = "scale(1.05)";
                         e.currentTarget.style.boxShadow = "0 6px 30px rgba(232,0,45,0.5)";
