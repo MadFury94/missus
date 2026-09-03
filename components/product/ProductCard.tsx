@@ -199,46 +199,48 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         </span>
                     )}
 
-                    {/* Combined wishlist + bag button container - bottom right */}
+                    {/* Wishlist button — top right */}
+                    <button
+                        aria-label={isWished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const newState = toggleWishlist({
+                                productId: product.id,
+                                name: product.name,
+                                price: toNaira(product.prices.price),
+                                image: img1,
+                                slug: product.slug,
+                            });
+                            setIsWished(newState);
+                        }}
+                        style={{
+                            position: "absolute", top: "8px", right: "8px",
+                            width: "30px", height: "30px", borderRadius: "50%",
+                            background: "rgba(255,255,255,.88)", border: "none",
+                            boxShadow: "0 1px 6px rgba(0,0,0,.12)",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            opacity: hovered ? 1 : 0,
+                            transition: "opacity .2s",
+                            zIndex: 3, cursor: "pointer",
+                        }}
+                        className="product-wishlist-btn"
+                    >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill={isWished ? "#ff0000" : "none"} stroke={isWished ? "#ff0000" : "#333"} strokeWidth="1.8" aria-hidden="true">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                    </button>
+
+                    {/* Bag button — bottom right */}
                     <div
                         className="product-quick-add"
                         style={{
                             position: "absolute", bottom: "10px", right: "10px",
-                            display: "flex", gap: "6px",
                             opacity: hovered ? 1 : 0,
                             transition: "opacity .2s ease",
                             zIndex: 3,
                         }}
                     >
-                        {/* Wishlist button */}
-                        <button
-                            aria-label={isWished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                const newState = toggleWishlist({
-                                    productId: product.id,
-                                    name: product.name,
-                                    price: toNaira(product.prices.price),
-                                    image: img1,
-                                    slug: product.slug,
-                                });
-                                setIsWished(newState);
-                            }}
-                            style={{
-                                width: "34px", height: "34px", borderRadius: "50%",
-                                background: "rgba(255,255,255,.92)", border: "none",
-                                boxShadow: "0 2px 8px rgba(0,0,0,.15)",
-                                display: "flex", alignItems: "center", justifyContent: "center",
-                                cursor: "pointer",
-                            }}
-                        >
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill={isWished ? "#ff0000" : "none"} stroke={isWished ? "#ff0000" : "#333"} strokeWidth="1.8" aria-hidden="true">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                            </svg>
-                        </button>
-
-                        {/* Bag button */}
                         <button
                             aria-label={`Add ${product.name} to bag`}
                             onClick={handleAddToBag}
@@ -324,6 +326,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
 
                 <style>{`
                 @media (max-width: 768px) {
+                    .product-wishlist-btn { opacity: 1 !important; }
                     .product-sizes { display: none !important; }
                     .product-card-info { padding: 6px 6px 10px !important; }
                     .product-card-info p:first-child { font-size: 12px !important; margin-bottom: 3px !important; -webkit-line-clamp: 1 !important; }
