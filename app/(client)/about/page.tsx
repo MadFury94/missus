@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-function useInView(threshold = 0.15) {
+function useInView(threshold) {
     const ref = useRef(null);
     const [inView, setInView] = useState(false);
     useEffect(() => {
@@ -11,11 +11,11 @@ function useInView(threshold = 0.15) {
         if (!el) return;
         const obs = new IntersectionObserver(
             ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } },
-            { threshold }
+            { threshold: threshold || 0.1 }
         );
         obs.observe(el);
         return () => obs.disconnect();
-    }, [threshold]);
+    }, []);
     return { ref, inView };
 }
 
@@ -48,26 +48,40 @@ export default function AboutPage() {
                 .fu { opacity: 0; }
                 .sl.on { animation: slideInLeft  .7s cubic-bezier(.22,1,.36,1) forwards; }
                 .sr.on { animation: slideInRight .7s cubic-bezier(.22,1,.36,1) forwards; }
-                .fu.on { animation: fadeUp       .7s cubic-bezier(.22,1,.36,1) forwards; }
+                .fu.on { animation: fadeUp .7s cubic-bezier(.22,1,.36,1) forwards; }
                 .d1 { animation-delay: .1s !important; }
                 .d2 { animation-delay: .22s !important; }
                 .d3 { animation-delay: .36s !important; }
 
+                /* HERO: fixed height 400px, two columns */
+                .a-hero {
+                    display: grid;
+                    grid-template-columns: 45% 55%;
+                    height: 72vh;
+                    background: #fff;
+                    overflow: hidden;
+                }
+                /* Left text panel: padding-top pushes text to ~60% down */
+                .a-hero-text {
+                    display: flex; flex-direction: column; justify-content: center; padding: 0 36px 40px 36px;
+                }
+                /* Right image fills entire column */
+                .a-hero-img {
+                    position: relative;
+                    overflow: hidden;
+                    height: 72vh;
+                }
+
+                /* Other split layouts */
                 .a-split {
                     display: grid;
                     grid-template-columns: 45% 55%;
-                    min-height: 90vh;
+                    min-height: 520px;
                 }
                 .a-split-rev {
                     display: grid;
                     grid-template-columns: 55% 45%;
                     min-height: 520px;
-                }
-                .a-text {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-end;
-                    padding: 0 clamp(32px,5vw,64px) clamp(52px,7vh,88px);
                 }
                 .a-text-mid {
                     display: flex;
@@ -83,10 +97,12 @@ export default function AboutPage() {
                 }
 
                 @media (max-width: 768px) {
+                    .a-hero { grid-template-columns: 1fr; height: auto; }
+                    .a-hero-text { padding: 32px 24px 36px; }
+                    .a-hero-img { height: 56vw; }
                     .a-split, .a-split-rev { grid-template-columns: 1fr; min-height: auto; }
                     .a-split-rev .a-img { order: -1; min-height: 360px; }
                     .a-split .a-img { min-height: 60vw; }
-                    .a-text { padding: 36px 24px 48px; }
                     .a-text-mid { padding: 40px 24px; }
                     .a-3col { grid-template-columns: 1fr; height: auto; }
                     .a-3col > div { height: 260px; }
@@ -95,36 +111,36 @@ export default function AboutPage() {
 
             <div style={{ background: "#fff", overflow: "hidden" }}>
 
-                {/* 1. HERO */}
-                <div ref={hero.ref} className="a-split" style={{ background: "#fff" }}>
-                    <div className={`a-text sl${hero.inView ? " on" : ""}`}>
+                {/* 1. HERO: 400px, text at 60% down left, image right */}
+                <div ref={hero.ref} className="a-hero">
+                    <div className={`a-hero-text sl${hero.inView ? " on" : ""}`}>
                         <h1 style={{
                             fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                            fontSize: "clamp(18px, 1.8vw, 26px)",
+                            fontSize: "22px",
                             fontWeight: 800,
                             textTransform: "uppercase",
                             color: "#000",
                             lineHeight: 1.2,
-                            letterSpacing: ".04em",
-                            marginBottom: "20px",
+                            letterSpacing: ".03em",
+                            marginBottom: "40px",
                         }}>
                             Welcome To Our World
                         </h1>
-                        <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.85, maxWidth: "340px" }}>
+                        <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.85 }}>
                             Founded in Lagos, Missus has redefined fashion for the modern Nigerian woman, crafting pieces that celebrate confidence, style, and effortless sophistication. Every silhouette is designed to make an impact, ensuring that for every moment and every occasion, you will always be best dressed, guaranteed.
                         </p>
                     </div>
-                    <div className={`a-img sr${hero.inView ? " on" : ""}`}>
+                    <div className={`a-hero-img sr${hero.inView ? " on" : ""}`}>
                         <img
                             src="/missus.home.png"
                             alt="Missus"
-                            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+                            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
                         />
                     </div>
                 </div>
 
                 {/* 2. WEBP FULL-BLEED with text overlay */}
-                <div ref={gifSec.ref} style={{ position: "relative", height: "420px", overflow: "hidden", background: "#111" }}>
+                <div ref={gifSec.ref} style={{ position: "relative", height: "420px", overflow: "hidden", background: "#111", marginTop: "60px" }}>
                     <img
                         src="/missus-fashion-about-us.webp"
                         alt=""
