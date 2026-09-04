@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-function useInView(threshold) {
+function useInView(threshold?: number) {
     const ref = useRef(null);
     const [inView, setInView] = useState(false);
     useEffect(() => {
