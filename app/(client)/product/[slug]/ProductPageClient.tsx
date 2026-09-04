@@ -30,6 +30,33 @@ function AccordionItem({ title, content }: { title: string; content: string }) {
     );
 }
 
+function AccordionItemWithIcon({ title, content, icon, isLast }: { title: string; content: string; icon: React.ReactNode; isLast?: boolean }) {
+    const [open, setOpen] = useState(false);
+    return (
+        <div style={{ borderBottom: isLast ? "none" : "1px solid #ebebeb" }}>
+            <button
+                onClick={() => setOpen((o) => !o)}
+                style={{ width: "100%", padding: "16px 18px", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "12px", textAlign: "left" }}
+            >
+                <span style={{ color: "#333", flexShrink: 0, display: "flex" }}>{icon}</span>
+                <span style={{ flex: 1, fontSize: "13px", fontWeight: 600, color: "#000", letterSpacing: ".02em" }}>{title}</span>
+                <svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2"
+                    style={{ flexShrink: 0, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }}
+                >
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </button>
+            {open && (
+                <div
+                    style={{ padding: "0 18px 18px 48px", fontSize: "13px", color: "#666", lineHeight: 1.8, fontWeight: 300 }}
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+                />
+            )}
+        </div>
+    );
+}
+
 export default function ProductPageClient({ params, product, related }: {
     params: { slug: string },
     product: any,
@@ -40,12 +67,26 @@ export default function ProductPageClient({ params, product, related }: {
     const [adding, setAdding] = useState(false);
     const [added, setAdded] = useState(false);
     const [isWished, setIsWished] = useState(false);
+    const [stickyVisible, setStickyVisible] = useState(false);
+    const addToBagRef = useRef<HTMLDivElement>(null);
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
 
     useEffect(() => {
         setIsWished(isInWishlist(product.id));
     }, [product.id]);
+
+    // Show sticky bar when main CTA scrolls out of view
+    useEffect(() => {
+        const el = addToBagRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => setStickyVisible(!entry.isIntersecting),
+            { threshold: 0, rootMargin: "0px 0px -40px 0px" }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     const { convert } = useCurrency();
     const sizes = getSizes(product);
@@ -311,20 +352,22 @@ export default function ProductPageClient({ params, product, related }: {
                         </div>
                     )}
 
-                    {/* Add to Bag + Wishlist row */}
-                    <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+                    {/* Add to Bag + Wishlist — FashionNova layout */}
+                    <div ref={addToBagRef} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+                        {/* Pill Add to Bag */}
                         <button
                             onClick={handleAddToCart}
                             disabled={adding}
                             style={{
                                 flex: 1,
-                                padding: "16px",
+                                padding: "16px 24px",
                                 background: added ? "#1a7a3d" : "#000",
                                 color: "#fff",
                                 border: "none",
+                                borderRadius: "999px",
                                 fontSize: "13px",
                                 fontWeight: 600,
-                                letterSpacing: ".1em",
+                                letterSpacing: ".08em",
                                 textTransform: "uppercase",
                                 cursor: adding ? "not-allowed" : "pointer",
                                 transition: "background .3s",
@@ -333,6 +376,7 @@ export default function ProductPageClient({ params, product, related }: {
                         >
                             {added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
                         </button>
+                        {/* Circular wishlist button */}
                         <button
                             onClick={() => {
                                 const newState = toggleWishlist({
@@ -346,54 +390,81 @@ export default function ProductPageClient({ params, product, related }: {
                             }}
                             aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
                             style={{
-                                width: "52px",
-                                padding: "16px",
-                                background: isWished ? "#fff0f0" : "#fff",
-                                color: "#000",
-                                border: `1.5px solid ${isWished ? "#ff0000" : "#e0e0e0"}`,
+                                width: "52px", height: "52px", borderRadius: "50%",
+                                background: "#fff",
+                                border: `1.5px solid ${isWished ? "#000" : "#d0d0d0"}`,
                                 cursor: "pointer",
                                 display: "flex", alignItems: "center", justifyContent: "center",
                                 flexShrink: 0,
-                                transition: "all .2s",
+                                transition: "border-color .2s",
                             }}
                         >
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill={isWished ? "#ff0000" : "none"} stroke={isWished ? "#ff0000" : "#000"} strokeWidth="1.8" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill={isWished ? "#000" : "none"} stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                             </svg>
                         </button>
                     </div>
 
-                    {/* Payment note */}
-                    <p style={{ fontSize: "11px", color: "#aaa", letterSpacing: ".04em", marginBottom: "24px", textAlign: "center" }}>
-                        Secure checkout via Paystack · Card, bank transfer, USSD
-                    </p>
-
-                    {/* Delivery info — inline, compact */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "24px", padding: "16px", background: "#f8f8f8" }}>
-                        {[
-                            { icon: "⚡", label: "Lagos: 1–2 hrs", sub: "Express available" },
-                            { icon: "📦", label: "Nationwide: 2–5 days", sub: "Free over ₦150k" },
-                            { icon: "🔄", label: "7-day Returns", sub: "Easy & free" },
-                            { icon: "🔒", label: "Secure Payment", sub: "100% encrypted" },
-                        ].map((item) => (
-                            <div key={item.label} style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
-                                <span style={{ fontSize: "14px", lineHeight: 1 }}>{item.icon}</span>
-                                <div>
-                                    <p style={{ fontSize: "11px", fontWeight: 600, color: "#000", lineHeight: 1.3, letterSpacing: ".02em" }}>{item.label}</p>
-                                    <p style={{ fontSize: "11px", color: "#999", lineHeight: 1.3 }}>{item.sub}</p>
-                                </div>
-                            </div>
-                        ))}
+                    {/* Delivery note */}
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "24px", padding: "14px 0", borderTop: "1px solid #f0f0f0", borderBottom: "1px solid #f0f0f0" }}>
+                        {/* Premium delivery truck icon */}
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: "1px" }}>
+                            <rect x="1" y="3" width="15" height="13" rx="1" />
+                            <path d="M16 8h4l3 3v5h-7V8z" />
+                            <circle cx="5.5" cy="18.5" r="2.5" />
+                            <circle cx="18.5" cy="18.5" r="2.5" />
+                        </svg>
+                        <div>
+                            <p style={{ fontSize: "13px", fontWeight: 600, color: "#000", marginBottom: "2px" }}>
+                                Lagos: same-day · Nationwide: 2–5 days
+                            </p>
+                            <p style={{ fontSize: "12px", color: "#888" }}>
+                                Free shipping on orders over ₦150,000
+                            </p>
+                        </div>
                     </div>
 
-                    {/* Accordions */}
-                    <div>
-                        <AccordionItem
-                            title="Product Details"
-                            content={product.description || product.short_description || "No description available."}
-                        />
-                        <AccordionItem title="Sizing & Fit" content="Model is 5'8&quot; wearing size S. We recommend sizing up if between sizes." />
-                        <AccordionItem title="Shipping & Returns" content="Free returns within 7 days. Orders dispatched same day if placed before 2pm." />
+                    {/* Accordions — with premium icons */}
+                    <div style={{ border: "1px solid #ebebeb", borderRadius: "8px", overflow: "hidden" }}>
+                        {[
+                            {
+                                title: "Product Details",
+                                content: product.description || product.short_description || "No description available.",
+                                icon: (
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                                        <line x1="7" y1="7" x2="7.01" y2="7" />
+                                    </svg>
+                                ),
+                            },
+                            {
+                                title: "Sizing & Fit",
+                                content: "Model is 5'8\" wearing size S. We recommend sizing up if between sizes.",
+                                icon: (
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M3 3h18v4l-2 2 2 2v4l-2 2 2 2v4H3v-4l2-2-2-2V9l2-2-2-2V3z" />
+                                    </svg>
+                                ),
+                            },
+                            {
+                                title: "Shipping & Returns",
+                                content: "Free returns within 7 days. Orders dispatched same day if placed before 2pm.",
+                                icon: (
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="1 4 1 10 7 10" />
+                                        <path d="M3.51 15a9 9 0 1 0 .49-4.95" />
+                                    </svg>
+                                ),
+                            },
+                        ].map((item, idx, arr) => (
+                            <AccordionItemWithIcon
+                                key={item.title}
+                                title={item.title}
+                                content={item.content}
+                                icon={item.icon}
+                                isLast={idx === arr.length - 1}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
@@ -425,6 +496,100 @@ export default function ProductPageClient({ params, product, related }: {
                     </div>
                 </section>
             )}
+
+            {/* ── Sticky Add to Bag bar — glassmorphism style ── */}
+            <div
+                role="region"
+                aria-label="Quick add to bag"
+                style={{
+                    position: "fixed",
+                    bottom: 0, left: 0, right: 0,
+                    background: "rgba(255,255,255,0.72)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    borderTop: "1px solid rgba(255,255,255,0.4)",
+                    padding: "12px 24px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "16px",
+                    zIndex: 100,
+                    boxShadow: "0 -2px 24px rgba(0,0,0,.08)",
+                    transform: stickyVisible ? "translateY(0)" : "translateY(110%)",
+                    transition: "transform .3s cubic-bezier(.4,0,.2,1)",
+                }}
+            >
+                {/* Thumbnail */}
+                {product.images?.[0]?.src && (
+                    <div style={{ width: "62px", height: "78px", flexShrink: 0, position: "relative", overflow: "hidden", borderRadius: "4px", background: "#f5f5f5" }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={product.images[0].src}
+                            alt=""
+                            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                        />
+                    </div>
+                )}
+
+                {/* Product info */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: "13px", fontWeight: 600, color: "#000", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: "3px" }}>
+                        {product.name}
+                    </p>
+                    <p style={{ fontSize: "11px", color: "#666", lineHeight: 1.4 }}>
+                        {selectedSize ? `Size: ${selectedSize}` : sizes.length > 0 ? "No size selected" : ""}
+                        {selectedSize && " · "}
+                        {convert(parseInt(product.prices.price))}
+                    </p>
+                </div>
+
+                {/* Edit choices — scroll back up */}
+                {sizes.length > 0 && !selectedSize && (
+                    <button
+                        onClick={() => {
+                            document.getElementById("size-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }}
+                        style={{
+                            flexShrink: 0,
+                            background: "none",
+                            border: "1px solid rgba(0,0,0,.2)",
+                            borderRadius: "999px",
+                            padding: "8px 14px",
+                            fontSize: "11px",
+                            fontWeight: 600,
+                            color: "#000",
+                            cursor: "pointer",
+                            fontFamily: "var(--font-body)",
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        Select Size ↑
+                    </button>
+                )}
+
+                {/* Add to Bag — pill */}
+                <button
+                    onClick={handleAddToCart}
+                    disabled={adding}
+                    style={{
+                        flexShrink: 0,
+                        padding: "13px 28px",
+                        background: added ? "#1a7a3d" : "#000",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "999px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        letterSpacing: ".08em",
+                        textTransform: "uppercase",
+                        cursor: adding ? "not-allowed" : "pointer",
+                        transition: "background .3s",
+                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                        whiteSpace: "nowrap",
+                    }}
+                >
+                    {added ? "✓ Added" : adding ? "Adding…" : "Add to Bag"}
+                </button>
+            </div>
         </>
     );
 }
