@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkGiftCard, giftCardDiscountFor } from "@/lib/giftCards";
 
 // Promo codes live server-side only — never shipped to the browser.
 // Add codes to PROMO_CODES_JSON in .env.local to manage without redeploying:
@@ -14,9 +15,7 @@ function getPromoCodes() {
     try {
         const raw = process.env.PROMO_CODES_JSON;
         if (raw) extra = JSON.parse(raw);
-    } catch {
-        // malformed JSON — ignore extras
-    }
+    } catch { /* malformed JSON — ignore */ }
     return { ...PROMO_CODES_STATIC, ...extra };
 }
 
@@ -28,8 +27,30 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ valid: false, error: "Invalid request." }, { status: 400 });
         }
 
-        const promo = getPromoCodes()[String(code).trim().toUpperCase()];
+        const normalized = String(code).trim().toUpperCase();
 
+        // ── 1. Try as a gift card first ──────────────────────────────────
+        const giftCard = await checkGiftCard(normalized);
+        if (giftCard) {
+            if (giftCard.status !== "active" || giftCard.balance <= 0) {
+                return NextResponse.json({
+                    valid: false,
+                    error: "This gift card has no remaining balance.",
+                });
+            }
+            const discount = giftCardDiscountFor(giftCard, subtotal);
+            return NextResponse.json({
+                valid: true,
+                type: "gift_card",
+                code: giftCard.code,
+                discount,
+                label: `Gift card (${giftCard.symbol}${giftCard.balance.toLocaleString("en-NG")} balance)`,
+                remaining_after_use: giftCard.balance - discount,
+            });
+        }
+
+        // ── 2. Fall back to promo code ────────────────────────────────────
+        const promo = getPromoCodes()[normalized];
         if (!promo) {
             return NextResponse.json({ valid: false, error: "Invalid promo code." });
         }
@@ -41,10 +62,12 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
             valid: true,
-            code: String(code).trim().toUpperCase(),
+            type: "promo",
+            code: normalized,
             discount,
             label: promo.label,
         });
+
     } catch {
         return NextResponse.json({ valid: false, error: "Server error." }, { status: 500 });
     }

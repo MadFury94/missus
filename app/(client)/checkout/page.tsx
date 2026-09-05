@@ -75,7 +75,15 @@ export default function CheckoutPage() {
                 body: JSON.stringify({
                     email: form.email,
                     amount: total,
-                    metadata: { cart: cart.items, shipping: form, promoCode, promoDiscount },
+                    metadata: {
+                        cart: cart.items,
+                        shipping: form,
+                        promoCode,
+                        promoDiscount,
+                        // Gift card fields — populated when a gift card code is applied
+                        giftCardCode: promoCode && promoLabel.toLowerCase().includes("gift") ? promoCode : "",
+                        giftCardAmount: promoCode && promoLabel.toLowerCase().includes("gift") ? promoDiscount : 0,
+                    },
                 }),
             });
             const data = await res.json();

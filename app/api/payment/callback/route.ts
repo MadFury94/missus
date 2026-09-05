@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyPayment } from "@/lib/paystack";
+import { redeemGiftCard } from "@/lib/giftCards";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -58,6 +59,8 @@ export async function GET(request: NextRequest) {
     let shipping: ShippingInfo | null = null;
     let promoCode = "";
     let promoDiscount = 0;
+    let giftCardCode = "";
+    let giftCardAmount = 0;
 
     try {
         const txRes = await fetch(
@@ -70,6 +73,8 @@ export async function GET(request: NextRequest) {
         shipping = meta.shipping ?? null;
         promoCode = meta.promoCode ?? "";
         promoDiscount = meta.promoDiscount ?? 0;
+        giftCardCode = meta.giftCardCode ?? "";
+        giftCardAmount = meta.giftCardAmount ?? 0;
     } catch {
         // metadata unavailable — order creation will be partial
     }
@@ -121,11 +126,26 @@ export async function GET(request: NextRequest) {
                 ],
             };
 
-            await fetch(`${WC_API_URL}/orders`, {
+            const orderRes = await fetch(`${WC_API_URL}/orders`, {
                 method: "POST",
                 headers: getWCAuth(),
                 body: JSON.stringify(orderPayload),
             });
+
+            // Redeem gift card AFTER order is confirmed — atomic balance deduct
+            if (giftCardCode && giftCardAmount > 0) {
+                try {
+                    const order = await orderRes.json();
+                    await redeemGiftCard(giftCardCode, giftCardAmount, order?.id);
+                } catch (err) {
+                    // Payment already succeeded — log loudly but don't break the redirect.
+                    // A human needs to reconcile this manually.
+                    console.error(
+                        `[gift-card] Redeem FAILED after payment ${reference} — code: ${giftCardCode}, amount: ${giftCardAmount}`,
+                        err
+                    );
+                }
+            }
         } catch (err) {
             // Log but don't block the redirect — payment already succeeded
             console.error("WooCommerce order creation failed:", err);

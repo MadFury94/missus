@@ -34,8 +34,10 @@ export default function AccountPage() {
     const [user, setUser] = useState<User | null>(null);
     const [orders, setOrders] = useState<Order[]>([]);
     const [loadingOrders, setLoadingOrders] = useState(true);
-    const [tab, setTab] = useState<"orders" | "wishlist" | "details">("orders");
+    const [tab, setTab] = useState<"orders" | "wishlist" | "details" | "giftcards">("orders");
     const [wishlistCount, setWishlistCount] = useState(0);
+    const [giftCards, setGiftCards] = useState<any[]>([]);
+    const [loadingCards, setLoadingCards] = useState(false);
 
     useEffect(() => {
         const u = getCurrentUser();
@@ -58,8 +60,24 @@ export default function AccountPage() {
 
     const TAB_ITEMS = [
         { key: "orders", label: "My Orders", icon: Package },
+        { key: "giftcards", label: "Gift Cards", icon: Heart },
         { key: "details", label: "My Details", icon: MapPin },
     ] as const;
+
+    function handleTabChange(key: typeof tab) {
+        setTab(key);
+        if (key === "giftcards" && giftCards.length === 0 && !loadingCards) {
+            setLoadingCards(true);
+            const u = getCurrentUser();
+            fetch("/api/account/gift-cards", {
+                headers: u?.token ? { Authorization: `Bearer ${u.token}` } : {},
+            })
+                .then((r) => r.json())
+                .then((d) => setGiftCards(d.gift_cards ?? []))
+                .catch(() => setGiftCards([]))
+                .finally(() => setLoadingCards(false));
+        }
+    }
 
     return (
         <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "28px 16px 80px" }}>
@@ -102,7 +120,7 @@ export default function AccountPage() {
                 {TAB_ITEMS.map(({ key, label, icon: Icon }) => (
                     <button
                         key={key}
-                        onClick={() => setTab(key)}
+                        onClick={() => handleTabChange(key)}
                         style={{ display: "flex", alignItems: "center", gap: "6px", padding: "10px 16px", background: "none", border: "none", borderBottom: tab === key ? "2px solid #000" : "2px solid transparent", marginBottom: "-2px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: tab === key ? "#000" : "#767676", cursor: "pointer", transition: "color .15s", whiteSpace: "nowrap" }}
                     >
                         <Icon style={{ width: "14px", height: "14px" }} />
@@ -183,6 +201,69 @@ export default function AccountPage() {
                                     </div>
                                 );
                             })}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Gift Cards tab */}
+            {tab === "giftcards" && (
+                <div>
+                    {loadingCards ? (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                            {[1, 2].map((i) => <div key={i} style={{ height: "80px", background: "#f5f5f5" }} />)}
+                        </div>
+                    ) : giftCards.length === 0 ? (
+                        <div style={{ textAlign: "center", padding: "60px 20px" }}>
+                            <Heart style={{ width: "48px", height: "48px", color: "#e0e0e0", margin: "0 auto 16px" }} />
+                            <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "20px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".04em", color: "#ccc", marginBottom: "8px" }}>No gift cards yet</h2>
+                            <p style={{ fontSize: "13px", color: "#aaa", marginBottom: "20px" }}>Gift cards purchased for you will appear here.</p>
+                            <Link href="/gift-card-balance" style={{ fontSize: "12px", color: "#000", textDecoration: "underline", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>
+                                Check a code manually →
+                            </Link>
+                        </div>
+                    ) : (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                            {giftCards.map((card: any, idx: number) => {
+                                const sym = card.currency_symbol || "₦";
+                                const bal = parseFloat(card.balance ?? card.remaining ?? 0);
+                                const initial = parseFloat(card.initial_balance ?? card.amount ?? bal);
+                                const isActive = bal > 0 && card.status !== "used";
+                                return (
+                                    <div key={card.code || idx} style={{ border: "1px solid #e8e8e8", overflow: "hidden" }}>
+                                        <div style={{ background: isActive ? "#000" : "#6b7280", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                            <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>Gift Card</span>
+                                            <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: isActive ? "#4ade80" : "#f87171" }}>
+                                                {isActive ? "Active" : "Used"}
+                                            </span>
+                                        </div>
+                                        <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
+                                            <div>
+                                                <p style={{ fontFamily: "monospace", fontSize: "15px", fontWeight: 700, color: "#000", letterSpacing: ".06em", marginBottom: "4px" }}>
+                                                    {card.code}
+                                                </p>
+                                                {card.expiry && (
+                                                    <p style={{ fontSize: "11px", color: "#aaa" }}>
+                                                        Expires: {new Date(card.expiry).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" })}
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <div style={{ textAlign: "right" }}>
+                                                <p style={{ fontSize: "11px", color: "#aaa", marginBottom: "2px" }}>Balance</p>
+                                                <p style={{ fontSize: "22px", fontWeight: 800, color: isActive ? "#000" : "#aaa", fontFamily: "'Barlow Condensed', sans-serif" }}>
+                                                    {sym}{bal.toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                                                </p>
+                                                {initial !== bal && (
+                                                    <p style={{ fontSize: "11px", color: "#ccc" }}>of {sym}{initial.toLocaleString("en-NG", { minimumFractionDigits: 2 })}</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                            <Link href="/gift-card-balance" style={{ display: "block", textAlign: "center", fontSize: "12px", color: "#767676", textDecoration: "underline", marginTop: "8px" }}>
+                                Check a different code →
+                            </Link>
                         </div>
                     )}
                 </div>

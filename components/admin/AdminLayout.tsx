@@ -24,6 +24,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         { icon: "📋", label: "Orders", href: "/admin/orders" },
         { icon: "👥", label: "Customers", href: "/admin/customers" },
         { icon: "🏷️", label: "Categories", href: "/admin/categories" },
+        { icon: "🎁", label: "Gift Cards", href: "/admin/gift-cards" },
         { icon: "⚙️", label: "Settings", href: "/admin/settings" },
     ];
 
