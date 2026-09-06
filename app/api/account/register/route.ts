@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { wcFetch } from "@/lib/wp-fetch";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -11,6 +12,18 @@ function getWCAuth() {
 }
 
 export async function POST(request: NextRequest) {
+    // Rate limit: 5 registrations per IP per hour
+    const ip = getClientIp(request);
+    const { allowed, resetAt } = rateLimit(`register:${ip}`, { limit: 5, windowSecs: 3600 });
+
+    if (!allowed) {
+        const retryAfter = Math.ceil((resetAt - Date.now()) / 1000);
+        return NextResponse.json(
+            { error: "Too many registration attempts. Please try again later." },
+            { status: 429, headers: { "Retry-After": String(retryAfter) } }
+        );
+    }
+
     try {
         const body = await request.json();
         const { email, password, first_name, last_name, billing } = body;

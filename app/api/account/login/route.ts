@@ -1,9 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { wcFetch } from "@/lib/wp-fetch";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const WP_API = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
 
 export async function POST(request: NextRequest) {
+    // Rate limit: 10 login attempts per IP per 15 minutes
+    const ip = getClientIp(request);
+    const { allowed, remaining, resetAt } = rateLimit(`login:${ip}`, { limit: 10, windowSecs: 900 });
+
+    if (!allowed) {
+        const retryAfter = Math.ceil((resetAt - Date.now()) / 1000);
+        return NextResponse.json(
+            { error: "Too many login attempts. Please try again later." },
+            { status: 429, headers: { "Retry-After": String(retryAfter) } }
+        );
+    }
+
     try {
         const { username, password } = await request.json();
 
