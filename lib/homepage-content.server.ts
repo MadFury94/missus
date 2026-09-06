@@ -7,6 +7,12 @@ const WP_API = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
 const WC_KEY = process.env.WC_CONSUMER_KEY;
 const WC_SECRET = process.env.WC_CONSUMER_SECRET;
 
+// Match the data file path logic from the API route
+const DATA_DIR = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+    ? "/tmp"
+    : require("path").join(process.cwd(), "data");
+const DATA_FILE = require("path").join(DATA_DIR, "homepage-content.json");
+
 function wcAuth(): Record<string, string> {
     if (!WC_KEY || !WC_SECRET) return {};
     const auth = Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString("base64");
@@ -22,11 +28,8 @@ function readSavedJson(): Partial<HomepageContent> | null {
     try {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         const fs = require("fs") as typeof import("fs");
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const path = require("path") as typeof import("path");
-        const file = path.join(process.cwd(), "data", "homepage-content.json");
-        if (!fs.existsSync(file)) return null;
-        const parsed = JSON.parse(fs.readFileSync(file, "utf-8"));
+        if (!fs.existsSync(DATA_FILE)) return null;
+        const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
         if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
             return parsed;
         }

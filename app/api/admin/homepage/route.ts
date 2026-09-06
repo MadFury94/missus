@@ -9,13 +9,23 @@ const WC_KEY = process.env.WC_CONSUMER_KEY;
 const WC_SECRET = process.env.WC_CONSUMER_SECRET;
 const WP_APP_PASSWORD = process.env.WP_APP_PASSWORD;
 const MAX_PAYLOAD_BYTES = 512 * 1024;
-const DATA_FILE = path.join(process.cwd(), "data", "homepage-content.json");
+
+// On Vercel (and serverless in general) only /tmp is writable.
+// In dev, write next to the project so it persists across restarts.
+const DATA_DIR = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+    ? "/tmp"
+    : path.join(process.cwd(), "data");
+const DATA_FILE = path.join(DATA_DIR, "homepage-content.json");
 
 /** Write to local JSON file — primary storage in production, fallback in dev */
 function writeJsonFile(data: unknown) {
-    const dir = path.dirname(DATA_FILE);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
+    try {
+        if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
+    } catch (err) {
+        console.error("[homepage] writeJsonFile failed:", err);
+        throw err; // re-throw so the POST handler can respond with a real error
+    }
 }
 
 function readJsonFile(): Record<string, unknown> | null {
@@ -37,10 +47,13 @@ function wcAuth(): Record<string, string> {
 
 function wpAuth(): Record<string, string> {
     if (WP_APP_PASSWORD) {
-        const [username, ...rest] = WP_APP_PASSWORD.split(":");
-        const password = rest.join(":").replace(/\s/g, "");
-        const auth = Buffer.from(`${username}:${password}`).toString("base64");
-        return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
+        const colonIdx = WP_APP_PASSWORD.indexOf(":");
+        if (colonIdx !== -1) {
+            const username = WP_APP_PASSWORD.slice(0, colonIdx);
+            const password = WP_APP_PASSWORD.slice(colonIdx + 1).trim(); // keep internal spaces
+            const auth = Buffer.from(`${username}:${password}`).toString("base64");
+            return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
+        }
     }
     return wcAuth();
 }
@@ -144,7 +157,9 @@ export async function POST(req: NextRequest) {
         })();
 
         return NextResponse.json({ ok: true, source: "json_file" });
-    } catch {
-        return NextResponse.json({ error: "Failed to save." }, { status: 500 });
+    } catch (err) {
+        console.error("[homepage POST] error:", err);
+        const msg = err instanceof Error ? err.message : "Failed to save.";
+        return NextResponse.json({ error: msg }, { status: 500 });
     }
 }
