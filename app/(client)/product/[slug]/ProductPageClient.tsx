@@ -64,6 +64,7 @@ export default function ProductPageClient({ params, product, related }: {
 }) {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
     const [adding, setAdding] = useState(false);
     const [added, setAdded] = useState(false);
     const [isWished, setIsWished] = useState(false);
@@ -75,6 +76,12 @@ export default function ProductPageClient({ params, product, related }: {
     useEffect(() => {
         setIsWished(isInWishlist(product.id));
     }, [product.id]);
+
+    // Pre-select first color if available
+    useEffect(() => {
+        const colors = getColors(product);
+        if (colors.length > 0) setSelectedColor(colors[0]);
+    }, [product]);
 
     // Show sticky bar when main CTA scrolls out of view
     useEffect(() => {
@@ -111,7 +118,7 @@ export default function ProductPageClient({ params, product, related }: {
             regularPrice: toNaira(product.prices.regular_price),
             image: product.images[0]?.src || "",
             size: selectedSize || undefined,
-            color: undefined,
+            color: selectedColor || undefined,
             quantity: 1
         });
         window.dispatchEvent(new Event("cart-updated"));
@@ -352,7 +359,41 @@ export default function ProductPageClient({ params, product, related }: {
                         </div>
                     )}
 
-                    {/* Add to Bag + Wishlist — FashionNova layout */}
+                    {/* Color selection */}
+                    {colors.length > 0 && (
+                        <div style={{ marginBottom: "20px" }}>
+                            <span style={{ display: "block", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: "10px" }}>
+                                Color {selectedColor && <span style={{ color: "#777", fontWeight: 400 }}>— {selectedColor}</span>}
+                            </span>
+                            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                                {colors.map((color) => {
+                                    const isSelected = selectedColor === color;
+                                    return (
+                                        <button
+                                            key={color}
+                                            onClick={() => setSelectedColor(color)}
+                                            title={color}
+                                            aria-label={color}
+                                            aria-pressed={isSelected}
+                                            style={{
+                                                width: "32px", height: "32px",
+                                                borderRadius: "50%",
+                                                background: color.toLowerCase(),
+                                                border: "none",
+                                                outline: isSelected ? "2px solid #000" : "1.5px solid #d0d0d0",
+                                                outlineOffset: isSelected ? "3px" : "2px",
+                                                cursor: "pointer",
+                                                transition: "outline .15s",
+                                                flexShrink: 0,
+                                            }}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Add to Bag + Wishlist */}
                     <div ref={addToBagRef} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
                         {/* Pill Add to Bag */}
                         <button
@@ -537,7 +578,9 @@ export default function ProductPageClient({ params, product, related }: {
                     </p>
                     <p style={{ fontSize: "11px", color: "#666", lineHeight: 1.4 }}>
                         {selectedSize ? `Size: ${selectedSize}` : sizes.length > 0 ? "No size selected" : ""}
-                        {selectedSize && " · "}
+                        {selectedSize && selectedColor ? " · " : ""}
+                        {selectedColor ? `Color: ${selectedColor}` : ""}
+                        {(selectedSize || selectedColor) ? " · " : ""}
                         {convert(parseInt(product.prices.price))}
                     </p>
                 </div>
