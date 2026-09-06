@@ -7,7 +7,7 @@ const WP_API = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
 const WC_KEY = process.env.WC_CONSUMER_KEY;
 const WC_SECRET = process.env.WC_CONSUMER_SECRET;
 
-function wcAuth() {
+function wcAuth(): Record<string, string> {
     if (!WC_KEY || !WC_SECRET) return {};
     const auth = Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString("base64");
     return { Authorization: `Basic ${auth}` };
