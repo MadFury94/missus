@@ -64,9 +64,13 @@ export default function HomepageContentPage() {
     const save = async () => {
         setSaving(true);
         try {
+            const currentUser = getCurrentUser();
             await fetch("/api/admin/homepage", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(currentUser?.token ? { Authorization: `Bearer ${currentUser.token}` } : {}),
+                },
                 body: JSON.stringify(content),
             });
             setSaved(true);

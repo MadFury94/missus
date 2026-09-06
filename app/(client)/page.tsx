@@ -13,8 +13,8 @@ import NewsletterBar from "@/components/home/NewsletterBar";
 
 export const revalidate = 60;
 
-export default function HomePage() {
-  const content = getHomepageContent();
+export default async function HomePage() {
+  const content = await getHomepageContent();
 
   return (
     <>

@@ -62,8 +62,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const { announcement } = getHomepageContent();
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { announcement } = await getHomepageContent();
   return (
     <html
       lang="en"
