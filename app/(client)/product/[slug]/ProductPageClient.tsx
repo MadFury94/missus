@@ -83,16 +83,19 @@ export default function ProductPageClient({ params, product, related }: {
         if (colors.length > 0) setSelectedColor(colors[0]);
     }, [product]);
 
-    // Show sticky bar when main CTA scrolls out of view
+    // Show sticky bar only after user scrolls past the main Add to Bag button.
+    // Uses scroll position vs button's bottom edge — same approach as FashionNova.
+    // IntersectionObserver fires on load before scroll; scroll listener does not.
     useEffect(() => {
-        const el = addToBagRef.current;
-        if (!el) return;
-        const observer = new IntersectionObserver(
-            ([entry]) => setStickyVisible(!entry.isIntersecting),
-            { threshold: 0, rootMargin: "0px 0px -40px 0px" }
-        );
-        observer.observe(el);
-        return () => observer.disconnect();
+        function onScroll() {
+            const el = addToBagRef.current;
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            // rect.bottom <= 0 means the button has scrolled fully off screen upward
+            setStickyVisible(rect.bottom <= 0);
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
     const { convert } = useCurrency();
@@ -538,99 +541,72 @@ export default function ProductPageClient({ params, product, related }: {
                 </section>
             )}
 
-            {/* ── Sticky Add to Bag bar — glassmorphism style ── */}
+            {/* ── Sticky Add to Bag bar ── */}
+            {/* Only shown after user scrolls past the main CTA */}
             <div
                 role="region"
                 aria-label="Quick add to bag"
                 style={{
                     position: "fixed",
                     bottom: 0, left: 0, right: 0,
-                    background: "rgba(255,255,255,0.72)",
-                    backdropFilter: "blur(20px)",
-                    WebkitBackdropFilter: "blur(20px)",
-                    borderTop: "1px solid rgba(255,255,255,0.4)",
-                    padding: "12px 24px",
+                    background: "#fff",
+                    borderTop: "1px solid #e8e8e8",
+                    padding: "12px 16px calc(12px + env(safe-area-inset-bottom))",
                     display: "flex",
                     alignItems: "center",
-                    gap: "16px",
+                    gap: "10px",
                     zIndex: 100,
-                    boxShadow: "0 -2px 24px rgba(0,0,0,.08)",
-                    transform: stickyVisible ? "translateY(0)" : "translateY(110%)",
+                    boxShadow: "0 -4px 20px rgba(0,0,0,.07)",
+                    transform: stickyVisible ? "translateY(0)" : "translateY(120%)",
                     transition: "transform .3s cubic-bezier(.4,0,.2,1)",
+                    pointerEvents: stickyVisible ? "auto" : "none",
                 }}
             >
-                {/* Thumbnail */}
-                {product.images?.[0]?.src && (
-                    <div style={{ width: "62px", height: "78px", flexShrink: 0, position: "relative", overflow: "hidden", borderRadius: "4px", background: "#f5f5f5" }}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src={product.images[0].src}
-                            alt=""
-                            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                        />
-                    </div>
-                )}
-
-                {/* Product info */}
+                {/* Name + price — compact */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: "13px", fontWeight: 600, color: "#000", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: "3px" }}>
+                    <p style={{
+                        fontSize: "13px", fontWeight: 600, color: "#000",
+                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                        lineHeight: 1.3,
+                    }}>
                         {product.name}
                     </p>
-                    <p style={{ fontSize: "11px", color: "#666", lineHeight: 1.4 }}>
-                        {selectedSize ? `Size: ${selectedSize}` : sizes.length > 0 ? "No size selected" : ""}
-                        {selectedSize && selectedColor ? " · " : ""}
-                        {selectedColor ? `Color: ${selectedColor}` : ""}
-                        {(selectedSize || selectedColor) ? " · " : ""}
+                    <p style={{ fontSize: "12px", color: "#888", marginTop: "2px" }}>
                         {convert(parseInt(product.prices.price))}
+                        {selectedSize ? ` · ${selectedSize}` : ""}
+                        {selectedColor ? ` · ${selectedColor}` : ""}
                     </p>
                 </div>
 
-                {/* Edit choices — scroll back up */}
-                {sizes.length > 0 && !selectedSize && (
-                    <button
-                        onClick={() => {
-                            document.getElementById("size-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        }}
-                        style={{
-                            flexShrink: 0,
-                            background: "none",
-                            border: "1px solid rgba(0,0,0,.2)",
-                            borderRadius: "999px",
-                            padding: "8px 14px",
-                            fontSize: "11px",
-                            fontWeight: 600,
-                            color: "#000",
-                            cursor: "pointer",
-                            fontFamily: "var(--font-body)",
-                            whiteSpace: "nowrap",
-                        }}
-                    >
-                        Select Size ↑
-                    </button>
-                )}
-
-                {/* Add to Bag — pill */}
+                {/* Single CTA — scrolls back up if no size selected, otherwise adds */}
                 <button
-                    onClick={handleAddToCart}
+                    onClick={() => {
+                        if (sizes.length > 0 && !selectedSize) {
+                            document.getElementById("size-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        } else {
+                            handleAddToCart();
+                        }
+                    }}
                     disabled={adding}
                     style={{
                         flexShrink: 0,
-                        padding: "13px 28px",
+                        padding: "14px 22px",
                         background: added ? "#1a7a3d" : "#000",
                         color: "#fff",
                         border: "none",
-                        borderRadius: "999px",
                         fontSize: "12px",
-                        fontWeight: 600,
+                        fontWeight: 700,
                         letterSpacing: ".08em",
                         textTransform: "uppercase",
                         cursor: adding ? "not-allowed" : "pointer",
-                        transition: "background .3s",
+                        transition: "background .25s",
                         fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                         whiteSpace: "nowrap",
+                        minWidth: "130px",
+                        textAlign: "center",
                     }}
                 >
-                    {added ? "✓ Added" : adding ? "Adding…" : "Add to Bag"}
+                    {added ? "✓ Added" : adding ? "Adding…" : (sizes.length > 0 && !selectedSize) ? "Select Size ↑" : "Add to Bag"}
                 </button>
             </div>
         </>
