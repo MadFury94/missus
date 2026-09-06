@@ -11,21 +11,31 @@ const WP_APP_PASSWORD = process.env.WP_APP_PASSWORD;
 const MAX_PAYLOAD_BYTES = 512 * 1024;
 const DATA_FILE = path.join(process.cwd(), "data", "homepage-content.json");
 
-/** Dev fallback — write to local JSON when WP is unreachable */
-function writeJsonFallback(data: unknown) {
-    try {
-        const dir = path.dirname(DATA_FILE);
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
-    } catch { /* ignore */ }
+/** Write to local JSON file — primary storage in production, fallback in dev */
+function writeJsonFile(data: unknown) {
+    const dir = path.dirname(DATA_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
 }
 
-function wcAuth() {
+function readJsonFile(): Record<string, unknown> | null {
+    try {
+        if (!fs.existsSync(DATA_FILE)) return null;
+        const raw = fs.readFileSync(DATA_FILE, "utf-8");
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
+            return parsed;
+        }
+    } catch { /* ignore */ }
+    return null;
+}
+
+function wcAuth(): Record<string, string> {
     const auth = Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString("base64");
     return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
 }
 
-function wpAuth() {
+function wpAuth(): Record<string, string> {
     if (WP_APP_PASSWORD) {
         const [username, ...rest] = WP_APP_PASSWORD.split(":");
         const password = rest.join(":").replace(/\s/g, "");
@@ -53,18 +63,12 @@ async function getPostId(): Promise<number | null> {
 }
 
 export async function GET() {
-    // In dev, WP is unreachable — read from the local JSON file fallback
-    if (process.env.NODE_ENV === "development") {
-        try {
-            if (fs.existsSync(DATA_FILE)) {
-                const saved = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-                if (saved && Object.keys(saved).length > 0) {
-                    return NextResponse.json(saved);
-                }
-            }
-        } catch { /* fall through to WP */ }
-    }
+    // Always try the local JSON file first — it's the authoritative source
+    // (written on every successful save, whether via WP or direct)
+    const saved = readJsonFile();
+    if (saved) return NextResponse.json(saved);
 
+    // Fallback: try WordPress ACF
     try {
         const res = await fetch(`${WP_API}/wp/v2/homepage-settings?per_page=1&_fields=acf`, {
             headers: wcAuth(),
@@ -76,6 +80,10 @@ export async function GET() {
 
         const acf = posts[0]?.acf ?? {};
         const safeJson = (v: string, fallback: unknown) => { try { return JSON.parse(v); } catch { return fallback; } };
+
+        // Only return WP data if at least one field is non-empty
+        const hasData = Object.values(acf).some((v) => v && v !== "");
+        if (!hasData) return NextResponse.json({});
 
         return NextResponse.json({
             announcement: acf.hp_announcement || "",
@@ -104,6 +112,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Invalid payload." }, { status: 400 });
         }
 
+        // Always write to JSON file — this is our primary storage
+        // The homepage reads this file first on every request
+        writeJsonFile(body);
+        revalidatePath("/");
+
+        // Also attempt to sync to WordPress in the background (best-effort)
+        // Failure here does NOT fail the save — JSON file is the source of truth
         const acfPayload = {
             acf: {
                 hp_announcement: body.announcement ?? "",
@@ -115,33 +130,20 @@ export async function POST(req: NextRequest) {
             },
         };
 
-        // Dev: WP is unreachable — write to JSON file and revalidate
-        if (process.env.NODE_ENV === "development") {
-            writeJsonFallback(body);
-            revalidatePath("/");
-            return NextResponse.json({ ok: true, source: "json_fallback" });
-        }
+        (async () => {
+            try {
+                const postId = await getPostId();
+                if (!postId) return;
+                await fetch(`${WP_API}/wp/v2/homepage-settings/${postId}`, {
+                    method: "POST",
+                    headers: wpAuth(),
+                    body: JSON.stringify(acfPayload),
+                    signal: AbortSignal.timeout(8000),
+                });
+            } catch { /* WP sync is optional — JSON file is already written */ }
+        })();
 
-        // Production: write to WordPress
-        const postId = await getPostId();
-        if (!postId) {
-            return NextResponse.json({ error: "Homepage settings post not found in WordPress." }, { status: 404 });
-        }
-
-        const res = await fetch(`${WP_API}/wp/v2/homepage-settings/${postId}`, {
-            method: "POST",
-            headers: wpAuth(),
-            body: JSON.stringify(acfPayload),
-        });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            console.error("[homepage save] WP error:", res.status, err);
-            return NextResponse.json({ error: err.message || "WordPress update failed.", wp_status: res.status }, { status: res.status });
-        }
-
-        revalidatePath("/");
-        return NextResponse.json({ ok: true, source: "wordpress" });
+        return NextResponse.json({ ok: true, source: "json_file" });
     } catch {
         return NextResponse.json({ error: "Failed to save." }, { status: 500 });
     }

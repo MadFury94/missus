@@ -41,6 +41,7 @@ export default function HomepageContentPage() {
     const [content, setContent] = useState<HomepageContent>(HOMEPAGE_DEFAULTS);
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
+    const [saveError, setSaveError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -63,9 +64,10 @@ export default function HomepageContentPage() {
 
     const save = async () => {
         setSaving(true);
+        setSaveError(null);
         try {
             const currentUser = getCurrentUser();
-            await fetch("/api/admin/homepage", {
+            const res = await fetch("/api/admin/homepage", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -73,8 +75,15 @@ export default function HomepageContentPage() {
                 },
                 body: JSON.stringify(content),
             });
-            setSaved(true);
-            setTimeout(() => setSaved(false), 3000);
+            const data = await res.json();
+            if (!res.ok || data.error) {
+                setSaveError(data.error || "Save failed. Please try again.");
+            } else {
+                setSaved(true);
+                setTimeout(() => setSaved(false), 3000);
+            }
+        } catch {
+            setSaveError("Network error — could not reach the server.");
         } finally {
             setSaving(false);
         }
@@ -103,6 +112,12 @@ export default function HomepageContentPage() {
                 <div style={{ background: "rgba(184,137,46,.06)", border: "1px solid rgba(184,137,46,.25)", borderLeft: "3px solid var(--amber)", padding: "8px 14px", marginBottom: 20, borderRadius: "var(--admin-radius)", fontFamily: T.sans, fontSize: 12, color: "var(--ink)" }}>
                     Changes are live immediately. The homepage refreshes every 60 seconds in production.
                 </div>
+
+                {saveError && (
+                    <div style={{ background: "rgba(200,50,50,.06)", border: "1px solid rgba(200,50,50,.25)", borderLeft: "3px solid #c83232", padding: "8px 14px", marginBottom: 20, borderRadius: "var(--admin-radius)", fontFamily: T.sans, fontSize: 12, color: "#a00" }}>
+                        ⚠ {saveError}
+                    </div>
+                )}
 
                 {/* ── Announcement Bar ── */}
                 <SectionBox title="Announcement Bar (Black Banner at Top)">

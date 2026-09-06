@@ -1,5 +1,5 @@
-// Server-only — fetches homepage content from WordPress ACF via REST API.
-// Fallback chain: WordPress ACF → saved JSON file → hardcoded HOMEPAGE_DEFAULTS
+// Server-only — fetches homepage content.
+// Priority: local JSON file → WordPress ACF → hardcoded defaults
 import "server-only";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 
@@ -26,20 +26,32 @@ function readSavedJson(): Partial<HomepageContent> | null {
         const path = require("path") as typeof import("path");
         const file = path.join(process.cwd(), "data", "homepage-content.json");
         if (!fs.existsSync(file)) return null;
-        return JSON.parse(fs.readFileSync(file, "utf-8"));
+        const parsed = JSON.parse(fs.readFileSync(file, "utf-8"));
+        if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
+            return parsed;
+        }
+        return null;
     } catch {
         return null;
     }
 }
 
 export async function getHomepageContent(): Promise<HomepageContent> {
-    // ── Layer 1: WordPress ACF ────────────────────────────────────────────
+    // ── Layer 1: local JSON file (written by admin on every save) ─────────
+    try {
+        const saved = readSavedJson();
+        if (saved) {
+            return { ...HOMEPAGE_DEFAULTS, ...saved };
+        }
+    } catch { /* fall through */ }
+
+    // ── Layer 2: WordPress ACF ────────────────────────────────────────────
     try {
         const res = await fetch(
             `${WP_API}/wp/v2/homepage-settings?per_page=1&_fields=acf`,
             {
                 headers: { ...wcAuth(), "Content-Type": "application/json" },
-                next: { revalidate: 30 },
+                cache: "no-store",
             }
         );
 
@@ -47,31 +59,23 @@ export async function getHomepageContent(): Promise<HomepageContent> {
             const posts = await res.json();
             if (Array.isArray(posts) && posts.length > 0) {
                 const acf = posts[0]?.acf ?? {};
-                // Always use WP data, merging with defaults for any empty fields
-                return {
-                    announcement: acf.hp_announcement || HOMEPAGE_DEFAULTS.announcement,
-                    marquee: safeJson(acf.hp_marquee, HOMEPAGE_DEFAULTS.marquee),
-                    hero: safeJson(acf.hp_hero, HOMEPAGE_DEFAULTS.hero),
-                    styleRadar: safeJson(acf.hp_style_radar, HOMEPAGE_DEFAULTS.styleRadar),
-                    newsletter: {
-                        heading: acf.hp_nl_heading || HOMEPAGE_DEFAULTS.newsletter.heading,
-                        sub: acf.hp_nl_sub || HOMEPAGE_DEFAULTS.newsletter.sub,
-                    },
-                };
+                const hasData = Object.values(acf).some((v) => v && v !== "");
+                if (hasData) {
+                    return {
+                        announcement: acf.hp_announcement || HOMEPAGE_DEFAULTS.announcement,
+                        marquee: safeJson(acf.hp_marquee, HOMEPAGE_DEFAULTS.marquee),
+                        hero: safeJson(acf.hp_hero, HOMEPAGE_DEFAULTS.hero),
+                        styleRadar: safeJson(acf.hp_style_radar, HOMEPAGE_DEFAULTS.styleRadar),
+                        newsletter: {
+                            heading: acf.hp_nl_heading || HOMEPAGE_DEFAULTS.newsletter.heading,
+                            sub: acf.hp_nl_sub || HOMEPAGE_DEFAULTS.newsletter.sub,
+                        },
+                    };
+                }
             }
         }
     } catch {
         // WP unreachable — fall through
-    }
-
-    // ── Layer 2: saved JSON file (localhost dev fallback) ─────────────────
-    try {
-        const saved = readSavedJson();
-        if (saved && Object.keys(saved).length > 0) {
-            return { ...HOMEPAGE_DEFAULTS, ...saved };
-        }
-    } catch {
-        // filesystem unavailable — fall through
     }
 
     // ── Layer 3: hardcoded defaults ───────────────────────────────────────
