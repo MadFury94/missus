@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant, DM_Sans } from "next/font/google";
+import { Cormorant, DM_Sans, Fraunces, Public_Sans } from "next/font/google";
 import "./globals.css";
 import ClientShell from "@/components/layout/ClientShell";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
@@ -23,6 +23,23 @@ const bodyFont = DM_Sans({
   weight: ["300", "400", "500"],
   subsets: ["latin"],
   variable: "--font-body",
+  display: "swap",
+});
+
+// ── ADMIN FONTS ──────────────────────────────────────────────
+// --font-admin-serif → Fraunces: page titles, stat values, section titles
+// --font-admin-sans  → Public Sans: nav, tables, labels, buttons, inputs
+const adminSerif = Fraunces({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-admin-serif",
+  display: "swap",
+});
+
+const adminSans = Public_Sans({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-admin-sans",
   display: "swap",
 });
 
@@ -50,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={cn(displayFont.variable, bodyFont.variable)}
+      className={cn(displayFont.variable, bodyFont.variable, adminSerif.variable, adminSans.variable)}
       suppressHydrationWarning
     >
       <body

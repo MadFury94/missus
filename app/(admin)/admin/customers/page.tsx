@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { adminFetch } from "@/lib/admin-fetch";
-import AdminLayout from "@/components/admin/AdminLayout";
+import AdminLayout, { ABtn, APanel, APanelHeader, ATable, ATr, ATd } from "@/components/admin/AdminLayout";
+
+const T = { sans: "var(--font-admin-sans,'Public Sans',sans-serif)", serif: "var(--font-admin-serif,'Fraunces',serif)" };
 
 export default function AdminCustomers() {
     const router = useRouter();
@@ -14,14 +16,13 @@ export default function AdminCustomers() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        const user = getCurrentUser();
-        if (!user || !isAdmin(user)) { router.push("/admin/login"); return; }
+        const u = getCurrentUser();
+        if (!u || !isAdmin(u)) { router.push("/admin/login"); return; }
         loadCustomers();
     }, [router, search]);
 
     async function loadCustomers() {
-        setLoading(true);
-        setError("");
+        setLoading(true); setError("");
         try {
             const params = new URLSearchParams({ per_page: "50" });
             if (search) params.set("search", search);
@@ -29,81 +30,50 @@ export default function AdminCustomers() {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
             setCustomers(Array.isArray(data) ? data : []);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to load customers");
-            setCustomers([]);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    function handleSearch(e: React.FormEvent) {
-        e.preventDefault();
-        setSearch(searchInput.trim());
+        } catch (err) { setError(err instanceof Error ? err.message : "Failed to load customers"); setCustomers([]); }
+        finally { setLoading(false); }
     }
 
     return (
         <AdminLayout>
-            <div style={{ background: "#fff", border: "1px solid #ccd0d4", boxShadow: "0 1px 1px rgba(0,0,0,.04)" }}>
-                <div style={{ padding: "12px 20px", borderBottom: "1px solid #ccd0d4", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
-                    <h1 style={{ fontSize: "23px", fontWeight: 400, margin: 0, color: "#23282d" }}>
-                        Customers <span style={{ color: "#50575e", fontSize: "16px" }}>({customers.length})</span>
-                    </h1>
-                    <form onSubmit={handleSearch} style={{ display: "flex", gap: "6px" }}>
-                        <input
-                            type="text"
-                            placeholder="Search by name or email…"
-                            value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                            style={{ padding: "6px 12px", border: "1px solid #8c8f94", borderRadius: "3px", fontSize: "13px", outline: "none", width: "240px" }}
-                        />
-                        <button type="submit" style={{ padding: "6px 12px", background: "#2271b1", color: "#fff", border: "1px solid #2271b1", borderRadius: "3px", fontSize: "13px", cursor: "pointer" }}>Search</button>
-                        {search && <button type="button" onClick={() => { setSearch(""); setSearchInput(""); }} style={{ padding: "6px 10px", background: "#fff", color: "#50575e", border: "1px solid #8c8f94", borderRadius: "3px", fontSize: "13px", cursor: "pointer" }}>Clear</button>}
-                    </form>
-                </div>
+            <div style={{ marginBottom: 20 }}>
+                <h1 style={{ fontFamily: T.serif, fontSize: 24, fontWeight: 600, color: "var(--ink)", margin: "0 0 2px" }}>Customers</h1>
+                <p style={{ fontFamily: T.sans, fontSize: 13, color: "var(--stone)", margin: 0 }}>{customers.length} customers</p>
+            </div>
 
-                {error && (
-                    <div style={{ margin: "16px 20px", background: "#fef2f2", border: "1px solid #fca5a5", borderLeft: "4px solid #d63638", padding: "12px 16px", fontSize: "13px", color: "#991b1b" }}>
-                        {error}
-                    </div>
-                )}
+            <APanel>
+                <APanelHeader actions={
+                    <form onSubmit={e => { e.preventDefault(); setSearch(searchInput.trim()); }} style={{ display: "flex", gap: 6 }}>
+                        <input value={searchInput} onChange={e => setSearchInput(e.target.value)} placeholder="Search name or email…"
+                            style={{ fontFamily: T.sans, fontSize: 12, border: "1px solid var(--sand-deep)", background: "var(--paper-raised)", color: "var(--ink)", padding: "5px 10px", borderRadius: "var(--admin-radius)", outline: "none", width: 220, transition: "border-color .15s" }}
+                            onFocus={e => (e.target.style.borderColor = "var(--wine)")}
+                            onBlur={e => (e.target.style.borderColor = "var(--sand-deep)")}
+                        />
+                        <ABtn type="submit" variant="primary">Search</ABtn>
+                        {search && <ABtn variant="secondary" onClick={() => { setSearch(""); setSearchInput(""); }}>Clear</ABtn>}
+                    </form>
+                }>Customers</APanelHeader>
+
+                {error && <div style={{ margin: "12px 20px", padding: "8px 12px", background: "rgba(166,67,47,.06)", borderLeft: "3px solid var(--rust)", fontFamily: T.sans, fontSize: 12, color: "var(--rust)" }}>{error}</div>}
 
                 {loading ? (
-                    <div style={{ padding: "40px", textAlign: "center", color: "#50575e" }}>Loading customers…</div>
+                    <div style={{ padding: 40, textAlign: "center", fontFamily: T.sans, fontSize: 13, color: "var(--stone)" }}>Loading customers…</div>
                 ) : customers.length === 0 ? (
-                    <div style={{ padding: "40px", textAlign: "center", color: "#50575e" }}>{search ? `No customers matching "${search}"` : "No customers found"}</div>
+                    <div style={{ padding: 40, textAlign: "center", fontFamily: T.sans, fontSize: 13, color: "var(--stone)" }}>{search ? `No customers matching "${search}"` : "No customers found"}</div>
                 ) : (
-                    <div style={{ overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                            <thead>
-                                <tr style={{ background: "#f6f7f7" }}>
-                                    {["Name", "Email", "Username", "Orders", "Registered"].map((h) => (
-                                        <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontSize: "12px", fontWeight: 600, color: "#2c3338", borderBottom: "1px solid #c3c4c7", whiteSpace: "nowrap" }}>{h}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {customers.map((c) => (
-                                    <tr key={String(c.id)} style={{ borderBottom: "1px solid #e8e8e8" }} onMouseEnter={(e) => e.currentTarget.style.background = "#f9f9f9"} onMouseLeave={(e) => e.currentTarget.style.background = ""}>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", fontWeight: 600, color: "#2c3338" }}>
-                                            {String(c.first_name || "")} {String(c.last_name || "")}
-                                            {!c.first_name && !c.last_name && <span style={{ color: "#aaa" }}>—</span>}
-                                        </td>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", color: "#2271b1" }}>{String(c.email || "—")}</td>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", color: "#50575e" }}>{String(c.username || "—")}</td>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", color: "#50575e", textAlign: "center" }}>
-                                            {String((c as Record<string, unknown>).orders_count ?? "—")}
-                                        </td>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", color: "#50575e", whiteSpace: "nowrap" }}>
-                                            {c.date_created ? new Date(c.date_created as string).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" }) : "—"}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    <ATable headers={["Name", "Email", "Username", "Orders", "Registered"]}>
+                        {customers.map(c => (
+                            <ATr key={String(c.id)}>
+                                <ATd primary>{String(c.first_name || "")} {String(c.last_name || "")}{!c.first_name && !c.last_name ? "—" : ""}</ATd>
+                                <ATd style={{ color: "var(--wine)" }}>{String(c.email || "—")}</ATd>
+                                <ATd muted>{String(c.username || "—")}</ATd>
+                                <ATd muted style={{ textAlign: "center" }}>{String((c as Record<string, unknown>).orders_count ?? "—")}</ATd>
+                                <ATd muted>{c.date_created ? new Date(c.date_created as string).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" }) : "—"}</ATd>
+                            </ATr>
+                        ))}
+                    </ATable>
                 )}
-            </div>
+            </APanel>
         </AdminLayout>
     );
 }

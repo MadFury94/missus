@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin, logoutUser } from "@/lib/auth";
-import AdminLayout from "@/components/admin/AdminLayout";
+import AdminLayout, { ABtn, APanel, APanelHeader, ATable, ATr, ATd } from "@/components/admin/AdminLayout";
 import Link from "next/link";
+
+const T = { sans: "var(--font-admin-sans,'Public Sans',sans-serif)", serif: "var(--font-admin-serif,'Fraunces',serif)" };
 
 export default function AdminSettings() {
     const router = useRouter();
@@ -16,11 +18,6 @@ export default function AdminSettings() {
     }, [router]);
 
     if (!user) return null;
-
-    const handleLogout = () => {
-        logoutUser();
-        router.push("/admin/login");
-    };
 
     const envRows = [
         { key: "WC_API_URL", desc: "WooCommerce REST API base URL", required: true },
@@ -35,7 +32,7 @@ export default function AdminSettings() {
         { key: "NEXT_PUBLIC_SITE_NAME", desc: "Site display name", required: false },
     ];
 
-    const usefulLinks = [
+    const links = [
         { label: "WordPress Admin", href: "https://missusoutfits.com/wp-admin" },
         { label: "WooCommerce Orders", href: "https://missusoutfits.com/wp-admin/edit.php?post_type=shop_order" },
         { label: "WooCommerce Products", href: "https://missusoutfits.com/wp-admin/edit.php?post_type=product" },
@@ -45,88 +42,68 @@ export default function AdminSettings() {
 
     return (
         <AdminLayout>
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            <div style={{ marginBottom: 20 }}>
+                <h1 style={{ fontFamily: T.serif, fontSize: 24, fontWeight: 600, color: "var(--ink)", margin: 0 }}>Settings</h1>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
                 {/* Account */}
-                <div style={{ background: "#fff", border: "1px solid #ccd0d4", boxShadow: "0 1px 1px rgba(0,0,0,.04)" }}>
-                    <div style={{ padding: "12px 20px", borderBottom: "1px solid #ccd0d4" }}>
-                        <h2 style={{ fontSize: "16px", fontWeight: 600, margin: 0, color: "#23282d" }}>Account</h2>
+                <APanel>
+                    <APanelHeader actions={<ABtn variant="danger" onClick={() => { logoutUser(); router.push("/admin/login"); }}>Sign Out</ABtn>}>Account</APanelHeader>
+                    <div style={{ padding: 20 }}>
+                        {[
+                            { label: "Signed in as", value: `${user.displayName || user.username} (${user.email})` },
+                            { label: "Roles", value: user.roles.join(", ") || "administrator" },
+                            { label: "User ID", value: `#${user.id}` },
+                        ].map(row => (
+                            <div key={row.label} style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "0 16px", padding: "8px 0", borderBottom: "1px solid var(--sand)", fontFamily: T.sans, fontSize: 13 }}>
+                                <span style={{ color: "var(--stone)", fontWeight: 600 }}>{row.label}</span>
+                                <span style={{ color: "var(--ink)" }}>{row.value}</span>
+                            </div>
+                        ))}
                     </div>
-                    <div style={{ padding: "20px" }}>
-                        <div style={{ display: "grid", gridTemplateColumns: "max-content 1fr", gap: "8px 20px", fontSize: "13px", marginBottom: "20px" }}>
-                            <span style={{ color: "#50575e", fontWeight: 600 }}>Logged in as</span>
-                            <span style={{ color: "#2c3338" }}>{user.displayName || user.username} ({user.email})</span>
-                            <span style={{ color: "#50575e", fontWeight: 600 }}>Roles</span>
-                            <span style={{ color: "#2c3338" }}>{user.roles.join(", ") || "administrator"}</span>
-                            <span style={{ color: "#50575e", fontWeight: 600 }}>User ID</span>
-                            <span style={{ color: "#2c3338" }}>#{user.id}</span>
-                        </div>
-                        <button
-                            onClick={handleLogout}
-                            style={{ padding: "6px 14px", background: "#d63638", color: "#fff", border: "1px solid #d63638", borderRadius: "3px", fontSize: "13px", cursor: "pointer" }}
-                        >
-                            Log Out
-                        </button>
-                    </div>
-                </div>
+                </APanel>
 
-                {/* Environment Variables */}
-                <div style={{ background: "#fff", border: "1px solid #ccd0d4", boxShadow: "0 1px 1px rgba(0,0,0,.04)" }}>
-                    <div style={{ padding: "12px 20px", borderBottom: "1px solid #ccd0d4" }}>
-                        <h2 style={{ fontSize: "16px", fontWeight: 600, margin: 0, color: "#23282d" }}>Environment Variables</h2>
+                {/* Env vars */}
+                <APanel>
+                    <APanelHeader>Environment Variables</APanelHeader>
+                    <div style={{ padding: "8px 14px 6px", borderBottom: "1px solid var(--sand)", fontFamily: T.sans, fontSize: 12, color: "var(--stone)" }}>
+                        Configured in <code style={{ background: "var(--sand)", padding: "1px 5px", borderRadius: 2, fontFamily: "monospace", fontSize: 11 }}>.env.local</code> — restart dev server after changes.
                     </div>
-                    <div style={{ padding: "14px 20px 6px", background: "#f0f6fc", borderBottom: "1px solid #c3d9f5", fontSize: "13px", color: "#004085" }}>
-                        ℹ️ These are configured in <code style={{ background: "#dce8f5", padding: "1px 5px", borderRadius: "3px" }}>.env.local</code>. Restart the dev server after changing them.
-                    </div>
-                    <div style={{ overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                            <thead>
-                                <tr style={{ background: "#f6f7f7" }}>
-                                    {["Variable", "Description", "Required"].map((h) => (
-                                        <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontSize: "12px", fontWeight: 700, color: "#2c3338", borderBottom: "1px solid #c3c4c7", textTransform: "uppercase", letterSpacing: ".04em" }}>{h}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {envRows.map((row) => (
-                                    <tr key={row.key} style={{ borderBottom: "1px solid #f0f0f1" }}>
-                                        <td style={{ padding: "9px 14px", fontFamily: "monospace", fontSize: "12px", color: "#2271b1" }}>{row.key}</td>
-                                        <td style={{ padding: "9px 14px", fontSize: "13px", color: "#50575e" }}>{row.desc}</td>
-                                        <td style={{ padding: "9px 14px", fontSize: "12px" }}>
-                                            <span style={{ background: row.required ? "#d4edda" : "#f0f0f1", color: row.required ? "#155724" : "#50575e", padding: "2px 7px", borderRadius: "3px", fontWeight: 600 }}>
-                                                {row.required ? "Required" : "Optional"}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    <ATable headers={["Variable", "Description", "Required"]}>
+                        {envRows.map(row => (
+                            <ATr key={row.key}>
+                                <ATd mono style={{ color: "var(--wine)", fontSize: 12 }}>{row.key}</ATd>
+                                <ATd muted>{row.desc}</ATd>
+                                <ATd>
+                                    <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, color: row.required ? "var(--moss)" : "var(--stone)" }}>
+                                        {row.required ? "Required" : "Optional"}
+                                    </span>
+                                </ATd>
+                            </ATr>
+                        ))}
+                    </ATable>
+                </APanel>
 
-                {/* Quick Links */}
-                <div style={{ background: "#fff", border: "1px solid #ccd0d4", boxShadow: "0 1px 1px rgba(0,0,0,.04)" }}>
-                    <div style={{ padding: "12px 20px", borderBottom: "1px solid #ccd0d4" }}>
-                        <h2 style={{ fontSize: "16px", fontWeight: 600, margin: 0, color: "#23282d" }}>Quick Links</h2>
-                    </div>
-                    <div style={{ padding: "16px 20px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                        {usefulLinks.map((l) => (
-                            <a
-                                key={l.href}
-                                href={l.href}
-                                target="_blank"
-                                rel="noreferrer"
-                                style={{ padding: "7px 14px", background: "#f6f7f7", border: "1px solid #c3c4c7", borderRadius: "3px", fontSize: "13px", color: "#2271b1", textDecoration: "none" }}
-                            >
+                {/* Quick links */}
+                <APanel>
+                    <APanelHeader>Quick Links</APanelHeader>
+                    <div style={{ padding: "14px 20px", display: "flex", flexWrap: "wrap", gap: 8 }}>
+                        {links.map(l => (
+                            <a key={l.href} href={l.href} target="_blank" rel="noreferrer"
+                                style={{ fontFamily: T.sans, fontSize: 12, color: "var(--wine)", textDecoration: "none", padding: "5px 12px", border: "1px solid var(--sand-deep)", borderRadius: "var(--admin-radius)", transition: "border-color .12s, color .12s" }}
+                                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--wine)"; }}
+                                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--sand-deep)"; }}>
                                 {l.label} ↗
                             </a>
                         ))}
-                        <Link href="/" target="_blank" style={{ padding: "7px 14px", background: "#f6f7f7", border: "1px solid #c3c4c7", borderRadius: "3px", fontSize: "13px", color: "#2271b1", textDecoration: "none" }}>
+                        <Link href="/" target="_blank"
+                            style={{ fontFamily: T.sans, fontSize: 12, color: "var(--wine)", textDecoration: "none", padding: "5px 12px", border: "1px solid var(--sand-deep)", borderRadius: "var(--admin-radius)" }}>
                             View Store ↗
                         </Link>
                     </div>
-                </div>
-
+                </APanel>
             </div>
         </AdminLayout>
     );

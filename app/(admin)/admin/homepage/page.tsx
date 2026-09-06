@@ -2,27 +2,24 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
-import AdminLayout from "@/components/admin/AdminLayout";
+import AdminLayout, { ABtn, APanel } from "@/components/admin/AdminLayout";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "@/lib/homepage-content";
+
+const T = { sans: "var(--font-admin-sans,'Public Sans',sans-serif)", serif: "var(--font-admin-serif,'Fraunces',serif)" };
 
 /* ─── small reusable field components ─── */
 function Field({ label, value, onChange, multiline }: { label: string; value: string; onChange: (v: string) => void; multiline?: boolean }) {
-    const common: React.CSSProperties = {
-        width: "100%",
-        border: "1px solid #c3c4c7",
-        borderRadius: "3px",
-        padding: "7px 10px",
-        fontSize: "13px",
-        fontFamily: "inherit",
-        boxSizing: "border-box",
-        outline: "none",
+    const base: React.CSSProperties = {
+        width: "100%", border: "1px solid var(--sand-deep)", borderRadius: "var(--admin-radius)",
+        padding: "7px 10px", fontSize: "13px", fontFamily: T.sans, boxSizing: "border-box",
+        outline: "none", background: "var(--paper-raised)", color: "var(--ink)", transition: "border-color .15s",
     };
     return (
         <label style={{ display: "block", marginBottom: "12px" }}>
-            <span style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "#50575e", marginBottom: "4px", textTransform: "uppercase", letterSpacing: ".04em" }}>{label}</span>
+            <span style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "var(--stone)", marginBottom: "4px", letterSpacing: ".03em", fontFamily: T.sans }}>{label}</span>
             {multiline
-                ? <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3} style={common} />
-                : <input value={value} onChange={(e) => onChange(e.target.value)} style={common} />
+                ? <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3} style={base} onFocus={e => (e.target.style.borderColor = "var(--wine)")} onBlur={e => (e.target.style.borderColor = "var(--sand-deep)")} />
+                : <input value={value} onChange={(e) => onChange(e.target.value)} style={base} onFocus={e => (e.target.style.borderColor = "var(--wine)")} onBlur={e => (e.target.style.borderColor = "var(--sand-deep)")} />
             }
         </label>
     );
@@ -30,9 +27,9 @@ function Field({ label, value, onChange, multiline }: { label: string; value: st
 
 function SectionBox({ title, children }: { title: string; children: React.ReactNode }) {
     return (
-        <div style={{ background: "#fff", border: "1px solid #ccd0d4", boxShadow: "0 1px 1px rgba(0,0,0,.04)", marginBottom: "20px" }}>
-            <div style={{ padding: "10px 20px", borderBottom: "1px solid #ccd0d4", background: "#f6f7f7" }}>
-                <h2 style={{ margin: 0, fontSize: "14px", fontWeight: 700, color: "#1d2327", textTransform: "uppercase", letterSpacing: ".06em" }}>{title}</h2>
+        <div style={{ background: "var(--paper-raised)", border: "1px solid var(--sand)", borderRadius: "var(--admin-radius)", marginBottom: "20px" }}>
+            <div style={{ padding: "10px 20px", borderBottom: "1px solid var(--sand)" }}>
+                <h2 style={{ margin: 0, fontFamily: T.serif, fontSize: "15px", fontWeight: 600, color: "var(--ink)" }}>{title}</h2>
             </div>
             <div style={{ padding: "20px" }}>{children}</div>
         </div>
@@ -79,29 +76,28 @@ export default function HomepageContentPage() {
         }
     };
 
-    if (loading) return <AdminLayout><div style={{ padding: "40px", textAlign: "center", color: "#50575e" }}>Loading…</div></AdminLayout>;
+    if (loading) return <AdminLayout><div style={{ padding: "40px", textAlign: "center", color: "var(--stone)" }}>Loading…</div></AdminLayout>;
 
     const SaveBtn = ({ bottom }: { bottom?: boolean }) => (
-        <button
-            onClick={save}
-            disabled={saving}
-            style={{ padding: bottom ? "10px 28px" : "8px 20px", background: saving ? "#8c8f94" : saved ? "#00a32a" : "#2271b1", color: "#fff", border: "none", borderRadius: "3px", fontSize: bottom ? "14px" : "13px", fontWeight: 600, cursor: saving ? "default" : "pointer", transition: "background .2s" }}
-        >
+        <ABtn type="button" variant="primary" onClick={save} disabled={saving} style={{ fontSize: bottom ? 13 : 12, padding: bottom ? "9px 24px" : "7px 16px" }}>
             {saving ? "Saving…" : saved ? "✓ Saved!" : "Save Changes"}
-        </button>
+        </ABtn>
     );
 
     return (
         <AdminLayout>
             <div style={{ maxWidth: "900px" }}>
                 {/* Page header */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
-                    <h1 style={{ fontSize: "23px", fontWeight: 400, margin: 0, color: "#23282d" }}>Homepage Content</h1>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+                    <div>
+                        <h1 style={{ fontFamily: T.serif, fontSize: 24, fontWeight: 600, color: "var(--ink)", margin: "0 0 2px" }}>Homepage</h1>
+                        <p style={{ fontFamily: T.sans, fontSize: 13, color: "var(--stone)", margin: 0 }}>Edit homepage content — changes go live within 60 seconds</p>
+                    </div>
                     <SaveBtn />
                 </div>
 
-                <div style={{ background: "#fff3cd", border: "1px solid #ffc107", borderLeft: "4px solid #ffc107", padding: "12px 16px", marginBottom: "20px", fontSize: "13px", color: "#856404", borderRadius: "3px" }}>
-                    ⚠️ Changes are live immediately. The homepage refreshes content every 60 seconds in production.
+                <div style={{ background: "rgba(184,137,46,.06)", border: "1px solid rgba(184,137,46,.25)", borderLeft: "3px solid var(--amber)", padding: "8px 14px", marginBottom: 20, borderRadius: "var(--admin-radius)", fontFamily: T.sans, fontSize: 12, color: "var(--ink)" }}>
+                    Changes are live immediately. The homepage refreshes every 60 seconds in production.
                 </div>
 
                 {/* ── Announcement Bar ── */}
@@ -111,7 +107,7 @@ export default function HomepageContentPage() {
                         value={content.announcement}
                         onChange={(v) => update("announcement", v)}
                     />
-                    <p style={{ fontSize: "12px", color: "#8c8f94", margin: "-4px 0 0" }}>
+                    <p style={{ fontSize: "12px", color: "var(--stone)", margin: "-4px 0 0" }}>
                         Use <code style={{ background: "#f0f0f1", padding: "1px 4px" }}>|</code> to separate items. E.g. <em>FREE SHIPPING ON ORDERS ₦150,000+ | NEW ARRIVALS EVERY WEEK</em>
                     </p>
                 </SectionBox>
@@ -120,7 +116,7 @@ export default function HomepageContentPage() {
                 <SectionBox title="Scrolling Marquee Strip (Black Band Below Hero)">
                     {content.marquee.map((item, i) => (
                         <div key={i} style={{ display: "flex", gap: "8px", marginBottom: "8px", alignItems: "center" }}>
-                            <span style={{ fontSize: "12px", color: "#8c8f94", width: "20px", flexShrink: 0 }}>{i + 1}.</span>
+                            <span style={{ fontSize: "12px", color: "var(--stone)", width: "20px", flexShrink: 0 }}>{i + 1}.</span>
                             <input
                                 value={item}
                                 onChange={(e) => {
@@ -128,17 +124,17 @@ export default function HomepageContentPage() {
                                     next[i] = e.target.value;
                                     update("marquee", next);
                                 }}
-                                style={{ flex: 1, border: "1px solid #c3c4c7", borderRadius: "3px", padding: "7px 10px", fontSize: "13px" }}
+                                style={{ flex: 1, border: "1px solid var(--sand-deep)", borderRadius: "3px", padding: "7px 10px", fontSize: "13px" }}
                             />
                             <button
                                 onClick={() => update("marquee", content.marquee.filter((_, j) => j !== i))}
-                                style={{ padding: "6px 10px", background: "#fff", border: "1px solid #d63638", borderRadius: "3px", fontSize: "12px", cursor: "pointer", color: "#d63638" }}
+                                style={{ padding: "6px 10px", background: "#fff", border: "1px solid var(--rust)", borderRadius: "3px", fontSize: "12px", cursor: "pointer", color: "var(--rust)" }}
                             >✕</button>
                         </div>
                     ))}
                     <button
                         onClick={() => update("marquee", [...content.marquee, "New Item"])}
-                        style={{ marginTop: "4px", padding: "6px 14px", background: "#f6f7f7", border: "1px solid #c3c4c7", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
+                        style={{ marginTop: "4px", padding: "6px 14px", background: "var(--paper)", border: "1px solid var(--sand-deep)", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
                     >
                         + Add Item
                     </button>
@@ -147,13 +143,13 @@ export default function HomepageContentPage() {
                 {/* ── Hero Slides ── */}
                 <SectionBox title="Hero Slideshow">
                     {content.hero.map((slide, i) => (
-                        <div key={i} style={{ border: "1px solid #e0e0e0", borderRadius: "4px", padding: "16px", marginBottom: "16px", background: "#fafafa" }}>
+                        <div key={i} style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "16px", marginBottom: "16px", background: "var(--paper)" }}>
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-                                <span style={{ fontSize: "13px", fontWeight: 700, color: "#1d2327" }}>Slide {i + 1}</span>
+                                <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)" }}>Slide {i + 1}</span>
                                 {content.hero.length > 1 && (
                                     <button
                                         onClick={() => update("hero", content.hero.filter((_, j) => j !== i))}
-                                        style={{ padding: "4px 10px", background: "#fff", border: "1px solid #d63638", borderRadius: "3px", fontSize: "11px", color: "#d63638", cursor: "pointer" }}
+                                        style={{ padding: "4px 10px", background: "#fff", border: "1px solid var(--rust)", borderRadius: "3px", fontSize: "11px", color: "var(--rust)", cursor: "pointer" }}
                                     >Remove</button>
                                 )}
                             </div>
@@ -162,7 +158,7 @@ export default function HomepageContentPage() {
                             {slide.src && (
                                 <div style={{ marginBottom: "12px" }}>
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={slide.src} alt="" style={{ height: "80px", width: "auto", objectFit: "cover", borderRadius: "3px", border: "1px solid #e0e0e0" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                                    <img src={slide.src} alt="" style={{ height: "80px", width: "auto", objectFit: "cover", borderRadius: "3px", border: "1px solid var(--sand)" }} onError={(e) => (e.currentTarget.style.display = "none")} />
                                 </div>
                             )}
 
@@ -182,7 +178,7 @@ export default function HomepageContentPage() {
                     ))}
                     <button
                         onClick={() => update("hero", [...content.hero, { src: "", label: "", heading: "New\nSlide.", sub: "", cta: { label: "Shop Now", href: "/shop" }, cta2: { label: "View All", href: "/shop" } }])}
-                        style={{ padding: "7px 16px", background: "#f6f7f7", border: "1px solid #c3c4c7", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
+                        style={{ padding: "7px 16px", background: "var(--paper)", border: "1px solid var(--sand-deep)", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
                     >
                         + Add Slide
                     </button>
@@ -191,7 +187,7 @@ export default function HomepageContentPage() {
                 {/* ── Style Radar Cards ── */}
                 <SectionBox title="The Style Radar Cards">
                     {content.styleRadar.map((card, i) => (
-                        <div key={i} style={{ border: "1px solid #e0e0e0", borderRadius: "4px", padding: "12px", marginBottom: "10px", background: "#fafafa" }}>
+                        <div key={i} style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "12px", marginBottom: "10px", background: "var(--paper)" }}>
                             <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
                                 {card.img && (
                                     // eslint-disable-next-line @next/next/no-img-element
@@ -203,7 +199,7 @@ export default function HomepageContentPage() {
                                     <Field label="Link href" value={card.href} onChange={(v) => { const c = [...content.styleRadar]; c[i] = { ...c[i], href: v }; update("styleRadar", c); }} />
                                     <button
                                         onClick={() => update("styleRadar", content.styleRadar.filter((_, j) => j !== i))}
-                                        style={{ padding: "7px 10px", background: "#fff", border: "1px solid #d63638", borderRadius: "3px", fontSize: "11px", color: "#d63638", cursor: "pointer", marginBottom: "12px", whiteSpace: "nowrap" }}
+                                        style={{ padding: "7px 10px", background: "#fff", border: "1px solid var(--rust)", borderRadius: "3px", fontSize: "11px", color: "var(--rust)", cursor: "pointer", marginBottom: "12px", whiteSpace: "nowrap" }}
                                     >✕ Remove</button>
                                 </div>
                             </div>
@@ -211,7 +207,7 @@ export default function HomepageContentPage() {
                     ))}
                     <button
                         onClick={() => update("styleRadar", [...content.styleRadar, { title: "New Category", href: "/shop", img: "" }])}
-                        style={{ padding: "7px 16px", background: "#f6f7f7", border: "1px solid #c3c4c7", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
+                        style={{ padding: "7px 16px", background: "var(--paper)", border: "1px solid var(--sand-deep)", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
                     >
                         + Add Card
                     </button>
@@ -224,7 +220,7 @@ export default function HomepageContentPage() {
                 </SectionBox>
 
                 {/* Save (bottom) */}
-                <div style={{ display: "flex", justifyContent: "flex-end", paddingBottom: "40px" }}>
+                <div style={{ display: "flex", justifyContent: "flex-start", paddingBottom: "40px" }}>
                     <SaveBtn bottom />
                 </div>
             </div>

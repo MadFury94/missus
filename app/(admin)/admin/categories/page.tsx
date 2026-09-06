@@ -4,109 +4,70 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { adminFetch } from "@/lib/admin-fetch";
-import AdminLayout from "@/components/admin/AdminLayout";
+import AdminLayout, { ABtn, APanel, APanelHeader, ATable, ATr, ATd } from "@/components/admin/AdminLayout";
 
-type WCCategory = {
-    id: number;
-    name: string;
-    slug: string;
-    parent: number;
-    count: number;
-    image: { src: string; alt: string } | null;
-    description: string;
-};
+const T = { sans: "var(--font-admin-sans,'Public Sans',sans-serif)", serif: "var(--font-admin-serif,'Fraunces',serif)" };
+type WCCat = { id: number; name: string; slug: string; parent: number; count: number; image: { src: string; alt: string } | null; };
 
 export default function AdminCategories() {
     const router = useRouter();
-    const [categories, setCategories] = useState<WCCategory[]>([]);
+    const [cats, setCats] = useState<WCCat[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const user = getCurrentUser();
-        if (!user || !isAdmin(user)) { router.push("/admin/login"); return; }
-        loadCategories();
+        const u = getCurrentUser();
+        if (!u || !isAdmin(u)) { router.push("/admin/login"); return; }
+        adminFetch("/api/admin/categories")
+            .then(r => r.json())
+            .then((d: WCCat[]) => setCats(Array.isArray(d) ? d.filter(c => c.slug !== "uncategorized") : []))
+            .catch(() => setCats([]))
+            .finally(() => setLoading(false));
     }, [router]);
 
-    async function loadCategories() {
-        setLoading(true);
-        try {
-            const res = await adminFetch("/api/admin/categories");
-            if (!res.ok) throw new Error("Failed to load categories");
-            const data: WCCategory[] = await res.json();
-            setCategories(Array.isArray(data) ? data.filter((c) => c.slug !== "uncategorized") : []);
-        } catch (e) {
-            console.error(e);
-            setCategories([]);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    // Build parent name map
-    const parentMap = new Map(categories.map((c) => [c.id, c.name]));
+    const parentMap = new Map(cats.map(c => [c.id, c.name]));
 
     return (
         <AdminLayout>
-            <div style={{ background: "#fff", border: "1px solid #ccd0d4", boxShadow: "0 1px 1px rgba(0,0,0,.04)" }}>
-                <div style={{ padding: "12px 20px", borderBottom: "1px solid #ccd0d4", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <h1 style={{ fontSize: "23px", fontWeight: 400, margin: 0, color: "#23282d" }}>
-                        Categories <span style={{ fontSize: "15px", color: "#50575e" }}>({categories.length})</span>
-                    </h1>
-                    <a
-                        href="https://missusoutfits.com/wp-admin/edit-tags.php?taxonomy=product_cat&post_type=product"
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ background: "#2271b1", color: "#fff", padding: "6px 12px", borderRadius: "3px", fontSize: "13px", textDecoration: "none", border: "1px solid #2271b1" }}
-                    >
-                        Manage in WordPress ↗
-                    </a>
-                </div>
+            <div style={{ marginBottom: 20 }}>
+                <h1 style={{ fontFamily: T.serif, fontSize: 24, fontWeight: 600, color: "var(--ink)", margin: "0 0 2px" }}>Categories</h1>
+                <p style={{ fontFamily: T.sans, fontSize: 13, color: "var(--stone)", margin: 0 }}>{cats.length} categories — read-only here, managed in WordPress</p>
+            </div>
 
-                <div style={{ padding: "12px 20px", background: "#f0f6fc", borderBottom: "1px solid #c3d9f5", fontSize: "13px", color: "#004085" }}>
-                    ℹ️ Categories are managed in WordPress. Changes here are read-only. Click &quot;Manage in WordPress&quot; to add, edit, or delete categories.
-                </div>
+            <div style={{ background: "rgba(184,137,46,.06)", border: "1px solid rgba(184,137,46,.25)", borderLeft: "3px solid var(--amber)", padding: "8px 14px", marginBottom: 20, borderRadius: "var(--admin-radius)", fontFamily: T.sans, fontSize: 12, color: "var(--ink)" }}>
+                Categories are managed in WordPress. Add, edit, or delete categories there — changes appear here automatically.
+            </div>
+
+            <APanel>
+                <APanelHeader actions={
+                    <a href="https://missusoutfits.com/wp-admin/edit-tags.php?taxonomy=product_cat&post_type=product" target="_blank" rel="noreferrer">
+                        <ABtn variant="secondary">Manage in WordPress ↗</ABtn>
+                    </a>
+                }>Categories</APanelHeader>
 
                 {loading ? (
-                    <div style={{ padding: "40px", textAlign: "center", color: "#50575e" }}>Loading categories…</div>
-                ) : categories.length === 0 ? (
-                    <div style={{ padding: "40px", textAlign: "center", color: "#50575e" }}>No categories found.</div>
+                    <div style={{ padding: 40, textAlign: "center", fontFamily: T.sans, fontSize: 13, color: "var(--stone)" }}>Loading…</div>
                 ) : (
-                    <div style={{ overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                            <thead>
-                                <tr style={{ background: "#f6f7f7" }}>
-                                    {["Image", "Name", "Slug", "Parent", "Products"].map((h) => (
-                                        <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontSize: "12px", fontWeight: 700, color: "#2c3338", borderBottom: "1px solid #c3c4c7", textTransform: "uppercase", letterSpacing: ".04em" }}>
-                                            {h}
-                                        </th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {categories.map((c) => (
-                                    <tr key={c.id} style={{ borderBottom: "1px solid #f0f0f1" }} onMouseEnter={(e) => e.currentTarget.style.background = "#f9f9f9"} onMouseLeave={(e) => e.currentTarget.style.background = ""}>
-                                        <td style={{ padding: "10px 14px" }}>
-                                            {c.image?.src ? (
-                                                <div style={{ width: "40px", height: "40px", position: "relative", borderRadius: "3px", overflow: "hidden", background: "#f0f0f1" }}>
-                                                    <Image src={c.image.src} alt={c.image.alt || c.name} fill style={{ objectFit: "cover" }} sizes="40px" />
-                                                </div>
-                                            ) : (
-                                                <div style={{ width: "40px", height: "40px", background: "#f0f0f1", borderRadius: "3px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px" }}>🏷️</div>
-                                            )}
-                                        </td>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", fontWeight: 600, color: "#2c3338" }}>{c.name}</td>
-                                        <td style={{ padding: "10px 14px", fontSize: "12px", color: "#50575e", fontFamily: "monospace" }}>{c.slug}</td>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", color: "#50575e" }}>
-                                            {c.parent ? parentMap.get(c.parent) || `#${c.parent}` : "—"}
-                                        </td>
-                                        <td style={{ padding: "10px 14px", fontSize: "13px", color: "#50575e", textAlign: "center" }}>{c.count}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    <ATable headers={["", "Name", "Slug", "Parent", "Products"]}>
+                        {cats.map(c => (
+                            <ATr key={c.id}>
+                                <ATd style={{ width: 52 }}>
+                                    {c.image?.src ? (
+                                        <div style={{ width: 36, height: 36, position: "relative", overflow: "hidden", background: "var(--sand)", borderRadius: "var(--admin-radius)" }}>
+                                            <Image src={c.image.src} alt={c.name} fill style={{ objectFit: "cover" }} sizes="36px" />
+                                        </div>
+                                    ) : (
+                                        <div style={{ width: 36, height: 36, background: "var(--sand)", borderRadius: "var(--admin-radius)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🏷</div>
+                                    )}
+                                </ATd>
+                                <ATd primary>{c.name}</ATd>
+                                <ATd mono muted>{c.slug}</ATd>
+                                <ATd muted>{c.parent ? parentMap.get(c.parent) || `#${c.parent}` : "—"}</ATd>
+                                <ATd muted style={{ textAlign: "center" }}>{c.count}</ATd>
+                            </ATr>
+                        ))}
+                    </ATable>
                 )}
-            </div>
+            </APanel>
         </AdminLayout>
     );
 }

@@ -655,7 +655,22 @@ button {
   --color-brand-primary: #7F0E12;
   --color-brand-secondary: #000000;
 
-  --card: oklch(1 0 0);
+  /* ── ADMIN DESIGN TOKENS ───────────────────────────────────── */
+  --paper: #FAF7F2;
+  --paper-raised: #FFFFFF;
+  --ink: #1C1A18;
+  --sidebar: #15120F;
+  --sidebar-text: #C9C2B6;
+  --sidebar-text-dim: #756E63;
+  --wine: #7A1F2B;
+  --wine-deep: #5C1620;
+  --sand: #E8E1D6;
+  --sand-deep: #D8CEBE;
+  --stone: #8A8175;
+  --moss: #47614A;
+  --rust: #A6432F;
+  --amber: #B8892E;
+  --admin-radius: 3px;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
