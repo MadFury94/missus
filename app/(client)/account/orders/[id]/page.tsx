@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -47,15 +47,36 @@ interface OrderDetail {
 }
 
 export default function OrderDetailPage() {
+    return (
+        <Suspense fallback={
+            <div style={{ maxWidth: "860px", margin: "0 auto", padding: "40px 20px" }}>
+                {[1, 2, 3].map((i) => (
+                    <div key={i} style={{ height: "80px", background: "#f5f5f5", marginBottom: "12px", borderRadius: "4px" }} />
+                ))}
+            </div>
+        }>
+            <OrderDetailContent />
+        </Suspense>
+    );
+}
+
+function OrderDetailContent() {
     const params = useParams();
     const searchParams = useSearchParams();
     const orderId = params.id as string;
 
     // Email can come from: logged-in user, URL param (from confirmation page), or guest form
-    const urlEmail = searchParams.get("email") || "";
+    const urlEmail = searchParams.get("email")?.toLowerCase() || "";
     const [guestEmail, setGuestEmail] = useState(urlEmail);
     const [emailInput, setEmailInput] = useState("");
     const [needsEmail, setNeedsEmail] = useState(false);
+
+    // Sync guestEmail when URL param hydrates (happens after Suspense resolves)
+    useEffect(() => {
+        if (urlEmail && !guestEmail) {
+            setGuestEmail(urlEmail);
+        }
+    }, [urlEmail]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const [order, setOrder] = useState<OrderDetail | null>(null);
     const [loading, setLoading] = useState(true);
@@ -70,8 +91,8 @@ export default function OrderDetailPage() {
     // Determine email to use: logged-in user > URL param > guest input
     function getEmail(): string {
         const user = getCurrentUser();
-        if (user?.email) return user.email;
-        return guestEmail;
+        if (user?.email) return user.email.toLowerCase();
+        return guestEmail.toLowerCase();
     }
 
     function loadOrder(email: string) {
@@ -112,16 +133,17 @@ export default function OrderDetailPage() {
     }
 
     useEffect(() => {
+        // Don't reload if we already have the order
+        if (order) return;
         const email = getEmail();
         if (email) {
             loadOrder(email);
         } else {
-            // No email available — show guest form
             setNeedsEmail(true);
             setLoading(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [orderId]);
+    }, [orderId, guestEmail]);
 
     function handleGuestSubmit(e: React.FormEvent) {
         e.preventDefault();
