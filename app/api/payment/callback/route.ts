@@ -20,7 +20,7 @@ interface CartItem {
     name: string;
     slug: string;
     image: string;
-    price: number;       // naira
+    price: number;
     regularPrice: number;
     quantity: number;
     size?: string;
@@ -86,9 +86,7 @@ export async function GET(request: NextRequest) {
                 product_id: item.productId,
                 ...(item.variationId ? { variation_id: item.variationId } : {}),
                 quantity: item.quantity,
-                ...(item.size
-                    ? { meta_data: [{ key: "Size", value: item.size }] }
-                    : {}),
+                ...(item.size ? { meta_data: [{ key: "Size", value: item.size }] } : {}),
             }));
 
             const orderPayload = {
@@ -120,8 +118,10 @@ export async function GET(request: NextRequest) {
                 meta_data: [
                     { key: "_paystack_reference", value: reference },
                     ...(promoCode
-                        ? [{ key: "_promo_code", value: promoCode },
-                        { key: "_promo_discount", value: String(promoDiscount) }]
+                        ? [
+                            { key: "_promo_code", value: promoCode },
+                            { key: "_promo_discount", value: String(promoDiscount) },
+                        ]
                         : []),
                 ],
             };
@@ -132,27 +132,43 @@ export async function GET(request: NextRequest) {
                 body: JSON.stringify(orderPayload),
             });
 
-            // Redeem gift card AFTER order is confirmed — atomic balance deduct
-            if (giftCardCode && giftCardAmount > 0) {
+            const orderData = await orderRes.json();
+            const orderId: number | null = orderData?.id ?? null;
+            const orderNumber: string | null = orderData?.number ?? null;
+
+            // Redeem gift card after order confirmed
+            if (giftCardCode && giftCardAmount > 0 && orderId) {
                 try {
-                    const order = await orderRes.json();
-                    await redeemGiftCard(giftCardCode, giftCardAmount, order?.id);
+                    await redeemGiftCard(giftCardCode, giftCardAmount, orderId);
                 } catch (err) {
-                    // Payment already succeeded — log loudly but don't break the redirect.
-                    // A human needs to reconcile this manually.
                     console.error(
                         `[gift-card] Redeem FAILED after payment ${reference} — code: ${giftCardCode}, amount: ${giftCardAmount}`,
                         err
                     );
                 }
             }
+
+            // Build redirect with full order context for the confirmation page
+            const params = new URLSearchParams({ status: "success", ref: reference });
+            if (orderId) params.set("orderId", String(orderId));
+            if (orderNumber) params.set("orderNumber", orderNumber);
+            if (shipping) {
+                params.set("name", `${shipping.firstName} ${shipping.lastName}`);
+                params.set("address", shipping.address);
+                params.set("city", shipping.city);
+                params.set("state", shipping.state);
+                params.set("email", shipping.email);
+            }
+
+            return NextResponse.redirect(
+                new URL(`/checkout/callback?${params.toString()}`, request.url)
+            );
         } catch (err) {
-            // Log but don't block the redirect — payment already succeeded
             console.error("WooCommerce order creation failed:", err);
         }
     }
 
-    // 4. Redirect to success page
+    // Fallback: payment verified but order/metadata unavailable
     return NextResponse.redirect(
         new URL(`/checkout/callback?status=success&ref=${reference}`, request.url)
     );
