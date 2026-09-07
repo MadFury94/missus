@@ -5,12 +5,14 @@ import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 const WP_API = (process.env.WP_API_URL || "https://missusoutfits.com/wp-json").replace(/\/$/, "");
 
 function wpHeaders(write = false): Record<string, string> {
+    // Published homepage fields are public. Do not make storefront reads depend
+    // on application-password authentication or authenticated-request filters.
+    if (!write) return { Accept: "application/json" };
     const credentials = process.env.WP_APP_PASSWORD;
     if (credentials && credentials.indexOf(":") > 0) {
         return { "Content-Type": "application/json", Authorization: `Basic ${Buffer.from(credentials.trim()).toString("base64")}` };
     }
-    if (write) throw new Error("Configure WP_APP_PASSWORD as username:application-password to save homepage content.");
-    return { "Content-Type": "application/json" };
+    throw new Error("Configure WP_APP_PASSWORD as username:application-password to save homepage content.");
 }
 
 async function wpRequest(url: string, init: RequestInit = {}) {

@@ -50,6 +50,8 @@ export default function CallbackContent() {
     const addressParam = searchParams.get("address");
     const cityParam = searchParams.get("city");
     const stateParam = searchParams.get("state");
+    // Email from URL param — lowercased immediately, used for Track My Order link
+    const emailParam = (searchParams.get("email") || "").toLowerCase();
 
     const [cleared, setCleared] = useState(false);
     const [order, setOrder] = useState<ConfirmationOrder | null>(null);
@@ -273,7 +275,7 @@ export default function CallbackContent() {
                         {/* CTAs */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                             <Link
-                                href={orderId ? `/account/orders/${orderId}?email=${encodeURIComponent((order?.billing?.email || searchParams.get("email") || "").toLowerCase())}` : "/account"}
+                                href={orderId ? `/account/orders/${orderId}?email=${encodeURIComponent(emailParam || (order?.billing?.email || "").toLowerCase())}` : "/account"}
                                 style={{ display: "block", textAlign: "center", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", padding: "15px", textDecoration: "none", borderRadius: "999px" }}
                             >
                                 {orderId ? "Track My Order" : "View My Orders"}

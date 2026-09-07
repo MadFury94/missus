@@ -39,6 +39,29 @@ test('reads WordPress on each request and preserves intentionally blank text', a
     assert.equal(updated.newsletter.sub, '');
 });
 
+test('public homepage reads succeed when authenticated reads are forbidden', async () => {
+    const service = server(async (_, options) => options.headers.Authorization
+        ? response({}, 403)
+        : response([{ id: 42, acf: encode(content) }]));
+    assert.equal((await service.readHomepageContent()).announcement, content.announcement);
+    assert.equal((await service.getHomepageContent()).announcement, content.announcement);
+});
+
+test('saves and read-back verification still require authentication', async () => {
+    const calls = [];
+    const acf = encode(content);
+    const service = server(async (url, options) => {
+        calls.push({ url, options });
+        return response(url.includes('per_page') ? [{ id: 42, acf }] : { acf });
+    });
+    await service.saveHomepageContent(content);
+    assert.equal(calls[0].options.headers.Authorization, undefined);
+    assert.equal(calls.length, 3);
+    for (const call of calls.slice(1)) {
+        assert.equal(call.options.headers.Authorization, `Basic ${Buffer.from('admin:test-password').toString('base64')}`);
+    }
+});
+
 test('awaits WordPress persistence and uses the discovered endpoint for writing', async () => {
     const calls = [];
     let acf = encode(content);

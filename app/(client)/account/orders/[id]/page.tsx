@@ -73,7 +73,7 @@ function OrderDetailContent() {
 
     // Sync guestEmail when URL param hydrates (happens after Suspense resolves)
     useEffect(() => {
-        if (urlEmail && !guestEmail) {
+        if (urlEmail && urlEmail !== guestEmail) {
             setGuestEmail(urlEmail);
         }
     }, [urlEmail]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -88,11 +88,19 @@ function OrderDetailContent() {
     } | null>(null);
     const [trackingLoading, setTrackingLoading] = useState(false);
 
-    // Determine email to use: logged-in user > URL param > guest input
+    // Determine email to use: URL param > logged-in user > guest input
     function getEmail(): string {
+        // Priority 1: URL param (from confirmation page or direct link)
+        console.log('getEmail - guestEmail:', guestEmail); // Debug log
+        if (guestEmail) return guestEmail.toLowerCase();
+
+        // Priority 2: logged-in user
         const user = getCurrentUser();
+        console.log('getEmail - current user:', user?.email); // Debug log
         if (user?.email) return user.email.toLowerCase();
-        return guestEmail.toLowerCase();
+
+        console.log('getEmail - returning empty string'); // Debug log
+        return "";
     }
 
     function loadOrder(email: string) {
@@ -100,11 +108,14 @@ function OrderDetailContent() {
         setError("");
         setOrder(null);
 
-        fetch(`/api/account/orders/${orderId}?email=${encodeURIComponent(email)}`)
+        const url = email
+            ? `/api/account/orders/${orderId}?email=${encodeURIComponent(email)}`
+            : `/api/account/orders/${orderId}?email=placeholder`;
+
+        fetch(url)
             .then((r) => r.json())
             .then((data) => {
                 if (data.error) {
-                    // If email mismatch, show guest form
                     if (!getCurrentUser()) {
                         setNeedsEmail(true);
                     } else {
@@ -135,7 +146,12 @@ function OrderDetailContent() {
     useEffect(() => {
         // Don't reload if we already have the order
         if (order) return;
+
+        console.log('useEffect - urlEmail:', urlEmail, 'guestEmail:', guestEmail); // Debug log
+
         const email = getEmail();
+        console.log('useEffect - final email:', email); // Debug log
+
         if (email) {
             loadOrder(email);
         } else {
