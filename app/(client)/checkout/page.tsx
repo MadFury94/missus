@@ -204,23 +204,24 @@ export default function CheckoutPage() {
             `}</style>
 
             {/* Mobile Header & Collapsible Order Summary */}
-            <div className="mobile-layout" style={{ background: "#000", padding: "16px 0", borderBottom: "1px solid #333" }}>
+            <div className="mobile-layout" style={{ background: "#fff", padding: "16px 0", borderBottom: "1px solid #e5e5e5", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
                 <div className="checkout-container" style={{ maxWidth: "480px", margin: "0 auto", padding: "0 24px" }}>
                     {/* Header with security indicator */}
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-                        <Link href="/" style={{ display: "flex", alignItems: "center", padding: "8px 12px", background: "#fff", borderRadius: "4px" }}>
+                        <Link href="/" style={{ display: "flex", alignItems: "center", padding: "8px 0" }}>
                             <Image src="/missus-logo.webp" alt="MISSUS" width={100} height={32} style={{ height: "auto" }} />
                         </Link>
                         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                             {/* Security indicator */}
                             <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#10b981", fontSize: "11px", fontWeight: 500 }}>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 1l3.09 6.26L22 9l-5 4.87L18.18 21L12 17.77L5.82 21L7 13.87L2 9l6.91-1.74L12 1z" />
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z" />
+                                    <circle cx="9" cy="9" r="1" />
                                 </svg>
                                 SECURE
                             </div>
                             {/* Cart with better styling */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "6px", background: "#fff", color: "#000", padding: "6px 12px", borderRadius: "20px", fontSize: "12px", fontWeight: 600 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px", background: "#f8f9fa", color: "#374151", padding: "6px 12px", borderRadius: "20px", fontSize: "12px", fontWeight: 600, border: "1px solid #e5e7eb" }}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                                     <path d="M6 9h12l-1.5 10H7.5L6 9z" />
                                     <path d="M9 9V7a3 3 0 0 1 6 0v2" />
@@ -232,11 +233,11 @@ export default function CheckoutPage() {
 
                     {/* Progress indicator */}
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
-                        <div style={{ flex: 1, height: "2px", background: "#fff", borderRadius: "1px" }}></div>
-                        <span style={{ color: "#fff", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>CHECKOUT</span>
-                        <div style={{ flex: 1, height: "2px", background: "#333", borderRadius: "1px" }}></div>
-                        <span style={{ color: "#666", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>PAYMENT</span>
-                        <div style={{ flex: 1, height: "2px", background: "#333", borderRadius: "1px" }}></div>
+                        <div style={{ flex: 1, height: "2px", background: "#10b981", borderRadius: "1px" }}></div>
+                        <span style={{ color: "#10b981", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>CHECKOUT</span>
+                        <div style={{ flex: 1, height: "2px", background: "#e5e7eb", borderRadius: "1px" }}></div>
+                        <span style={{ color: "#9ca3af", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>PAYMENT</span>
+                        <div style={{ flex: 1, height: "2px", background: "#e5e7eb", borderRadius: "1px" }}></div>
                     </div>
 
                     {/* Collapsible Order Summary */}
@@ -349,11 +350,11 @@ export default function CheckoutPage() {
             </div>
 
             {/* Desktop Header */}
-            <div className="desktop-layout" style={{ background: "#000", padding: "20px 0", borderBottom: "1px solid #333" }}>
+            <div className="desktop-layout" style={{ background: "#fff", padding: "20px 0", borderBottom: "1px solid #e5e5e5", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
                 <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
                     {/* Header row */}
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
-                        <Link href="/" style={{ display: "flex", alignItems: "center", padding: "12px 16px", background: "#fff", borderRadius: "6px" }}>
+                        <Link href="/" style={{ display: "flex", alignItems: "center", padding: "12px 0" }}>
                             <Image src="/missus-logo.webp" alt="MISSUS" width={120} height={40} style={{ height: "auto" }} />
                         </Link>
                         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
@@ -366,7 +367,7 @@ export default function CheckoutPage() {
                                 SECURE CHECKOUT
                             </div>
                             {/* Cart */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fff", color: "#000", padding: "10px 16px", borderRadius: "25px", fontSize: "14px", fontWeight: 600 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#f8f9fa", color: "#374151", padding: "10px 16px", borderRadius: "25px", fontSize: "14px", fontWeight: 600, border: "1px solid #e5e7eb" }}>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                                     <path d="M6 9h12l-1.5 10H7.5L6 9z" />
                                     <path d="M9 9V7a3 3 0 0 1 6 0v2" />
@@ -378,13 +379,13 @@ export default function CheckoutPage() {
 
                     {/* Progress indicator */}
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                        <div style={{ flex: 1, height: "3px", background: "#fff", borderRadius: "2px" }}></div>
-                        <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>INFORMATION</span>
-                        <div style={{ flex: 1, height: "3px", background: "#333", borderRadius: "2px" }}></div>
-                        <span style={{ color: "#666", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>PAYMENT</span>
-                        <div style={{ flex: 1, height: "3px", background: "#333", borderRadius: "2px" }}></div>
-                        <span style={{ color: "#666", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>COMPLETE</span>
-                        <div style={{ flex: 1, height: "3px", background: "#333", borderRadius: "2px" }}></div>
+                        <div style={{ flex: 1, height: "3px", background: "#10b981", borderRadius: "2px" }}></div>
+                        <span style={{ color: "#10b981", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>INFORMATION</span>
+                        <div style={{ flex: 1, height: "3px", background: "#e5e7eb", borderRadius: "2px" }}></div>
+                        <span style={{ color: "#9ca3af", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>PAYMENT</span>
+                        <div style={{ flex: 1, height: "3px", background: "#e5e7eb", borderRadius: "2px" }}></div>
+                        <span style={{ color: "#9ca3af", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>COMPLETE</span>
+                        <div style={{ flex: 1, height: "3px", background: "#e5e7eb", borderRadius: "2px" }}></div>
                     </div>
                 </div>
             </div>
