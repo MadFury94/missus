@@ -121,7 +121,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
                             </svg>
                             <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif" }}>
-                                Search for dresses, tops, sets
+                                Search for dresses, tops, sets
                             </span>
                         </button>
                     </div>

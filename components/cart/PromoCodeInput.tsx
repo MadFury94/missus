@@ -33,6 +33,7 @@ export default function PromoCodeInput() {
                     textTransform: "uppercase",
                     letterSpacing: ".04em",
                     color: "#000",
+                    borderRadius: "999px 0 0 999px",
                 }}
             />
             <button
@@ -42,6 +43,7 @@ export default function PromoCodeInput() {
                     background: applied ? "#007a3d" : "#000",
                     color: "#fff",
                     border: "none",
+                    borderRadius: "0 999px 999px 0",
                     height: "44px",
                     padding: "0 22px",
                     fontFamily: "var(--font-barlow-condensed)",

@@ -397,7 +397,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                     {/* CENTER: Logo */}
                     <Link href="/" aria-label="Missus — go to homepage" style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", textDecoration: "none", userSelect: "none" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src="/missus-logo.webp" alt="Missus" style={{ height: "55px", width: "auto", display: "block", filter: transparent ? "brightness(0) invert(1)" : "none", transition: "filter .3s" }} />
+                        <img src="/missus-logo.webp" alt="Missus" style={{ height: "72px", width: "auto", display: "block", filter: transparent ? "brightness(0) invert(1)" : "none", transition: "filter .3s" }} />
                     </Link>
 
                     {/* RIGHT: search + icons + currency */}

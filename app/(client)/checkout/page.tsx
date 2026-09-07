@@ -317,7 +317,7 @@ export default function CheckoutPage() {
                                                 value={promoInput}
                                                 onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(""); }}
                                                 placeholder="Enter code"
-                                                style={{ ...inputStyle, flex: 1, borderRight: "none", height: "44px", padding: "0 12px", textTransform: "uppercase", letterSpacing: ".04em" }}
+                                                style={{ ...inputStyle, flex: 1, borderRight: "none", height: "44px", padding: "0 12px", textTransform: "uppercase", letterSpacing: ".04em", borderRadius: "999px 0 0 999px" }}
                                                 onFocus={(e) => e.target.style.borderColor = "#000"}
                                                 onBlur={(e) => e.target.style.borderColor = "#ddd"}
                                             />
@@ -325,7 +325,7 @@ export default function CheckoutPage() {
                                                 type="button"
                                                 onClick={applyPromo}
                                                 disabled={promoLoading}
-                                                style={{ background: "#000", color: "#fff", border: "none", padding: "0 18px", fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", cursor: promoLoading ? "not-allowed" : "pointer", height: "44px", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
+                                                style={{ background: "#000", color: "#fff", border: "none", borderRadius: "0 999px 999px 0", padding: "0 18px", fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", cursor: promoLoading ? "not-allowed" : "pointer", height: "44px", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
                                             >
                                                 {promoLoading ? "..." : "Apply"}
                                             </button>
@@ -363,7 +363,7 @@ export default function CheckoutPage() {
                             <button
                                 type="submit"
                                 disabled={loading || cart.items.length === 0}
-                                style={{ width: "100%", background: cart.items.length === 0 ? "#ccc" : "#000", color: "#fff", border: "none", padding: "16px", fontSize: "14px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", cursor: cart.items.length === 0 ? "not-allowed" : "pointer", transition: "background .2s", fontFamily: "var(--font-barlow-condensed)", opacity: loading ? 0.7 : 1 }}
+                                style={{ width: "100%", background: cart.items.length === 0 ? "#ccc" : "#000", color: "#fff", border: "none", borderRadius: "999px", padding: "16px", fontSize: "14px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", cursor: cart.items.length === 0 ? "not-allowed" : "pointer", transition: "background .2s", fontFamily: "var(--font-barlow-condensed)", opacity: loading ? 0.7 : 1 }}
                                 onMouseEnter={(e) => { if (cart.items.length > 0 && !loading) e.currentTarget.style.background = "#333"; }}
                                 onMouseLeave={(e) => { if (cart.items.length > 0) e.currentTarget.style.background = "#000"; }}
                             >

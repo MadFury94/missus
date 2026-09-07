@@ -219,7 +219,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                             <Link
                                 href="/checkout"
                                 onClick={onClose}
-                                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase", padding: "16px", textDecoration: "none", marginBottom: "10px" }}
+                                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase", padding: "16px", textDecoration: "none", marginBottom: "10px", borderRadius: "999px" }}
                             >
                                 Checkout &mdash; {formatPrice(cart.subtotal)}
                             </Link>

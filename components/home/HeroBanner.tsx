@@ -45,7 +45,7 @@ export default function HeroBanner() {
             </div>
 
             {/* Sale badge */}
-            <div style={{ position: "absolute", top: "30px", right: "30px", zIndex: 3, background: "#7F0E12", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase", padding: "12px 20px", textAlign: "center", lineHeight: 1.3 }}>
+            <div style={{ position: "absolute", top: "30px", right: "30px", zIndex: 3, background: "#7F0E12", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase", padding: "12px 20px", textAlign: "center", lineHeight: 1.3, borderRadius: "8px" }}>
                 UP TO<br /><span style={{ fontSize: "22px" }}>60%</span><br />OFF SALE
             </div>
         </div>

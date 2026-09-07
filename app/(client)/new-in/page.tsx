@@ -163,7 +163,7 @@ export default function NewInPage() {
                                 </span>
                             ))}
                             {onSaleOnly && (
-                                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #7F0E12", padding: "2px 8px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#7F0E12" }}>
+                                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #7F0E12", borderRadius: "999px", padding: "2px 8px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#7F0E12" }}>
                                     Sale
                                     <button onClick={() => setOnSaleOnly(false)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", lineHeight: 1, padding: 0, color: "#7F0E12" }}>×</button>
                                 </span>

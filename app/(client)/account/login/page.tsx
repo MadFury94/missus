@@ -42,23 +42,27 @@ export default function UserLoginPage() {
         transition: "border .2s",
         boxSizing: "border-box",
         fontFamily: "'Barlow', sans-serif",
+        borderRadius: "999px",
     };
 
     return (
         <div style={{ display: "flex", minHeight: "100svh" }}>
 
-            {/* -- Left branding panel (desktop only) -- */}
-            <div style={{
-                display: "none",
-                width: "45%",
-                background: "#000",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                padding: "48px",
-                position: "relative",
-                overflow: "hidden",
-                flexShrink: 0,
-            }} className="login-brand-panel">
+            {/* Left branding panel — desktop only */}
+            <div
+                className="login-brand-panel"
+                style={{
+                    display: "none",
+                    width: "45%",
+                    background: "#000",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    padding: "48px",
+                    position: "relative",
+                    overflow: "hidden",
+                    flexShrink: 0,
+                }}
+            >
                 <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px)" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "50%", background: "linear-gradient(to top, rgba(232,0,45,0.08), transparent)" }} />
 
@@ -80,22 +84,22 @@ export default function UserLoginPage() {
                 </div>
 
                 <div style={{ position: "relative", zIndex: 1, border: "1px solid rgba(255,255,255,.1)", padding: "20px" }}>
-                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "10px" }}>?????</div>
+                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "10px" }}>★★★★★</div>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "10px" }}>
                         &quot;Missus is really for the IT girls. Delivery in 45 mins, quality is unreal. Never switching.&quot;
                     </p>
                     <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#7F0E12" }}>
-                        Sarah O.  Lagos
+                        Sarah O. · Lagos
                     </p>
                 </div>
             </div>
 
-            {/* -- Right / mobile form panel -- */}
+            {/* Right / mobile form panel */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 24px", background: "#fff", minWidth: 0 }}>
                 <div style={{ width: "100%", maxWidth: "420px" }}>
 
-                    {/* Mobile logo  hidden on desktop where the left panel has it */}
-                    <div style={{ marginBottom: "28px", display: "block" }} className="login-mobile-logo">
+                    {/* Mobile logo */}
+                    <div className="login-mobile-logo" style={{ marginBottom: "28px" }}>
                         <Link href="/" style={{ display: "inline-block", textDecoration: "none" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/missus-logo.webp" alt="Missus" style={{ height: "34px", width: "auto" }} />
@@ -108,24 +112,25 @@ export default function UserLoginPage() {
                     <p style={{ fontSize: "13px", color: "#767676", marginBottom: justRegistered ? "16px" : "28px" }}>
                         Don&apos;t have an account?{" "}
                         <Link href="/account/register" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>
-                            Create one ?
+                            Create one
                         </Link>
                     </p>
 
                     {justRegistered && (
-                        <div style={{ background: "#f0faf4", border: "1px solid #c8e6d4", color: "#007a3d", padding: "12px 14px", fontSize: "13px", marginBottom: "20px" }}>
-                            ? Account created! Sign in below.
+                        <div style={{ background: "#f0faf4", border: "1px solid #c8e6d4", color: "#007a3d", padding: "12px 14px", fontSize: "13px", marginBottom: "20px", borderRadius: "8px" }}>
+                            ✓ Account created! Sign in below.
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+
                         {/* Email */}
                         <div>
                             <label style={{ display: "block", fontSize: "11px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#000", marginBottom: "6px" }}>
                                 Email Address
                             </label>
                             <div style={{ position: "relative" }}>
-                                <Mail style={{ position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} aria-hidden="true" />
+                                <Mail style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} aria-hidden="true" />
                                 <input
                                     type="email"
                                     value={form.email}
@@ -152,12 +157,12 @@ export default function UserLoginPage() {
                                 </Link>
                             </div>
                             <div style={{ position: "relative" }}>
-                                <Lock style={{ position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} aria-hidden="true" />
+                                <Lock style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "#aaa" }} aria-hidden="true" />
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     value={form.password}
                                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                                    placeholder=""
+                                    placeholder=""
                                     required
                                     autoComplete="current-password"
                                     style={{ ...inputStyle, paddingLeft: "42px", paddingRight: "48px" }}
@@ -177,7 +182,7 @@ export default function UserLoginPage() {
 
                         {/* Error */}
                         {error && (
-                            <div role="alert" style={{ background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", padding: "10px 14px", fontSize: "13px" }}>
+                            <div role="alert" style={{ background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", padding: "10px 14px", fontSize: "13px", borderRadius: "8px" }}>
                                 {error}
                             </div>
                         )}
@@ -187,26 +192,37 @@ export default function UserLoginPage() {
                             type="submit"
                             disabled={loading}
                             style={{
-                                width: "100%", height: "50px",
-                                background: loading ? "#555" : "#000", color: "#fff", border: "none",
-                                fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 900,
-                                letterSpacing: ".14em", textTransform: "uppercase",
+                                width: "100%",
+                                height: "50px",
+                                background: loading ? "#555" : "#000",
+                                color: "#fff",
+                                border: "none",
+                                borderRadius: "999px",
+                                fontFamily: "'Barlow Condensed', sans-serif",
+                                fontSize: "14px",
+                                fontWeight: 900,
+                                letterSpacing: ".14em",
+                                textTransform: "uppercase",
                                 cursor: loading ? "not-allowed" : "pointer",
-                                display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                                transition: "background .2s", marginTop: "4px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "8px",
+                                transition: "background .2s",
+                                marginTop: "4px",
                             }}
                             onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = "#222"; }}
                             onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = loading ? "#555" : "#000"; }}
                         >
-                            {loading ? "Signing In" : "Sign In"}
+                            {loading ? "Signing In…" : "Sign In"}
                             {!loading && <ArrowRight style={{ width: "16px", height: "16px" }} strokeWidth={2.5} />}
                         </button>
+
                     </form>
                 </div>
             </div>
 
             <style>{`
-                /* Show left brand panel on desktop */
                 @media (min-width: 1024px) {
                     .login-brand-panel { display: flex !important; }
                     .login-mobile-logo { display: none !important; }

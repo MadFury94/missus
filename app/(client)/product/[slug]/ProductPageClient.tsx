@@ -239,7 +239,7 @@ export default function ProductPageClient({ params, product, related }: {
 
                         {/* Sale badge */}
                         {isOnSale && discount && (
-                            <div style={{ position: "absolute", top: "16px", left: "16px", background: "#e8002d", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", padding: "5px 10px", zIndex: 2 }}>
+                            <div style={{ position: "absolute", top: "16px", left: "16px", background: "#e8002d", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", padding: "5px 10px", zIndex: 2, borderRadius: "4px" }}>
                                 {discount}% OFF
                             </div>
                         )}

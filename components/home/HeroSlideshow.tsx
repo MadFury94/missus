@@ -186,11 +186,11 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                     {slides[current].sub}
                 </p>
                 <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
-                    <Link href={slides[current].cta.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "12px", textDecoration: "none" }}>
+                    <Link href={slides[current].cta.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "12px", textDecoration: "none", borderRadius: "999px" }}>
                         {slides[current].cta.label}
                     </Link>
                     {slides[current].cta2 && (
-                        <Link href={slides[current].cta2!.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "rgba(255,255,255,.12)", color: "#fff", padding: "13px 28px", fontSize: "12px", border: "1.5px solid rgba(255,255,255,.5)", textDecoration: "none", backdropFilter: "blur(4px)" }}>
+                        <Link href={slides[current].cta2!.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "rgba(255,255,255,.12)", color: "#fff", padding: "13px 28px", fontSize: "12px", border: "1.5px solid rgba(255,255,255,.5)", textDecoration: "none", backdropFilter: "blur(4px)", borderRadius: "999px" }}>
                             {slides[current].cta2!.label}
                         </Link>
                     )}

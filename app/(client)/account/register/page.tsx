@@ -52,6 +52,7 @@ export default function RegisterPage() {
         width: "100%", border: "1.5px solid #e0e0e0", height: "44px",
         paddingLeft: "40px", paddingRight: "16px", fontSize: "13px",
         outline: "none", background: "#fff", transition: "border .2s", boxSizing: "border-box",
+        borderRadius: "999px",
     };
 
     return (
@@ -72,7 +73,7 @@ export default function RegisterPage() {
                     </p>
                 </div>
                 <div style={{ border: "1px solid rgba(255,255,255,.1)", padding: "20px" }}>
-                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "8px" }}>?????</div>
+                    <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "8px" }}>★★★★★</div>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "8px" }}>
                         &quot;I ordered my dress at noon and it was at my door by 2pm. Missus is built different.&quot;
                     </p>
@@ -198,7 +199,7 @@ export default function RegisterPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            style={{ width: "100%", height: "48px", background: loading ? "#555" : "#000", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 900, letterSpacing: ".14em", textTransform: "uppercase", cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "background .2s", marginTop: "4px" }}
+                            style={{ width: "100%", height: "48px", background: loading ? "#555" : "#000", color: "#fff", border: "none", borderRadius: "999px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 900, letterSpacing: ".14em", textTransform: "uppercase", cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "background .2s", marginTop: "4px" }}
                             onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = "#222"; }}
                             onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = "#000"; }}
                         >

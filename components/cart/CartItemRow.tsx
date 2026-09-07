@@ -146,7 +146,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
 
             {/* SALE badge */}
             {hasDiscount && (
-                <span style={{ position: "absolute", top: "20px", right: 0, background: "#7F0E12", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "3px 8px" }}>
+                <span style={{ position: "absolute", top: "20px", right: 0, background: "#7F0E12", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: "4px" }}>
                     SALE
                 </span>
             )}

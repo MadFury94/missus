@@ -95,7 +95,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                 {/* Checkout CTA */}
                 <Link
                     href="/checkout"
-                    style={{ width: "100%", height: "52px", background: "#000", color: "#fff", border: "none", fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer", marginTop: "16px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", textDecoration: "none", transition: "background .2s" }}
+                    style={{ width: "100%", height: "52px", background: "#000", color: "#fff", border: "none", borderRadius: "999px", fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer", marginTop: "16px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", textDecoration: "none", transition: "background .2s" }}
                     onMouseEnter={(e) => (e.currentTarget.style.background = "#222")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
                 >

@@ -119,7 +119,7 @@ export default function NewsletterBar({
                         </h3>
                         <p style={{ fontSize: "12px", color: "#555", lineHeight: 1.6 }}>
                             {sub}{" "}
-                            <Link href="/newsletter" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Learn more →</Link>
+                            <Link href="/newsletter" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Join Now →</Link>
                         </p>
                     </div>
 
@@ -133,9 +133,9 @@ export default function NewsletterBar({
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email address"
                                 required
-                                style={{ flex: 1, border: "1.5px solid #000", borderRight: "none", padding: "0 14px", height: "44px", fontFamily: "'Barlow', sans-serif", fontSize: "13px", outline: "none", background: "#fff" }}
+                                style={{ flex: 1, border: "1.5px solid #000", borderRight: "none", padding: "0 14px", height: "44px", fontFamily: "'Barlow', sans-serif", fontSize: "13px", outline: "none", background: "#fff", borderRadius: "999px 0 0 999px" }}
                             />
-                            <button type="submit" style={{ height: "44px", padding: "0 22px", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", fontSize: "12px", border: "none", cursor: "pointer", whiteSpace: "nowrap" }}>
+                            <button type="submit" style={{ height: "44px", padding: "0 22px", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", fontSize: "12px", border: "none", cursor: "pointer", whiteSpace: "nowrap", borderRadius: "0 999px 999px 0" }}>
                                 Subscribe
                             </button>
                         </form>

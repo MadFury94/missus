@@ -37,7 +37,7 @@ export default function AppDownloadBanner() {
                             href="https://instagram.com/missusoutfits"
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ border: "1.5px solid rgba(255,255,255,.3)", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
+                            style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: "999px", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
                             onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.8)")}
                             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.3)")}
                         >
@@ -50,7 +50,7 @@ export default function AppDownloadBanner() {
                             href="https://tiktok.com/@missusoutfits"
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ border: "1.5px solid rgba(255,255,255,.3)", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
+                            style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: "999px", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
                             onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.8)")}
                             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.3)")}
                         >
@@ -68,11 +68,6 @@ export default function AppDownloadBanner() {
                         <div key={i} style={{ aspectRatio: "9/16", position: "relative", overflow: "hidden", border: "1px solid #333", borderRadius: "12px", marginTop: i === 1 ? "24px" : 0 }}>
                             <Image src={src} alt="Missus" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 45vw, 20vw" />
                             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 70%, rgba(0,0,0,.6) 100%)" }} />
-                            <div style={{ position: "absolute", bottom: "12px", left: 0, right: 0, textAlign: "center" }}>
-                                <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>
-                                    {i === 0 ? "New Drops Daily" : "Shop Now"}
-                                </span>
-                            </div>
                         </div>
                     ))}
                 </div>
