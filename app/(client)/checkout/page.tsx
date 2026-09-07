@@ -183,7 +183,7 @@ export default function CheckoutPage() {
         }
     }
     return (
-        <div style={{ background: "#f9f9f9", minHeight: "100vh" }}>
+        <div style={{ background: "#f9f9f9", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
             <style>{`
                 @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
                 .order-summary-content { animation: fadeIn 0.2s ease; }
@@ -200,6 +200,11 @@ export default function CheckoutPage() {
                 @media (min-width: 1024px) {
                     .desktop-layout { display: block !important; }
                     .mobile-layout { display: none !important; }
+                }
+                
+                /* DM Sans font family override */
+                * {
+                    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
                 }
             `}</style>
 
@@ -281,7 +286,8 @@ export default function CheckoutPage() {
                                                 border: "2px solid #ffffff",
                                                 boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
                                                 zIndex: 100,
-                                                lineHeight: "1"
+                                                lineHeight: "1",
+                                                fontFamily: "'DM Sans', sans-serif"
                                             }}>
                                                 {item.quantity}
                                             </div>
@@ -437,7 +443,8 @@ export default function CheckoutPage() {
                                             outline: "none",
                                             boxSizing: "border-box",
                                             transition: "border-color 0.2s ease",
-                                            background: "#fff"
+                                            background: "#fff",
+                                            fontFamily: "'DM Sans', sans-serif"
                                         }}
                                         onFocus={(e) => {
                                             e.target.style.borderColor = "#6366f1";
@@ -1124,7 +1131,7 @@ export default function CheckoutPage() {
                                             outline: "none",
                                             boxSizing: "border-box",
                                             transition: "border-color 0.2s",
-                                            fontFamily: "inherit"
+                                            fontFamily: "'DM Sans', sans-serif"
                                         }}
                                         onFocus={(e) => {
                                             e.target.style.borderColor = "#6366f1";
@@ -1807,7 +1814,8 @@ export default function CheckoutPage() {
                                             border: "3px solid #ffffff",
                                             boxShadow: "0 3px 10px rgba(0,0,0,0.4)",
                                             zIndex: 100,
-                                            lineHeight: "1"
+                                            lineHeight: "1",
+                                            fontFamily: "'DM Sans', sans-serif"
                                         }}>
                                             {item.quantity}
                                         </div>
