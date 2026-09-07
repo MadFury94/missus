@@ -8,9 +8,12 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "email and amount required" }, { status: 400 });
         }
         const reference = generateReference();
-        const callbackUrl =
-            process.env.NEXT_PUBLIC_PAYSTACK_CALLBACK_URL ||
-            `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/callback`;
+
+        // Derive the callback URL from the incoming request's own origin.
+        // This works correctly on localhost, Vercel preview URLs, and the live domain
+        // without any env var changes between environments.
+        const origin = req.nextUrl.origin; // e.g. http://localhost:3000 or https://missus.vercel.app
+        const callbackUrl = `${origin}/api/payment/callback`;
 
         const result = await initializePayment({ email, amount, reference, callbackUrl, metadata });
         if (!result?.status) {

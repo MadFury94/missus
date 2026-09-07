@@ -51,6 +51,7 @@ export async function GET(
         payment_method_title: o.payment_method_title,
         transaction_id: o.transaction_id,
         customer_note: o.customer_note,
+        meta_data: (o.meta_data as { key: string; value: string }[]) ?? [],
         line_items: (o.line_items as Record<string, unknown>[])?.map((li) => ({
             id: li.id,
             name: li.name,
