@@ -105,7 +105,7 @@ export default function SearchContent() {
                             {products.length === 0 && (
                                 <p style={{ fontSize: "13px", color: "#767676" }}>
                                     Try different keywords or{" "}
-                                    <Link href="/shop" style={{ color: "#000", textDecoration: "underline", fontWeight: 600 }}>browse all products →</Link>
+                                    <Link href="/shop" style={{ color: "#000", textDecoration: "underline", fontWeight: 600 }}>browse all products</Link>
                                 </p>
                             )}
                         </div>

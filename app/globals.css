@@ -13,7 +13,7 @@
 }
 
 body {
-  font-family: var(--font-body), 'DM Sans', sans-serif;
+  font-family: var(--font-body), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   background: #fff;
   color: #000;
   overflow-x: hidden;
@@ -28,7 +28,7 @@ a {
 
 button {
   cursor: pointer;
-  font-family: var(--font-body), 'DM Sans', sans-serif;
+  font-family: var(--font-body), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 }
 
 /* --------------------------------------------------------------
@@ -750,4 +750,14 @@ button {
   html {
     @apply font-sans;
   }
+}
+
+/* Unicode character support - ensure proper display of special characters */
+* {
+  font-feature-settings: "liga" 1;
+}
+
+/* Better fallback fonts for Unicode support */
+.font-unicode-safe {
+  font-family: var(--font-body), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }

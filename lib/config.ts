@@ -84,10 +84,10 @@ export const TREND_CARDS = [
 ];
 
 export const CATEGORY_CARDS = [
-    { label: "Dresses", sub: "Shop Dresses →", href: "/category/dresses", abbr: "D", bg: "linear-gradient(135deg,#1a1a2e,#2d1b34)", tall: true, img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-8.png" },
-    { label: "Matching Sets", sub: "Shop Sets →", href: "/category/matching-sets", abbr: "MS", bg: "linear-gradient(135deg,#1a2e1a,#2d341b)", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png" },
-    { label: "Tops", sub: "Shop Tops →", href: "/category/tops", abbr: "T", bg: "linear-gradient(135deg,#2e1a1a,#341b2d)", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-17.png" },
-    { label: "Bottoms", sub: "Shop Bottoms →", href: "/category/bottoms", abbr: "B", bg: "linear-gradient(135deg,#1a2a2e,#1b2e2e)", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-22.png" },
-    { label: "Athleisure", sub: "Shop Athleisure →", href: "/category/athleisure-loungewear", abbr: "A", bg: "linear-gradient(135deg,#2e2a1a,#2e1a1a)", img: null },
-    { label: "Gift Shop", sub: "Shop Gifts →", href: "/category/gift-shop", abbr: "G", bg: "linear-gradient(135deg,#1a1a1a,#2e2e2e)", img: null },
+    { label: "Dresses", sub: "Shop Dresses", href: "/category/dresses", abbr: "D", bg: "linear-gradient(135deg,#1a1a2e,#2d1b34)", tall: true, img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-8.png" },
+    { label: "Matching Sets", sub: "Shop Sets", href: "/category/matching-sets", abbr: "MS", bg: "linear-gradient(135deg,#1a2e1a,#2d341b)", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png" },
+    { label: "Tops", sub: "Shop Tops", href: "/category/tops", abbr: "T", bg: "linear-gradient(135deg,#2e1a1a,#341b2d)", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-17.png" },
+    { label: "Bottoms", sub: "Shop Bottoms", href: "/category/bottoms", abbr: "B", bg: "linear-gradient(135deg,#1a2a2e,#1b2e2e)", img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-22.png" },
+    { label: "Athleisure", sub: "Shop Athleisure", href: "/category/athleisure-loungewear", abbr: "A", bg: "linear-gradient(135deg,#2e2a1a,#2e1a1a)", img: null },
+    { label: "Gift Shop", sub: "Shop Gifts", href: "/category/gift-shop", abbr: "G", bg: "linear-gradient(135deg,#1a1a1a,#2e2e2e)", img: null },
 ];

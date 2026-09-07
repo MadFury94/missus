@@ -12,7 +12,7 @@ export default function SectionHeader({
     title,
     subtitle,
     viewAllHref,
-    viewAllLabel = "View All →",
+    viewAllLabel = "View All",
     center = false,
 }: SectionHeaderProps) {
     return (

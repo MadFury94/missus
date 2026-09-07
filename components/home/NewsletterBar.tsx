@@ -119,7 +119,7 @@ export default function NewsletterBar({
                         </h3>
                         <p style={{ fontSize: "12px", color: "#555", lineHeight: 1.6 }}>
                             {sub}{" "}
-                            <Link href="/newsletter" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Join Now →</Link>
+                            <Link href="/newsletter" style={{ color: "#000", fontWeight: 600, textDecoration: "underline" }}>Join Now</Link>
                         </p>
                     </div>
 

@@ -207,7 +207,7 @@ export default function TrackOrderPage() {
                                         {result.tracking.carrier_tracking_url && (
                                             <a href={result.tracking.carrier_tracking_url} target="_blank" rel="noopener noreferrer"
                                                 style={{ fontSize: "11px", color: "#000", textDecoration: "underline", fontWeight: 600 }}>
-                                                Track on carrier →
+                                                Track on carrier
                                             </a>
                                         )}
                                     </div>

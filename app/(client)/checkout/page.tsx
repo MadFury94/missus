@@ -253,7 +253,7 @@ export default function CheckoutPage() {
                                     {promoCode ? (
                                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#f0f9ff", border: "1px solid #bae6fd", padding: "12px 16px", borderRadius: "6px" }}>
                                             <span style={{ fontSize: "13px", color: "#0369a1", fontWeight: 500 }}>✓ {promoCode} applied</span>
-                                            <button onClick={removePromo} type="button" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#666" }}>×</button>
+                                            <button onClick={removePromo} type="button" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#666" }}>X</button>
                                         </div>
                                     ) : (
                                         <div style={{ display: "flex", gap: "8px" }}>
@@ -1119,7 +1119,7 @@ export default function CheckoutPage() {
                                 {promoCode ? (
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#f0f9ff", border: "1px solid #bae6fd", padding: "16px", borderRadius: "8px" }}>
                                         <span style={{ fontSize: "14px", color: "#0369a1", fontWeight: 500 }}>✓ {promoCode} applied</span>
-                                        <button onClick={removePromo} type="button" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "18px", color: "#666" }}>×</button>
+                                        <button onClick={removePromo} type="button" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "18px", color: "#666" }}>X</button>
                                     </div>
                                 ) : (
                                     <div style={{ display: "flex", gap: "12px" }}>

@@ -369,7 +369,7 @@ function OrderDetailContent() {
                                     {tracking.carrier_tracking_url && (
                                         <a href={tracking.carrier_tracking_url} target="_blank" rel="noopener noreferrer"
                                             style={{ fontSize: "12px", color: "#000", textDecoration: "underline", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
-                                            Track on Carrier →
+                                            Track on Carrier
                                         </a>
                                     )}
                                 </div>
@@ -448,7 +448,7 @@ function OrderDetailContent() {
                         href={`/contact?subject=order&ref=Order+%23${order.number}`}
                         style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1.5px solid #000", paddingBottom: "1px", whiteSpace: "nowrap" }}
                     >
-                        Contact Support →
+                        Contact Support
                     </Link>
                 </div>
             </div>

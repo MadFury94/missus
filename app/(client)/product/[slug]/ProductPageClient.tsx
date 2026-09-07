@@ -530,7 +530,7 @@ export default function ProductPageClient({ params, product, related }: {
                             </h2>
                             {breadcrumb && (
                                 <Link href={`/category/${breadcrumb.slug}`} style={{ fontSize: "11px", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1px solid #000", paddingBottom: "1px" }}>
-                                    Shop {breadcrumb.name} →
+                                    Shop {breadcrumb.name}
                                 </Link>
                             )}
                         </div>
@@ -606,7 +606,7 @@ export default function ProductPageClient({ params, product, related }: {
                         textAlign: "center",
                     }}
                 >
-                    {added ? "✓ Added" : adding ? "Adding…" : (sizes.length > 0 && !selectedSize) ? "Select Size ↑" : "Add to Bag"}
+                    {added ? "✓ Added" : adding ? "Adding…" : (sizes.length > 0 && !selectedSize) ? "Select Size" : "Add to Bag"}
                 </button>
             </div>
         </>

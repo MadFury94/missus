@@ -150,7 +150,7 @@ export default function CartPage() {
                         </div>
 
                         <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#000", textDecoration: "none", marginTop: "20px", borderBottom: "1.5px solid #000", paddingBottom: "1px" }}>
-                            ← Continue Shopping
+                            Continue Shopping
                         </Link>
 
                         <RecentlyRemoved items={recentlyRemoved} />
@@ -162,7 +162,7 @@ export default function CartPage() {
                                         You May Also Like
                                     </h3>
                                     <Link href="/shop" style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textDecoration: "underline", color: "#000" }}>
-                                        View All →
+                                        View All
                                     </Link>
                                 </div>
                                 <CartUpsell products={upsellProducts} />

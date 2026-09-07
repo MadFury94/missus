@@ -422,7 +422,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                                     onClick={() => setForm({ ...form, images: form.images.filter((_: any, i: number) => i !== idx) })}
                                     style={{ position: "absolute", top: "8px", right: "8px", background: "#7F0E12", color: "#fff", border: "none", borderRadius: "4px", width: "24px", height: "24px", cursor: "pointer", fontSize: "16px", lineHeight: "1" }}
                                 >
-                                    ×
+                                    X
                                 </button>
                             </div>
                         ))}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,9 +8,9 @@ import { addToCart } from "@/lib/cart";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
 
-// price in WishlistItem is already in naira  format directly
+// price in WishlistItem is already in naira Â— format directly
 function fmtNaira(naira: number) {
-    return `?${naira.toLocaleString("en-NG")}`;
+    return `â‚¦${naira.toLocaleString("en-NG")}`;
 }
 
 // --- SIZE PICKER MODAL --------------------------------------------------------
@@ -53,7 +53,7 @@ function SizePickerModal({
                         <p style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "10px", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#aaa", marginBottom: "4px" }}>Select Size</p>
                         <p style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "13px", fontWeight: 500, color: "#000", lineHeight: 1.3, maxWidth: "260px" }}>{item.name}</p>
                     </div>
-                    <button onClick={onClose} aria-label="Close" style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "22px", lineHeight: 1, padding: "0 0 0 8px" }}>×</button>
+                    <button onClick={onClose} aria-label="Close" style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "22px", lineHeight: 1, padding: "0 0 0 8px" }}>X</button>
                 </div>
 
                 <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "18px", minHeight: "48px" }}>
@@ -81,7 +81,7 @@ function SizePickerModal({
                 <p style={{ fontSize: "11px", color: "#aaa", marginBottom: "14px" }}>
                     Not sure?{" "}
                     <Link href="/size-guide" target="_blank" style={{ color: "#000", textDecoration: "underline" }}>
-                        Size Guide ?
+                        Size Guide
                     </Link>
                 </p>
 
@@ -96,13 +96,13 @@ function SizePickerModal({
                         cursor: selected ? "pointer" : "not-allowed", transition: "background .2s",
                     }}
                 >
-                    {selected ? `Add to Bag  ${selected}` : "Select a Size"}
+                    {selected ? `Add to Bag - ${selected}` : "Select a Size"}
                 </button>
                 <button
                     onClick={() => onConfirm("")}
                     style={{ width: "100%", background: "none", border: "none", marginTop: "8px", fontSize: "11px", color: "#999", cursor: "pointer", textDecoration: "underline", fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}
                 >
-                    Skip  add without size
+                    Skip & add without size
                 </button>
             </div>
         </div>
@@ -145,6 +145,11 @@ export default function WishlistPage() {
             quantity: 1, image: item.image,
             size: size || undefined, color: undefined,
         });
+
+        // Remove item from wishlist after adding to cart
+        removeFromWishlist(item.productId);
+        setItems(getWishlist()); // Update local state
+
         window.dispatchEvent(new Event("cart-updated"));
         window.dispatchEvent(new Event("open-cart-drawer"));
         setSizePickerItem(null);
@@ -161,6 +166,11 @@ export default function WishlistPage() {
                 size: undefined, color: undefined,
             });
         });
+
+        // Clear all items from wishlist after adding to cart
+        clearWishlist();
+        setItems([]);
+
         window.dispatchEvent(new Event("cart-updated"));
         window.dispatchEvent(new Event("open-cart-drawer"));
     };
@@ -357,7 +367,7 @@ function WishlistCard({
                     />
                 )}
 
-                {/* Remove × */}
+                {/* Remove X */}
                 <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setRemoving(true); setTimeout(() => onRemove(item.productId), 250); }}
                     aria-label="Remove from wishlist"
@@ -375,7 +385,7 @@ function WishlistCard({
                     </svg>
                 </button>
 
-                {/* Add to bag bar  visible on hover on desktop, always visible on touch */}
+                {/* Add to bag bar Â— visible on hover on desktop, always visible on touch */}
                 <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToBag(item); }}
                     style={{
@@ -406,7 +416,7 @@ function WishlistCard({
                     {item.name}
                 </Link>
                 <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}>{fmtNaira(item.price)}</p>
-                {/* Mobile add-to-bag button  always visible */}
+                {/* Mobile add-to-bag button Â— always visible */}
                 <button
                     onClick={() => onAddToBag(item)}
                     style={{ marginTop: "8px", width: "100%", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px", border: "none", cursor: "pointer", display: "none" }}
@@ -485,3 +495,5 @@ function WishlistListRow({
         </div>
     );
 }
+
+

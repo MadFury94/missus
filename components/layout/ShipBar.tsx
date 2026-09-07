@@ -6,7 +6,7 @@ export default function ShipBar() {
             Spend ₦150,000 or more to unlock{" "}
             <Link href="/shop" style={{ fontWeight: 700, textDecoration: "underline", color: "#000" }}>FREE SHIPPING!</Link>
             {"  "}
-            <Link href="/new-in" style={{ fontWeight: 700, textDecoration: "underline", color: "#000" }}>Shop New →</Link>
+            <Link href="/new-in" style={{ fontWeight: 700, textDecoration: "underline", color: "#000" }}>Shop New</Link>
         </div>
     );
 }

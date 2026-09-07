@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
@@ -203,7 +203,7 @@ export default function ShopPage() {
             </div>
 
             <div className="shop-layout">
-                {/* Sidebar  desktop only */}
+                {/* Sidebar Â— desktop only */}
                 <aside className="shop-sidebar-desktop" style={{ position: "sticky", top: "52px" }} aria-label="Product filters">
                     <FilterSidebar filters={filters} onChange={setFilters} />
                 </aside>
@@ -256,25 +256,25 @@ export default function ShopPage() {
                             {filters.category && (
                                 <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #000", padding: "3px 10px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
                                     {filters.category?.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()) ?? ""}
-                                    <button aria-label="Remove category filter" onClick={() => setFilters((f) => ({ ...f, category: undefined }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>×</button>
+                                    <button aria-label="Remove category filter" onClick={() => setFilters((f) => ({ ...f, category: undefined }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>X</button>
                                 </span>
                             )}
                             {filters.sizes?.map((s) => (
                                 <span key={s} style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #000", padding: "3px 10px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
                                     {s}
-                                    <button aria-label={`Remove size ${s}`} onClick={() => setFilters((f) => ({ ...f, sizes: f.sizes?.filter((x) => x !== s) }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>×</button>
+                                    <button aria-label={`Remove size ${s}`} onClick={() => setFilters((f) => ({ ...f, sizes: f.sizes?.filter((x) => x !== s) }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>X</button>
                                 </span>
                             ))}
                             {filters.colors?.map((c) => (
                                 <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #000", padding: "3px 10px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
                                     {c}
-                                    <button aria-label={`Remove colour ${c}`} onClick={() => setFilters((f) => ({ ...f, colors: f.colors?.filter((x) => x !== c) }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>×</button>
+                                    <button aria-label={`Remove colour ${c}`} onClick={() => setFilters((f) => ({ ...f, colors: f.colors?.filter((x) => x !== c) }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>X</button>
                                 </span>
                             ))}
                             {filters.minPrice !== undefined && (
                                 <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", border: "1px solid #000", padding: "3px 10px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
                                     Price filter
-                                    <button aria-label="Remove price filter" onClick={() => setFilters((f) => ({ ...f, minPrice: undefined, maxPrice: undefined }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>×</button>
+                                    <button aria-label="Remove price filter" onClick={() => setFilters((f) => ({ ...f, minPrice: undefined, maxPrice: undefined }))} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, fontSize: "14px" }}>X</button>
                                 </span>
                             )}
                             <button onClick={() => setFilters({ perPage: filters.perPage })} style={{ fontSize: "11px", color: "#767676", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", fontFamily: "'Barlow', sans-serif" }}>Clear all</button>
@@ -318,7 +318,7 @@ export default function ShopPage() {
                     <div className="filter-drawer-panel" role="dialog" aria-label="Filters" aria-modal="true">
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 0 8px", position: "sticky", top: 0, background: "#fff", zIndex: 1 }}>
                             <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>Filter & Sort</span>
-                            <button onClick={() => setFilterOpen(false)} aria-label="Close filters" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", lineHeight: 1, color: "#000" }}>×</button>
+                            <button onClick={() => setFilterOpen(false)} aria-label="Close filters" style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", lineHeight: 1, color: "#000" }}>X</button>
                         </div>
                         <FilterSidebar filters={filters} onChange={(f) => { setFilters(f); }} />
                         <div style={{ position: "sticky", bottom: 0, background: "#fff", padding: "12px 0 0" }}>
@@ -332,3 +332,4 @@ export default function ShopPage() {
         </>
     );
 }
+

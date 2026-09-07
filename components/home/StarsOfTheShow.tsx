@@ -18,7 +18,7 @@ export default function StarsOfTheShow({ products }: { products: StoreProduct[] 
                     </span>
                 </div>
                 <Link href="/shop?orderby=popularity" style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#fff", textDecoration: "underline" }}>
-                    View All →
+                    View All
                 </Link>
             </div>
 

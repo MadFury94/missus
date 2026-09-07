@@ -65,6 +65,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const [isWished, setIsWished] = useState(false);
     const [adding, setAdding] = useState(false);
     const [sizePickerOpen, setSizePickerOpen] = useState(false);
+    const [selectedSize, setSelectedSize] = useState<string>("");
 
     useEffect(() => {
         setIsWished(isInWishlist(product.id));
@@ -136,17 +137,34 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                 <p style={{ fontFamily: "var(--font-body)", fontSize: "11px", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#aaa", marginBottom: "2px" }}>Select Size</p>
                                 <p style={{ fontFamily: "var(--font-body)", fontSize: "13px", fontWeight: 600, color: "#000", lineHeight: 1.3 }}>{product.name}</p>
                             </div>
-                            <button onClick={() => setSizePickerOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "24px", lineHeight: 1, padding: "0 0 0 12px" }}>x</button>
+                            <button onClick={() => setSizePickerOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "24px", lineHeight: 1, padding: "0 0 0 12px" }}>X</button>
                         </div>
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px" }}>
                             {sizes.map((s) => (
                                 <button
                                     key={s}
                                     onClick={() => doAddToCart(s)}
-                                    style={{ minWidth: "52px", height: "42px", padding: "0 12px", border: "1.5px solid #000", background: "#fff", color: "#000", fontFamily: "var(--font-body)", fontSize: "13px", fontWeight: 600, cursor: "pointer", transition: "all .15s" }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.background = "#000"; e.currentTarget.style.color = "#fff"; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#000"; }}
+                                    style={{
+                                        minWidth: "52px",
+                                        height: "42px",
+                                        padding: "0 12px",
+                                        border: "1.5px solid #000",
+                                        background: "#000",
+                                        color: "#fff",
+                                        fontFamily: "var(--font-body)",
+                                        fontSize: "13px",
+                                        fontWeight: 600,
+                                        cursor: "pointer",
+                                        transition: "all .15s",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        gap: "6px"
+                                    }}
                                 >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path d="M19.5 8.25H16.5V7.75C16.5 6.55653 16.0259 5.41193 15.182 4.56802C14.3381 3.72411 13.1935 3.25 12 3.25C10.8065 3.25 9.66193 3.72411 8.81802 4.56802C7.97411 5.41193 7.5 6.55653 7.5 7.75V8.25H4.5C4.16848 8.25 3.85054 8.3817 3.61612 8.61612C3.3817 8.85054 3.25 9.16848 3.25 9.5V18C3.25 18.7293 3.53973 19.4288 4.05546 19.9445C4.57118 20.4603 5.27065 20.75 6 20.75H18C18.7293 20.75 19.4288 20.4603 19.9445 19.9445C20.4603 19.4288 20.75 18.7293 20.75 18V9.5C20.75 9.16848 20.6183 8.85054 20.3839 8.61612C20.1495 8.3817 19.8315 8.25 19.5 8.25ZM9 7.75C9 6.95435 9.31607 6.19129 9.87868 5.62868C10.4413 5.06607 11.2044 4.75 12 4.75C12.7956 4.75 13.5587 5.06607 14.1213 5.62868C14.6839 6.19129 15 6.95435 15 7.75V8.25H9V7.75ZM19.25 18C19.25 18.3315 19.1183 18.6495 18.8839 18.8839C18.6495 19.1183 18.3315 19.25 18 19.25H6C5.66848 19.25 5.35054 19.1183 5.11612 18.8839C4.8817 18.6495 4.75 18.3315 4.75 18V9.75H7.5V12C7.5 12.1989 7.57902 12.3897 7.71967 12.5303C7.86032 12.671 8.05109 12.75 8.25 12.75C8.44891 12.75 8.63968 12.671 8.78033 12.5303C8.92098 12.3897 9 12.1989 9 12V9.75H15V12C15 12.1989 15.079 12.3897 15.2197 12.5303C15.3603 12.671 15.5511 12.75 15.75 12.75C15.9489 12.75 16.1397 12.671 16.2803 12.5303C16.421 12.3897 16.5 12.1989 16.5 12V9.75H19.25V18Z" />
+                                    </svg>
                                     {s}
                                 </button>
                             ))}

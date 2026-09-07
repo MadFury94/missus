@@ -42,7 +42,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     <div style={{ fontFamily: T.serif, fontSize: 20, fontWeight: 700, color: "var(--sidebar-text)", letterSpacing: ".04em" }}>MISSUS</div>
                     <div style={{ fontFamily: T.sans, fontSize: 11, color: "var(--sidebar-text-dim)", marginTop: 2, letterSpacing: ".06em" }}>Admin</div>
                 </Link>
-                <button className="a-sb-close" onClick={() => setOpen(false)} style={{ display: "none", position: "absolute", top: 20, right: 16, background: "none", border: "none", color: "var(--sidebar-text-dim)", cursor: "pointer", fontSize: 20, lineHeight: 1 }}>×</button>
+                <button className="a-sb-close" onClick={() => setOpen(false)} style={{ display: "none", position: "absolute", top: 20, right: 16, background: "none", border: "none", color: "var(--sidebar-text-dim)", cursor: "pointer", fontSize: 20, lineHeight: 1 }}>X</button>
             </div>
 
             {/* Nav */}

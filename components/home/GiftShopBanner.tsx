@@ -73,7 +73,7 @@ export default function GiftShopBanner() {
                         paddingBottom: "3px",
                         transition: "color .2s",
                     }}>
-                        Shop Now →
+                        Shop Now
                     </span>
                 </div>
 

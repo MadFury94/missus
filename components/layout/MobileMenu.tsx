@@ -217,7 +217,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                             <div style={{ padding: "12px 20px 16px" }}>
                                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
                                     <span style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#aaa" }}>Select Currency</span>
-                                    <button onClick={() => setCurrencyOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "20px", lineHeight: 1, padding: 0 }}>×</button>
+                                    <button onClick={() => setCurrencyOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "20px", lineHeight: 1, padding: 0 }}>X</button>
                                 </div>
                                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
                                     {CURRENCIES.map((c) => (

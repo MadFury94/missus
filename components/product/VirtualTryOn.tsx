@@ -138,7 +138,7 @@ export default function VirtualTryOn({ productImage, productName, category }: Pr
                     aria-label="Close virtual try-on"
                     style={{ position: "absolute", top: "16px", right: "16px", background: "#000", color: "#fff", border: "none", width: "32px", height: "32px", borderRadius: "50%", cursor: "pointer", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center" }}
                 >
-                    ×
+                    X
                 </button>
 
                 <div style={{ padding: "32px" }}>
