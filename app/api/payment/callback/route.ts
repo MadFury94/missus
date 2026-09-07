@@ -160,6 +160,20 @@ export async function GET(request: NextRequest) {
                 params.set("email", shipping.email);
             }
 
+            // Auto-dispatch shipment via Terminal Africa (fire-and-forget)
+            // rateId comes from Paystack metadata — set during checkout when customer picks a rate
+            const rateId = (() => {
+                try {
+                    return (JSON.parse(
+                        decodeURIComponent(reference.split("-").pop() ?? "")
+                    ) as { rateId?: string })?.rateId ?? "";
+                } catch { return ""; }
+            })();
+
+            // We'll pass the rateId via metadata instead — see checkout flow
+            // For now, log so we can verify the pipeline end-to-end
+            console.log(`[delivery] Order ${orderId} ready for dispatch. rateId from metadata needed.`);
+
             return NextResponse.redirect(
                 new URL(`/checkout/callback?${params.toString()}`, request.url)
             );

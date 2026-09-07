@@ -43,17 +43,23 @@ export default function HomepageContentPage() {
     const [saved, setSaved] = useState(false);
     const [saveError, setSaveError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState<string | null>(null);
 
     useEffect(() => {
         const u = getCurrentUser();
         if (!u || !isAdmin(u)) { router.push("/admin/login"); return; }
-        fetch("/api/admin/homepage")
-            .then((r) => r.json())
+        fetch("/api/admin/homepage", { cache: "no-store" })
+            .then(async (r) => {
+                const data = await r.json();
+                if (!r.ok) throw new Error(data.error || "Could not load homepage content.");
+                return data;
+            })
             .then((data) => {
                 if (data && Object.keys(data).length > 0) {
                     setContent({ ...HOMEPAGE_DEFAULTS, ...data });
                 }
             })
+            .catch((error) => setLoadError(error instanceof Error ? error.message : "Could not load homepage content."))
             .finally(() => setLoading(false));
     }, [router]);
 
@@ -64,6 +70,7 @@ export default function HomepageContentPage() {
 
     const save = async () => {
         setSaving(true);
+        setSaved(false);
         setSaveError(null);
         try {
             const currentUser = getCurrentUser();
@@ -80,6 +87,7 @@ export default function HomepageContentPage() {
                 setSaveError(data.error || "Save failed. Please try again.");
             } else {
                 setSaved(true);
+                router.refresh();
                 setTimeout(() => setSaved(false), 3000);
             }
         } catch {
@@ -90,6 +98,8 @@ export default function HomepageContentPage() {
     };
 
     if (loading) return <AdminLayout><div style={{ padding: "40px", textAlign: "center", color: "var(--stone)" }}>Loading…</div></AdminLayout>;
+
+    if (loadError) return <AdminLayout><div role="alert" style={{ padding: "40px", color: "#a00" }}>{loadError} Reload this page to retry before editing.</div></AdminLayout>;
 
     const SaveBtn = ({ bottom }: { bottom?: boolean }) => (
         <ABtn type="button" variant="primary" onClick={save} disabled={saving} style={{ fontSize: bottom ? 13 : 12, padding: bottom ? "9px 24px" : "7px 16px" }}>
@@ -104,13 +114,13 @@ export default function HomepageContentPage() {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
                     <div>
                         <h1 style={{ fontFamily: T.serif, fontSize: 24, fontWeight: 600, color: "var(--ink)", margin: "0 0 2px" }}>Homepage</h1>
-                        <p style={{ fontFamily: T.sans, fontSize: 13, color: "var(--stone)", margin: 0 }}>Edit homepage content — changes go live within 60 seconds</p>
+                        <p style={{ fontFamily: T.sans, fontSize: 13, color: "var(--stone)", margin: 0 }}>Edit homepage content — save changes to publish them</p>
                     </div>
                     <SaveBtn />
                 </div>
 
                 <div style={{ background: "rgba(184,137,46,.06)", border: "1px solid rgba(184,137,46,.25)", borderLeft: "3px solid var(--amber)", padding: "8px 14px", marginBottom: 20, borderRadius: "var(--admin-radius)", fontFamily: T.sans, fontSize: 12, color: "var(--ink)" }}>
-                    Changes are live immediately. The homepage refreshes every 60 seconds in production.
+                    After saving, reload the homepage to see your changes.
                 </div>
 
                 {saveError && (

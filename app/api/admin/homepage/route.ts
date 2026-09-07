@@ -1,165 +1,50 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { requireAdminAuth } from "@/lib/admin-auth";
-import fs from "fs";
-import path from "path";
+import { readHomepageContent, saveHomepageContent } from "@/lib/homepage-content.server";
+import type { HomepageContent } from "@/lib/homepage-content";
 
-const WP_API = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
-const WC_KEY = process.env.WC_CONSUMER_KEY;
-const WC_SECRET = process.env.WC_CONSUMER_SECRET;
-const WP_APP_PASSWORD = process.env.WP_APP_PASSWORD;
 const MAX_PAYLOAD_BYTES = 512 * 1024;
 
-// On Vercel (and serverless in general) only /tmp is writable.
-// In dev, write next to the project so it persists across restarts.
-const DATA_DIR = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
-    ? "/tmp"
-    : path.join(process.cwd(), "data");
-const DATA_FILE = path.join(DATA_DIR, "homepage-content.json");
-
-/** Write to local JSON file — primary storage in production, fallback in dev */
-function writeJsonFile(data: unknown) {
-    try {
-        if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
-    } catch (err) {
-        console.error("[homepage] writeJsonFile failed:", err);
-        throw err; // re-throw so the POST handler can respond with a real error
-    }
-}
-
-function readJsonFile(): Record<string, unknown> | null {
-    try {
-        if (!fs.existsSync(DATA_FILE)) return null;
-        const raw = fs.readFileSync(DATA_FILE, "utf-8");
-        const parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
-            return parsed;
-        }
-    } catch { /* ignore */ }
-    return null;
-}
-
-function wcAuth(): Record<string, string> {
-    const auth = Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString("base64");
-    return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
-}
-
-function wpAuth(): Record<string, string> {
-    if (WP_APP_PASSWORD) {
-        const colonIdx = WP_APP_PASSWORD.indexOf(":");
-        if (colonIdx !== -1) {
-            const username = WP_APP_PASSWORD.slice(0, colonIdx);
-            const password = WP_APP_PASSWORD.slice(colonIdx + 1).trim(); // keep internal spaces
-            const auth = Buffer.from(`${username}:${password}`).toString("base64");
-            return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
-        }
-    }
-    return wcAuth();
-}
-
-async function getPostId(): Promise<number | null> {
-    const endpoints = [
-        `${WP_API}/wp/v2/homepage-settings?per_page=1&_fields=id`,
-        `${WP_API}/wp/v2/homepage_settings?per_page=1&_fields=id`,
-    ];
-    for (const url of endpoints) {
-        try {
-            const res = await fetch(url, { headers: wcAuth(), cache: "no-store" });
-            if (res.ok) {
-                const posts = await res.json();
-                if (posts?.[0]?.id) return posts[0].id;
-            }
-        } catch { /* try next */ }
-    }
-    return null;
-}
-
 export async function GET() {
-    // Always try the local JSON file first — it's the authoritative source
-    // (written on every successful save, whether via WP or direct)
-    const saved = readJsonFile();
-    if (saved) return NextResponse.json(saved);
-
-    // Fallback: try WordPress ACF
     try {
-        const res = await fetch(`${WP_API}/wp/v2/homepage-settings?per_page=1&_fields=acf`, {
-            headers: wcAuth(),
-            cache: "no-store",
-        });
-        if (!res.ok) return NextResponse.json({});
-        const posts = await res.json();
-        if (!Array.isArray(posts) || posts.length === 0) return NextResponse.json({});
-
-        const acf = posts[0]?.acf ?? {};
-        const safeJson = (v: string, fallback: unknown) => { try { return JSON.parse(v); } catch { return fallback; } };
-
-        // Only return WP data if at least one field is non-empty
-        const hasData = Object.values(acf).some((v) => v && v !== "");
-        if (!hasData) return NextResponse.json({});
-
-        return NextResponse.json({
-            announcement: acf.hp_announcement || "",
-            marquee: safeJson(acf.hp_marquee, []),
-            hero: safeJson(acf.hp_hero, []),
-            styleRadar: safeJson(acf.hp_style_radar, []),
-            newsletter: { heading: acf.hp_nl_heading || "", sub: acf.hp_nl_sub || "" },
-        });
-    } catch {
-        return NextResponse.json({});
+        return NextResponse.json(await readHomepageContent(), { headers: { "Cache-Control": "no-store" } });
+    } catch (error) {
+        return NextResponse.json({ error: error instanceof Error ? error.message : "Could not load homepage content." }, { status: 502 });
     }
+}
+
+function validContent(value: unknown): value is HomepageContent {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+    const content = value as HomepageContent;
+    const strings = (...values: unknown[]) => values.every(value => typeof value === "string");
+    return strings(content.announcement, content.newsletter?.heading, content.newsletter?.sub)
+        && Array.isArray(content.marquee) && content.marquee.every(item => strings(item))
+        && Array.isArray(content.hero) && content.hero.length > 0 && content.hero.every(slide => slide && strings(
+            slide.src, slide.label, slide.heading, slide.sub, slide.cta?.label, slide.cta?.href, slide.cta2?.label, slide.cta2?.href,
+        ))
+        && Array.isArray(content.styleRadar) && content.styleRadar.every(card => card && strings(card.title, card.href, card.img));
 }
 
 export async function POST(req: NextRequest) {
     const authError = await requireAdminAuth(req);
     if (authError) return authError;
-
-    const contentLength = req.headers.get("content-length");
-    if (contentLength && parseInt(contentLength) > MAX_PAYLOAD_BYTES) {
+    const raw = await req.text();
+    if (Buffer.byteLength(raw, "utf8") > MAX_PAYLOAD_BYTES) {
         return NextResponse.json({ error: "Payload too large." }, { status: 413 });
     }
-
+    let body: unknown;
+    try { body = JSON.parse(raw); } catch {
+        return NextResponse.json({ error: "Invalid JSON payload." }, { status: 400 });
+    }
+    if (!validContent(body)) return NextResponse.json({ error: "Invalid homepage content." }, { status: 400 });
     try {
-        const body = await req.json();
-        if (!body || typeof body !== "object" || Array.isArray(body)) {
-            return NextResponse.json({ error: "Invalid payload." }, { status: 400 });
-        }
-
-        // Always write to JSON file — this is our primary storage
-        // The homepage reads this file first on every request
-        writeJsonFile(body);
-        revalidatePath("/");
-
-        // Also attempt to sync to WordPress in the background (best-effort)
-        // Failure here does NOT fail the save — JSON file is the source of truth
-        const acfPayload = {
-            acf: {
-                hp_announcement: body.announcement ?? "",
-                hp_marquee: JSON.stringify(body.marquee ?? []),
-                hp_hero: JSON.stringify(body.hero ?? []),
-                hp_style_radar: JSON.stringify(body.styleRadar ?? []),
-                hp_nl_heading: body.newsletter?.heading ?? "",
-                hp_nl_sub: body.newsletter?.sub ?? "",
-            },
-        };
-
-        (async () => {
-            try {
-                const postId = await getPostId();
-                if (!postId) return;
-                await fetch(`${WP_API}/wp/v2/homepage-settings/${postId}`, {
-                    method: "POST",
-                    headers: wpAuth(),
-                    body: JSON.stringify(acfPayload),
-                    signal: AbortSignal.timeout(8000),
-                });
-            } catch { /* WP sync is optional — JSON file is already written */ }
-        })();
-
-        return NextResponse.json({ ok: true, source: "json_file" });
-    } catch (err) {
-        console.error("[homepage POST] error:", err);
-        const msg = err instanceof Error ? err.message : "Failed to save.";
-        return NextResponse.json({ error: msg }, { status: 500 });
+        await saveHomepageContent(body);
+        // The announcement is rendered in the root layout across the storefront.
+        revalidatePath("/", "layout");
+        return NextResponse.json({ ok: true, source: "wordpress" });
+    } catch (error) {
+        console.error("[homepage POST]", error);
+        return NextResponse.json({ error: error instanceof Error ? error.message : "Failed to save homepage content." }, { status: 502 });
     }
 }
