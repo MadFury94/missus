@@ -157,6 +157,7 @@ export default function CallbackContent() {
                     max-width: 960px;
                     margin: 0 auto;
                     padding: 40px 24px 80px;
+                    align-items: start;
                 }
                 .skeleton {
                     background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
@@ -164,9 +165,20 @@ export default function CallbackContent() {
                     animation: shimmer 1.4s infinite;
                     border-radius: 4px;
                 }
+                /* On mobile: single column, left col (map/details) first, order summary below */
                 @media (max-width: 768px) {
-                    .confirm-grid { grid-template-columns: 1fr; padding: 24px 16px 60px; }
-                    .confirm-order-col { order: -1; }
+                    .confirm-grid {
+                        grid-template-columns: 1fr;
+                        padding: 20px 16px 60px;
+                        gap: 16px;
+                    }
+                    .confirm-order-col {
+                        order: 2;
+                        position: static !important;
+                    }
+                    .confirm-left-col {
+                        order: 1;
+                    }
                 }
             `}</style>
 
@@ -196,7 +208,7 @@ export default function CallbackContent() {
                 <div className="confirm-grid">
 
                     {/* LEFT — map + details + CTAs */}
-                    <div>
+                    <div className="confirm-left-col">
                         {/* Map */}
                         {(shippingAddr || cityParam) && (
                             <div style={{ background: "#fff", border: "1px solid #e8e8e8", marginBottom: "16px", overflow: "hidden" }}>
