@@ -42,8 +42,8 @@ interface OrderDetail {
         image: string | null;
         meta_data: { key: string; value: string }[];
     }[];
-    billing: { first_name: string; last_name: string; email: string; phone: string; address_1: string; city: string; state: string };
-    shipping: { first_name: string; last_name: string; address_1: string; city: string; state: string };
+    billing: { first_name: string; last_name: string; email: string; phone: string; address_1: string; city: string; state: string; postcode: string; country: string };
+    shipping: { first_name: string; last_name: string; address_1: string; city: string; state: string; postcode: string; country: string };
 }
 
 export default function OrderDetailPage() {
@@ -407,8 +407,8 @@ function OrderDetailContent() {
                         <p style={{ fontSize: "13px", color: "#000", lineHeight: 1.8 }}>
                             {order.shipping.first_name} {order.shipping.last_name}<br />
                             {order.shipping.address_1}<br />
-                            {order.shipping.city}, {order.shipping.state}<br />
-                            Nigeria
+                            {order.shipping.city}, {order.shipping.state} {order.shipping.postcode}<br />
+                            {order.shipping.country || "Nigeria"}
                         </p>
                         {order.customer_note && (
                             <div style={{ marginTop: "12px", padding: "10px 12px", background: "#f8f8f8", borderLeft: "2px solid #e8e8e8" }}>

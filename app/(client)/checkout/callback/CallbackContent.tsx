@@ -29,6 +29,8 @@ interface ConfirmationOrder {
         address_1: string;
         city: string;
         state: string;
+        postcode: string;
+        country: string;
     };
     shipping: {
         first_name: string;
@@ -36,6 +38,8 @@ interface ConfirmationOrder {
         address_1: string;
         city: string;
         state: string;
+        postcode: string;
+        country: string;
     };
 }
 
@@ -136,10 +140,12 @@ export default function CallbackContent() {
     const shippingAddr = order?.shipping?.address_1 || addressParam || "";
     const shippingCity = order?.shipping?.city || cityParam || "";
     const shippingState = order?.shipping?.state || stateParam || "";
+    const shippingPostcode = order?.shipping?.postcode || "";
+    const shippingCountry = order?.shipping?.country || "Nigeria";
     const shippingName = order
         ? `${order.shipping.first_name} ${order.shipping.last_name}`
         : nameParam || "";
-    const fullAddress = [shippingAddr, shippingCity, shippingState, "Nigeria"].filter(Boolean).join(", ");
+    const fullAddress = [shippingAddr, shippingCity, shippingState, shippingPostcode, shippingCountry].filter(Boolean).join(", ");
     const mapQuery = encodeURIComponent(fullAddress || "Lagos, Nigeria");
 
     const fmt = (amount: string) =>
@@ -259,7 +265,10 @@ export default function CallbackContent() {
                                     <div>
                                         <p style={{ fontSize: "11px", fontWeight: 600, color: "#aaa", letterSpacing: ".06em", textTransform: "uppercase", marginBottom: "4px" }}>Shipping Address</p>
                                         <p style={{ fontSize: "13px", color: "#333", lineHeight: 1.5 }}>
-                                            {shippingName}<br />{shippingAddr}<br />{shippingCity}, {shippingState}
+                                            {shippingName}<br />
+                                            {shippingAddr}<br />
+                                            {shippingCity}, {shippingState} {shippingPostcode}<br />
+                                            {shippingCountry}
                                         </p>
                                     </div>
                                 )}

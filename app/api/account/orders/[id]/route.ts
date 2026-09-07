@@ -72,6 +72,8 @@ export async function GET(
             address_1: (o.billing as Record<string, string>)?.address_1,
             city: (o.billing as Record<string, string>)?.city,
             state: (o.billing as Record<string, string>)?.state,
+            postcode: (o.billing as Record<string, string>)?.postcode,
+            country: (o.billing as Record<string, string>)?.country,
         },
         shipping: {
             first_name: (o.shipping as Record<string, string>)?.first_name,
@@ -79,6 +81,8 @@ export async function GET(
             address_1: (o.shipping as Record<string, string>)?.address_1,
             city: (o.shipping as Record<string, string>)?.city,
             state: (o.shipping as Record<string, string>)?.state,
+            postcode: (o.shipping as Record<string, string>)?.postcode,
+            country: (o.shipping as Record<string, string>)?.country,
         },
     });
 }
