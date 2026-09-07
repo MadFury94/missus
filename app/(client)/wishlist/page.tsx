@@ -326,7 +326,7 @@ export default function WishlistPage() {
             {/* -- Footer CTA -- */}
             <div style={{ marginTop: "48px", paddingTop: "24px", borderTop: "1px solid #e8e8e8", textAlign: "center" }}>
                 <p style={{ fontSize: "13px", color: "#767676", marginBottom: "14px" }}>Want to discover more?</p>
-                <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "13px 40px", textDecoration: "none" }}>
+                <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "13px 40px", textDecoration: "none", borderRadius: "999px" }}>
                     Continue Shopping
                 </Link>
             </div>

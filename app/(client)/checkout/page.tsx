@@ -28,7 +28,7 @@ export default function CheckoutPage() {
     const [form, setForm] = useState({
         firstName: "", lastName: "", email: "", phone: "",
         address: "", apartment: "", city: "", state: "", postalCode: "",
-        notes: "", newsletter: false, textUpdates: false,
+        country: "Nigeria", notes: "", newsletter: false, textUpdates: false,
     });
 
     // UI state
@@ -204,13 +204,39 @@ export default function CheckoutPage() {
             `}</style>
 
             {/* Mobile Header & Collapsible Order Summary */}
-            <div className="mobile-layout" style={{ background: "#fff", borderBottom: "1px solid #e5e5e5", padding: "20px 0" }}>
+            <div className="mobile-layout" style={{ background: "#000", padding: "16px 0", borderBottom: "1px solid #333" }}>
                 <div className="checkout-container" style={{ maxWidth: "480px", margin: "0 auto", padding: "0 24px" }}>
-                    {/* Logo */}
-                    <div style={{ textAlign: "center", marginBottom: "24px" }}>
-                        <Link href="/" style={{ display: "inline-block", fontFamily: "'Cormorant', serif", fontSize: "28px", fontWeight: 600, color: "#000", textDecoration: "none", letterSpacing: ".02em" }}>
-                            MISSUS
+                    {/* Header with security indicator */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+                        <Link href="/" style={{ display: "flex", alignItems: "center", padding: "8px 12px", background: "#fff", borderRadius: "4px" }}>
+                            <Image src="/missus-logo.webp" alt="MISSUS" width={100} height={32} style={{ height: "auto" }} />
                         </Link>
+                        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                            {/* Security indicator */}
+                            <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#10b981", fontSize: "11px", fontWeight: 500 }}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 1l3.09 6.26L22 9l-5 4.87L18.18 21L12 17.77L5.82 21L7 13.87L2 9l6.91-1.74L12 1z" />
+                                </svg>
+                                SECURE
+                            </div>
+                            {/* Cart with better styling */}
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px", background: "#fff", color: "#000", padding: "6px 12px", borderRadius: "20px", fontSize: "12px", fontWeight: 600 }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                    <path d="M6 9h12l-1.5 10H7.5L6 9z" />
+                                    <path d="M9 9V7a3 3 0 0 1 6 0v2" />
+                                </svg>
+                                {cart.items.reduce((sum, item) => sum + item.quantity, 0)} ITEMS
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Progress indicator */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
+                        <div style={{ flex: 1, height: "2px", background: "#fff", borderRadius: "1px" }}></div>
+                        <span style={{ color: "#fff", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>CHECKOUT</span>
+                        <div style={{ flex: 1, height: "2px", background: "#333", borderRadius: "1px" }}></div>
+                        <span style={{ color: "#666", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>PAYMENT</span>
+                        <div style={{ flex: 1, height: "2px", background: "#333", borderRadius: "1px" }}></div>
                     </div>
 
                     {/* Collapsible Order Summary */}
@@ -232,12 +258,31 @@ export default function CheckoutPage() {
                                 {/* Items */}
                                 <div style={{ marginBottom: "20px" }}>
                                     {cart.items.map((item) => (
-                                        <div key={`${item.productId}-${item.size}`} style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
+                                        <div key={`${item.productId}-${item.size}`} style={{ display: "flex", gap: "12px", marginBottom: "16px", position: "relative" }}>
                                             <div style={{ position: "relative", width: "60px", height: "60px", background: "#fff", border: "1px solid #e5e5e5", borderRadius: "8px", overflow: "hidden", flexShrink: 0 }}>
                                                 <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} sizes="60px" />
-                                                <div style={{ position: "absolute", top: "-6px", right: "-6px", width: "20px", height: "20px", borderRadius: "50%", background: "#666", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 600 }}>
-                                                    {item.quantity}
-                                                </div>
+                                            </div>
+                                            <div style={{
+                                                position: "absolute",
+                                                top: "-8px",
+                                                right: "auto",
+                                                left: "52px",
+                                                width: "24px",
+                                                height: "24px",
+                                                borderRadius: "50%",
+                                                background: "#1a1a1a",
+                                                color: "#ffffff",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontSize: "12px",
+                                                fontWeight: 700,
+                                                border: "2px solid #ffffff",
+                                                boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                                                zIndex: 100,
+                                                lineHeight: "1"
+                                            }}>
+                                                {item.quantity}
                                             </div>
                                             <div style={{ flex: 1 }}>
                                                 <p style={{ fontSize: "14px", fontWeight: 500, color: "#000", marginBottom: "4px" }}>{item.name}</p>
@@ -304,18 +349,50 @@ export default function CheckoutPage() {
             </div>
 
             {/* Desktop Header */}
-            <div className="desktop-layout" style={{ background: "#fff", borderBottom: "1px solid #e5e5e5", padding: "20px 0" }}>
-                <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
-                    <Link href="/" style={{ display: "inline-block", fontFamily: "'Cormorant', serif", fontSize: "32px", fontWeight: 600, color: "#000", textDecoration: "none", letterSpacing: ".02em" }}>
-                        MISSUS
-                    </Link>
+            <div className="desktop-layout" style={{ background: "#000", padding: "20px 0", borderBottom: "1px solid #333" }}>
+                <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
+                    {/* Header row */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+                        <Link href="/" style={{ display: "flex", alignItems: "center", padding: "12px 16px", background: "#fff", borderRadius: "6px" }}>
+                            <Image src="/missus-logo.webp" alt="MISSUS" width={120} height={40} style={{ height: "auto" }} />
+                        </Link>
+                        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                            {/* Security indicator */}
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#10b981", fontSize: "12px", fontWeight: 600 }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z" />
+                                    <circle cx="9" cy="9" r="1" />
+                                </svg>
+                                SECURE CHECKOUT
+                            </div>
+                            {/* Cart */}
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#fff", color: "#000", padding: "10px 16px", borderRadius: "25px", fontSize: "14px", fontWeight: 600 }}>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                    <path d="M6 9h12l-1.5 10H7.5L6 9z" />
+                                    <path d="M9 9V7a3 3 0 0 1 6 0v2" />
+                                </svg>
+                                {cart.items.reduce((sum, item) => sum + item.quantity, 0)} ITEMS
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Progress indicator */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                        <div style={{ flex: 1, height: "3px", background: "#fff", borderRadius: "2px" }}></div>
+                        <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>INFORMATION</span>
+                        <div style={{ flex: 1, height: "3px", background: "#333", borderRadius: "2px" }}></div>
+                        <span style={{ color: "#666", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>PAYMENT</span>
+                        <div style={{ flex: 1, height: "3px", background: "#333", borderRadius: "2px" }}></div>
+                        <span style={{ color: "#666", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>COMPLETE</span>
+                        <div style={{ flex: 1, height: "3px", background: "#333", borderRadius: "2px" }}></div>
+                    </div>
                 </div>
             </div>
 
             {/* Mobile Checkout Form */}
             <div className="mobile-layout">
-                <div className="checkout-container" style={{ maxWidth: "480px", margin: "0 auto", padding: "0 24px 40px" }}>
-                    <div className="checkout-form" style={{ background: "#fff", borderRadius: "8px", padding: "32px", marginTop: "24px", border: "1px solid #e5e5e5" }}>
+                <div className="checkout-container" style={{ maxWidth: "480px", margin: "0 auto", padding: "0 24px 60px", background: "#f8f9fa", minHeight: "100vh" }}>
+                    <div className="checkout-form" style={{ background: "transparent", borderRadius: "0", padding: "24px 0", marginTop: "0", border: "none" }}>
 
                         <form onSubmit={handleSubmit}>
                             {/* Contact */}
@@ -327,24 +404,50 @@ export default function CheckoutPage() {
                                     </Link>
                                 </div>
 
-                                <input
-                                    name="email"
-                                    type="email"
-                                    value={form.email}
-                                    onChange={handleChange}
-                                    placeholder="Email"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "6px",
-                                        padding: "14px 16px",
-                                        fontSize: "14px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "12px"
-                                    }}
-                                />
+                                <div style={{ position: "relative", marginBottom: "12px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.email ? "-6px" : "50%",
+                                        transform: form.email ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 4px",
+                                        fontSize: form.email ? "11px" : "14px",
+                                        color: form.email ? "#6366f1" : "#666",
+                                        fontWeight: form.email ? 500 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Email address
+                                    </label>
+                                    <input
+                                        name="email"
+                                        type="email"
+                                        value={form.email}
+                                        onChange={handleChange}
+                                        required
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            fontSize: "14px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease",
+                                            background: "#fff"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                </div>
 
                                 <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "#666", cursor: "pointer" }}>
                                     <input
@@ -360,161 +463,401 @@ export default function CheckoutPage() {
                             <div style={{ marginBottom: "24px" }}>
                                 <h2 style={{ fontSize: "18px", fontWeight: 600, color: "#000", marginBottom: "16px" }}>Delivery</h2>
 
-                                <select
-                                    name="country"
-                                    defaultValue="Nigeria"
-                                    disabled
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "6px",
-                                        padding: "14px 16px",
-                                        fontSize: "14px",
-                                        background: "#f9f9f9",
-                                        marginBottom: "12px",
-                                        boxSizing: "border-box"
-                                    }}
-                                >
-                                    <option>Nigeria</option>
-                                </select>
-
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "12px" }}>
-                                    <input
-                                        name="firstName"
-                                        value={form.firstName}
-                                        onChange={handleChange}
-                                        placeholder="First name"
-                                        required
-                                        style={{
-                                            border: "1px solid #d9d9d9",
-                                            borderRadius: "6px",
-                                            padding: "14px 16px",
-                                            fontSize: "14px",
-                                            outline: "none",
-                                            boxSizing: "border-box"
-                                        }}
-                                    />
-                                    <input
-                                        name="lastName"
-                                        value={form.lastName}
-                                        onChange={handleChange}
-                                        placeholder="Last name"
-                                        required
-                                        style={{
-                                            border: "1px solid #d9d9d9",
-                                            borderRadius: "6px",
-                                            padding: "14px 16px",
-                                            fontSize: "14px",
-                                            outline: "none",
-                                            boxSizing: "border-box"
-                                        }}
-                                    />
-                                </div>
-
-                                <input
-                                    name="address"
-                                    value={form.address}
-                                    onChange={handleChange}
-                                    placeholder="Address"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "6px",
-                                        padding: "14px 16px",
-                                        fontSize: "14px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "12px"
-                                    }}
-                                />
-
-                                <input
-                                    name="apartment"
-                                    value={form.apartment}
-                                    onChange={handleChange}
-                                    placeholder="Apartment, suite, etc. (optional)"
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "6px",
-                                        padding: "14px 16px",
-                                        fontSize: "14px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "12px"
-                                    }}
-                                />
-
-                                <input
-                                    name="city"
-                                    value={form.city}
-                                    onChange={handleChange}
-                                    placeholder="City"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "6px",
-                                        padding: "14px 16px",
-                                        fontSize: "14px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "12px"
-                                    }}
-                                />
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "12px" }}>
+                                <div style={{ position: "relative", marginBottom: "12px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: "-6px",
+                                        background: "#fff",
+                                        padding: "0 4px",
+                                        fontSize: "11px",
+                                        color: "#666",
+                                        fontWeight: 500,
+                                        zIndex: 1
+                                    }}>
+                                        Country
+                                    </label>
                                     <select
-                                        name="state"
-                                        value={form.state}
+                                        name="country"
+                                        value={form.country || "Nigeria"}
                                         onChange={handleChange}
-                                        required
                                         style={{
-                                            border: "1px solid #d9d9d9",
-                                            borderRadius: "6px",
-                                            padding: "14px 16px",
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
                                             fontSize: "14px",
                                             background: "#fff",
-                                            boxSizing: "border-box"
+                                            boxSizing: "border-box",
+                                            color: "#000",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
                                         }}
                                     >
-                                        <option value="">State</option>
-                                        {STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                                        <option value="Nigeria">Nigeria</option>
+                                        <option value="Ghana">Ghana</option>
+                                        <option value="Kenya">Kenya</option>
+                                        <option value="South Africa">South Africa</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="United States">United States</option>
+                                        <option value="Canada">Canada</option>
                                     </select>
+                                </div>
+
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "12px" }}>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.firstName ? "-6px" : "50%",
+                                            transform: form.firstName ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 4px",
+                                            fontSize: form.firstName ? "11px" : "14px",
+                                            color: form.firstName ? "#6366f1" : "#666",
+                                            fontWeight: form.firstName ? 500 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            First name
+                                        </label>
+                                        <input
+                                            name="firstName"
+                                            value={form.firstName}
+                                            onChange={handleChange}
+                                            required
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "14px",
+                                                outline: "none",
+                                                boxSizing: "border-box",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        />
+                                    </div>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.lastName ? "-6px" : "50%",
+                                            transform: form.lastName ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 4px",
+                                            fontSize: form.lastName ? "11px" : "14px",
+                                            color: form.lastName ? "#6366f1" : "#666",
+                                            fontWeight: form.lastName ? 500 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            Last name
+                                        </label>
+                                        <input
+                                            name="lastName"
+                                            value={form.lastName}
+                                            onChange={handleChange}
+                                            required
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "14px",
+                                                outline: "none",
+                                                boxSizing: "border-box",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div style={{ position: "relative", marginBottom: "12px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.address ? "-6px" : "50%",
+                                        transform: form.address ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 4px",
+                                        fontSize: form.address ? "11px" : "14px",
+                                        color: form.address ? "#6366f1" : "#666",
+                                        fontWeight: form.address ? 500 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Address
+                                    </label>
                                     <input
-                                        name="postalCode"
-                                        value={form.postalCode}
+                                        name="address"
+                                        value={form.address}
                                         onChange={handleChange}
-                                        placeholder="Postal code"
+                                        required
                                         style={{
-                                            border: "1px solid #d9d9d9",
-                                            borderRadius: "6px",
-                                            padding: "14px 16px",
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
                                             fontSize: "14px",
                                             outline: "none",
-                                            boxSizing: "border-box"
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
                                         }}
                                     />
                                 </div>
 
-                                <input
-                                    name="phone"
-                                    type="tel"
-                                    value={form.phone}
-                                    onChange={handleChange}
-                                    placeholder="Phone"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "6px",
-                                        padding: "14px 16px",
-                                        fontSize: "14px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "12px"
-                                    }}
-                                />
+                                <div style={{ position: "relative", marginBottom: "12px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.apartment ? "-6px" : "50%",
+                                        transform: form.apartment ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 4px",
+                                        fontSize: form.apartment ? "11px" : "14px",
+                                        color: form.apartment ? "#6366f1" : "#666",
+                                        fontWeight: form.apartment ? 500 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Apartment, suite, etc. (optional)
+                                    </label>
+                                    <input
+                                        name="apartment"
+                                        value={form.apartment}
+                                        onChange={handleChange}
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            fontSize: "14px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                </div>
+
+                                <div style={{ position: "relative", marginBottom: "12px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.city ? "-6px" : "50%",
+                                        transform: form.city ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 4px",
+                                        fontSize: form.city ? "11px" : "14px",
+                                        color: form.city ? "#6366f1" : "#666",
+                                        fontWeight: form.city ? 500 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        City
+                                    </label>
+                                    <input
+                                        name="city"
+                                        value={form.city}
+                                        onChange={handleChange}
+                                        required
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            fontSize: "14px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "12px" }}>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.state ? "-6px" : "50%",
+                                            transform: form.state ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 4px",
+                                            fontSize: form.state ? "11px" : "14px",
+                                            color: form.state ? "#6366f1" : "#666",
+                                            fontWeight: form.state ? 500 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            State
+                                        </label>
+                                        <select
+                                            name="state"
+                                            value={form.state}
+                                            onChange={handleChange}
+                                            required
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "14px",
+                                                background: "#fff",
+                                                boxSizing: "border-box",
+                                                outline: "none",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        >
+                                            <option value=""></option>
+                                            {STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                                        </select>
+                                    </div>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.postalCode ? "-6px" : "50%",
+                                            transform: form.postalCode ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 4px",
+                                            fontSize: form.postalCode ? "11px" : "14px",
+                                            color: form.postalCode ? "#6366f1" : "#666",
+                                            fontWeight: form.postalCode ? 500 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            Postal code
+                                        </label>
+                                        <input
+                                            name="postalCode"
+                                            value={form.postalCode}
+                                            onChange={handleChange}
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "14px",
+                                                outline: "none",
+                                                boxSizing: "border-box",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div style={{ position: "relative", marginBottom: "12px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.phone ? "-6px" : "50%",
+                                        transform: form.phone ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 4px",
+                                        fontSize: form.phone ? "11px" : "14px",
+                                        color: form.phone ? "#6366f1" : "#666",
+                                        fontWeight: form.phone ? 500 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Phone
+                                    </label>
+                                    <input
+                                        name="phone"
+                                        type="tel"
+                                        value={form.phone}
+                                        onChange={handleChange}
+                                        required
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            fontSize: "14px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                </div>
 
                                 <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "#666", cursor: "pointer" }}>
                                     <input
@@ -606,10 +949,53 @@ export default function CheckoutPage() {
                                         />
                                         <CreditCard size={18} style={{ marginRight: "8px" }} />
                                         <span style={{ fontSize: "14px", fontWeight: 500 }}>Credit card</span>
-                                        <div style={{ marginLeft: "auto", display: "flex", gap: "4px" }}>
-                                            <div style={{ background: "#1a1f71", color: "#fff", padding: "2px 6px", borderRadius: "2px", fontSize: "10px", fontWeight: 600 }}>VISA</div>
-                                            <div style={{ background: "#eb001b", color: "#fff", padding: "2px 6px", borderRadius: "2px", fontSize: "10px", fontWeight: 600 }}>MC</div>
-                                            <div style={{ fontSize: "12px", color: "#666" }}>+5</div>
+                                        <div style={{ marginLeft: "auto", display: "flex", gap: "6px", alignItems: "center" }}>
+                                            {/* Visa */}
+                                            <div style={{
+                                                background: "#fff",
+                                                border: "1px solid #e5e5e5",
+                                                borderRadius: "4px",
+                                                padding: "4px 8px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: "24px"
+                                            }}>
+                                                <svg width="32" height="10" viewBox="0 0 32 10" fill="none">
+                                                    <path d="M13.3 8.7L15.1 1.3h2.8L16.1 8.7h-2.8zM23.1 1.3l-2.7 7.4h-2.8l1.4-7.4h2.8l.3 3.7L22.8 1.3h.3zM8.2 1.3L5.7 7.1 5.2 4.5 4.4 1.7c-.1-.4-.4-.4-.7-.4H0l0 .2c.7.1 1.4.4 1.9.7l2.3 6.2h2.9L10.9 1.3H8.2zM26.8 1.3c-.5 0-.9.3-1.1.7l-4.1 6.7h2.9l.6-1.6h3.6l.3 1.6h2.6L29.3 1.3h-2.5zm.4 2.1l.9 2.5h-2.3l1.4-2.5z" fill="#1434CB" />
+                                                </svg>
+                                            </div>
+
+                                            {/* Mastercard */}
+                                            <div style={{
+                                                background: "#fff",
+                                                border: "1px solid #e5e5e5",
+                                                borderRadius: "4px",
+                                                padding: "4px 8px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: "24px"
+                                            }}>
+                                                <svg width="24" height="14" viewBox="0 0 24 14" fill="none">
+                                                    <circle cx="7" cy="7" r="7" fill="#EB001B" />
+                                                    <circle cx="17" cy="7" r="7" fill="#F79E1B" fillOpacity="0.8" />
+                                                    <path d="M12 2.8c1.3 1.2 2.1 2.9 2.1 4.7s-.8 3.5-2.1 4.7c-1.3-1.2-2.1-2.9-2.1-4.7s.8-3.5 2.1-4.7z" fill="#FF5F00" />
+                                                </svg>
+                                            </div>
+
+                                            {/* Verve */}
+                                            <div style={{
+                                                background: "#fff",
+                                                border: "1px solid #e5e5e5",
+                                                borderRadius: "4px",
+                                                padding: "4px 6px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: "24px"
+                                            }}>
+                                                <span style={{ color: "#00425A", fontSize: "9px", fontWeight: 700, letterSpacing: "0.5px" }}>VERVE</span>
+                                            </div>
+
+                                            <span style={{ fontSize: "11px", color: "#6b7280", fontWeight: 500 }}>& more</span>
                                         </div>
                                     </label>
                                     <label
@@ -668,111 +1054,123 @@ export default function CheckoutPage() {
             </div>
 
             {/* Desktop Layout */}
-            <div className="desktop-layout" style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 24px" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 400px", gap: "60px", alignItems: "start" }}>
+            <div className="desktop-layout" style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 24px 80px", background: "#f8f9fa", minHeight: "100vh" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: "80px", alignItems: "start" }}>
 
                     {/* Left Column - Forms */}
-                    <div>
+                    <div style={{ background: "#fff", borderRadius: "16px", padding: "40px", border: "1px solid #e5e5e5", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
                         <form onSubmit={handleSubmit}>
-                            {/* Express Checkout */}
-                            <div style={{ marginBottom: "32px" }}>
-                                <p style={{ fontSize: "18px", fontWeight: 500, color: "#000", marginBottom: "20px" }}>Express checkout</p>
-
-                                {/* Payment Methods Row */}
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
-                                    <button
-                                        type="button"
-                                        onClick={handlePaystackCheckout}
-                                        disabled={loading || cart.items.length === 0 || !selectedRate}
-                                        style={{
-                                            background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
-                                            color: "#fff",
-                                            border: "none",
-                                            borderRadius: "8px",
-                                            padding: "16px 20px",
-                                            fontSize: "16px",
-                                            fontWeight: 600,
-                                            cursor: "pointer",
-                                            opacity: (loading || !selectedRate) ? 0.6 : 1,
-                                            transition: "all 0.2s",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            gap: "8px"
-                                        }}
-                                    >
-                                        <CreditCard size={18} />
-                                        Paystack
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={handleBankTransferCheckout}
-                                        disabled={loading || cart.items.length === 0 || !selectedRate}
-                                        style={{
-                                            background: "#000",
-                                            color: "#fff",
-                                            border: "none",
-                                            borderRadius: "8px",
-                                            padding: "16px 20px",
-                                            fontSize: "16px",
-                                            fontWeight: 600,
-                                            cursor: "pointer",
-                                            opacity: (loading || !selectedRate) ? 0.6 : 1,
-                                            transition: "all 0.2s",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            gap: "8px"
-                                        }}
-                                    >
-                                        <Banknote size={18} />
-                                        Bank Transfer
-                                    </button>
-                                </div>
-
-                                <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "32px" }}>
-                                    <hr style={{ flex: 1, border: "none", borderTop: "1px solid #e5e5e5" }} />
-                                    <span style={{ fontSize: "14px", color: "#666", textTransform: "uppercase", letterSpacing: "0.5px" }}>OR</span>
-                                    <hr style={{ flex: 1, border: "none", borderTop: "1px solid #e5e5e5" }} />
-                                </div>
-                            </div>
-
                             {/* Contact */}
-                            <div style={{ marginBottom: "32px" }}>
-                                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
-                                    <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", margin: 0 }}>Contact information</h2>
-                                    <Link href="/account/login" style={{ fontSize: "14px", color: "#6366f1", textDecoration: "underline" }}>
+                            <div style={{
+                                marginBottom: "40px",
+                                background: "#fff",
+                                border: "1px solid #e5e5e5",
+                                borderRadius: "12px",
+                                padding: "32px",
+                                boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
+                            }}>
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+                                    <div>
+                                        <h2 style={{ fontSize: "18px", fontWeight: 600, color: "#000", margin: "0 0 4px 0" }}>Contact information</h2>
+                                        <p style={{ fontSize: "13px", color: "#666", margin: 0 }}>We'll use this to send you order updates</p>
+                                    </div>
+                                    <Link
+                                        href="/account/login"
+                                        style={{
+                                            fontSize: "13px",
+                                            color: "#6366f1",
+                                            textDecoration: "none",
+                                            fontWeight: 500,
+                                            padding: "8px 16px",
+                                            border: "1px solid #6366f1",
+                                            borderRadius: "6px",
+                                            transition: "all 0.2s"
+                                        }}
+                                    >
                                         Sign in
                                     </Link>
                                 </div>
 
-                                <input
-                                    name="email"
-                                    type="email"
-                                    value={form.email}
-                                    onChange={handleChange}
-                                    placeholder="Email address"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "8px",
-                                        padding: "16px",
-                                        fontSize: "16px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "16px"
-                                    }}
-                                />
+                                <div style={{ position: "relative", marginBottom: "20px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.email ? "-8px" : "50%",
+                                        transform: form.email ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 6px",
+                                        fontSize: form.email ? "12px" : "16px",
+                                        color: form.email ? "#6366f1" : "#666",
+                                        fontWeight: form.email ? 600 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Email address
+                                    </label>
+                                    <input
+                                        name="email"
+                                        type="email"
+                                        value={form.email}
+                                        onChange={handleChange}
+                                        required
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px 50px 16px 16px",
+                                            fontSize: "16px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s",
+                                            fontFamily: "inherit"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                    <div style={{
+                                        position: "absolute",
+                                        top: "0",
+                                        right: "12px",
+                                        height: "100%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        color: "#10b981"
+                                    }}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z" />
+                                            <circle cx="9" cy="9" r="1" />
+                                        </svg>
+                                    </div>
+                                </div>
 
-                                <label style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "14px", color: "#666", cursor: "pointer" }}>
+                                <label style={{
+                                    display: "flex",
+                                    alignItems: "flex-start",
+                                    gap: "12px",
+                                    fontSize: "14px",
+                                    color: "#666",
+                                    cursor: "pointer",
+                                    padding: "8px 0"
+                                }}>
                                     <input
                                         type="checkbox"
                                         checked={form.newsletter}
                                         onChange={(e) => setForm(f => ({ ...f, newsletter: e.target.checked }))}
-                                        style={{ width: "18px", height: "18px" }}
+                                        style={{
+                                            width: "18px",
+                                            height: "18px",
+                                            marginTop: "2px",
+                                            accentColor: "#6366f1"
+                                        }}
                                     />
-                                    Email me with news and offers
+                                    <span>Email me with news and exclusive offers</span>
                                 </label>
                             </div>
 
@@ -780,162 +1178,402 @@ export default function CheckoutPage() {
                             <div style={{ marginBottom: "32px" }}>
                                 <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "20px" }}>Delivery information</h2>
 
-                                <select
-                                    name="country"
-                                    defaultValue="Nigeria"
-                                    disabled
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "8px",
-                                        padding: "16px",
-                                        fontSize: "16px",
-                                        background: "#f9f9f9",
-                                        marginBottom: "16px",
-                                        boxSizing: "border-box"
-                                    }}
-                                >
-                                    <option>Nigeria</option>
-                                </select>
-
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
-                                    <input
-                                        name="firstName"
-                                        value={form.firstName}
-                                        onChange={handleChange}
-                                        placeholder="First name"
-                                        required
-                                        style={{
-                                            border: "1px solid #d9d9d9",
-                                            borderRadius: "8px",
-                                            padding: "16px",
-                                            fontSize: "16px",
-                                            outline: "none",
-                                            boxSizing: "border-box"
-                                        }}
-                                    />
-                                    <input
-                                        name="lastName"
-                                        value={form.lastName}
-                                        onChange={handleChange}
-                                        placeholder="Last name"
-                                        required
-                                        style={{
-                                            border: "1px solid #d9d9d9",
-                                            borderRadius: "8px",
-                                            padding: "16px",
-                                            fontSize: "16px",
-                                            outline: "none",
-                                            boxSizing: "border-box"
-                                        }}
-                                    />
-                                </div>
-
-                                <input
-                                    name="address"
-                                    value={form.address}
-                                    onChange={handleChange}
-                                    placeholder="Address"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "8px",
-                                        padding: "16px",
-                                        fontSize: "16px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "16px"
-                                    }}
-                                />
-
-                                <input
-                                    name="apartment"
-                                    value={form.apartment}
-                                    onChange={handleChange}
-                                    placeholder="Apartment, suite, etc. (optional)"
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "8px",
-                                        padding: "16px",
-                                        fontSize: "16px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "16px"
-                                    }}
-                                />
-
-                                <input
-                                    name="city"
-                                    value={form.city}
-                                    onChange={handleChange}
-                                    placeholder="City"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "8px",
-                                        padding: "16px",
-                                        fontSize: "16px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "16px"
-                                    }}
-                                />
-
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+                                <div style={{ position: "relative", marginBottom: "16px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: "-8px",
+                                        background: "#fff",
+                                        padding: "0 6px",
+                                        fontSize: "12px",
+                                        color: "#666",
+                                        fontWeight: 500,
+                                        zIndex: 1
+                                    }}>
+                                        Country
+                                    </label>
                                     <select
-                                        name="state"
-                                        value={form.state}
+                                        name="country"
+                                        value={form.country || "Nigeria"}
                                         onChange={handleChange}
-                                        required
                                         style={{
-                                            border: "1px solid #d9d9d9",
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
                                             borderRadius: "8px",
                                             padding: "16px",
                                             fontSize: "16px",
                                             background: "#fff",
-                                            boxSizing: "border-box"
+                                            boxSizing: "border-box",
+                                            color: "#000",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
                                         }}
                                     >
-                                        <option value="">State</option>
-                                        {STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                                        <option value="Nigeria">Nigeria</option>
+                                        <option value="Ghana">Ghana</option>
+                                        <option value="Kenya">Kenya</option>
+                                        <option value="South Africa">South Africa</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="United States">United States</option>
+                                        <option value="Canada">Canada</option>
                                     </select>
+                                </div>
+
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.firstName ? "-8px" : "50%",
+                                            transform: form.firstName ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 6px",
+                                            fontSize: form.firstName ? "12px" : "16px",
+                                            color: form.firstName ? "#6366f1" : "#666",
+                                            fontWeight: form.firstName ? 600 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            First name
+                                        </label>
+                                        <input
+                                            name="firstName"
+                                            value={form.firstName}
+                                            onChange={handleChange}
+                                            required
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "16px",
+                                                outline: "none",
+                                                boxSizing: "border-box",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        />
+                                    </div>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.lastName ? "-8px" : "50%",
+                                            transform: form.lastName ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 6px",
+                                            fontSize: form.lastName ? "12px" : "16px",
+                                            color: form.lastName ? "#6366f1" : "#666",
+                                            fontWeight: form.lastName ? 600 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            Last name
+                                        </label>
+                                        <input
+                                            name="lastName"
+                                            value={form.lastName}
+                                            onChange={handleChange}
+                                            required
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "16px",
+                                                outline: "none",
+                                                boxSizing: "border-box",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div style={{ position: "relative", marginBottom: "16px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.address ? "-8px" : "50%",
+                                        transform: form.address ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 6px",
+                                        fontSize: form.address ? "12px" : "16px",
+                                        color: form.address ? "#6366f1" : "#666",
+                                        fontWeight: form.address ? 600 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Address
+                                    </label>
                                     <input
-                                        name="postalCode"
-                                        value={form.postalCode}
+                                        name="address"
+                                        value={form.address}
                                         onChange={handleChange}
-                                        placeholder="Postal code"
+                                        required
                                         style={{
-                                            border: "1px solid #d9d9d9",
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
                                             borderRadius: "8px",
                                             padding: "16px",
                                             fontSize: "16px",
                                             outline: "none",
-                                            boxSizing: "border-box"
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
                                         }}
                                     />
                                 </div>
 
-                                <input
-                                    name="phone"
-                                    type="tel"
-                                    value={form.phone}
-                                    onChange={handleChange}
-                                    placeholder="Phone"
-                                    required
-                                    style={{
-                                        width: "100%",
-                                        border: "1px solid #d9d9d9",
-                                        borderRadius: "8px",
-                                        padding: "16px",
-                                        fontSize: "16px",
-                                        outline: "none",
-                                        boxSizing: "border-box",
-                                        marginBottom: "16px"
-                                    }}
-                                />
+                                <div style={{ position: "relative", marginBottom: "16px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.apartment ? "-8px" : "50%",
+                                        transform: form.apartment ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 6px",
+                                        fontSize: form.apartment ? "12px" : "16px",
+                                        color: form.apartment ? "#6366f1" : "#666",
+                                        fontWeight: form.apartment ? 600 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Apartment, suite, etc. (optional)
+                                    </label>
+                                    <input
+                                        name="apartment"
+                                        value={form.apartment}
+                                        onChange={handleChange}
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            fontSize: "16px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                </div>
+
+                                <div style={{ position: "relative", marginBottom: "16px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.city ? "-8px" : "50%",
+                                        transform: form.city ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 6px",
+                                        fontSize: form.city ? "12px" : "16px",
+                                        color: form.city ? "#6366f1" : "#666",
+                                        fontWeight: form.city ? 600 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        City
+                                    </label>
+                                    <input
+                                        name="city"
+                                        value={form.city}
+                                        onChange={handleChange}
+                                        required
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            fontSize: "16px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                </div>
+
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.state ? "-8px" : "50%",
+                                            transform: form.state ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 6px",
+                                            fontSize: form.state ? "12px" : "16px",
+                                            color: form.state ? "#6366f1" : "#666",
+                                            fontWeight: form.state ? 600 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            State
+                                        </label>
+                                        <select
+                                            name="state"
+                                            value={form.state}
+                                            onChange={handleChange}
+                                            required
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "16px",
+                                                background: "#fff",
+                                                boxSizing: "border-box",
+                                                outline: "none",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        >
+                                            <option value=""></option>
+                                            {STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                                        </select>
+                                    </div>
+                                    <div style={{ position: "relative" }}>
+                                        <label style={{
+                                            position: "absolute",
+                                            left: "16px",
+                                            top: form.postalCode ? "-8px" : "50%",
+                                            transform: form.postalCode ? "translateY(0)" : "translateY(-50%)",
+                                            background: "#fff",
+                                            padding: "0 6px",
+                                            fontSize: form.postalCode ? "12px" : "16px",
+                                            color: form.postalCode ? "#6366f1" : "#666",
+                                            fontWeight: form.postalCode ? 600 : 400,
+                                            transition: "all 0.2s ease",
+                                            pointerEvents: "none",
+                                            zIndex: 1
+                                        }}>
+                                            Postal code
+                                        </label>
+                                        <input
+                                            name="postalCode"
+                                            value={form.postalCode}
+                                            onChange={handleChange}
+                                            style={{
+                                                width: "100%",
+                                                border: "2px solid #e5e5e5",
+                                                borderRadius: "8px",
+                                                padding: "16px",
+                                                fontSize: "16px",
+                                                outline: "none",
+                                                boxSizing: "border-box",
+                                                transition: "border-color 0.2s ease"
+                                            }}
+                                            onFocus={(e) => {
+                                                e.target.style.borderColor = "#6366f1";
+                                                e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                            }}
+                                            onBlur={(e) => {
+                                                e.target.style.borderColor = "#e5e5e5";
+                                                e.target.style.boxShadow = "none";
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div style={{ position: "relative", marginBottom: "16px" }}>
+                                    <label style={{
+                                        position: "absolute",
+                                        left: "16px",
+                                        top: form.phone ? "-8px" : "50%",
+                                        transform: form.phone ? "translateY(0)" : "translateY(-50%)",
+                                        background: "#fff",
+                                        padding: "0 6px",
+                                        fontSize: form.phone ? "12px" : "16px",
+                                        color: form.phone ? "#6366f1" : "#666",
+                                        fontWeight: form.phone ? 600 : 400,
+                                        transition: "all 0.2s ease",
+                                        pointerEvents: "none",
+                                        zIndex: 1
+                                    }}>
+                                        Phone
+                                    </label>
+                                    <input
+                                        name="phone"
+                                        type="tel"
+                                        value={form.phone}
+                                        onChange={handleChange}
+                                        required
+                                        style={{
+                                            width: "100%",
+                                            border: "2px solid #e5e5e5",
+                                            borderRadius: "8px",
+                                            padding: "16px",
+                                            fontSize: "16px",
+                                            outline: "none",
+                                            boxSizing: "border-box",
+                                            transition: "border-color 0.2s ease"
+                                        }}
+                                        onFocus={(e) => {
+                                            e.target.style.borderColor = "#6366f1";
+                                            e.target.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.1)";
+                                        }}
+                                        onBlur={(e) => {
+                                            e.target.style.borderColor = "#e5e5e5";
+                                            e.target.style.boxShadow = "none";
+                                        }}
+                                    />
+                                </div>
 
                                 <label style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "14px", color: "#666", cursor: "pointer" }}>
                                     <input
@@ -1030,10 +1668,53 @@ export default function CheckoutPage() {
                                         />
                                         <CreditCard size={20} style={{ marginRight: "12px" }} />
                                         <span style={{ fontSize: "16px", fontWeight: 500 }}>Credit card</span>
-                                        <div style={{ marginLeft: "auto", display: "flex", gap: "6px" }}>
-                                            <div style={{ background: "#1a1f71", color: "#fff", padding: "3px 8px", borderRadius: "3px", fontSize: "11px", fontWeight: 600 }}>VISA</div>
-                                            <div style={{ background: "#eb001b", color: "#fff", padding: "3px 8px", borderRadius: "3px", fontSize: "11px", fontWeight: 600 }}>MC</div>
-                                            <div style={{ fontSize: "12px", color: "#666" }}>+5</div>
+                                        <div style={{ marginLeft: "auto", display: "flex", gap: "8px", alignItems: "center" }}>
+                                            {/* Visa */}
+                                            <div style={{
+                                                background: "#fff",
+                                                border: "1px solid #e5e5e5",
+                                                borderRadius: "4px",
+                                                padding: "6px 10px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: "28px"
+                                            }}>
+                                                <svg width="36" height="12" viewBox="0 0 32 10" fill="none">
+                                                    <path d="M13.3 8.7L15.1 1.3h2.8L16.1 8.7h-2.8zM23.1 1.3l-2.7 7.4h-2.8l1.4-7.4h2.8l.3 3.7L22.8 1.3h.3zM8.2 1.3L5.7 7.1 5.2 4.5 4.4 1.7c-.1-.4-.4-.4-.7-.4H0l0 .2c.7.1 1.4.4 1.9.7l2.3 6.2h2.9L10.9 1.3H8.2zM26.8 1.3c-.5 0-.9.3-1.1.7l-4.1 6.7h2.9l.6-1.6h3.6l.3 1.6h2.6L29.3 1.3h-2.5zm.4 2.1l.9 2.5h-2.3l1.4-2.5z" fill="#1434CB" />
+                                                </svg>
+                                            </div>
+
+                                            {/* Mastercard */}
+                                            <div style={{
+                                                background: "#fff",
+                                                border: "1px solid #e5e5e5",
+                                                borderRadius: "4px",
+                                                padding: "6px 10px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: "28px"
+                                            }}>
+                                                <svg width="28" height="16" viewBox="0 0 24 14" fill="none">
+                                                    <circle cx="7" cy="7" r="7" fill="#EB001B" />
+                                                    <circle cx="17" cy="7" r="7" fill="#F79E1B" fillOpacity="0.8" />
+                                                    <path d="M12 2.8c1.3 1.2 2.1 2.9 2.1 4.7s-.8 3.5-2.1 4.7c-1.3-1.2-2.1-2.9-2.1-4.7s.8-3.5 2.1-4.7z" fill="#FF5F00" />
+                                                </svg>
+                                            </div>
+
+                                            {/* Verve */}
+                                            <div style={{
+                                                background: "#fff",
+                                                border: "1px solid #e5e5e5",
+                                                borderRadius: "4px",
+                                                padding: "6px 8px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: "28px"
+                                            }}>
+                                                <span style={{ color: "#00425A", fontSize: "10px", fontWeight: 700, letterSpacing: "0.5px" }}>VERVE</span>
+                                            </div>
+
+                                            <span style={{ fontSize: "12px", color: "#6b7280", fontWeight: 500 }}>& more</span>
                                         </div>
                                     </label>
                                     <label
@@ -1092,18 +1773,42 @@ export default function CheckoutPage() {
 
                     {/* Right Column - Order Summary */}
                     <div style={{ position: "sticky", top: "40px" }}>
-                        <div style={{ background: "#fff", border: "1px solid #e5e5e5", borderRadius: "12px", padding: "32px" }}>
-                            <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "24px" }}>Order summary</h2>
+                        <div style={{ background: "#fff", border: "1px solid #e5e5e5", borderRadius: "16px", padding: "32px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+                                <h2 style={{ fontSize: "18px", fontWeight: 600, color: "#000", margin: 0 }}>Order summary</h2>
+                                <div style={{ background: "#f3f4f6", color: "#374151", padding: "4px 12px", borderRadius: "12px", fontSize: "12px", fontWeight: 600 }}>
+                                    {cart.items.length} {cart.items.length === 1 ? 'item' : 'items'}
+                                </div>
+                            </div>
 
                             {/* Items */}
                             <div style={{ marginBottom: "24px" }}>
                                 {cart.items.map((item) => (
-                                    <div key={`${item.productId}-${item.size}`} style={{ display: "flex", gap: "16px", marginBottom: "20px" }}>
+                                    <div key={`${item.productId}-${item.size}`} style={{ display: "flex", gap: "16px", marginBottom: "20px", position: "relative" }}>
                                         <div style={{ position: "relative", width: "80px", height: "80px", background: "#fff", border: "1px solid #e5e5e5", borderRadius: "8px", overflow: "hidden", flexShrink: 0 }}>
                                             <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} sizes="80px" />
-                                            <div style={{ position: "absolute", top: "-8px", right: "-8px", width: "24px", height: "24px", borderRadius: "50%", background: "#666", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 600 }}>
-                                                {item.quantity}
-                                            </div>
+                                        </div>
+                                        <div style={{
+                                            position: "absolute",
+                                            top: "-10px",
+                                            right: "auto",
+                                            left: "70px",
+                                            width: "28px",
+                                            height: "28px",
+                                            borderRadius: "50%",
+                                            background: "#1a1a1a",
+                                            color: "#ffffff",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            fontSize: "14px",
+                                            fontWeight: 700,
+                                            border: "3px solid #ffffff",
+                                            boxShadow: "0 3px 10px rgba(0,0,0,0.4)",
+                                            zIndex: 100,
+                                            lineHeight: "1"
+                                        }}>
+                                            {item.quantity}
                                         </div>
                                         <div style={{ flex: 1 }}>
                                             <p style={{ fontSize: "16px", fontWeight: 500, color: "#000", marginBottom: "6px" }}>{item.name}</p>
@@ -1164,6 +1869,108 @@ export default function CheckoutPage() {
                                     <span>NGN {formatPrice(Math.max(0, total))}</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Trust & Security Footer */}
+            <div style={{
+                background: "#fff",
+                borderTop: "1px solid #e5e5e5",
+                padding: "32px 0",
+                marginTop: "40px"
+            }}>
+                <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
+                    <div style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                        gap: "32px",
+                        textAlign: "center"
+                    }}>
+                        {/* Security */}
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                            <div style={{
+                                width: "48px",
+                                height: "48px",
+                                background: "#10b981",
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: "4px"
+                            }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z" />
+                                    <circle cx="9" cy="9" r="1" />
+                                </svg>
+                            </div>
+                            <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#000", margin: 0 }}>SSL SECURED</h3>
+                            <p style={{ fontSize: "12px", color: "#666", margin: 0 }}>Your payment info is safe</p>
+                        </div>
+
+                        {/* Free Returns */}
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                            <div style={{
+                                width: "48px",
+                                height: "48px",
+                                background: "#6366f1",
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: "4px"
+                            }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                    <polyline points="9 22 9 12 15 12 15 22" />
+                                </svg>
+                            </div>
+                            <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#000", margin: 0 }}>FREE RETURNS</h3>
+                            <p style={{ fontSize: "12px", color: "#666", margin: 0 }}>Easy 30-day returns</p>
+                        </div>
+
+                        {/* Fast Shipping */}
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                            <div style={{
+                                width: "48px",
+                                height: "48px",
+                                background: "#f59e0b",
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: "4px"
+                            }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+                                    <rect x="1" y="3" width="15" height="13" />
+                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                                    <circle cx="5.5" cy="18.5" r="2.5" />
+                                    <circle cx="18.5" cy="18.5" r="2.5" />
+                                </svg>
+                            </div>
+                            <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#000", margin: 0 }}>FAST DELIVERY</h3>
+                            <p style={{ fontSize: "12px", color: "#666", margin: 0 }}>2-5 business days</p>
+                        </div>
+
+                        {/* Customer Support */}
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                            <div style={{
+                                width: "48px",
+                                height: "48px",
+                                background: "#ec4899",
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: "4px"
+                            }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                </svg>
+                            </div>
+                            <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#000", margin: 0 }}>24/7 SUPPORT</h3>
+                            <p style={{ fontSize: "12px", color: "#666", margin: 0 }}>We're here to help</p>
                         </div>
                     </div>
                 </div>

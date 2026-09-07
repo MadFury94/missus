@@ -17,6 +17,7 @@ const TOTAL_H = ANN_H + NAV_H + CAT_H; // 127px
 export default function ClientShell({ children, announcement }: { children: React.ReactNode; announcement?: string }) {
     const pathname = usePathname();
     const isAdminRoute = pathname?.startsWith("/admin");
+    const isCheckoutRoute = pathname?.startsWith("/checkout");
     const isHome = pathname === "/";
 
     const [cartOpen, setCartOpen] = useState(false);
@@ -34,6 +35,16 @@ export default function ClientShell({ children, announcement }: { children: Reac
                 <main style={{ flex: 1 }}>{children}</main>
                 <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
             </>
+        );
+    }
+
+    // Checkout routes get minimal layout - no navbar, no announcement, no category nav
+    if (isCheckoutRoute) {
+        return (
+            <CurrencyProvider>
+                <main style={{ flex: 1 }}>{children}</main>
+                <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+            </CurrencyProvider>
         );
     }
 

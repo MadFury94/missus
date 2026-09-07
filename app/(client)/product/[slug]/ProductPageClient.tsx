@@ -243,32 +243,6 @@ export default function ProductPageClient({ params, product, related }: {
                                 {discount}% OFF
                             </div>
                         )}
-
-                        {/* Wishlist — always visible on mobile */}
-                        <button
-                            onClick={() => {
-                                const newState = toggleWishlist({
-                                    productId: product.id,
-                                    name: product.name,
-                                    price: toNaira(product.prices.price),
-                                    image: product.images[0]?.src || "",
-                                    slug: product.slug,
-                                });
-                                setIsWished(newState);
-                            }}
-                            aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
-                            style={{
-                                position: "absolute", top: "14px", right: "14px", zIndex: 3,
-                                width: "38px", height: "38px", borderRadius: "50%",
-                                background: "rgba(255,255,255,.9)", border: "none",
-                                display: "flex", alignItems: "center", justifyContent: "center",
-                                cursor: "pointer", backdropFilter: "blur(4px)",
-                            }}
-                        >
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill={isWished ? "#e8002d" : "none"} stroke={isWished ? "#e8002d" : "#000"} strokeWidth="1.8" aria-hidden="true">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                            </svg>
-                        </button>
                     </div>
 
                     {/* Mobile dot indicators */}
@@ -371,6 +345,30 @@ export default function ProductPageClient({ params, product, related }: {
                             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                 {colors.map((color) => {
                                     const isSelected = selectedColor === color;
+                                    // Map color names to proper CSS values
+                                    const colorMap: { [key: string]: string } = {
+                                        'burgundy': '#800020',
+                                        'wine': '#722F37',
+                                        'maroon': '#800000',
+                                        'red': '#FF0000',
+                                        'black': '#000000',
+                                        'white': '#FFFFFF',
+                                        'navy': '#000080',
+                                        'blue': '#0000FF',
+                                        'green': '#008000',
+                                        'pink': '#FFC0CB',
+                                        'purple': '#800080',
+                                        'orange': '#FFA500',
+                                        'yellow': '#FFFF00',
+                                        'brown': '#964B00',
+                                        'gray': '#808080',
+                                        'grey': '#808080',
+                                        'beige': '#F5F5DC',
+                                        'cream': '#FFFDD0',
+                                        'tan': '#D2B48C'
+                                    };
+                                    const colorValue = colorMap[color.toLowerCase()] || color.toLowerCase();
+
                                     return (
                                         <button
                                             key={color}
@@ -381,8 +379,8 @@ export default function ProductPageClient({ params, product, related }: {
                                             style={{
                                                 width: "32px", height: "32px",
                                                 borderRadius: "50%",
-                                                background: color.toLowerCase(),
-                                                border: "none",
+                                                background: colorValue,
+                                                border: colorValue === '#FFFFFF' ? "1.5px solid #d0d0d0" : "none",
                                                 outline: isSelected ? "2px solid #000" : "1.5px solid #d0d0d0",
                                                 outlineOffset: isSelected ? "3px" : "2px",
                                                 cursor: "pointer",
@@ -396,14 +394,14 @@ export default function ProductPageClient({ params, product, related }: {
                         </div>
                     )}
 
-                    {/* Add to Bag + Wishlist */}
-                    <div ref={addToBagRef} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+                    {/* Add to Bag */}
+                    <div ref={addToBagRef} style={{ marginBottom: "14px" }}>
                         {/* Pill Add to Bag */}
                         <button
                             onClick={handleAddToCart}
                             disabled={adding}
                             style={{
-                                flex: 1,
+                                width: "100%",
                                 padding: "16px 24px",
                                 background: added ? "#1a7a3d" : "#000",
                                 color: "#fff",
@@ -419,33 +417,6 @@ export default function ProductPageClient({ params, product, related }: {
                             }}
                         >
                             {added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
-                        </button>
-                        {/* Circular wishlist button */}
-                        <button
-                            onClick={() => {
-                                const newState = toggleWishlist({
-                                    productId: product.id,
-                                    name: product.name,
-                                    price: toNaira(product.prices.price),
-                                    image: product.images[0]?.src || "",
-                                    slug: product.slug,
-                                });
-                                setIsWished(newState);
-                            }}
-                            aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
-                            style={{
-                                width: "52px", height: "52px", borderRadius: "50%",
-                                background: "#fff",
-                                border: `1.5px solid ${isWished ? "#000" : "#d0d0d0"}`,
-                                cursor: "pointer",
-                                display: "flex", alignItems: "center", justifyContent: "center",
-                                flexShrink: 0,
-                                transition: "border-color .2s",
-                            }}
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill={isWished ? "#000" : "none"} stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                            </svg>
                         </button>
                     </div>
 
