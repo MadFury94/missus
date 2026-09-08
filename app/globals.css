@@ -47,7 +47,7 @@ button {
 *[style*="Barlow Condensed"],
 *[style*="barlow-condensed"],
 *[style*="Barlow_Condensed"] {
-  font-family: var(--font-display), 'Cormorant', serif !important;
+  font-family: var(--font-display), 'DM Sans', sans-serif !important;
   letter-spacing: 0.02em;
 }
 
@@ -56,6 +56,14 @@ button {
 *[style*="Barlow, sans-serif"],
 *[style*='"Barlow"'] {
   font-family: var(--font-body), 'DM Sans', sans-serif !important;
+}
+
+/* DM Sans sitewide override - replaces ALL font references */
+*[style*="Cormorant"],
+*[style*="'Cormorant'"],
+*[style*='"Cormorant"'],
+*[style*="var(--font-display"] {
+  font-family: 'DM Sans', sans-serif !important;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

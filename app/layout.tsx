@@ -10,12 +10,12 @@ import StructuredData from "@/components/seo/StructuredData";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/structured-data";
 
 // ── FONT CONFIGURATION ───────────────────────────────────────
-// ★ SWAP FONTS SITEWIDE: change only these two imports.
-// --font-display → headings, hero, labels, nav display text
-// --font-body    → body copy, UI, inputs, prices
+// ★ DM SANS SITEWIDE: Using DM Sans for all text as agreed
+// --font-display → headings, hero, labels, nav display text (DM Sans)
+// --font-body    → body copy, UI, inputs, prices (DM Sans)
 // Primary & secondary brand colors: globals.css → :root → --color-brand-primary / --color-brand-secondary
 
-const displayFont = Cormorant({
+const displayFont = DM_Sans({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-display",
@@ -23,7 +23,7 @@ const displayFont = Cormorant({
 });
 
 const bodyFont = DM_Sans({
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
