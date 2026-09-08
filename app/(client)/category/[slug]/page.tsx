@@ -1,75 +1,96 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import type { StoreProduct } from "@/lib/woocommerce";
-import ProductCard from "@/components/product/ProductCard";
-import ProductSkeleton from "@/components/product/ProductSkeleton";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getProducts, getCategories } from "@/lib/woocommerce";
+import CategoryPageClient from "./CategoryPageClient";
+import { generatePageMetadata } from "@/lib/seo-config";
+import StructuredData from "@/components/seo/StructuredData";
+import { getCollectionPageSchema, getBreadcrumbSchema } from "@/lib/structured-data";
+import { SITE_URL } from "@/lib/config";
 
-export default function CategoryPage() {
-    const { slug } = useParams<{ slug: string }>();
-    const [products, setProducts] = useState<StoreProduct[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [sort, setSort] = useState("");
+export const revalidate = 300; // 5 minutes
 
-    const label = slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+export async function generateStaticParams() {
+    try {
+        const categories = await getCategories();
+        return categories.map((category) => ({
+            slug: category.slug,
+        }));
+    } catch {
+        return [];
+    }
+}
 
-    useEffect(() => {
-        setLoading(true);
-        const params = new URLSearchParams({ category: slug, per_page: "60" });
-        if (sort === "date") { params.set("orderby", "date"); params.set("order", "desc"); }
-        if (sort === "price-asc") { params.set("orderby", "price"); params.set("order", "asc"); }
-        if (sort === "price-desc") { params.set("orderby", "price"); params.set("order", "desc"); }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
 
-        fetch(`/api/products?${params}`)
-            .then((r) => r.json())
-            .then((data) => setProducts(data.products ?? []))
-            .finally(() => setLoading(false));
-    }, [slug, sort]);
+    try {
+        const categories = await getCategories();
+        const category = categories.find(c => c.slug === slug);
 
-    return (
-        <>
-            <div style={{ background: "#000", padding: "28px 20px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-                <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(232,0,45,.12) 0%,transparent 70%)" }} />
-                <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(40px,6vw,72px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", letterSpacing: ".02em", lineHeight: 1, position: "relative", zIndex: 2 }}>
-                    {label}
-                </h1>
-                <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "6px", position: "relative", zIndex: 2, display: "none" }}>
-                    {products.length} products
-                </p>
-            </div>
+        if (!category) {
+            return { title: "Category Not Found" };
+        }
 
-            <div style={{ padding: "16px 20px 40px" }} className="cat-page-wrap">
-                <style>{`
-                    @media (max-width: 768px) {
-                        .cat-page-wrap { padding-left: 0 !important; padding-right: 0 !important; }
-                        .cat-page-wrap .grid-4 { gap: 1px; }
-                    }
-                `}</style>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid #e8e8e8" }}>
-                    <select value={sort} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSort(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 28px 7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
-                        <option value="">Sort: Featured</option>
-                        <option value="date">Newest First</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
-                    </select>
-                </div>
+        const label = category.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+        const cleanDescription = category.description?.replace(/<[^>]+>/g, "") ||
+            `Shop ${label} collection at Missus. Discover premium women's fashion, contemporary styles, and trendsetting pieces with fast shipping across Nigeria.`;
 
-                {loading ? (
-                    <div className="grid-4">
-                        {Array.from({ length: 8 }).map((_, i) => (
-                            <ProductSkeleton key={i} />
-                        ))}
-                    </div>
-                ) : products.length === 0 ? (
-                    <div style={{ padding: "80px 20px", textAlign: "center", color: "#767676", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 700, textTransform: "uppercase" }}>
-                        No products found
-                    </div>
-                ) : (
-                    <div className="grid-4">
-                        {products.map((p: StoreProduct) => <ProductCard key={p.id} product={p} />)}
-                    </div>
-                )}
-            </div>
-        </>
-    );
+        return generatePageMetadata({
+            title: `${label} Collection | Premium Women's Fashion`,
+            description: cleanDescription,
+            keywords: [
+                label.toLowerCase(),
+                `${label.toLowerCase()} fashion`,
+                "women's clothing",
+                "premium fashion",
+                "Nigerian fashion",
+                "contemporary style",
+                "designer wear",
+                "online shopping Nigeria"
+            ],
+            path: `/category/${slug}`,
+        });
+    } catch {
+        return { title: "Category Not Found" };
+    }
+}
+
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+
+    try {
+        const [categories, productsData] = await Promise.all([
+            getCategories(),
+            getProducts({ category: slug, perPage: 60 })
+        ]);
+
+        const category = categories.find(c => c.slug === slug);
+        if (!category) notFound();
+
+        const label = category.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+        // Breadcrumb data
+        const breadcrumbs = [
+            { name: "Home", url: SITE_URL },
+            { name: "Shop", url: `${SITE_URL}/shop` },
+            { name: label, url: `${SITE_URL}/category/${slug}` }
+        ];
+
+        return (
+            <>
+                <StructuredData schema={[
+                    getCollectionPageSchema(category, productsData),
+                    getBreadcrumbSchema(breadcrumbs)
+                ]} />
+                <CategoryPageClient
+                    slug={slug}
+                    label={label}
+                    initialProducts={productsData}
+                    category={category}
+                />
+            </>
+        );
+    } catch {
+        notFound();
+    }
 }

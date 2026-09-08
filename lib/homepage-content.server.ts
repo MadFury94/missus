@@ -1,5 +1,6 @@
 ﻿import "server-only";
 import { cache } from "react";
+import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 
 const WP_API = (process.env.WP_API_URL || "https://missusoutfits.com/wp-json").replace(/\/$/, "");
@@ -91,6 +92,8 @@ export const getHomepageContent = cache(async (): Promise<HomepageContent> => {
     try {
         return await readHomepageContent();
     } catch (error) {
+        // Let Next.js handle rendering control flow before applying the WordPress fallback.
+        unstable_rethrow(error);
         console.error("[homepage] Could not read WordPress content:", error);
         return HOMEPAGE_DEFAULTS;
     }

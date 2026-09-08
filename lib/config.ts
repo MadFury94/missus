@@ -64,7 +64,6 @@ export const MARQUEE_ITEMS = [
 
 export const TRUST_ITEMS = [
     { title: "Lagos: 1–2 Hours", sub: "Express delivery available", icon: "truck" },
-    { title: "Easy Returns", sub: "7-day hassle-free returns", icon: "return" },
     { title: "Secure Checkout", sub: "100% safe & encrypted", icon: "shield" },
     { title: "24/7 DM Support", sub: "Reply within 1 hour", icon: "chat" },
 ];

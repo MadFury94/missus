@@ -5,6 +5,9 @@ import ClientShell from "@/components/layout/ClientShell";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
 import { getHomepageContent } from "@/lib/homepage-content.server";
 import { cn } from "@/lib/utils";
+import { DEFAULT_METADATA } from "@/lib/seo-config";
+import StructuredData from "@/components/seo/StructuredData";
+import { getOrganizationSchema, getWebsiteSchema } from "@/lib/structured-data";
 
 // ── FONT CONFIGURATION ───────────────────────────────────────
 // ★ SWAP FONTS SITEWIDE: change only these two imports.
@@ -44,32 +47,37 @@ const adminSans = Public_Sans({
 });
 
 export const metadata: Metadata = {
+  ...DEFAULT_METADATA,
   title: {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
-  description: "Trend-forward, affordable fashion for the modern Nigerian girl. Shop dresses, tops, sets and more.",
-  metadataBase: new URL(SITE_URL),
   icons: {
     icon: [{ url: "/IMG_4389.PNG", type: "image/png" }],
     shortcut: "/IMG_4389.PNG",
     apple: "/IMG_4389.PNG",
   },
-  openGraph: {
-    siteName: SITE_NAME,
-    type: "website",
-    images: [{ url: "/missus-logo.webp" }],
-  },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { announcement } = await getHomepageContent();
+
   return (
     <html
       lang="en"
       className={cn(displayFont.variable, bodyFont.variable, adminSerif.variable, adminSans.variable)}
       suppressHydrationWarning
     >
+      <head>
+        <StructuredData schema={[getOrganizationSchema(), getWebsiteSchema()]} />
+        <link rel="canonical" href={SITE_URL} />
+        <meta name="theme-color" content="#000000" />
+        <meta name="msapplication-TileColor" content="#000000" />
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.woocommerce.com" />
+      </head>
       <body
         className="font-body"
         style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}

@@ -218,7 +218,7 @@ export default function CheckoutPage() {
                         </Link>
                         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                             {/* Security indicator */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#10b981", fontSize: "11px", fontWeight: 500 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#000", fontSize: "11px", fontWeight: 500 }}>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z" />
                                     <circle cx="9" cy="9" r="1" />
@@ -238,8 +238,8 @@ export default function CheckoutPage() {
 
                     {/* Progress indicator */}
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
-                        <div style={{ flex: 1, height: "2px", background: "#10b981", borderRadius: "1px" }}></div>
-                        <span style={{ color: "#10b981", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>CHECKOUT</span>
+                        <div style={{ flex: 1, height: "2px", background: "#000", borderRadius: "1px" }}></div>
+                        <span style={{ color: "#000", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>CHECKOUT</span>
                         <div style={{ flex: 1, height: "2px", background: "#e5e7eb", borderRadius: "1px" }}></div>
                         <span style={{ color: "#9ca3af", fontSize: "10px", fontWeight: 600, letterSpacing: "0.5px" }}>PAYMENT</span>
                         <div style={{ flex: 1, height: "2px", background: "#e5e7eb", borderRadius: "1px" }}></div>
@@ -336,8 +336,8 @@ export default function CheckoutPage() {
                                     </div>
                                     {promoDiscount > 0 && (
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
-                                            <span style={{ color: "#10b981" }}>Discount</span>
-                                            <span style={{ color: "#10b981" }}>-{formatPrice(promoDiscount)}</span>
+                                            <span style={{ color: "#000" }}>Discount</span>
+                                            <span style={{ color: "#000" }}>-{formatPrice(promoDiscount)}</span>
                                         </div>
                                     )}
                                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "14px" }}>
@@ -365,7 +365,7 @@ export default function CheckoutPage() {
                         </Link>
                         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                             {/* Security indicator */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#10b981", fontSize: "12px", fontWeight: 600 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#000", fontSize: "12px", fontWeight: 600 }}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z" />
                                     <circle cx="9" cy="9" r="1" />
@@ -385,8 +385,8 @@ export default function CheckoutPage() {
 
                     {/* Progress indicator */}
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                        <div style={{ flex: 1, height: "3px", background: "#10b981", borderRadius: "2px" }}></div>
-                        <span style={{ color: "#10b981", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>INFORMATION</span>
+                        <div style={{ flex: 1, height: "3px", background: "#000", borderRadius: "2px" }}></div>
+                        <span style={{ color: "#000", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>INFORMATION</span>
                         <div style={{ flex: 1, height: "3px", background: "#e5e7eb", borderRadius: "2px" }}></div>
                         <span style={{ color: "#9ca3af", fontSize: "11px", fontWeight: 700, letterSpacing: "0.8px" }}>PAYMENT</span>
                         <div style={{ flex: 1, height: "3px", background: "#e5e7eb", borderRadius: "2px" }}></div>
@@ -1149,7 +1149,7 @@ export default function CheckoutPage() {
                                         height: "100%",
                                         display: "flex",
                                         alignItems: "center",
-                                        color: "#10b981"
+                                        color: "#000"
                                     }}>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z" />
@@ -1865,8 +1865,8 @@ export default function CheckoutPage() {
                                 </div>
                                 {promoDiscount > 0 && (
                                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "16px" }}>
-                                        <span style={{ color: "#10b981" }}>Discount</span>
-                                        <span style={{ color: "#10b981" }}>-{formatPrice(promoDiscount)}</span>
+                                        <span style={{ color: "#000" }}>Discount</span>
+                                        <span style={{ color: "#000" }}>-{formatPrice(promoDiscount)}</span>
                                     </div>
                                 )}
                                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", fontSize: "16px" }}>
@@ -1902,7 +1902,7 @@ export default function CheckoutPage() {
                             <div style={{
                                 width: "48px",
                                 height: "48px",
-                                background: "#10b981",
+                                background: "#000",
                                 borderRadius: "50%",
                                 display: "flex",
                                 alignItems: "center",
@@ -1918,33 +1918,12 @@ export default function CheckoutPage() {
                             <p style={{ fontSize: "12px", color: "#666", margin: 0 }}>Your payment info is safe</p>
                         </div>
 
-                        {/* Free Returns */}
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-                            <div style={{
-                                width: "48px",
-                                height: "48px",
-                                background: "#6366f1",
-                                borderRadius: "50%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginBottom: "4px"
-                            }}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
-                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                                    <polyline points="9 22 9 12 15 12 15 22" />
-                                </svg>
-                            </div>
-                            <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#000", margin: 0 }}>FREE RETURNS</h3>
-                            <p style={{ fontSize: "12px", color: "#666", margin: 0 }}>Easy 30-day returns</p>
-                        </div>
-
                         {/* Fast Shipping */}
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
                             <div style={{
                                 width: "48px",
                                 height: "48px",
-                                background: "#f59e0b",
+                                background: "#000",
                                 borderRadius: "50%",
                                 display: "flex",
                                 alignItems: "center",
@@ -1967,7 +1946,7 @@ export default function CheckoutPage() {
                             <div style={{
                                 width: "48px",
                                 height: "48px",
-                                background: "#ec4899",
+                                background: "#000",
                                 borderRadius: "50%",
                                 display: "flex",
                                 alignItems: "center",

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import StructuredData from "@/components/seo/StructuredData";
+import { getFAQSchema } from "@/lib/structured-data";
 
 const FAQS = [
     {
@@ -85,71 +87,82 @@ export default function FAQPage() {
         setOpen((prev) => (prev === key ? null : key));
     }
 
+    // Flatten FAQs for structured data
+    const allFAQs = FAQS.flatMap(section =>
+        section.items.map(item => ({
+            question: item.q,
+            answer: item.a
+        }))
+    );
+
     return (
-        <div style={{ background: "#fff" }}>
+        <>
+            <StructuredData schema={getFAQSchema(allFAQs)} />
+            <div style={{ background: "#fff" }}>
 
-            {/* Header */}
-            <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "10px" }}>
-                    Got Questions?
-                </p>
-                <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
-                    FAQ
-                </h1>
-            </div>
-
-            <div style={{ maxWidth: "760px", margin: "0 auto", padding: "56px 24px 64px" }}>
-                {FAQS.map((section) => (
-                    <div key={section.category} style={{ marginBottom: "40px" }}>
-                        <h2 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "18px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: "12px", paddingBottom: "10px", borderBottom: "1.5px solid #000" }}>
-                            {section.category}
-                        </h2>
-
-                        {section.items.map((item) => {
-                            const key = `${section.category}-${item.q}`;
-                            const isOpen = open === key;
-                            return (
-                                <div key={key} style={{ borderBottom: "1px solid #e8e8e8" }}>
-                                    <button
-                                        onClick={() => toggle(key)}
-                                        style={{ width: "100%", background: "none", border: "none", padding: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px", cursor: "pointer", textAlign: "left" }}
-                                    >
-                                        <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "15px", fontWeight: 700, letterSpacing: ".02em", color: "#000" }}>
-                                            {item.q}
-                                        </span>
-                                        <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "18px", fontWeight: 300, color: "#000", flexShrink: 0, transform: isOpen ? "rotate(45deg)" : "none", transition: "transform .2s" }}>
-                                            +
-                                        </span>
-                                    </button>
-                                    {isOpen && (
-                                        <div style={{ paddingBottom: "16px", fontSize: "13px", color: "#555", lineHeight: 1.8 }}>
-                                            {item.a}
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
-                ))}
-
-                {/* Still need help */}
-                <div style={{ background: "#f5f5f5", padding: "32px", textAlign: "center", marginTop: "16px" }}>
-                    <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "18px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "8px" }}>
-                        Still Need Help?
+                {/* Header */}
+                <div style={{ background: "#000", padding: "60px 24px", textAlign: "center" }}>
+                    <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "10px" }}>
+                        Got Questions?
                     </p>
-                    <p style={{ fontSize: "13px", color: "#555", marginBottom: "20px" }}>
-                        Our team replies within 1 hour during business hours.
-                    </p>
-                    <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                        <Link href="/contact" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none" }}>
-                            Contact Us
-                        </Link>
-                        <a href="https://instagram.com/missusoutfits" target="_blank" rel="noopener noreferrer" style={{ background: "#fff", color: "#000", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", border: "1.5px solid #000" }}>
-                            DM on Instagram
-                        </a>
+                    <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
+                        FAQ
+                    </h1>
+                </div>
+
+                <div style={{ maxWidth: "760px", margin: "0 auto", padding: "56px 24px 64px" }}>
+                    {FAQS.map((section) => (
+                        <div key={section.category} style={{ marginBottom: "40px" }}>
+                            <h2 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "18px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: "12px", paddingBottom: "10px", borderBottom: "1.5px solid #000" }}>
+                                {section.category}
+                            </h2>
+
+                            {section.items.map((item) => {
+                                const key = `${section.category}-${item.q}`;
+                                const isOpen = open === key;
+                                return (
+                                    <div key={key} style={{ borderBottom: "1px solid #e8e8e8" }}>
+                                        <button
+                                            onClick={() => toggle(key)}
+                                            style={{ width: "100%", background: "none", border: "none", padding: "16px 0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px", cursor: "pointer", textAlign: "left" }}
+                                        >
+                                            <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "15px", fontWeight: 700, letterSpacing: ".02em", color: "#000" }}>
+                                                {item.q}
+                                            </span>
+                                            <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "18px", fontWeight: 300, color: "#000", flexShrink: 0, transform: isOpen ? "rotate(45deg)" : "none", transition: "transform .2s" }}>
+                                                +
+                                            </span>
+                                        </button>
+                                        {isOpen && (
+                                            <div style={{ paddingBottom: "16px", fontSize: "13px", color: "#555", lineHeight: 1.8 }}>
+                                                {item.a}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))}
+
+                    {/* Still need help */}
+                    <div style={{ background: "#f5f5f5", padding: "32px", textAlign: "center", marginTop: "16px" }}>
+                        <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "18px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "8px" }}>
+                            Still Need Help?
+                        </p>
+                        <p style={{ fontSize: "13px", color: "#555", marginBottom: "20px" }}>
+                            Our team replies within 1 hour during business hours.
+                        </p>
+                        <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+                            <Link href="/contact" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none" }}>
+                                Contact Us
+                            </Link>
+                            <a href="https://instagram.com/missusoutfits" target="_blank" rel="noopener noreferrer" style={{ background: "#fff", color: "#000", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", border: "1.5px solid #000" }}>
+                                DM on Instagram
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -462,12 +462,14 @@ export default function ProductPageClient({ params, product, related }: {
                                 ),
                             },
                             {
-                                title: "Shipping & Returns",
-                                content: "Free returns within 7 days. Orders dispatched same day if placed before 2pm.",
+                                title: "Shipping & Delivery",
+                                content: "Orders dispatched same day if placed before 2pm. Lagos delivery in 1-2 hours.",
                                 icon: (
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                                        <polyline points="1 4 1 10 7 10" />
-                                        <path d="M3.51 15a9 9 0 1 0 .49-4.95" />
+                                        <rect x="1" y="3" width="15" height="13" />
+                                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                                        <circle cx="5.5" cy="18.5" r="2.5" />
+                                        <circle cx="18.5" cy="18.5" r="2.5" />
                                     </svg>
                                 ),
                             },

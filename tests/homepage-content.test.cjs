@@ -23,6 +23,7 @@ const encode = c => ({ hp_announcement: c.announcement, hp_marquee: JSON.stringi
 const response = (body, status = 200) => ({ ok: status < 400, status, json: async () => body });
 function server(fetch, env = { WP_APP_PASSWORD: 'admin:test-password' }) {
     return load('lib/homepage-content.server.ts', { 'server-only': {}, react: { cache: fn => fn },
+        'next/navigation': require('next/navigation'),
         './homepage-content': shared }, { fetch, process: { env } });
 }
 
@@ -102,6 +103,13 @@ test('surfaces read failures to admin while storefront has defaults', async () =
     const service = server(async () => response({}, 500));
     await assert.rejects(service.readHomepageContent(), /500/);
     assert.equal(await service.getHomepageContent(), shared.HOMEPAGE_DEFAULTS);
+});
+
+test('propagates Next.js dynamic rendering signals instead of returning defaults', async () => {
+    const { DynamicServerError } = require('next/dist/client/components/hooks-server-context');
+    const error = new DynamicServerError('uncached homepage fetch');
+    const service = server(async () => { throw error; });
+    await assert.rejects(service.getHomepageContent(), caught => caught === error);
 });
 
 test('save route invalidates layout only after confirmed persistence', async () => {
