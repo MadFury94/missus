@@ -527,7 +527,7 @@ export default function ProductPageClient({ params, product, related }: {
                     padding: "12px 16px calc(12px + env(safe-area-inset-bottom))",
                     display: "flex",
                     alignItems: "center",
-                    gap: "10px",
+                    gap: "12px",
                     zIndex: 100,
                     boxShadow: "0 -4px 20px rgba(0,0,0,.07)",
                     transform: stickyVisible ? "translateY(0)" : "translateY(120%)",
@@ -535,6 +535,24 @@ export default function ProductPageClient({ params, product, related }: {
                     pointerEvents: stickyVisible ? "auto" : "none",
                 }}
             >
+                {/* Product thumbnail */}
+                <div style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    border: "1px solid #e8e8e8",
+                    flexShrink: 0
+                }}>
+                    <Image
+                        src={product.images[0]?.src || "/placeholder.jpg"}
+                        alt={product.name}
+                        width={48}
+                        height={48}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                </div>
+
                 {/* Name + price — compact */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{
@@ -551,7 +569,7 @@ export default function ProductPageClient({ params, product, related }: {
                     </p>
                 </div>
 
-                {/* Single CTA — scrolls back up if no size selected, otherwise adds */}
+                {/* Single CTA — oval shaped button */}
                 <button
                     onClick={() => {
                         if (sizes.length > 0 && !selectedSize) {
@@ -567,6 +585,7 @@ export default function ProductPageClient({ params, product, related }: {
                         background: added ? "#1a7a3d" : "#000",
                         color: "#fff",
                         border: "none",
+                        borderRadius: "25px", // Oval shape
                         fontSize: "12px",
                         fontWeight: 700,
                         letterSpacing: ".08em",

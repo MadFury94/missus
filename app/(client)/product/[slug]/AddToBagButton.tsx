@@ -76,7 +76,7 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
             </div>
 
             {/* CTAs */}
-            <button onClick={handleAdd} style={{ width: "100%", height: "52px", background: added ? "#2d7a2d" : "#000", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer", marginBottom: "8px", transition: "background .2s", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+            <button onClick={handleAdd} style={{ width: "100%", height: "52px", background: added ? "#2d7a2d" : "#000", color: "#fff", border: "none", borderRadius: "25px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer", marginBottom: "8px", transition: "background .2s", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
                 {added ? (
                     "Added to Bag ✓"
                 ) : (
@@ -87,7 +87,7 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                     </>
                 )}
             </button>
-            <button style={{ width: "100%", height: "52px", background: "#e8002d", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer" }}>
+            <button style={{ width: "100%", height: "52px", background: "#e8002d", color: "#fff", border: "none", borderRadius: "25px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer" }}>
                 Buy Now — Pay on Delivery
             </button>
         </div>

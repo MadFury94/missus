@@ -320,7 +320,7 @@ export default function CheckoutPage() {
                                                 type="button"
                                                 onClick={applyPromo}
                                                 disabled={promoLoading}
-                                                style={{ background: "#000", color: "#fff", border: "none", borderRadius: "6px", padding: "12px 16px", fontSize: "14px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
+                                                style={{ background: "#000", color: "#fff", border: "none", borderRadius: "25px", padding: "12px 16px", fontSize: "14px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
                                             >
                                                 {promoLoading ? "..." : "Apply"}
                                             </button>
@@ -1045,7 +1045,7 @@ export default function CheckoutPage() {
                                     background: "#000",
                                     color: "#fff",
                                     border: "none",
-                                    borderRadius: "6px",
+                                    borderRadius: "25px", // Oval shape
                                     padding: "16px",
                                     fontSize: "16px",
                                     fontWeight: 600,
@@ -1765,7 +1765,7 @@ export default function CheckoutPage() {
                                     background: "#000",
                                     color: "#fff",
                                     border: "none",
-                                    borderRadius: "8px",
+                                    borderRadius: "25px", // Oval shape
                                     padding: "20px",
                                     fontSize: "18px",
                                     fontWeight: 600,
