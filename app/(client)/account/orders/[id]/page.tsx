@@ -4,8 +4,14 @@ import { useEffect, useState, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { getCurrentUser } from "@/lib/auth";
 import { Package, MapPin, CreditCard, FileText, Truck, ChevronLeft } from "lucide-react";
+import ShipmentTimeline from "@/components/tracking/ShipmentTimeline";
+import RouteVisual from "@/components/tracking/RouteVisual";
+import CarrierInfoCard from "@/components/tracking/CarrierInfoCard";
+import LatestEventCard from "@/components/tracking/LatestEventCard";
+import TrackingEmptyState from "@/components/tracking/TrackingEmptyState";
 
 const STATUS_LABELS: Record<string, { label: string; color: string; bg: string }> = {
     pending: { label: "Pending", color: "#92400e", bg: "#fef3c7" },
@@ -44,6 +50,18 @@ interface OrderDetail {
     }[];
     billing: { first_name: string; last_name: string; email: string; phone: string; address_1: string; city: string; state: string; postcode: string; country: string };
     shipping: { first_name: string; last_name: string; address_1: string; city: string; state: string; postcode: string; country: string };
+    tracking?: {
+        shipment_id: string;
+        status: string;
+        carrier_name: string;
+        carrier_tracking_number: string;
+        carrier_tracking_url?: string;
+        address_from: { city: string; state: string; country?: string };
+        address_to: { city: string; state: string; country?: string };
+        estimated_delivery_date?: string;
+        delivery_date?: string;
+        events: { status: string; description: string; timestamp: string; location?: string }[];
+    } | null;
 }
 
 export default function OrderDetailPage() {
@@ -87,6 +105,52 @@ function OrderDetailContent() {
         carrier_tracking_url?: string;
     } | null>(null);
     const [trackingLoading, setTrackingLoading] = useState(false);
+
+    // Calculate shipment progress percentage
+    const getShipmentProgress = () => {
+        if (!order?.tracking?.events?.length) return 0;
+
+        const events = order.tracking.events;
+        const status = order.tracking.status.toLowerCase();
+
+        if (status.includes('delivered')) return 100;
+        if (status.includes('delivery') || status.includes('out for delivery')) return 80;
+        if (status.includes('transit') || status.includes('shipped')) return 60;
+        if (status.includes('picked') || status.includes('collected')) return 40;
+        if (events.length > 0) return 20;
+
+        return 10;
+    };
+
+    // Format delivery date for header
+    const getDeliveryDateText = () => {
+        if (!order?.tracking) return null;
+
+        const { delivery_date, estimated_delivery_date, status } = order.tracking;
+
+        if (delivery_date) {
+            const date = new Date(delivery_date);
+            return `Delivered on ${date.toLocaleDateString("en-NG", {
+                weekday: "long",
+                day: "numeric",
+                month: "long"
+            })}`;
+        }
+
+        if (estimated_delivery_date) {
+            const date = new Date(estimated_delivery_date);
+            return `Arriving ${date.toLocaleDateString("en-NG", {
+                day: "numeric",
+                month: "long"
+            })}`;
+        }
+
+        if (status.toLowerCase().includes('transit')) {
+            return "In Transit";
+        }
+
+        return "Processing";
+    };
 
     // Determine email to use: URL param > logged-in user > guest input
     function getEmail(): string {
@@ -253,66 +317,293 @@ function OrderDetailContent() {
     const isLoggedIn = !!getCurrentUser();
 
     return (
-        <div style={{ maxWidth: "860px", margin: "0 auto", padding: "36px 20px 80px" }}>
+        <div style={{
+            minHeight: "100vh",
+            background: "#f8f9fa",
+            fontFamily: "'DM Sans', sans-serif"
+        }}>
+            <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "20px" }}>
 
-            {/* Back */}
-            <Link
-                href={isLoggedIn ? "/account" : "/"}
-                style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "#767676", textDecoration: "none", marginBottom: "24px" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#767676")}
-            >
-                <ChevronLeft style={{ width: "14px", height: "14px" }} />
-                {isLoggedIn ? "Back to My Orders" : "Back to Home"}
-            </Link>
+                {/* Back Button */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                >
+                    <Link
+                        href={isLoggedIn ? "/account" : "/"}
+                        style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontSize: "13px",
+                            color: "#767676",
+                            textDecoration: "none",
+                            marginBottom: "24px",
+                            padding: "8px 12px",
+                            borderRadius: "6px",
+                            transition: "all 0.2s"
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.color = "#000";
+                            e.currentTarget.style.background = "#fff";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.color = "#767676";
+                            e.currentTarget.style.background = "transparent";
+                        }}
+                    >
+                        <ChevronLeft style={{ width: "14px", height: "14px" }} />
+                        {isLoggedIn ? "Back to My Orders" : "Back to Home"}
+                    </Link>
+                </motion.div>
 
-            {/* Header */}
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", marginBottom: "28px" }}>
-                <div>
-                    <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(24px,4vw,32px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em", color: "#000", marginBottom: "4px" }}>
-                        Order #{order.number}
-                    </h1>
-                    <p style={{ fontSize: "13px", color: "#767676" }}>Placed on {orderDate}</p>
-                </div>
-                <span style={{ fontSize: "12px", fontWeight: 700, padding: "6px 14px", borderRadius: "99px", background: statusInfo.bg, color: statusInfo.color, letterSpacing: ".04em", textTransform: "uppercase", alignSelf: "flex-start" }}>
-                    {statusInfo.label}
-                </span>
-            </div>
+                {/* Enhanced Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    style={{
+                        background: "#fff",
+                        border: "1px solid #e5e5e5",
+                        borderRadius: "16px",
+                        padding: "32px",
+                        marginBottom: "24px",
+                        boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)"
+                    }}
+                >
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "16px",
+                        flexWrap: "wrap",
+                        gap: "16px"
+                    }}>
+                        <div>
+                            <p style={{
+                                fontSize: "12px",
+                                fontWeight: 700,
+                                letterSpacing: ".16em",
+                                textTransform: "uppercase",
+                                color: "#9ca3af",
+                                marginBottom: "8px"
+                            }}>
+                                Order #{order.number}
+                            </p>
+                            <h1 style={{
+                                fontSize: "clamp(24px, 4vw, 36px)",
+                                fontWeight: 700,
+                                color: "#000",
+                                marginBottom: "8px",
+                                fontFamily: "'DM Sans', sans-serif"
+                            }}>
+                                {getDeliveryDateText() || `Order ${statusInfo.label}`}
+                            </h1>
+                            <p style={{
+                                fontSize: "16px",
+                                color: "#6b7280",
+                                fontFamily: "'DM Sans', sans-serif"
+                            }}>
+                                {order.shipping.first_name} {order.shipping.last_name} • Placed {orderDate}
+                            </p>
+                        </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "16px" }}>
+                        <span style={{
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            padding: "8px 16px",
+                            borderRadius: "20px",
+                            background: statusInfo.bg,
+                            color: statusInfo.color,
+                            letterSpacing: ".06em",
+                            textTransform: "uppercase",
+                            whiteSpace: "nowrap"
+                        }}>
+                            {statusInfo.label}
+                        </span>
+                    </div>
 
-                {/* Line items */}
-                <section style={{ border: "1px solid #e8e8e8", padding: "20px 24px" }}>
-                    <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-                        <Package style={{ width: "15px", height: "15px" }} /> Items Ordered
-                    </h2>
+                    {/* Delivery Address */}
+                    <div style={{
+                        background: "#f8f9fa",
+                        borderRadius: "8px",
+                        padding: "16px",
+                    }}>
+                        <p style={{
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            letterSpacing: ".12em",
+                            textTransform: "uppercase",
+                            color: "#6b7280",
+                            marginBottom: "8px"
+                        }}>
+                            Delivering to
+                        </p>
+                        <p style={{
+                            fontSize: "14px",
+                            color: "#374151",
+                            lineHeight: 1.6,
+                            fontFamily: "'DM Sans', sans-serif"
+                        }}>
+                            {order.shipping.address_1}<br />
+                            {order.shipping.city}, {order.shipping.state}
+                            {order.shipping.postcode && `, ${order.shipping.postcode}`}
+                            {order.shipping.country && order.shipping.country !== 'Nigeria' && `, ${order.shipping.country}`}
+                        </p>
+                    </div>
+                </motion.div>
+
+                {/* Enhanced Tracking Section */}
+                {order.tracking ? (
+                    <div>
+                        {/* Timeline */}
+                        <ShipmentTimeline
+                            events={order.tracking.events}
+                            currentStatus={order.tracking.status}
+                        />
+
+                        {/* Route Visual */}
+                        <RouteVisual
+                            addressFrom={order.tracking.address_from}
+                            addressTo={order.tracking.address_to}
+                            progress={getShipmentProgress()}
+                        />
+
+                        {/* Carrier Info */}
+                        <CarrierInfoCard
+                            carrierName={order.tracking.carrier_name}
+                            carrierTrackingNumber={order.tracking.carrier_tracking_number}
+                            carrierTrackingUrl={order.tracking.carrier_tracking_url}
+                        />
+
+                        {/* Latest Event */}
+                        {order.tracking.events.length > 0 && (
+                            <LatestEventCard event={order.tracking.events[0]} />
+                        )}
+                    </div>
+                ) : (
+                    <TrackingEmptyState />
+                )}
+
+                {/* Order Items */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    style={{
+                        background: "#fff",
+                        border: "1px solid #e5e5e5",
+                        borderRadius: "16px",
+                        padding: "32px",
+                        marginBottom: "24px",
+                        boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)"
+                    }}
+                >
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "24px"
+                    }}>
+                        <h2 style={{
+                            fontSize: "18px",
+                            fontWeight: 600,
+                            color: "#000",
+                            fontFamily: "'DM Sans', sans-serif"
+                        }}>
+                            Order Summary
+                        </h2>
+                        <div style={{
+                            background: "#f3f4f6",
+                            color: "#374151",
+                            padding: "4px 12px",
+                            borderRadius: "12px",
+                            fontSize: "12px",
+                            fontWeight: 600
+                        }}>
+                            {order.line_items.length} {order.line_items.length === 1 ? 'item' : 'items'}
+                        </div>
+                    </div>
+
                     <div>
                         {order.line_items.map((item, idx) => (
-                            <div key={item.id} style={{ display: "flex", gap: "14px", padding: "14px 0", borderTop: idx > 0 ? "1px solid #f0f0f0" : "none" }}>
-                                <div style={{ width: "60px", height: "78px", background: "#f0ece8", position: "relative", flexShrink: 0, overflow: "hidden" }}>
+                            <div key={item.id} style={{
+                                display: "flex",
+                                gap: "16px",
+                                padding: "20px 0",
+                                borderTop: idx > 0 ? "1px solid #f0f0f0" : "none"
+                            }}>
+                                <div style={{
+                                    width: "80px",
+                                    height: "100px",
+                                    background: "#f0ece8",
+                                    position: "relative",
+                                    flexShrink: 0,
+                                    overflow: "hidden",
+                                    borderRadius: "8px"
+                                }}>
                                     {item.image ? (
-                                        <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} sizes="60px" />
+                                        <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} sizes="80px" />
                                     ) : (
-                                        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", color: "#ccc", textAlign: "center", padding: "4px" }}>
+                                        <div style={{
+                                            position: "absolute",
+                                            inset: 0,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            fontSize: "10px",
+                                            color: "#ccc",
+                                            textAlign: "center",
+                                            padding: "4px"
+                                        }}>
                                             {item.name.split(" ").slice(0, 2).join(" ")}
                                         </div>
                                     )}
                                 </div>
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                    <p style={{ fontSize: "14px", fontWeight: 600, color: "#000", marginBottom: "4px" }}>{item.name}</p>
+                                    <p style={{
+                                        fontSize: "16px",
+                                        fontWeight: 600,
+                                        color: "#000",
+                                        marginBottom: "8px",
+                                        fontFamily: "'DM Sans', sans-serif"
+                                    }}>
+                                        {item.name}
+                                    </p>
                                     {item.meta_data.map((m) => (
-                                        <p key={m.key} style={{ fontSize: "12px", color: "#767676", marginBottom: "2px" }}>
+                                        <p key={m.key} style={{
+                                            fontSize: "14px",
+                                            color: "#767676",
+                                            marginBottom: "4px",
+                                            fontFamily: "'DM Sans', sans-serif"
+                                        }}>
                                             {m.key}: {m.value}
                                         </p>
                                     ))}
-                                    <p style={{ fontSize: "12px", color: "#767676" }}>Qty: {item.quantity}</p>
+                                    <p style={{
+                                        fontSize: "14px",
+                                        color: "#767676",
+                                        fontFamily: "'DM Sans', sans-serif"
+                                    }}>
+                                        Qty: {item.quantity}
+                                    </p>
                                 </div>
                                 <div style={{ textAlign: "right", flexShrink: 0 }}>
-                                    <p style={{ fontSize: "14px", fontWeight: 700, color: "#000" }}>
+                                    <p style={{
+                                        fontSize: "16px",
+                                        fontWeight: 700,
+                                        color: "#000",
+                                        fontFamily: "'DM Sans', sans-serif"
+                                    }}>
                                         ₦{parseFloat(item.total).toLocaleString("en-NG")}
                                     </p>
                                     {item.quantity > 1 && (
-                                        <p style={{ fontSize: "11px", color: "#aaa" }}>₦{Number(item.price).toLocaleString("en-NG")} each</p>
+                                        <p style={{
+                                            fontSize: "12px",
+                                            color: "#aaa",
+                                            fontFamily: "'DM Sans', sans-serif"
+                                        }}>
+                                            ₦{Number(item.price).toLocaleString("en-NG")} each
+                                        </p>
                                     )}
                                 </div>
                             </div>
@@ -320,7 +611,7 @@ function OrderDetailContent() {
                     </div>
 
                     {/* Totals */}
-                    <div style={{ borderTop: "1px solid #e8e8e8", marginTop: "16px", paddingTop: "16px" }}>
+                    <div style={{ borderTop: "2px solid #e5e5e5", marginTop: "20px", paddingTop: "20px" }}>
                         {[
                             { label: "Subtotal", value: `₦${order.line_items.reduce((s, i) => s + parseFloat(i.total), 0).toLocaleString("en-NG")}` },
                             parseFloat(order.discount_total) > 0 && { label: "Discount", value: `−₦${parseFloat(order.discount_total).toLocaleString("en-NG")}`, red: true },
@@ -329,128 +620,79 @@ function OrderDetailContent() {
                         ].filter(Boolean).map((row) => {
                             const r = row as { label: string; value: string; red?: boolean };
                             return (
-                                <div key={r.label} style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", marginBottom: "8px" }}>
+                                <div key={r.label} style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    fontSize: "15px",
+                                    marginBottom: "12px",
+                                    fontFamily: "'DM Sans', sans-serif"
+                                }}>
                                     <span style={{ color: "#767676" }}>{r.label}</span>
                                     <span style={{ fontWeight: 600, color: r.red ? "#e8002d" : "#000" }}>{r.value}</span>
                                 </div>
                             );
                         })}
-                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "17px", fontWeight: 800, borderTop: "2px solid #000", paddingTop: "12px", marginTop: "4px" }}>
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            fontSize: "20px",
+                            fontWeight: 800,
+                            borderTop: "2px solid #000",
+                            paddingTop: "16px",
+                            marginTop: "8px",
+                            fontFamily: "'DM Sans', sans-serif"
+                        }}>
                             <span>Total</span>
                             <span>₦{parseFloat(order.total).toLocaleString("en-NG")}</span>
                         </div>
                     </div>
-                </section>
+                </motion.div>
 
-                {/* Live tracking section */}
-                {(trackingLoading || tracking) && (
-                    <section style={{ border: "1px solid #e8e8e8", padding: "20px 24px" }}>
-                        <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-                            <Truck style={{ width: "15px", height: "15px" }} /> Shipment Tracking
-                        </h2>
-
-                        {trackingLoading ? (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                                {[1, 2, 3].map((i) => (
-                                    <div key={i} style={{ height: "44px", background: "#f5f5f5", borderRadius: "4px" }} />
-                                ))}
-                            </div>
-                        ) : tracking ? (
-                            <>
-                                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
-                                    <span style={{
-                                        fontSize: "11px", fontWeight: 700, padding: "5px 14px",
-                                        borderRadius: "999px", textTransform: "uppercase", letterSpacing: ".06em",
-                                        background: tracking.status === "delivered" ? "#d1fae5" : tracking.status === "in_transit" ? "#dbeafe" : "#f3f4f6",
-                                        color: tracking.status === "delivered" ? "#065f46" : tracking.status === "in_transit" ? "#1e40af" : "#374151",
-                                    }}>
-                                        {tracking.status.replace(/_/g, " ")}
-                                    </span>
-                                    {tracking.carrier_tracking_url && (
-                                        <a href={tracking.carrier_tracking_url} target="_blank" rel="noopener noreferrer"
-                                            style={{ fontSize: "12px", color: "#000", textDecoration: "underline", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
-                                            Track on Carrier
-                                        </a>
-                                    )}
-                                </div>
-
-                                {tracking.events.length > 0 && (
-                                    <div style={{ position: "relative", paddingLeft: "20px" }}>
-                                        <div style={{ position: "absolute", left: "7px", top: "8px", bottom: "8px", width: "1px", background: "#e8e8e8" }} />
-                                        {tracking.events.map((evt, idx) => (
-                                            <div key={idx} style={{ position: "relative", paddingBottom: idx < tracking.events.length - 1 ? "20px" : 0 }}>
-                                                <div style={{ position: "absolute", left: "-16px", top: "4px", width: "8px", height: "8px", borderRadius: "50%", background: idx === 0 ? "#000" : "#d1d5db", border: "2px solid #fff", boxShadow: "0 0 0 1px #d1d5db" }} />
-                                                <p style={{ fontSize: "13px", fontWeight: idx === 0 ? 700 : 500, color: idx === 0 ? "#000" : "#555", marginBottom: "2px", lineHeight: 1.4 }}>
-                                                    {evt.description}
-                                                </p>
-                                                {evt.location && (
-                                                    <p style={{ fontSize: "11px", color: "#888", marginBottom: "2px" }}>📍 {evt.location}</p>
-                                                )}
-                                                <p style={{ fontSize: "11px", color: "#aaa" }}>
-                                                    {new Date(evt.timestamp).toLocaleString("en-NG", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </>
-                        ) : null}
-                    </section>
-                )}
-
-                {/* Shipping + payment */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px" }}>
-                    <section style={{ border: "1px solid #e8e8e8", padding: "20px 24px" }}>
-                        <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "14px", display: "flex", alignItems: "center", gap: "8px" }}>
-                            <MapPin style={{ width: "15px", height: "15px" }} /> Delivery Address
-                        </h2>
-                        <p style={{ fontSize: "13px", color: "#000", lineHeight: 1.8 }}>
-                            {order.shipping.first_name} {order.shipping.last_name}<br />
-                            {order.shipping.address_1}<br />
-                            {order.shipping.city}, {order.shipping.state} {order.shipping.postcode}<br />
-                            {order.shipping.country || "Nigeria"}
+                {/* Help Section */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    style={{
+                        background: "#fff",
+                        border: "1px solid #e5e5e5",
+                        borderRadius: "16px",
+                        padding: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        flexWrap: "wrap",
+                        gap: "16px",
+                        boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)"
+                    }}
+                >
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                        <FileText style={{ width: "20px", height: "20px", color: "#6b7280" }} />
+                        <p style={{
+                            fontSize: "15px",
+                            color: "#374151",
+                            fontFamily: "'DM Sans', sans-serif"
+                        }}>
+                            Issue with this order? We reply within 1 hour.
                         </p>
-                        {order.customer_note && (
-                            <div style={{ marginTop: "12px", padding: "10px 12px", background: "#f8f8f8", borderLeft: "2px solid #e8e8e8" }}>
-                                <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#aaa", marginBottom: "4px" }}>Delivery Note</p>
-                                <p style={{ fontSize: "12px", color: "#555", lineHeight: 1.5 }}>{order.customer_note}</p>
-                            </div>
-                        )}
-                    </section>
-
-                    <section style={{ border: "1px solid #e8e8e8", padding: "20px 24px" }}>
-                        <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "14px", display: "flex", alignItems: "center", gap: "8px" }}>
-                            <CreditCard style={{ width: "15px", height: "15px" }} /> Payment
-                        </h2>
-                        <div style={{ fontSize: "13px", color: "#000", lineHeight: 1.8 }}>
-                            <p><span style={{ color: "#767676" }}>Method: </span>{order.payment_method_title || "—"}</p>
-                            {order.transaction_id && (
-                                <p style={{ wordBreak: "break-all" }}>
-                                    <span style={{ color: "#767676" }}>Ref: </span>
-                                    <span style={{ fontFamily: "monospace", fontSize: "12px" }}>{order.transaction_id}</span>
-                                </p>
-                            )}
-                            <p><span style={{ color: "#767676" }}>Email: </span>{order.billing.email}</p>
-                            {order.billing.phone && (
-                                <p><span style={{ color: "#767676" }}>Phone: </span>{order.billing.phone}</p>
-                            )}
-                        </div>
-                    </section>
-                </div>
-
-                {/* Help */}
-                <div style={{ border: "1px solid #e8e8e8", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                        <FileText style={{ width: "16px", height: "16px", color: "#aaa" }} />
-                        <p style={{ fontSize: "13px", color: "#555" }}>Issue with this order? We reply within 1 hour.</p>
                     </div>
                     <Link
                         href={`/contact?subject=order&ref=Order+%23${order.number}`}
-                        style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1.5px solid #000", paddingBottom: "1px", whiteSpace: "nowrap" }}
+                        style={{
+                            background: "var(--color-brand-primary, #7F0E12)",
+                            color: "#fff",
+                            padding: "10px 20px",
+                            borderRadius: "8px",
+                            fontSize: "14px",
+                            fontWeight: 600,
+                            textDecoration: "none",
+                            whiteSpace: "nowrap",
+                            fontFamily: "'DM Sans', sans-serif"
+                        }}
                     >
                         Contact Support
                     </Link>
-                </div>
+                </motion.div>
             </div>
         </div>
     );

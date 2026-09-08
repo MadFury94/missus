@@ -4,10 +4,38 @@ import { wcFetch } from "@/lib/wp-fetch";
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
 const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
+const TERMINAL_AFRICA_API_KEY = process.env.TERMINAL_AFRICA_SECRET_KEY;
 
 function getWCAuth() {
     const auth = Buffer.from(`${WC_CONSUMER_KEY}:${WC_CONSUMER_SECRET}`).toString("base64");
     return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
+}
+
+async function getTrackingData(shipmentId: string) {
+    if (!TERMINAL_AFRICA_API_KEY || !shipmentId) {
+        return null;
+    }
+
+    try {
+        const response = await fetch(`https://api.terminal.africa/v1/shipments/track/${shipmentId}`, {
+            headers: {
+                'Authorization': `Bearer ${TERMINAL_AFRICA_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            console.error('Terminal Africa tracking API error:', response.status);
+            return null;
+        }
+
+        const trackingData = await response.json();
+        return trackingData.data || trackingData;
+    } catch (error) {
+        console.error('Error fetching tracking data:', error);
+        return null;
+    }
 }
 
 export async function GET(
@@ -35,6 +63,16 @@ export async function GET(
     const billingEmail = (o.billing as Record<string, string>)?.email ?? "";
     if (billingEmail.toLowerCase() !== email.toLowerCase()) {
         return NextResponse.json({ error: "Order not found." }, { status: 404 });
+    }
+
+    // Extract shipment ID from order meta data
+    const shipmentId = (o.meta_data as { key: string; value: string }[])
+        ?.find(meta => meta.key === 'shipment_id' || meta.key === '_shipment_id')?.value;
+
+    // Fetch tracking data if shipment ID exists
+    let trackingData = null;
+    if (shipmentId) {
+        trackingData = await getTrackingData(shipmentId);
     }
 
     return NextResponse.json({
@@ -84,5 +122,25 @@ export async function GET(
             postcode: (o.shipping as Record<string, string>)?.postcode,
             country: (o.shipping as Record<string, string>)?.country,
         },
+        tracking: trackingData ? {
+            shipment_id: shipmentId,
+            status: trackingData.status || 'pending',
+            carrier_name: trackingData.carrier_name || 'Carrier',
+            carrier_tracking_number: trackingData.carrier_tracking_number || trackingData.tracking_number || '',
+            carrier_tracking_url: trackingData.carrier_tracking_url || trackingData.tracking_url,
+            address_from: trackingData.address_from || {
+                city: 'Lagos',
+                state: 'Lagos',
+                country: 'Nigeria'
+            },
+            address_to: trackingData.address_to || {
+                city: (o.shipping as Record<string, string>)?.city || 'Unknown',
+                state: (o.shipping as Record<string, string>)?.state || 'Unknown',
+                country: (o.shipping as Record<string, string>)?.country || 'Nigeria'
+            },
+            estimated_delivery_date: trackingData.estimated_delivery_date,
+            delivery_date: trackingData.delivery_date,
+            events: trackingData.events || []
+        } : null
     });
 }
