@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default function CartUnlockBar({ total }: Props) {
+    const { convert } = useCurrency();
     const remaining = FREE_SHIPPING_THRESHOLD - total;
     const isUnlocked = total >= FREE_SHIPPING_THRESHOLD;
     const progress = Math.min(100, (total / FREE_SHIPPING_THRESHOLD) * 100);
@@ -21,7 +22,7 @@ export default function CartUnlockBar({ total }: Props) {
                     <span>🎉 You&apos;ve unlocked <strong>FREE SHIPPING!</strong> Enjoy.</span>
                 ) : (
                     <span>
-                        Spend <strong>{formatPrice(remaining)}</strong> more to unlock <strong>FREE SHIPPING!</strong>{" "}
+                        Spend <strong>{convert(remaining)}</strong> more to unlock <strong>FREE SHIPPING!</strong>{" "}
                         <Link href="/shop" style={{ fontWeight: 700, textDecoration: "underline", color: "#000" }}>
                             Shop New ?
                         </Link>
@@ -56,7 +57,7 @@ export default function CartUnlockBar({ total }: Props) {
                     ) : (
                         <>
                             <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#fff", lineHeight: 1.3 }}>
-                                Add {formatPrice(remaining)} more for FREE SHIPPING
+                                Add {convert(remaining)} more for FREE SHIPPING
                             </p>
                             <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)", fontWeight: 300 }}>
                                 Orders ?150,000+ ship free nationwide

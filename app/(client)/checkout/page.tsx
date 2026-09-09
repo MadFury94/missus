@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronDown, ChevronUp, CreditCard, Banknote } from "lucide-react";
 import type { Cart } from "@/types";
 import { getCart } from "@/lib/cart";
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 import type { ShippingRate } from "@/lib/woocommerce-shipping";
 import DynamicTitle from "@/components/layout/DynamicTitle";
 
@@ -18,6 +18,7 @@ const STATES = [
 ];
 
 export default function CheckoutPage() {
+    const { convert } = useCurrency();
     const [cart, setCart] = useState<Cart>({ items: [], subtotal: 0, total: 0 });
     const [loading, setLoading] = useState(false);
     const [promoCode, setPromoCode] = useState("");
@@ -87,9 +88,11 @@ export default function CheckoutPage() {
             try {
                 const res = await fetch("/api/shipping/woocommerce-rates", {
                     method: "POST", headers: { "Content-Type": "application/json" }, signal: controller.signal,
-                    body: JSON.stringify({ city: form.city, state: form.state, items: cart.items,
+                    body: JSON.stringify({
+                        city: form.city, state: form.state, items: cart.items,
                         address_1: form.address, postcode: form.postalCode, country: form.country,
-                        coupon: promoLabel.toLowerCase().includes("gift") ? "" : promoCode }),
+                        coupon: promoLabel.toLowerCase().includes("gift") ? "" : promoCode
+                    }),
                 });
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error);
@@ -147,7 +150,7 @@ export default function CheckoutPage() {
     }
 
     const shippingCost = selectedRate?.amount ?? null;
-    const shippingDisplay = shippingCost === null ? null : shippingCost === 0 ? "FREE" : formatPrice(String(shippingCost));
+    const shippingDisplay = shippingCost === null ? null : shippingCost === 0 ? "FREE" : convert(shippingCost / 100);
     const shippingCostInNaira = shippingCost ? shippingCost / 100 : 0; // Convert kobo to naira
     const total = cart.total + shippingCostInNaira - promoDiscount;
 
@@ -341,7 +344,7 @@ export default function CheckoutPage() {
                                     {orderSummaryOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                     Order summary
                                 </span>
-                                <span style={{ fontSize: "18px", fontWeight: 600 }}>{formatPrice(Math.max(0, total))}</span>
+                                <span style={{ fontSize: "18px", fontWeight: 600 }}>{convert(Math.max(0, total))}</span>
                             </button>
 
                             {orderSummaryOpen && (
@@ -379,7 +382,7 @@ export default function CheckoutPage() {
                                                 <div style={{ flex: 1 }}>
                                                     <p style={{ fontSize: "14px", fontWeight: 500, color: "#000", marginBottom: "4px" }}>{item.name}</p>
                                                     {item.size && <p style={{ fontSize: "12px", color: "#666", marginBottom: "4px" }}>Size: {item.size}</p>}
-                                                    <p style={{ fontSize: "14px", fontWeight: 600, color: "#000" }}>{formatPrice(item.price * item.quantity)}</p>
+                                                    <p style={{ fontSize: "14px", fontWeight: 600, color: "#000" }}>{convert(item.price * item.quantity)}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -417,12 +420,12 @@ export default function CheckoutPage() {
                                     <div>
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
                                             <span style={{ color: "#666" }}>Subtotal</span>
-                                            <span>{formatPrice(cart.subtotal)}</span>
+                                            <span>{convert(cart.subtotal)}</span>
                                         </div>
                                         {promoDiscount > 0 && (
                                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
                                                 <span style={{ color: "#000" }}>Discount</span>
-                                                <span style={{ color: "#000" }}>-{formatPrice(promoDiscount)}</span>
+                                                <span style={{ color: "#000" }}>-{convert(promoDiscount)}</span>
                                             </div>
                                         )}
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "14px" }}>
@@ -431,7 +434,7 @@ export default function CheckoutPage() {
                                         </div>
                                         <div style={{ display: "flex", justifyContent: "space-between", paddingTop: "12px", borderTop: "1px solid #e5e5e5", fontSize: "16px", fontWeight: 600 }}>
                                             <span>Total</span>
-                                            <span>NGN {formatPrice(Math.max(0, total))}</span>
+                                            <span>{convert(Math.max(0, total))}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1007,7 +1010,7 @@ export default function CheckoutPage() {
                                                         <div style={{ flex: 1 }}>
                                                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                                 <span style={{ fontSize: "14px", fontWeight: 500 }}>{rate.carrier_name}</span>
-                                                                <span style={{ fontSize: "14px", fontWeight: 600 }}>{formatPrice(String(rate.amount))}</span>
+                                                                <span style={{ fontSize: "14px", fontWeight: 600 }}>{convert(rate.amount / 100)}</span>
                                                             </div>
                                                             <p style={{ fontSize: "12px", color: "#666", margin: "2px 0 0 0" }}>{rate.delivery_time}</p>
                                                         </div>
@@ -1725,7 +1728,7 @@ export default function CheckoutPage() {
                                                         <div style={{ flex: 1 }}>
                                                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                                 <span style={{ fontSize: "16px", fontWeight: 500 }}>{rate.carrier_name}</span>
-                                                                <span style={{ fontSize: "16px", fontWeight: 600 }}>{formatPrice(String(rate.amount))}</span>
+                                                                <span style={{ fontSize: "16px", fontWeight: 600 }}>{convert(rate.amount / 100)}</span>
                                                             </div>
                                                             <p style={{ fontSize: "14px", color: "#666", margin: "4px 0 0 0" }}>{rate.delivery_time}</p>
                                                         </div>
@@ -1909,7 +1912,7 @@ export default function CheckoutPage() {
                                             <div style={{ flex: 1 }}>
                                                 <p style={{ fontSize: "16px", fontWeight: 500, color: "#000", marginBottom: "6px" }}>{item.name}</p>
                                                 {item.size && <p style={{ fontSize: "14px", color: "#666", marginBottom: "6px" }}>Size: {item.size}</p>}
-                                                <p style={{ fontSize: "16px", fontWeight: 600, color: "#000" }}>{formatPrice(item.price * item.quantity)}</p>
+                                                <p style={{ fontSize: "16px", fontWeight: 600, color: "#000" }}>{convert(item.price * item.quantity)}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -1948,12 +1951,12 @@ export default function CheckoutPage() {
                                 <div>
                                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "16px" }}>
                                         <span style={{ color: "#666" }}>Subtotal</span>
-                                        <span>{formatPrice(cart.subtotal)}</span>
+                                        <span>{convert(cart.subtotal)}</span>
                                     </div>
                                     {promoDiscount > 0 && (
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "16px" }}>
                                             <span style={{ color: "#000" }}>Discount</span>
-                                            <span style={{ color: "#000" }}>-{formatPrice(promoDiscount)}</span>
+                                            <span style={{ color: "#000" }}>-{convert(promoDiscount)}</span>
                                         </div>
                                     )}
                                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", fontSize: "16px" }}>
@@ -1962,7 +1965,7 @@ export default function CheckoutPage() {
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between", paddingTop: "16px", borderTop: "2px solid #e5e5e5", fontSize: "20px", fontWeight: 600 }}>
                                         <span>Total</span>
-                                        <span>NGN {formatPrice(Math.max(0, total))}</span>
+                                        <span>{convert(Math.max(0, total))}</span>
                                     </div>
                                 </div>
                             </div>

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { StoreProduct } from "@/lib/woocommerce";
-import { formatPrice, getDiscount, getProductImage, getSizes, toNaira } from "@/lib/woocommerce";
+import { getDiscount, getProductImage, getSizes, toNaira } from "@/lib/woocommerce";
 import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
 import { addToCart } from "@/lib/cart";
 import RestockSignup from "./RestockSignup";
@@ -63,6 +63,7 @@ function colourNameToHex(name: string): string {
 }
 
 export default function ProductCard({ product }: { product: StoreProduct }) {
+    const { convert } = useCurrency();
     const router = useRouter();
     const [hovered, setHovered] = useState(false);
     const [isWished, setIsWished] = useState(false);
@@ -98,8 +99,8 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const badgeBg = isDeal ? "#7F0E12" : "#000";
 
     const { convert } = useCurrency();
-    const priceNaira = convert(parseInt(product.prices.price));
-    const regularNaira = convert(parseInt(product.prices.regular_price));
+    const priceNaira = convert(toNaira(product.prices.price));
+    const regularNaira = convert(toNaira(product.prices.regular_price));
     const isOnSale = product.on_sale && product.prices.sale_price !== product.prices.regular_price;
 
     const colourAttr = product.attributes?.find(

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { CreditCard, Truck, Check } from "lucide-react";
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
 
 const PAY_ICONS = ["VISA", "MASTERCARD", "PAYSTACK", "FLUTTERWAVE", "OPAY"];
@@ -19,6 +19,7 @@ interface Props {
 
 export default function OrderSummary({ subtotal, discount, total, itemCount, promoCode, promoDiscount = 0 }: Props) {
     const isShippingFree = subtotal >= FREE_SHIPPING_THRESHOLD;
+    const { convert } = useCurrency();
 
     // Calculate the actual total with all discounts applied
     const totalDiscounts = discount + promoDiscount;
@@ -41,7 +42,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                             Subtotal ({itemCount} item{itemCount !== 1 ? "s" : ""})
                         </span>
                         <span style={{ fontSize: "13px", fontWeight: 600, color: "#000" }}>
-                            {formatPrice(subtotal)}
+                            {convert(subtotal)}
                         </span>
                     </div>
 
@@ -49,7 +50,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid #f0f0f0" }}>
                             <span style={{ fontSize: "13px", color: "#555" }}>Discount</span>
                             <span style={{ fontSize: "13px", fontWeight: 600, color: "#7F0E12" }}>
-                                -{formatPrice(discount)}
+                                -{convert(discount)}
                             </span>
                         </div>
                     )}
@@ -65,7 +66,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0" }}>
                             <span style={{ fontSize: "13px", color: "#555" }}>Promo ({promoCode})</span>
                             <span style={{ fontSize: "13px", fontWeight: 600, color: "#7F0E12" }}>
-                                -{formatPrice(promoDiscount)}
+                                -{convert(promoDiscount)}
                             </span>
                         </div>
                     )}
@@ -76,7 +77,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     <div style={{ background: "#f0faf4", border: "1px solid #c8e6d4", padding: "10px 14px", margin: "12px 0", display: "flex", alignItems: "center", gap: "8px" }}>
                         <Check size={16} color="#007a3d" style={{ flexShrink: 0 }} />
                         <span style={{ fontSize: "12px", color: "#007a3d", fontWeight: 600 }}>
-                            You're saving {formatPrice(totalDiscounts)} on this order!
+                            You're saving {convert(totalDiscounts)} on this order!
                         </span>
                     </div>
                 )}
@@ -90,7 +91,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                         Total
                     </span>
                     <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "24px", fontWeight: 900, color: "#000" }}>
-                        {formatPrice(finalTotal)}
+                        {convert(finalTotal)}
                     </span>
                 </div>
                 <p style={{ fontSize: "11px", color: "#aaa", textAlign: "right", marginTop: "4px" }}>

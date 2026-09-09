@@ -56,9 +56,9 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
     const symbol = CURRENCIES.find((c) => c.code === currency)?.symbol ?? "₦";
 
-    // nairaAmount is in kobo (WooCommerce stores prices * 100)
-    const convert = useCallback((kobo: number): string => {
-        const naira = kobo / 100;
+    // Amounts passed here are naira. WooCommerce kobo values are normalized before display.
+    const convert = useCallback((naira: number): string => {
+        if (!Number.isFinite(naira)) naira = 0;
         if (currency === "NGN" || !rates[currency]) {
             return `₦${naira.toLocaleString("en-NG", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
         }

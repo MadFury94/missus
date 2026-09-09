@@ -2,9 +2,11 @@
 import { useState } from "react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import { addToCart } from "@/lib/cart";
-import { formatPrice, getProductImage } from "@/lib/woocommerce";
+import { getProductImage } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 
 export default function AddToBagButton({ product, sizes, colors }: { product: StoreProduct; sizes: string[]; colors: string[] }) {
+    const { convert } = useCurrency();
     const [selectedSize, setSelectedSize] = useState(sizes[0] ?? "");
     const [selectedColor, setSelectedColor] = useState(colors[0] ?? "");
     const [qty, setQty] = useState(1);

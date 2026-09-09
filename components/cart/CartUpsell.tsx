@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 
 interface UpsellProduct {
     id: number;
@@ -17,6 +17,7 @@ interface Props {
 }
 
 export default function CartUpsell({ products }: Props) {
+    const { convert } = useCurrency();
     if (products.length === 0) return null;
 
     return (
@@ -55,11 +56,11 @@ export default function CartUpsell({ products }: Props) {
                         <p style={{ fontSize: "11px", fontWeight: 700, color: "#000", margin: 0 }}>
                             {product.regularPrice && product.regularPrice > product.price && (
                                 <span style={{ color: "#aaa", textDecoration: "line-through", fontWeight: 400, marginRight: "3px" }}>
-                                    {formatPrice(product.regularPrice)}
+                                    {convert(product.regularPrice)}
                                 </span>
                             )}
                             <span style={{ color: product.regularPrice && product.regularPrice > product.price ? "#7F0E12" : "#000" }}>
-                                {formatPrice(product.price)}
+                                {convert(product.price)}
                             </span>
                         </p>
 

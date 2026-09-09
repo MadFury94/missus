@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getCart, removeFromCart, updateQuantity } from "@/lib/cart";
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 import type { Cart } from "@/types";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 }
 
 export default function CartDrawer({ isOpen, onClose }: Props) {
+    const { convert } = useCurrency();
     const [cart, setCart] = useState<Cart>({ items: [], subtotal: 0, total: 0 });
 
     const refresh = useCallback(() => setCart(getCart()), []);
@@ -138,11 +139,11 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                                 {item.size && <p style={{ fontSize: "11px", color: "#767676", marginTop: "3px" }}>Size: {item.size}</p>}
                                                 <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
                                                     <span style={{ fontSize: "13px", fontWeight: 700, color: hasDiscount ? "#7F0E12" : "#000" }}>
-                                                        {formatPrice(item.price)}
+                                                        {convert(item.price)}
                                                     </span>
                                                     {hasDiscount && (
                                                         <span style={{ fontSize: "12px", color: "#aaa", textDecoration: "line-through" }}>
-                                                            {formatPrice(item.regularPrice!)}
+                                                            {convert(item.regularPrice!)}
                                                         </span>
                                                     )}
                                                 </div>
@@ -209,7 +210,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
                                 <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em" }}>Subtotal</span>
                                 <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 900 }}>
-                                    {formatPrice(cart.subtotal)}
+                                    {convert(cart.subtotal)}
                                 </span>
                             </div>
 
@@ -221,7 +222,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                 onClick={onClose}
                                 style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase", padding: "16px", textDecoration: "none", marginBottom: "10px", borderRadius: "999px" }}
                             >
-                                Checkout &mdash; {formatPrice(cart.subtotal)}
+                                Checkout &mdash; {convert(cart.subtotal)}
                             </Link>
                             <Link
                                 href="/cart"

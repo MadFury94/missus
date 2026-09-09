@@ -1,10 +1,11 @@
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 
 interface FreeGiftBarProps {
     remaining: number;
 }
 
 export default function FreeGiftBar({ remaining }: FreeGiftBarProps) {
+    const { convert } = useCurrency();
     if (remaining <= 0) return null;
 
     return (
@@ -20,7 +21,7 @@ export default function FreeGiftBar({ remaining }: FreeGiftBarProps) {
             </div>
             <div>
                 <p className="font-display text-[13px] font-bold tracking-[.06em] uppercase text-white leading-tight">
-                    Add {formatPrice(remaining)} more for FREE SHIPPING
+                    Add {convert(remaining)} more for FREE SHIPPING
                 </p>
                 <span className="text-[11px] text-white/50 font-light">
                     Orders ?150,000+ ship free nationwide

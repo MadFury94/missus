@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
-import { formatPrice, getDiscount, getSizes, getColors, toNaira } from "@/lib/woocommerce";
+import { getDiscount, getSizes, getColors, toNaira } from "@/lib/woocommerce";
 import { addToCart, getCart } from "@/lib/cart";
 import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
 import RestockSignup from "@/components/product/RestockSignup";
@@ -65,6 +65,7 @@ export default function ProductPageClient({ params, product, related }: {
     product: any,
     related: any[]
 }) {
+    const { convert } = useCurrency();
     const [stock, setStock] = useState<ProductStock | null>(null);
     const [stockLoading, setStockLoading] = useState(true);
     const [stockError, setStockError] = useState("");
@@ -116,7 +117,6 @@ export default function ProductPageClient({ params, product, related }: {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    const { convert } = useCurrency();
     const sizes = getSizes(product);
     const colors = getColors(product);
     const discount = getDiscount(product.prices.regular_price, product.prices.sale_price);
@@ -319,11 +319,11 @@ export default function ProductPageClient({ params, product, related }: {
                     {/* Price */}
                     <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "16px", flexWrap: "wrap" }}>
                         <span style={{ fontSize: "22px", fontWeight: 700, color: isOnSale ? "#e8002d" : "#000", letterSpacing: "-.01em" }}>
-                            {convert(parseInt(product.prices.price))}
+                            {convert(toNaira(product.prices.price))}
                         </span>
                         {isOnSale && (
                             <span style={{ fontSize: "15px", fontWeight: 400, color: "#bbb", textDecoration: "line-through" }}>
-                                {convert(parseInt(product.prices.regular_price))}
+                                {convert(toNaira(product.prices.regular_price))}
                             </span>
                         )}
                     </div>
@@ -641,7 +641,7 @@ export default function ProductPageClient({ params, product, related }: {
                         {product.name}
                     </p>
                     <p style={{ fontSize: "12px", color: "#888", marginTop: "2px" }}>
-                        {convert(parseInt(product.prices.price))}
+                        {convert(toNaira(product.prices.price))}
                         {selectedSize ? ` · ${selectedSize}` : ""}
                         {selectedColor ? ` · ${selectedColor}` : ""}
                     </p>

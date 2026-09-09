@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 import type { CartItem } from "@/types";
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
+    const { convert } = useCurrency();
     const [removing, setRemoving] = useState(false);
 
     function handleRemove() {
@@ -74,11 +75,11 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
                     <div style={{ textAlign: "right", flexShrink: 0 }}>
                         {hasDiscount && (
                             <span style={{ display: "block", fontSize: "13px", color: "#aaa", textDecoration: "line-through", fontWeight: 400 }}>
-                                {formatPrice(item.regularPrice! * item.quantity)}
+                                {convert(item.regularPrice! * item.quantity)}
                             </span>
                         )}
                         <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, color: hasDiscount ? "#7F0E12" : "#000" }}>
-                            {formatPrice(lineTotal)}
+                            {convert(lineTotal)}
                         </span>
                     </div>
                 </div>

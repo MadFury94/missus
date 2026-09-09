@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Cart, CartItem } from "@/types";
 import type { StoreProduct } from "@/lib/woocommerce";
 import { getCart, updateQuantity, removeFromCart } from "@/lib/cart";
-import { formatPrice } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
 import CartUnlockBar from "@/components/cart/CartUnlockBar";
 import CartItemRow from "@/components/cart/CartItemRow";
 import PromoCodeInput from "@/components/cart/PromoCodeInput";
@@ -19,6 +19,7 @@ export default function CartPage() {
     const [recentlyRemoved, setRecentlyRemoved] = useState<{ name: string; image?: string }[]>([]);
     const [promoCode, setPromoCode] = useState("");
     const [promoDiscount, setPromoDiscount] = useState(0);
+    const { convert } = useCurrency();
 
     useEffect(() => {
         const currentCart = getCart();
@@ -60,8 +61,9 @@ export default function CartPage() {
                     id: p.id,
                     name: p.name,
                     slug: p.slug,
-                    price: parseInt(p.prices.price),
-                    regularPrice: p.on_sale ? parseInt(p.prices.regular_price) : undefined,
+                    // Store cart/upsell prices in naira, matching CartItem and checkout.
+                    price: parseInt(p.prices.price, 10) / 100,
+                    regularPrice: p.on_sale ? parseInt(p.prices.regular_price, 10) / 100 : undefined,
                     image: p.images[0]?.src,
                 }));
 
