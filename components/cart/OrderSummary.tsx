@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CreditCard, Truck, Check } from "lucide-react";
 import { formatPrice } from "@/lib/woocommerce";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
 
@@ -18,6 +19,10 @@ interface Props {
 
 export default function OrderSummary({ subtotal, discount, total, itemCount, promoCode, promoDiscount = 0 }: Props) {
     const isShippingFree = subtotal >= FREE_SHIPPING_THRESHOLD;
+
+    // Calculate the actual total with all discounts applied
+    const totalDiscounts = discount + promoDiscount;
+    const finalTotal = Math.max(0, subtotal - totalDiscounts);
 
     return (
         <div style={{ border: "1.5px solid #000", position: "sticky", top: "80px", background: "#fff" }}>
@@ -56,22 +61,22 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                         </span>
                     </div>
 
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0" }}>
-                        <span style={{ fontSize: "13px", color: "#555" }}>Promo Code</span>
-                        <span style={{ fontSize: "12px", color: "#767676" }}>
-                            {promoCode && promoDiscount > 0 ? `-${formatPrice(promoDiscount)}` : ""}
-                        </span>
-                    </div>
+                    {promoCode && promoDiscount > 0 && (
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0" }}>
+                            <span style={{ fontSize: "13px", color: "#555" }}>Promo ({promoCode})</span>
+                            <span style={{ fontSize: "13px", fontWeight: 600, color: "#7F0E12" }}>
+                                -{formatPrice(promoDiscount)}
+                            </span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Savings callout */}
-                {discount > 0 && (
+                {totalDiscounts > 0 && (
                     <div style={{ background: "#f0faf4", border: "1px solid #c8e6d4", padding: "10px 14px", margin: "12px 0", display: "flex", alignItems: "center", gap: "8px" }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007a3d" strokeWidth="2" style={{ flexShrink: 0 }}>
-                            <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <Check size={16} color="#007a3d" style={{ flexShrink: 0 }} />
                         <span style={{ fontSize: "12px", color: "#007a3d", fontWeight: 600 }}>
-                            You&apos;re saving {formatPrice(discount)} on this order!
+                            You're saving {formatPrice(totalDiscounts)} on this order!
                         </span>
                     </div>
                 )}
@@ -85,7 +90,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                         Total
                     </span>
                     <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "24px", fontWeight: 900, color: "#000" }}>
-                        {formatPrice(total)}
+                        {formatPrice(finalTotal)}
                     </span>
                 </div>
                 <p style={{ fontSize: "11px", color: "#aaa", textAlign: "right", marginTop: "4px" }}>
@@ -99,14 +104,11 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     onMouseEnter={(e) => (e.currentTarget.style.background = "#222")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
                 >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8">
-                        <rect x="1" y="4" width="22" height="16" rx="2" />
-                        <line x1="1" y1="10" x2="23" y2="10" />
-                    </svg>
+                    <CreditCard size={18} />
                     <div>
                         PROCEED TO CHECKOUT
                         <span style={{ fontSize: "11px", fontWeight: 400, opacity: 0.7, letterSpacing: ".06em", display: "block", marginTop: "2px" }}>
-                            Secure · Encrypted · Fast
+                            Secure • Encrypted • Fast
                         </span>
                     </div>
                 </Link>
@@ -121,11 +123,10 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     Continue Shopping
                 </Link>
 
-                {/* Express checkout */}
+                {/* Express checkout - CLEANED VERSION */}
                 <div style={{ marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #e8e8e8" }}>
-                    <p style={{ fontSize: "11px", color: "#aaa", textAlign: "center", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "10px", position: "relative" }}>
-                        <span style={{ position: "relative", zIndex: 1, background: "#fff", padding: "0 8px" }}> Express Checkout </span>
-                        <span style={{ position: "absolute", left: 0, right: 0, top: "50%", height: "1px", background: "#e0e0e0", transform: "translateY(-50%)", zIndex: 0 }} />
+                    <p style={{ fontSize: "11px", color: "#aaa", textAlign: "center", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "10px" }}>
+                        Express Checkout
                     </p>
                     <div style={{ display: "flex", gap: "8px" }}>
                         {EXPRESS.map((name) => (
@@ -143,15 +144,10 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
 
                 {/* Delivery estimate */}
                 <div style={{ background: "#f5f5f5", padding: "12px 14px", marginTop: "14px", display: "flex", alignItems: "flex-start", gap: "10px" }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.5" style={{ flexShrink: 0, marginTop: "1px" }}>
-                        <rect x="1" y="3" width="15" height="13" />
-                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                        <circle cx="5.5" cy="18.5" r="2.5" />
-                        <circle cx="18.5" cy="18.5" r="2.5" />
-                    </svg>
+                    <Truck size={18} style={{ flexShrink: 0, marginTop: "1px" }} />
                     <div style={{ fontSize: "12px", color: "#333", lineHeight: 1.55 }}>
-                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Lagos:</strong> Estimated delivery in 12 hours</p>
-                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Nationwide:</strong> 13 business days</p>
+                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Lagos:</strong> Estimated delivery in 1-2 hours</p>
+                        <p><strong style={{ fontWeight: 600, color: "#000" }}>Nationwide:</strong> 1-3 business days</p>
                     </div>
                 </div>
 

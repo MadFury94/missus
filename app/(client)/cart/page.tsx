@@ -17,6 +17,8 @@ export default function CartPage() {
     const [cart, setCart] = useState<Cart>({ items: [], subtotal: 0, total: 0 });
     const [upsellProducts, setUpsellProducts] = useState<any[]>([]);
     const [recentlyRemoved, setRecentlyRemoved] = useState<{ name: string; image?: string }[]>([]);
+    const [promoCode, setPromoCode] = useState("");
+    const [promoDiscount, setPromoDiscount] = useState(0);
 
     useEffect(() => {
         const currentCart = getCart();
@@ -146,7 +148,17 @@ export default function CartPage() {
                         ))}
 
                         <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid #e8e8e8" }}>
-                            <PromoCodeInput />
+                            <PromoCodeInput
+                                subtotal={cart.subtotal}
+                                onPromoApplied={(code, discount) => {
+                                    setPromoCode(code);
+                                    setPromoDiscount(discount);
+                                }}
+                                onPromoRemoved={() => {
+                                    setPromoCode("");
+                                    setPromoDiscount(0);
+                                }}
+                            />
                         </div>
 
                         <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontFamily: "var(--font-barlow-condensed)", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#000", textDecoration: "none", marginTop: "20px", borderBottom: "1.5px solid #000", paddingBottom: "1px" }}>
@@ -176,6 +188,8 @@ export default function CartPage() {
                         discount={discount}
                         total={cart.total}
                         itemCount={itemCount}
+                        promoCode={promoCode}
+                        promoDiscount={promoDiscount}
                     />
                 </div>
             </div>

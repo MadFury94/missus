@@ -87,7 +87,7 @@ export default function Footer() {
             `}</style>
 
             <footer style={{ background: "#1a1a1a", color: "#fff", padding: "40px 20px 20px" }}>
-                <div className="footer-grid">
+                <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto", marginBottom: "24px" }}>
                     {/* Brand */}
                     <div className="footer-brand">
                         <div style={{ marginBottom: "12px" }}>
@@ -125,10 +125,41 @@ export default function Footer() {
 
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: "20px", marginTop: "8px" }}>
                     <p style={{ fontSize: "11px", color: "rgba(255,255,255,.3)" }}>© {new Date().getFullYear()} Missus Outfits. All rights reserved.</p>
-                    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-                        {["VISA", "MASTERCARD", "PAYSTACK", "FLUTTERWAVE", "OPAY"].map((p) => (
-                            <span key={p} style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.1)", borderRadius: "3px", padding: "3px 8px", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".08em", color: "rgba(255,255,255,.4)" }}>{p}</span>
-                        ))}
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                        {/* Currency Switcher */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)" }}>Currency:</span>
+                            <select
+                                onChange={(e) => {
+                                    localStorage.setItem('preferred-currency', e.target.value);
+                                    window.dispatchEvent(new Event('currency-changed'));
+                                }}
+                                defaultValue="NGN"
+                                style={{
+                                    background: "rgba(255,255,255,.08)",
+                                    border: "1px solid rgba(255,255,255,.2)",
+                                    color: "rgba(255,255,255,.8)",
+                                    fontSize: "11px",
+                                    padding: "4px 8px",
+                                    borderRadius: "4px",
+                                    outline: "none",
+                                    cursor: "pointer"
+                                }}
+                            >
+                                <option value="NGN" style={{ background: "#1a1a1a" }}>₦ NGN</option>
+                                <option value="USD" style={{ background: "#1a1a1a" }}>$ USD</option>
+                                <option value="EUR" style={{ background: "#1a1a1a" }}>€ EUR</option>
+                                <option value="GBP" style={{ background: "#1a1a1a" }}>£ GBP</option>
+                            </select>
+                        </div>
+
+                        {/* Payment Methods */}
+                        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                            {["VISA", "MASTERCARD", "PAYSTACK", "FLUTTERWAVE", "OPAY"].map((p) => (
+                                <span key={p} style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.1)", borderRadius: "3px", padding: "3px 8px", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".08em", color: "rgba(255,255,255,.4)" }}>{p}</span>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </footer>

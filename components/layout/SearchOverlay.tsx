@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Search, X } from "lucide-react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import { toNaira, formatPrice } from "@/lib/woocommerce";
 
@@ -204,9 +205,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
             >
                 {/* Input bar */}
                 <div style={{ borderBottom: "1px solid #e8e8e8", padding: "14px 24px", display: "flex", alignItems: "center", gap: "12px", maxWidth: "1200px", margin: "0 auto" }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="1.8" style={{ flexShrink: 0 }} aria-hidden="true">
-                        <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                    </svg>
+                    <Search size={16} color="#aaa" style={{ flexShrink: 0 }} />
                     <input
                         ref={inputRef}
                         type="search"
@@ -222,9 +221,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                             style={{ background: "none", border: "none", cursor: "pointer", color: "#bbb", padding: "4px", display: "flex", flexShrink: 0, transition: "color .15s" }}
                             onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
                             onMouseLeave={(e) => (e.currentTarget.style.color = "#bbb")}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
+                            <X size={14} />
                         </button>
                     )}
                     {/* Close  text link, not a box */}
