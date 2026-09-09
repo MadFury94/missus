@@ -98,7 +98,6 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const badgeLabel = (stock?.available === false || product.is_in_stock === false) ? "OUT OF STOCK" : isDeal && discount ? `${discount}% OFF` : isDeal ? "DEAL" : isNew ? "NEW" : null;
     const badgeBg = isDeal ? "#7F0E12" : "#000";
 
-    const { convert } = useCurrency();
     const priceNaira = convert(toNaira(product.prices.price));
     const regularNaira = convert(toNaira(product.prices.regular_price));
     const isOnSale = product.on_sale && product.prices.sale_price !== product.prices.regular_price;
