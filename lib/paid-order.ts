@@ -58,9 +58,11 @@ async function persist(reference: string) {
             ],
         };
     });
-    const address = { first_name: shipping.firstName, last_name: shipping.lastName, address_1: shipping.address,
+    const address = {
+        first_name: shipping.firstName, last_name: shipping.lastName, address_1: shipping.address,
         address_2: shipping.apartment || "", city: shipping.city, state: shipping.state,
-        postcode: shipping.postalCode || "", country: "NG" };
+        postcode: shipping.postalCode || "", country: "NG"
+    };
     const response = await fetch(`${api}/orders`, {
         method: "POST", headers,
         body: JSON.stringify({
@@ -68,12 +70,25 @@ async function persist(reference: string) {
             transaction_id: reference, status: "processing", currency: "NGN",
             billing: { ...address, email: shipping.email, phone: shipping.phone }, shipping: address,
             customer_note: shipping.notes || "", line_items: lineItems,
-            shipping_lines: [{ method_id: rate.method_id || "flat_rate", method_title: rate.carrier_name || "Shipping", total: money(shippingAmount),
-                ...(rate.instance_id !== undefined ? { instance_id: String(rate.instance_id) } : {}) }],
+            shipping_lines: [{
+                method_id: rate.method_id || "flat_rate", method_title: rate.carrier_name || "Shipping", total: money(shippingAmount),
+                ...(rate.instance_id !== undefined ? { instance_id: String(rate.instance_id) } : {})
+            }],
+            // Add coupon lines if there's a promo discount (excluding gift cards)
+            ...(meta.promoCode && meta.promoDiscount > 0 && !meta.promoCode.toLowerCase().includes('gift') ? {
+                coupon_lines: [{
+                    code: meta.promoCode,
+                    discount: money(Math.round(meta.promoDiscount * 100)),
+                    discount_tax: "0.00"
+                }]
+            } : {}),
             meta_data: [{ key: "_paystack_reference", value: reference },
-                { key: "_payment_amount_verified", value: money(transaction.amount) },
-                { key: "_shipping_amount_paid", value: String(shippingAmount) },
-                { key: "_shipping_method_paid", value: rate.carrier_name || "Shipping" }],
+            { key: "_payment_amount_verified", value: money(transaction.amount) },
+            { key: "_shipping_amount_paid", value: String(shippingAmount) },
+            { key: "_shipping_method_paid", value: rate.carrier_name || "Shipping" },
+            // Add promo metadata for tracking
+            ...(meta.promoCode ? [{ key: "_applied_promo_code", value: meta.promoCode }] : []),
+            ...(meta.promoDiscount > 0 ? [{ key: "_promo_discount_amount", value: money(Math.round(meta.promoDiscount * 100)) }] : [])],
         }),
     });
     const order = await response.json();
