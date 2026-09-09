@@ -12,6 +12,7 @@ interface ConfirmationOrder {
     total: string;
     currency: string;
     shipping_total: string;
+    shipping_lines: { method_title: string; total: string }[];
     discount_total: string;
     line_items: {
         id: number;
@@ -47,9 +48,6 @@ export default function CallbackContent() {
     const searchParams = useSearchParams();
     const status = searchParams.get("status");
     const ref = searchParams.get("ref") || searchParams.get("reference") || searchParams.get("trxref");
-    // These may or may not be present depending on whether order creation succeeded
-    const orderNumberParam = searchParams.get("orderNumber");
-    const orderIdParam = searchParams.get("orderId");
     const nameParam = searchParams.get("name");
     const addressParam = searchParams.get("address");
     const cityParam = searchParams.get("city");
@@ -61,6 +59,7 @@ export default function CallbackContent() {
     const [order, setOrder] = useState<ConfirmationOrder | null>(null);
     const [orderLoading, setOrderLoading] = useState(true);
     const [retryCount, setRetryCount] = useState(0);
+    const [orderError, setOrderError] = useState("");
 
     // Clear cart on success
     useEffect(() => {
@@ -76,14 +75,21 @@ export default function CallbackContent() {
     useEffect(() => {
         if (status !== "success" || !ref) { setOrderLoading(false); return; }
         const controller = new AbortController();
+        setOrder(null);
+        setOrderError("");
         setOrderLoading(true);
 
         const attempt = async (triesLeft: number) => {
             try {
-                const res = await fetch(
+                let res = await fetch(
                     `/api/payment/order-by-ref?ref=${encodeURIComponent(ref)}`,
                     { cache: "no-store", signal: controller.signal }
                 );
+                if (res.status === 404 && triesLeft === 3) {
+                    res = await fetch(`/api/payment/order-by-ref?ref=${encodeURIComponent(ref)}`, {
+                        method: "POST", cache: "no-store", signal: controller.signal,
+                    });
+                }
                 if (res.ok) {
                     const data = await res.json();
                     if (!controller.signal.aborted) setOrder(data);
@@ -91,9 +97,12 @@ export default function CallbackContent() {
                     // Order not in WC yet — wait and retry
                     await new Promise((r) => setTimeout(r, 2500));
                     if (!controller.signal.aborted) await attempt(triesLeft - 1);
+                } else {
+                    const data = await res.json();
+                    if (!controller.signal.aborted) setOrderError(data.error || "Order details are unavailable. Please retry.");
                 }
             } catch {
-                // aborted or network error — ignore
+                if (!controller.signal.aborted) setOrderError("Unable to load your order. Please retry. Do not pay again.");
             } finally {
                 if (!controller.signal.aborted) setOrderLoading(false);
             }
@@ -135,8 +144,8 @@ export default function CallbackContent() {
     // Use data from URL params as fallback while order loads
     const firstName = order?.billing?.first_name || nameParam?.split(" ")[0] || "";
     const displayName = firstName ? `Thank you, ${firstName}!` : "Thank you for your order!";
-    const orderNumber = order?.number || orderNumberParam;
-    const orderId = order?.id ? String(order.id) : orderIdParam;
+    const orderNumber = order?.number;
+    const orderId = order?.id ? String(order.id) : null;
     const shippingAddr = order?.shipping?.address_1 || addressParam || "";
     const shippingCity = order?.shipping?.city || cityParam || "";
     const shippingState = order?.shipping?.state || stateParam || "";
@@ -284,7 +293,7 @@ export default function CallbackContent() {
                         {/* CTAs */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                             <Link
-                                href={orderId ? `/account/orders/${orderId}?email=${encodeURIComponent(emailParam || (order?.billing?.email || "").toLowerCase())}` : "/account"}
+                                href={orderId ? `/account/orders/${orderId}?email=${encodeURIComponent((order?.billing?.email || emailParam).toLowerCase())}` : "/account"}
                                 style={{ display: "block", textAlign: "center", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", padding: "15px", textDecoration: "none", borderRadius: "999px" }}
                             >
                                 {orderId ? "Track My Order" : "View My Orders"}
@@ -363,12 +372,12 @@ export default function CallbackContent() {
                                         <span style={{ color: "#007a3d", fontWeight: 600 }}>−{fmt(order.discount_total)}</span>
                                     </div>
                                 )}
-                                {parseFloat(order.shipping_total) > 0 && (
-                                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", marginBottom: "6px" }}>
-                                        <span style={{ color: "#666" }}>Shipping</span>
-                                        <span style={{ fontWeight: 600 }}>{fmt(order.shipping_total)}</span>
-                                    </div>
-                                )}
+                                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", marginBottom: "6px", gap: "12px" }}>
+                                    <span style={{ color: "#666" }}>
+                                        Shipping{order.shipping_lines?.length ? ` (${order.shipping_lines.map(line => line.method_title).join(", ")})` : ""}
+                                    </span>
+                                    <span style={{ fontWeight: 600 }}>{fmt(order.shipping_total)}</span>
+                                </div>
                                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "15px", fontWeight: 700, borderTop: "2px solid #000", paddingTop: "12px", marginTop: "8px" }}>
                                     <span>Total</span>
                                     <span>{fmt(order.total)}</span>
@@ -379,7 +388,7 @@ export default function CallbackContent() {
                         {/* Fallback when order not yet in WC */}
                         {!orderLoading && !order && (
                             <div style={{ fontSize: "13px", color: "#666", lineHeight: 1.6, marginBottom: "16px" }}>
-                                <p style={{ marginBottom: "8px" }}>Items are loading…</p>
+                                <p style={{ marginBottom: "8px" }}>{orderError || "Order details are unavailable. Please retry."}</p>
                                 <button
                                     type="button"
                                     onClick={() => setRetryCount((c) => c + 1)}

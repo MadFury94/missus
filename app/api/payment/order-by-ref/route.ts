@@ -1,4 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { findOrderByReference } from "@/lib/order-reference";
+import { ensurePaidOrder } from "@/lib/paid-order";
+
+export async function POST(req: NextRequest) {
+    const ref = req.nextUrl.searchParams.get("ref");
+    if (!ref) return NextResponse.json({ error: "ref required" }, { status: 400 });
+    try {
+        await ensurePaidOrder(ref);
+        return GET(req);
+    } catch (error) {
+        console.error("[order-recovery]", error);
+        return NextResponse.json({ error: "We could not finish saving your order. Please retry or contact support with your payment reference. Do not pay again." }, { status: 503 });
+    }
+}
 
 // Looks up a WooCommerce order by Paystack transaction reference.
 // Used by the confirmation page to show order details without requiring login.
@@ -17,19 +31,11 @@ export async function GET(req: NextRequest) {
     if (!ref) return NextResponse.json({ error: "ref required" }, { status: 400 });
 
     try {
-        // Search WC orders by transaction ID (which is the Paystack reference)
-        const res = await fetch(
-            `${WC_API_URL}/orders?transaction_id=${encodeURIComponent(ref)}&per_page=1`,
-            { headers: getWCAuth(), cache: "no-store" }
-        );
-        if (!res.ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
-
-        const orders = await res.json();
-        if (!Array.isArray(orders) || orders.length === 0) {
+        const o = await findOrderByReference(ref, WC_API_URL, getWCAuth());
+        if (!o) {
             return NextResponse.json({ error: "Order not found" }, { status: 404 });
         }
 
-        const o = orders[0];
         return NextResponse.json({
             id: o.id,
             number: o.number,
@@ -37,6 +43,10 @@ export async function GET(req: NextRequest) {
             total: o.total,
             currency: o.currency,
             shipping_total: o.shipping_total,
+            shipping_lines: (o.shipping_lines ?? []).map((line: { method_title: string; total: string }) => ({
+                method_title: line.method_title,
+                total: line.total,
+            })),
             discount_total: o.discount_total,
             line_items: (o.line_items as Record<string, unknown>[])?.map((li) => ({
                 id: li.id,
@@ -62,6 +72,8 @@ export async function GET(req: NextRequest) {
                 address_1: (o.shipping as Record<string, string>)?.address_1,
                 city: (o.shipping as Record<string, string>)?.city,
                 state: (o.shipping as Record<string, string>)?.state,
+                postcode: (o.shipping as Record<string, string>)?.postcode,
+                country: (o.shipping as Record<string, string>)?.country,
             },
         });
     } catch (err) {

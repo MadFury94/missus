@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp, CreditCard, Banknote } from "lucide-react";
 import type { Cart } from "@/types";
 import { getCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/woocommerce";
-import type { ShippingRate } from "@/lib/delivery";
+import type { ShippingRate } from "@/lib/woocommerce-shipping";
 
 const STATES = [
     "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno",
@@ -42,7 +42,33 @@ export default function CheckoutPage() {
     const [selectedRate, setSelectedRate] = useState<ShippingRate | null>(null);
     const ratesDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    useEffect(() => { setCart(getCart()); }, []);
+    useEffect(() => {
+        const currentCart = getCart();
+        setCart(currentCart);
+
+        // Add cart change listener to detect if cart gets modified during checkout
+        const handleCartUpdate = () => {
+            const updatedCart = getCart();
+            const cartChanged = JSON.stringify(updatedCart.items) !== JSON.stringify(currentCart.items);
+
+            if (cartChanged) {
+                console.warn("[checkout] Cart contents changed during checkout:", {
+                    original: currentCart.items.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
+                    updated: updatedCart.items.map(i => ({ name: i.name, price: i.price, quantity: i.quantity }))
+                });
+
+                // Update the cart state but warn user
+                setCart(updatedCart);
+
+                // Clear shipping rates to force recalculation
+                setRates([]);
+                setSelectedRate(null);
+            }
+        };
+
+        window.addEventListener("cart-updated", handleCartUpdate);
+        return () => window.removeEventListener("cart-updated", handleCartUpdate);
+    }, []);
 
     // Fetch rates whenever city + state are filled
     const fetchRates = useCallback(async (city: string, state: string) => {
@@ -51,15 +77,28 @@ export default function CheckoutPage() {
         setSelectedRate(null);
         try {
             const items = cart.items.map((item) => ({
+                productId: item.productId,
                 name: item.name,
-                weight: 0.5,
-                value: item.price,
+                price: item.price,
                 quantity: item.quantity,
+                size: item.size,
+                color: item.color,
+                image: item.image,
+                slug: item.slug,
+                variationId: item.variationId,
             }));
-            const res = await fetch("/api/shipping/rates", {
+
+            // Use new WooCommerce-based shipping endpoint
+            const res = await fetch("/api/shipping/woocommerce-rates", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ city, state, items }),
+                body: JSON.stringify({
+                    city,
+                    state,
+                    items,
+                    address_1: form.address || city, // Include street address if available
+                    postcode: form.postcode,
+                }),
             });
             const data = await res.json();
             setRates(data.rates || []);
@@ -70,7 +109,7 @@ export default function CheckoutPage() {
         } finally {
             setRatesLoading(false);
         }
-    }, [cart.items]);
+    }, [cart.items, form.address, form.postcode]);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
         const { name, value } = e.target;
@@ -120,14 +159,44 @@ export default function CheckoutPage() {
     }
 
     const shippingCost = selectedRate?.amount ?? (rates.length > 0 ? null : 0);
-    const shippingDisplay = shippingCost === null ? null : shippingCost === 0 ? "FREE" : formatPrice(shippingCost);
-    const total = cart.total + (shippingCost ?? 0) - promoDiscount;
+    const shippingDisplay = shippingCost === null ? null : shippingCost === 0 ? "FREE" : formatPrice(String(shippingCost));
+    const shippingCostInNaira = shippingCost ? shippingCost / 100 : 0; // Convert kobo to naira
+    const total = cart.total + shippingCostInNaira - promoDiscount;
 
     async function handlePaystackCheckout() {
         if (!selectedRate) {
             document.getElementById("shipping-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
             return;
         }
+
+        // Validate cart contents and amounts before payment
+        const currentCart = getCart();
+        const cartSubtotal = currentCart.subtotal;
+        const shippingCost = selectedRate.amount / 100; // Convert kobo to naira
+        const expectedTotal = cartSubtotal + shippingCost - promoDiscount;
+
+        // Check if displayed total matches calculated total
+        if (Math.abs(total - expectedTotal) > 1) {
+            console.error("[checkout] Total mismatch detected:", {
+                displayedTotal: total,
+                calculatedTotal: expectedTotal,
+                cartSubtotal,
+                shippingCost,
+                promoDiscount,
+                difference: total - expectedTotal
+            });
+
+            alert(`Payment amount mismatch detected. Please refresh the page and try again.\n\nDisplayed: ₦${total.toLocaleString()}\nExpected: ₦${expectedTotal.toLocaleString()}`);
+            return;
+        }
+
+        console.log("[checkout] Processing payment with validated amounts:", {
+            selectedRate,
+            total: expectedTotal,
+            cartItems: currentCart.items.map(item => ({ name: item.name, price: item.price, quantity: item.quantity })),
+            shippingCostInNaira: selectedRate.amount / 100
+        });
+
         setLoading(true);
         try {
             const res = await fetch("/api/payment/initiate", {
@@ -135,17 +204,22 @@ export default function CheckoutPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: form.email,
-                    amount: total,
+                    amount: expectedTotal, // Use calculated total, not displayed total
                     metadata: {
-                        cart: cart.items,
+                        cart: currentCart.items, // Use current cart, not cached cart
                         shipping: form,
                         promoCode,
                         promoDiscount,
-                        selectedRateId: selectedRate.rate_id,
-                        selectedCarrier: selectedRate.carrier_name,
-                        shippingCost: selectedRate.amount,
+                        selectedRate, // Pass the full rate object
                         giftCardCode: promoCode && promoLabel.toLowerCase().includes("gift") ? promoCode : "",
                         giftCardAmount: promoCode && promoLabel.toLowerCase().includes("gift") ? promoDiscount : 0,
+                        // Add validation metadata
+                        validationInfo: {
+                            cartSubtotal,
+                            shippingCost,
+                            expectedTotal,
+                            timestamp: Date.now()
+                        }
                     },
                 }),
             });
@@ -160,14 +234,30 @@ export default function CheckoutPage() {
 
     async function handleBankTransferCheckout() {
         if (!selectedRate) return;
+
+        // Validate cart contents and amounts (same as Paystack)
+        const currentCart = getCart();
+        const cartSubtotal = currentCart.subtotal;
+        const shippingCost = selectedRate.amount / 100;
+        const expectedTotal = cartSubtotal + shippingCost - promoDiscount;
+
+        if (Math.abs(total - expectedTotal) > 1) {
+            console.error("[checkout] Bank transfer total mismatch:", {
+                displayedTotal: total,
+                calculatedTotal: expectedTotal
+            });
+            alert(`Payment amount mismatch detected. Please refresh the page and try again.`);
+            return;
+        }
+
         setLoading(true);
         const orderData = {
-            cart: cart.items,
+            cart: currentCart.items, // Use current cart
             shipping: form,
             promoCode,
             promoDiscount,
             selectedRate,
-            total,
+            total: expectedTotal, // Use calculated total
         };
         localStorage.setItem("pending_bank_order", JSON.stringify(orderData));
         window.location.href = "/checkout/bank-transfer";
@@ -921,7 +1011,7 @@ export default function CheckoutPage() {
                                                     <div style={{ flex: 1 }}>
                                                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                             <span style={{ fontSize: "14px", fontWeight: 500 }}>{rate.carrier_name}</span>
-                                                            <span style={{ fontSize: "14px", fontWeight: 600 }}>{formatPrice(rate.amount)}</span>
+                                                            <span style={{ fontSize: "14px", fontWeight: 600 }}>{formatPrice(String(rate.amount))}</span>
                                                         </div>
                                                         <p style={{ fontSize: "12px", color: "#666", margin: "2px 0 0 0" }}>{rate.delivery_time}</p>
                                                     </div>
@@ -1638,7 +1728,7 @@ export default function CheckoutPage() {
                                                     <div style={{ flex: 1 }}>
                                                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                             <span style={{ fontSize: "16px", fontWeight: 500 }}>{rate.carrier_name}</span>
-                                                            <span style={{ fontSize: "16px", fontWeight: 600 }}>{formatPrice(rate.amount)}</span>
+                                                            <span style={{ fontSize: "16px", fontWeight: 600 }}>{formatPrice(String(rate.amount))}</span>
                                                         </div>
                                                         <p style={{ fontSize: "14px", color: "#666", margin: "4px 0 0 0" }}>{rate.delivery_time}</p>
                                                     </div>

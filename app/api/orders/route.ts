@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { selectShippingMethod } from "@/lib/woocommerce-shipping";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
             shipping,
             promoCode,
             promoDiscount,
-            selectedRate,
+            selectedRate, // This comes from WooCommerce shipping rates now
             total,
             paymentMethod,
             paymentStatus = "pending"
@@ -33,6 +34,12 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Set the selected shipping method on WooCommerce cart before order creation
+        // This ensures WooCommerce knows which shipping method was chosen
+        if (selectedRate.rate_id && !selectedRate.rate_id.startsWith("fallback_")) {
+            await selectShippingMethod(selectedRate.rate_id);
+        }
+
         // Create line items for WooCommerce
         const lineItems = cart.map((item: any) => ({
             product_id: item.productId,
@@ -40,6 +47,14 @@ export async function POST(request: NextRequest) {
             quantity: item.quantity,
             ...(item.size ? { meta_data: [{ key: "Size", value: item.size }] } : {}),
         }));
+
+        // Prepare shipping lines - handle both WooCommerce rates and fallback rates
+        const shippingLines = [{
+            method_id: selectedRate.method_id || "flat_rate",
+            method_title: selectedRate.carrier_name || "Shipping",
+            total: String((selectedRate.amount || 0) / 100), // Convert kobo to naira for WooCommerce
+            ...(selectedRate.instance_id !== undefined ? { instance_id: String(selectedRate.instance_id) } : {}),
+        }];
 
         // Create order in WooCommerce
         const orderPayload = {
@@ -71,15 +86,15 @@ export async function POST(request: NextRequest) {
             },
             line_items: lineItems,
             customer_note: shipping.notes || "",
-            shipping_lines: [{
-                method_id: selectedRate.carrier_name?.toLowerCase().replace(/\s+/g, '_') || "terminal_africa",
-                method_title: selectedRate.carrier_name || "Delivery",
-                total: String(selectedRate.amount)
-            }],
+            shipping_lines: shippingLines,
             meta_data: [
                 { key: "_payment_method_type", value: paymentMethod },
                 { key: "_delivery_carrier", value: selectedRate.carrier_name },
                 { key: "_delivery_rate_id", value: selectedRate.rate_id || "" },
+                { key: "_delivery_method_id", value: selectedRate.method_id || "" },
+                { key: "_delivery_instance_id", value: String(selectedRate.instance_id || "") },
+                { key: "_delivery_time", value: selectedRate.delivery_time || "" },
+                { key: "_shipping_source", value: selectedRate.rate_id?.startsWith("fallback_") ? "fallback" : "woocommerce" },
                 ...(promoCode ? [
                     { key: "_promo_code", value: promoCode },
                     { key: "_promo_discount", value: String(promoDiscount) },
