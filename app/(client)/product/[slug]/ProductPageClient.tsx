@@ -4,8 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import { formatPrice, getDiscount, getSizes, getColors, toNaira } from "@/lib/woocommerce";
-import { addToCart } from "@/lib/cart";
+import { addToCart, getCart } from "@/lib/cart";
 import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
+import RestockSignup from "@/components/product/RestockSignup";
+import type { ProductStock } from "@/lib/product-stock";
+import { stockForSelection } from "@/lib/stock-selection";
 import ProductCard from "@/components/product/ProductCard";
 import { useCurrency } from "@/lib/currency";
 
@@ -62,6 +65,21 @@ export default function ProductPageClient({ params, product, related }: {
     product: any,
     related: any[]
 }) {
+    const [stock, setStock] = useState<ProductStock | null>(null);
+    const [stockLoading, setStockLoading] = useState(true);
+    const [stockError, setStockError] = useState("");
+    useEffect(() => {
+        const controller = new AbortController();
+        setStock(null);
+        setStockLoading(true);
+        setStockError("");
+        fetch(`/api/stock?productId=${product.id}`, { signal: controller.signal, cache: "no-store" })
+            .then(async response => { if (!response.ok) throw new Error("Availability could not be loaded. Refresh to try again."); return response.json(); })
+            .then(data => { if (!controller.signal.aborted) setStock(data); })
+            .catch(error => { if (!controller.signal.aborted) setStockError(error.message); })
+            .finally(() => { if (!controller.signal.aborted) setStockLoading(false); });
+        return () => controller.abort();
+    }, [product.id]);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedColor, setSelectedColor] = useState("");
@@ -106,15 +124,24 @@ export default function ProductPageClient({ params, product, related }: {
     const breadcrumb = product.categories?.[0];
     const images = product.images?.slice(0, 8) ?? [];
 
-    const handleAddToCart = () => {
+    const selectionStock = stockForSelection(stock, selectedSize, selectedColor);
+    const soldOut = selectionStock !== null && !selectionStock.available;
+    const handleAddToCart = async () => {
+        if (soldOut) {
+            document.getElementById("restock-signup")?.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
+        if (stockLoading) return;
+        if (adding) return;
         if (sizes.length > 0 && !selectedSize) {
             // Scroll to size section instead of alert
             document.getElementById("size-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
             return;
         }
         setAdding(true);
-        addToCart({
+        const item = {
             productId: product.id,
+            variationId: stock?.variable ? selectionStock?.id : undefined,
             name: product.name,
             slug: product.slug,
             price: toNaira(product.prices.price),
@@ -123,7 +150,22 @@ export default function ProductPageClient({ params, product, related }: {
             size: selectedSize || undefined,
             color: selectedColor || undefined,
             quantity: 1
-        });
+        };
+        try {
+            const existingQuantity = getCart().items.filter(existing => existing.productId === item.productId && existing.size === item.size && existing.color === item.color)
+                .reduce((sum, existing) => sum + existing.quantity, 0);
+            const response = await fetch("/api/cart/validate", {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ item: { ...item, quantity: existingQuantity + 1 } }),
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || "This item is unavailable.");
+            addToCart(item);
+        } catch (error) {
+            alert(error instanceof Error ? error.message : "We could not check availability. Please try again.");
+            setAdding(false);
+            return;
+        }
         window.dispatchEvent(new Event("cart-updated"));
         window.dispatchEvent(new Event("open-cart-drawer"));
         setAdded(true);
@@ -313,8 +355,12 @@ export default function ProductPageClient({ params, product, related }: {
                                     <button
                                         key={size}
                                         className="size-btn"
+                                        title={stockForSelection(stock, size, selectedColor)?.available === false ? "Out of stock - select to get a restock alert" : size}
+                                        aria-label={stockForSelection(stock, size, selectedColor)?.available === false ? `${size} - out of stock, notify me` : size}
                                         onClick={() => setSelectedSize(size)}
                                         style={{
+                                            textDecoration: stockForSelection(stock, size, selectedColor)?.available === false ? "line-through" : "none",
+                                            opacity: stockForSelection(stock, size, selectedColor)?.available === false ? 0.55 : 1,
                                             minWidth: "52px", height: "44px",
                                             padding: "0 14px",
                                             border: selectedSize === size ? "2px solid #000" : "1px solid #e0e0e0",
@@ -336,6 +382,38 @@ export default function ProductPageClient({ params, product, related }: {
                         </div>
                     )}
 
+                    {stockLoading && <p role="status" style={{ fontSize: "12px", marginBottom: "12px" }}>Checking availability...</p>}
+                    {stockError && <p role="alert" style={{ fontSize: "12px", marginBottom: "12px" }}>{stockError}</p>}
+
+                    {/* Show inline restock signup when out of stock */}
+                    {soldOut && (sizes.length === 0 || selectedSize) && selectionStock?.id && (
+                        <RestockSignup
+                            key={selectionStock.id}
+                            productId={product.id}
+                            variationId={stock?.variable ? selectionStock.id : undefined}
+                            selection={[selectedColor, selectedSize].filter(Boolean).join(" / ")}
+                            inline={true}
+                        />
+                    )}
+
+                    {soldOut && sizes.length > 0 && !selectedSize && (
+                        <div style={{
+                            marginTop: "16px",
+                            padding: "16px",
+                            background: "#fff3cd",
+                            border: "1px solid #ffeaa7",
+                            borderRadius: "8px"
+                        }}>
+                            <p style={{
+                                fontSize: "14px",
+                                color: "#856404",
+                                textAlign: "center",
+                                fontFamily: "'DM Sans', sans-serif"
+                            }}>
+                                ⚠️ Out of stock. Choose your size above to request a restock alert.
+                            </p>
+                        </div>
+                    )}
                     {/* Color selection */}
                     {colors.length > 0 && (
                         <div style={{ marginBottom: "20px" }}>
@@ -399,11 +477,11 @@ export default function ProductPageClient({ params, product, related }: {
                         {/* Pill Add to Bag */}
                         <button
                             onClick={handleAddToCart}
-                            disabled={adding}
+                            disabled={adding || stockLoading}
                             style={{
                                 width: "100%",
                                 padding: "16px 24px",
-                                background: added ? "#1a7a3d" : "#000",
+                                background: added ? "#1a7a3d" : soldOut ? "#666" : "#000",
                                 color: "#fff",
                                 border: "none",
                                 borderRadius: "999px",
@@ -411,12 +489,12 @@ export default function ProductPageClient({ params, product, related }: {
                                 fontWeight: 600,
                                 letterSpacing: ".08em",
                                 textTransform: "uppercase",
-                                cursor: adding ? "not-allowed" : "pointer",
+                                cursor: adding || soldOut ? "not-allowed" : "pointer",
                                 transition: "background .3s",
                                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                             }}
                         >
-                            {added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
+                            {soldOut ? "OUT OF STOCK - NOTIFY ME" : stockLoading ? "Checking availability..." : added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
                         </button>
                     </div>
 
@@ -569,37 +647,39 @@ export default function ProductPageClient({ params, product, related }: {
                     </p>
                 </div>
 
-                {/* Single CTA — oval shaped button */}
-                <button
-                    onClick={() => {
-                        if (sizes.length > 0 && !selectedSize) {
-                            document.getElementById("size-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        } else {
-                            handleAddToCart();
-                        }
-                    }}
-                    disabled={adding}
-                    style={{
-                        flexShrink: 0,
-                        padding: "14px 22px",
-                        background: added ? "#1a7a3d" : "#000",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "25px", // Oval shape
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        letterSpacing: ".08em",
-                        textTransform: "uppercase",
-                        cursor: adding ? "not-allowed" : "pointer",
-                        transition: "background .25s",
-                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                        whiteSpace: "nowrap",
-                        minWidth: "130px",
-                        textAlign: "center",
-                    }}
-                >
-                    {added ? "✓ Added" : adding ? "Adding…" : (sizes.length > 0 && !selectedSize) ? "Select Size" : "Add to Bag"}
-                </button>
+                {/* Single CTA — oval shaped button (hidden when sold out since restock signup is handled inline) */}
+                {!soldOut && (
+                    <button
+                        onClick={() => {
+                            if (sizes.length > 0 && !selectedSize) {
+                                document.getElementById("size-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                            } else {
+                                handleAddToCart();
+                            }
+                        }}
+                        disabled={adding || stockLoading}
+                        style={{
+                            flexShrink: 0,
+                            padding: "14px 22px",
+                            background: added ? "#1a7a3d" : "#000",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "25px", // Oval shape
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            letterSpacing: ".08em",
+                            textTransform: "uppercase",
+                            cursor: adding ? "not-allowed" : "pointer",
+                            transition: "background .25s",
+                            fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                            whiteSpace: "nowrap",
+                            minWidth: "130px",
+                            textAlign: "center",
+                        }}
+                    >
+                        {stockLoading ? "Checking availability..." : added ? "✓ Added" : adding ? "Adding…" : (sizes.length > 0 && !selectedSize) ? "Select Size" : "Add to Bag"}
+                    </button>
+                )}
             </div>
         </>
     );

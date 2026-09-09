@@ -12,6 +12,7 @@ import AppDownloadBanner from "@/components/home/AppDownloadBanner";
 import NewsletterBar from "@/components/home/NewsletterBar";
 import StructuredData from "@/components/seo/StructuredData";
 import { getLocalBusinessSchema } from "@/lib/structured-data";
+import DynamicTitle from "@/components/layout/DynamicTitle";
 import type { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo-config";
 
@@ -40,6 +41,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <DynamicTitle enabled={true} />
       <StructuredData schema={getLocalBusinessSchema()} />
       <HeroSlideshow slides={content.hero} />
       <MarqueeStrip items={content.marquee} />

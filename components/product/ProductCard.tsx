@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -7,6 +7,9 @@ import type { StoreProduct } from "@/lib/woocommerce";
 import { formatPrice, getDiscount, getProductImage, getSizes, toNaira } from "@/lib/woocommerce";
 import { toggleWishlist, isInWishlist } from "@/lib/wishlist";
 import { addToCart } from "@/lib/cart";
+import RestockSignup from "./RestockSignup";
+import { stockForSelection } from "@/lib/stock-selection";
+import type { ProductStock } from "@/lib/product-stock";
 import { useCurrency } from "@/lib/currency";
 
 // CSS colour name ? hex. Falls back to the name itself (browsers handle many CSS named colours).
@@ -65,11 +68,24 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const [isWished, setIsWished] = useState(false);
     const [adding, setAdding] = useState(false);
     const [sizePickerOpen, setSizePickerOpen] = useState(false);
+    const [stock, setStock] = useState<ProductStock | null>(null);
+    const [stockError, setStockError] = useState("");
     const [selectedSize, setSelectedSize] = useState<string>("");
 
     useEffect(() => {
         setIsWished(isInWishlist(product.id));
     }, [product.id]);
+
+    useEffect(() => {
+        if ((!hovered && !sizePickerOpen) || stock) return;
+        const controller = new AbortController();
+        setStockError("");
+        fetch(`/api/stock?productId=${product.id}`, { signal: controller.signal, cache: "no-store" })
+            .then(async response => { if (!response.ok) throw new Error("Open the product to check size availability."); return response.json(); })
+            .then(data => { if (!controller.signal.aborted) setStock(data); })
+            .catch(error => { if (!controller.signal.aborted) setStockError(error.message); });
+        return () => controller.abort();
+    }, [hovered, sizePickerOpen, stock, product.id]);
 
     const isNew = product.tags?.some((t) => t.slug === "new" || t.slug === "whats-new");
     const isDeal = product.on_sale;
@@ -78,7 +94,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const img1 = getProductImage(product, 0);
     const img2 = getProductImage(product, 1);
 
-    const badgeLabel = isDeal && discount ? `${discount}% OFF` : isDeal ? "DEAL" : isNew ? "NEW" : null;
+    const badgeLabel = (stock?.available === false || product.is_in_stock === false) ? "OUT OF STOCK" : isDeal && discount ? `${discount}% OFF` : isDeal ? "DEAL" : isNew ? "NEW" : null;
     const badgeBg = isDeal ? "#7F0E12" : "#000";
 
     const { convert } = useCurrency();
@@ -91,9 +107,14 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     );
     const colourTerms = colourAttr?.terms ?? [];
 
+    const selectedStock = stockForSelection(stock, selectedSize, colourTerms[0]?.name || "");
     const doAddToCart = (size?: string) => {
+        setSelectedSize(size || "");
+        const choice = stockForSelection(stock, size || "", colourTerms[0]?.name || "");
+        if (!choice || !choice.available) { setSizePickerOpen(true); return; }
         addToCart({
             productId: product.id,
+            variationId: stock?.variable ? choice.id : undefined,
             name: product.name,
             slug: product.slug,
             price: toNaira(product.prices.price),
@@ -101,7 +122,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
             quantity: 1,
             image: img1,
             size,
-            color: undefined,
+            color: colourTerms[0]?.name,
         });
         window.dispatchEvent(new Event("cart-updated"));
         window.dispatchEvent(new Event("open-cart-drawer"));
@@ -113,6 +134,10 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
     const handleAddToBag = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
+        if (product.is_in_stock === false) {
+            setSizePickerOpen(true);
+            return;
+        }
         if (sizes.length > 0) {
             setSizePickerOpen(true);
             return;
@@ -143,8 +168,12 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                             {sizes.map((s) => (
                                 <button
                                     key={s}
+                                    disabled={!stock}
+                                    title={stockForSelection(stock, s, colourTerms[0]?.name || "")?.available === false ? "Out of stock - select for a restock alert" : s}
                                     onClick={() => doAddToCart(s)}
                                     style={{
+                                        textDecoration: stockForSelection(stock, s, colourTerms[0]?.name || "")?.available === false ? "line-through" : "none",
+                                        opacity: stockForSelection(stock, s, colourTerms[0]?.name || "")?.available === false ? 0.55 : 1,
                                         minWidth: "52px",
                                         height: "42px",
                                         padding: "0 12px",
@@ -172,6 +201,11 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         <Link href={`/product/${product.slug}`} style={{ fontSize: "12px", color: "#999", textDecoration: "underline", fontFamily: "var(--font-body)" }}>
                             View size guide
                         </Link>
+                        {!stock && <p role="status">{stockError || "Checking availability..."}</p>}
+                        {selectedStock?.available === false && selectedStock.id && (selectedSize || sizes.length === 0) && (
+                            <RestockSignup key={selectedStock.id} productId={product.id} variationId={stock?.variable ? selectedStock.id : undefined} selection={[colourTerms[0]?.name, selectedSize].filter(Boolean).join(" / ")} />
+                        )}
+                        {stockError && <Link href={`/product/${product.slug}`}>View product</Link>}
                     </div>
                 </div>
             )}

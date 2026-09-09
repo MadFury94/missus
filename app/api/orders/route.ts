@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { selectShippingMethod } from "@/lib/woocommerce-shipping";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -32,12 +31,6 @@ export async function POST(request: NextRequest) {
                 { error: "Missing required order data" },
                 { status: 400 }
             );
-        }
-
-        // Set the selected shipping method on WooCommerce cart before order creation
-        // This ensures WooCommerce knows which shipping method was chosen
-        if (selectedRate.rate_id && !selectedRate.rate_id.startsWith("fallback_")) {
-            await selectShippingMethod(selectedRate.rate_id);
         }
 
         // Create line items for WooCommerce
