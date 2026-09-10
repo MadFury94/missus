@@ -67,19 +67,14 @@ export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Ca
                         scroll-snap-type: x mandatory;
                         -webkit-overflow-scrolling: touch;
                         scrollbar-width: none;
-                        gap: 0;
+                        gap: 10px;
                         padding: 0 16px;
-                        /* Show peek of next card */
                     }
                     .style-radar-grid::-webkit-scrollbar { display: none; }
                     .style-radar-card {
-                        flex: 0 0 68vw;
+                        flex: 0 0 calc(68vw - 5px);
                         scroll-snap-align: start;
                         aspect-ratio: 3/4;
-                        margin-right: 10px;
-                    }
-                    .style-radar-card:last-child {
-                        margin-right: 0;
                     }
                 }
             `}</style>

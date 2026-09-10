@@ -331,7 +331,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                     display: flex; align-items: center; gap: 8px;
                     border: none; border-bottom: 1px solid ${transparent ? "rgba(255,255,255,.4)" : "#ccc"};
                     background: none; padding: 4px 0; cursor: pointer;
-                    width: 200px; transition: border-color .2s;
+                    width: 200px; max-width: 200px; transition: border-color .2s;
                 }
                 .nav-search-trigger:hover { border-bottom-color: ${transparent ? "#fff" : "#000"}; outline: none; }
                 .nav-search-trigger span {
@@ -356,6 +356,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                     .nav-search-trigger { display: none; }
                     .nav-hamburger { display: flex; align-items: center; justify-content: center; }
                     .currency-btn-desktop { display: none !important; }
+                    .navbar-container { padding: 0 12px !important; }
                 }
             `}</style>
 
@@ -363,7 +364,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                 style={{ background: bg, borderBottom: `1px solid ${borderColor}`, transition: "background .3s, border-color .3s" }}
                 data-navbar
             >
-                <div style={{ display: "flex", alignItems: "center", padding: "0 20px", height: "52px", position: "relative" }}>
+                <div className="navbar-container" style={{ display: "flex", alignItems: "center", padding: "0 20px", height: "52px", position: "relative" }}>
 
                     {/* LEFT: hamburger (mobile) + nav tabs (desktop) */}
                     <div style={{ display: "flex", alignItems: "center", minWidth: "120px" }}>
