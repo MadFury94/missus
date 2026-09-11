@@ -55,7 +55,7 @@ export async function GET() {
                 addItemError = await addResponse.text();
             }
         } catch (e) {
-            addItemError = e.message;
+            addItemError = e instanceof Error ? e.message : "Unknown error";
         }
 
         // Test 3: Try to update customer address
@@ -87,7 +87,7 @@ export async function GET() {
                 updateAddressError = await updateResponse.text();
             }
         } catch (e) {
-            updateAddressError = e.message;
+            updateAddressError = e instanceof Error ? e.message : "Unknown error";
         }
 
         return NextResponse.json({
@@ -119,7 +119,7 @@ export async function GET() {
     } catch (error) {
         return NextResponse.json({
             error: "Debug test failed",
-            message: error.message,
+            message: error instanceof Error ? error.message : "Unknown error",
         }, { status: 500 });
     }
 }

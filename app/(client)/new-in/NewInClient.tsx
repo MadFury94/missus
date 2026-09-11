@@ -10,8 +10,8 @@ import type { ProductFilters } from "@/types";
 import { Filter, X } from "lucide-react";
 
 const SORT_OPTIONS = [
-    { label: "Newest First", value: "date-desc" },
-    { label: "Price: Low to High", value: "price-asc" },
+    { label: "Newest First", value: "date" },
+    { label: "Price: Low to High", value: "price" },
     { label: "Price: High to Low", value: "price-desc" },
     { label: "Featured", value: "" },
 ];
@@ -20,7 +20,7 @@ export default function NewInClient() {
     const [products, setProducts] = useState<StoreProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<ProductFilters>({
-        orderby: "date-desc" as ProductFilters["orderby"],
+        orderby: "date",
         perPage: 60,
         category: "whats-new"
     });
@@ -32,8 +32,8 @@ export default function NewInClient() {
         params.set("category", "whats-new");
         params.set("per_page", "60");
 
-        if (filters.orderby === "date-desc") { params.set("orderby", "date"); params.set("order", "desc"); }
-        else if (filters.orderby === "price-asc") { params.set("orderby", "price"); params.set("order", "asc"); }
+        if (filters.orderby === "date") { params.set("orderby", "date"); params.set("order", "desc"); }
+        else if (filters.orderby === "price") { params.set("orderby", "price"); params.set("order", "asc"); }
         else if (filters.orderby === "price-desc") { params.set("orderby", "price"); params.set("order", "desc"); }
 
         fetch(`/api/products?${params}`)
@@ -219,7 +219,7 @@ export default function NewInClient() {
                                     No products match your filters
                                 </p>
                                 <button
-                                    onClick={() => setFilters({ orderby: "date-desc", perPage: 60, category: "whats-new" })}
+                                    onClick={() => setFilters({ orderby: "date", perPage: 60, category: "whats-new" })}
                                     style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "13px 32px", border: "none", cursor: "pointer", borderRadius: "25px" }}
                                 >
                                     Clear Filters

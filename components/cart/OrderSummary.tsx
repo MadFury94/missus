@@ -110,13 +110,10 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     onMouseEnter={(e) => (e.currentTarget.style.background = "#222")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
                 >
-                    <CreditCard size={18} />
-                    <div>
-                        PROCEED TO CHECKOUT
-                        <span style={{ fontSize: "11px", fontWeight: 400, opacity: 0.7, letterSpacing: ".06em", display: "block", marginTop: "2px" }}>
-                            Secure • Encrypted • Fast
-                        </span>
-                    </div>
+                    <CreditCard size={16} />
+                    <span style={{ fontSize: "13px", fontWeight: 600, letterSpacing: ".04em" }}>
+                        Proceed to Checkout
+                    </span>
                 </Link>
 
                 {/* Continue shopping */}

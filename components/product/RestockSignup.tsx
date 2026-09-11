@@ -54,7 +54,7 @@ export default function RestockSignup({ productId, variationId, selection, inlin
     if (inline) {
         // Inline version for under the "OUT OF STOCK" button
         return (
-            <div style={{
+            <div id="restock-signup" style={{
                 marginTop: "16px",
                 padding: "20px",
                 background: "#f8f9fa",

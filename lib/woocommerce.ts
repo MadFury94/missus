@@ -56,6 +56,7 @@ export interface StoreProduct {
     tags: { id: number; name: string; slug: string }[];
     attributes: { id: number; name: string; taxonomy: string; has_variations: boolean; terms: { id: number; name: string; slug: string }[] }[];
     variations: { id: number; attributes: { name: string; value: string }[] }[];
+    is_in_stock?: boolean;
     stock_status: string;
     stock_quantity: number | null;
     sku: string;

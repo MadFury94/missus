@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
         console.error("Test order creation error:", error);
         return NextResponse.json({
             error: "Failed to create test order",
-            message: error.message
+            message: error instanceof Error ? error.message : "Unknown error"
         }, { status: 500 });
     }
 }

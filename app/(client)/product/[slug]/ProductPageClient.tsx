@@ -124,8 +124,12 @@ export default function ProductPageClient({ params, product, related }: {
     const breadcrumb = product.categories?.[0];
     const images = product.images?.slice(0, 8) ?? [];
 
-    const selectionStock = stockForSelection(stock, selectedSize, selectedColor);
-    const soldOut = selectionStock !== null && !selectionStock.available;
+    const currentStock = stock?.productId === product.id ? stock : null;
+    const selectionStock = stockForSelection(currentStock, selectedSize, selectedColor);
+    // Catalogue stock is available on first render; fresh inventory can supersede it.
+    const soldOut = selectionStock !== null
+        ? !selectionStock.available
+        : product.is_in_stock === false || product.stock_status === "outofstock";
     const handleAddToCart = async () => {
         if (soldOut) {
             document.getElementById("restock-signup")?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -382,16 +386,17 @@ export default function ProductPageClient({ params, product, related }: {
                         </div>
                     )}
 
-                    {stockLoading && <p role="status" style={{ fontSize: "12px", marginBottom: "12px" }}>Checking availability...</p>}
-                    {stockError && <p role="alert" style={{ fontSize: "12px", marginBottom: "12px" }}>{stockError}</p>}
+                    {soldOut && <p role="status" style={{ fontSize: "12px", marginBottom: "12px" }}>Out of stock</p>}
+                    {stockLoading && !soldOut && <p role="status" style={{ fontSize: "12px", marginBottom: "12px" }}>Checking availability...</p>}
+                    {stockError && !soldOut && <p role="alert" style={{ fontSize: "12px", marginBottom: "12px" }}>{stockError}</p>}
 
                     {/* Show inline restock signup when out of stock */}
                     {soldOut && (
                         <RestockSignup
                             key={selectionStock?.id || product.id}
                             productId={product.id}
-                            variationId={stock?.variable ? selectionStock?.id : undefined}
-                            selection={[selectedColor, selectedSize].filter(Boolean).join(" / ")}
+                            variationId={currentStock?.variable ? selectionStock?.id : undefined}
+                            selection={currentStock?.variable ? [selectedColor, selectedSize].filter(Boolean).join(" / ") : ""}
                             inline={true}
                         />
                     )}
@@ -458,7 +463,7 @@ export default function ProductPageClient({ params, product, related }: {
                         {/* Pill Add to Bag */}
                         <button
                             onClick={handleAddToCart}
-                            disabled={adding || stockLoading}
+                            disabled={adding || (stockLoading && !soldOut)}
                             style={{
                                 width: "100%",
                                 padding: "16px 24px",
@@ -470,7 +475,7 @@ export default function ProductPageClient({ params, product, related }: {
                                 fontWeight: 600,
                                 letterSpacing: ".08em",
                                 textTransform: "uppercase",
-                                cursor: adding || soldOut ? "not-allowed" : "pointer",
+                                cursor: adding || (stockLoading && !soldOut) ? "not-allowed" : "pointer",
                                 transition: "background .3s",
                                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                             }}
