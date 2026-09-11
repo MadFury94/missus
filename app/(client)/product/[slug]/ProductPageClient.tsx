@@ -386,33 +386,14 @@ export default function ProductPageClient({ params, product, related }: {
                     {stockError && <p role="alert" style={{ fontSize: "12px", marginBottom: "12px" }}>{stockError}</p>}
 
                     {/* Show inline restock signup when out of stock */}
-                    {soldOut && (sizes.length === 0 || selectedSize) && selectionStock?.id && (
+                    {soldOut && (
                         <RestockSignup
-                            key={selectionStock.id}
+                            key={selectionStock?.id || product.id}
                             productId={product.id}
-                            variationId={stock?.variable ? selectionStock.id : undefined}
+                            variationId={stock?.variable ? selectionStock?.id : undefined}
                             selection={[selectedColor, selectedSize].filter(Boolean).join(" / ")}
                             inline={true}
                         />
-                    )}
-
-                    {soldOut && sizes.length > 0 && !selectedSize && (
-                        <div style={{
-                            marginTop: "16px",
-                            padding: "16px",
-                            background: "#fff3cd",
-                            border: "1px solid #ffeaa7",
-                            borderRadius: "8px"
-                        }}>
-                            <p style={{
-                                fontSize: "14px",
-                                color: "#856404",
-                                textAlign: "center",
-                                fontFamily: "'DM Sans', sans-serif"
-                            }}>
-                                ⚠️ Out of stock. Choose your size above to request a restock alert.
-                            </p>
-                        </div>
                     )}
                     {/* Color selection */}
                     {colors.length > 0 && (

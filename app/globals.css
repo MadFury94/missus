@@ -59,7 +59,8 @@ button {
 *[style*="barlow-condensed"],
 *[style*="Barlow_Condensed"] {
   font-family: var(--font-display), 'DM Sans', sans-serif !important;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em !important;
+  font-weight: 600 !important;
 }
 
 /* Body font  UI, inputs, prices, body copy */
@@ -67,6 +68,7 @@ button {
 *[style*="Barlow, sans-serif"],
 *[style*='"Barlow"'] {
   font-family: var(--font-body), 'DM Sans', sans-serif !important;
+  letter-spacing: 0.04em !important;
 }
 
 /* DM Sans sitewide override - replaces ALL font references */
@@ -75,6 +77,17 @@ button {
 *[style*='"Cormorant"'],
 *[style*="var(--font-display"] {
   font-family: 'DM Sans', sans-serif !important;
+  letter-spacing: 0.04em !important;
+  font-weight: 500 !important;
+}
+
+/* Exception: Keep homepage sub-headings dense */
+.homepage-subheading,
+.style-radar-section h2,
+.newin-section h2,
+.category-grid h3 {
+  letter-spacing: 0.02em !important;
+  font-weight: 600 !important;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

@@ -9,6 +9,30 @@ import { useCurrency } from "@/lib/currency";
 import type { ShippingRate } from "@/lib/woocommerce-shipping";
 import DynamicTitle from "@/components/layout/DynamicTitle";
 
+const PAYMENT_CARDS = [
+    { src: "/cards/missus_visa.svg", alt: "Visa" },
+    { src: "/cards/missus_mastercard.svg", alt: "Mastercard" },
+    { src: "/cards/missus_verve.svg", alt: "Verve" },
+] as const;
+
+function PaymentCardLogos() {
+    return (
+        <div
+            aria-label="Accepted cards: Visa, Mastercard and Verve"
+            style={{ display: "flex", alignItems: "center", gap: "6px", marginLeft: "auto", flexShrink: 0 }}
+        >
+            {PAYMENT_CARDS.map((card) => (
+                <span
+                    key={card.alt}
+                    style={{ width: "48px", height: "30px", padding: "4px 6px", border: "1px solid #e1e4e8", borderRadius: "5px", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}
+                >
+                    <Image src={card.src} alt={card.alt} width={40} height={22} style={{ width: "100%", height: "auto", maxHeight: "22px", objectFit: "contain" }} />
+                </span>
+            ))}
+        </div>
+    );
+}
+
 const STATES = [
     "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno",
     "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT Abuja", "Gombe",
@@ -1046,54 +1070,7 @@ export default function CheckoutPage() {
                                             />
                                             <CreditCard size={18} style={{ marginRight: "8px" }} />
                                             <span style={{ fontSize: "14px", fontWeight: 500 }}>Credit card</span>
-                                            <div style={{ marginLeft: "auto", display: "flex", gap: "6px", alignItems: "center" }}>
-                                                {/* Visa */}
-                                                <div style={{
-                                                    background: "#fff",
-                                                    border: "1px solid #e5e5e5",
-                                                    borderRadius: "4px",
-                                                    padding: "4px 8px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: "24px"
-                                                }}>
-                                                    <svg width="32" height="10" viewBox="0 0 32 10" fill="none">
-                                                        <path d="M13.3 8.7L15.1 1.3h2.8L16.1 8.7h-2.8zM23.1 1.3l-2.7 7.4h-2.8l1.4-7.4h2.8l.3 3.7L22.8 1.3h.3zM8.2 1.3L5.7 7.1 5.2 4.5 4.4 1.7c-.1-.4-.4-.4-.7-.4H0l0 .2c.7.1 1.4.4 1.9.7l2.3 6.2h2.9L10.9 1.3H8.2zM26.8 1.3c-.5 0-.9.3-1.1.7l-4.1 6.7h2.9l.6-1.6h3.6l.3 1.6h2.6L29.3 1.3h-2.5zm.4 2.1l.9 2.5h-2.3l1.4-2.5z" fill="#1434CB" />
-                                                    </svg>
-                                                </div>
-
-                                                {/* Mastercard */}
-                                                <div style={{
-                                                    background: "#fff",
-                                                    border: "1px solid #e5e5e5",
-                                                    borderRadius: "4px",
-                                                    padding: "4px 8px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: "24px"
-                                                }}>
-                                                    <svg width="24" height="14" viewBox="0 0 24 14" fill="none">
-                                                        <circle cx="7" cy="7" r="7" fill="#EB001B" />
-                                                        <circle cx="17" cy="7" r="7" fill="#F79E1B" fillOpacity="0.8" />
-                                                        <path d="M12 2.8c1.3 1.2 2.1 2.9 2.1 4.7s-.8 3.5-2.1 4.7c-1.3-1.2-2.1-2.9-2.1-4.7s.8-3.5 2.1-4.7z" fill="#FF5F00" />
-                                                    </svg>
-                                                </div>
-
-                                                {/* Verve */}
-                                                <div style={{
-                                                    background: "#fff",
-                                                    border: "1px solid #e5e5e5",
-                                                    borderRadius: "4px",
-                                                    padding: "4px 6px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: "24px"
-                                                }}>
-                                                    <span style={{ color: "#00425A", fontSize: "9px", fontWeight: 700, letterSpacing: "0.5px" }}>VERVE</span>
-                                                </div>
-
-                                                <span style={{ fontSize: "11px", color: "#6b7280", fontWeight: 500 }}>& more</span>
-                                            </div>
+                                            <PaymentCardLogos />
                                         </label>
                                         <label
                                             style={{
@@ -1766,54 +1743,7 @@ export default function CheckoutPage() {
                                             />
                                             <CreditCard size={20} style={{ marginRight: "12px" }} />
                                             <span style={{ fontSize: "16px", fontWeight: 500 }}>Credit card</span>
-                                            <div style={{ marginLeft: "auto", display: "flex", gap: "8px", alignItems: "center" }}>
-                                                {/* Visa */}
-                                                <div style={{
-                                                    background: "#fff",
-                                                    border: "1px solid #e5e5e5",
-                                                    borderRadius: "4px",
-                                                    padding: "6px 10px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: "28px"
-                                                }}>
-                                                    <svg width="36" height="12" viewBox="0 0 32 10" fill="none">
-                                                        <path d="M13.3 8.7L15.1 1.3h2.8L16.1 8.7h-2.8zM23.1 1.3l-2.7 7.4h-2.8l1.4-7.4h2.8l.3 3.7L22.8 1.3h.3zM8.2 1.3L5.7 7.1 5.2 4.5 4.4 1.7c-.1-.4-.4-.4-.7-.4H0l0 .2c.7.1 1.4.4 1.9.7l2.3 6.2h2.9L10.9 1.3H8.2zM26.8 1.3c-.5 0-.9.3-1.1.7l-4.1 6.7h2.9l.6-1.6h3.6l.3 1.6h2.6L29.3 1.3h-2.5zm.4 2.1l.9 2.5h-2.3l1.4-2.5z" fill="#1434CB" />
-                                                    </svg>
-                                                </div>
-
-                                                {/* Mastercard */}
-                                                <div style={{
-                                                    background: "#fff",
-                                                    border: "1px solid #e5e5e5",
-                                                    borderRadius: "4px",
-                                                    padding: "6px 10px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: "28px"
-                                                }}>
-                                                    <svg width="28" height="16" viewBox="0 0 24 14" fill="none">
-                                                        <circle cx="7" cy="7" r="7" fill="#EB001B" />
-                                                        <circle cx="17" cy="7" r="7" fill="#F79E1B" fillOpacity="0.8" />
-                                                        <path d="M12 2.8c1.3 1.2 2.1 2.9 2.1 4.7s-.8 3.5-2.1 4.7c-1.3-1.2-2.1-2.9-2.1-4.7s.8-3.5 2.1-4.7z" fill="#FF5F00" />
-                                                    </svg>
-                                                </div>
-
-                                                {/* Verve */}
-                                                <div style={{
-                                                    background: "#fff",
-                                                    border: "1px solid #e5e5e5",
-                                                    borderRadius: "4px",
-                                                    padding: "6px 8px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: "28px"
-                                                }}>
-                                                    <span style={{ color: "#00425A", fontSize: "10px", fontWeight: 700, letterSpacing: "0.5px" }}>VERVE</span>
-                                                </div>
-
-                                                <span style={{ fontSize: "12px", color: "#6b7280", fontWeight: 500 }}>& more</span>
-                                            </div>
+                                            <PaymentCardLogos />
                                         </label>
                                         <label
                                             style={{

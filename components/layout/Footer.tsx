@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { useCurrency, CURRENCIES } from "@/lib/currency";
 import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/config";
@@ -162,9 +163,17 @@ export default function Footer() {
                         <CurrencySwitcher />
 
                         {/* Payment Methods */}
-                        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-                            {["VISA", "MASTERCARD", "PAYSTACK", "FLUTTERWAVE", "OPAY"].map((p) => (
-                                <span key={p} style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.1)", borderRadius: "3px", padding: "3px 8px", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".08em", color: "rgba(255,255,255,.4)" }}>{p}</span>
+                        <div aria-label="Accepted payment methods" style={{ display: "flex", gap: "7px", alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                            {[
+                                { src: "/cards/missus_visa.svg", alt: "Visa" },
+                                { src: "/cards/missus_mastercard.svg", alt: "Mastercard" },
+                                { src: "/cards/missus_verve.svg", alt: "Verve" },
+                                { src: "/cards/Paystack_Logo.svg", alt: "Paystack" },
+                                { src: "/cards/Flutterwave_Logo.png", alt: "Flutterwave" },
+                            ].map((card) => (
+                                <span key={card.alt} style={{ width: "48px", height: "27px", padding: "3px 6px", background: "#fff", border: "1px solid rgba(255,255,255,.2)", borderRadius: "4px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Image src={card.src} alt={card.alt} width={40} height={21} style={{ width: "100%", height: "auto", maxHeight: "21px", objectFit: "contain" }} />
+                                </span>
                             ))}
                         </div>
                     </div>

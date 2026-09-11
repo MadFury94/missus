@@ -13,6 +13,18 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
     const [added, setAdded] = useState(false);
 
     function handleAdd() {
+        // Check if product is out of stock
+        if (product.stock_status === "outofstock" || (product.stock_quantity !== null && product.stock_quantity <= 0)) {
+            alert("This item is currently out of stock and cannot be added to your bag.");
+            return;
+        }
+
+        // Check if requested quantity exceeds available stock
+        if (product.stock_quantity !== null && qty > product.stock_quantity) {
+            alert(`Only ${product.stock_quantity} items available in stock.`);
+            return;
+        }
+
         addToCart({
             productId: product.id,
             name: product.name,
@@ -68,18 +80,69 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
             <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "16px 0" }}>
                 <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" }}>Qty:</span>
                 <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #e0e0e0", height: "46px" }}>
-                    <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ width: "40px", height: "100%", border: "none", background: "#fff", fontSize: "18px", fontWeight: 300, cursor: "pointer" }}>−</button>
+                    <button
+                        onClick={() => setQty(Math.max(1, qty - 1))}
+                        disabled={product.stock_status === "outofstock"}
+                        style={{ width: "40px", height: "100%", border: "none", background: "#fff", fontSize: "18px", fontWeight: 300, cursor: product.stock_status === "outofstock" ? "not-allowed" : "pointer", opacity: product.stock_status === "outofstock" ? 0.5 : 1 }}
+                    >
+                        −
+                    </button>
                     <span style={{ width: "44px", textAlign: "center", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 700 }}>{qty}</span>
-                    <button onClick={() => setQty(qty + 1)} style={{ width: "40px", height: "100%", border: "none", background: "#fff", fontSize: "18px", fontWeight: 300, cursor: "pointer" }}>+</button>
+                    <button
+                        onClick={() => {
+                            const maxQty = product.stock_quantity !== null ? product.stock_quantity : 99;
+                            setQty(Math.min(maxQty, qty + 1));
+                        }}
+                        disabled={product.stock_status === "outofstock" || (product.stock_quantity !== null && qty >= product.stock_quantity)}
+                        style={{
+                            width: "40px",
+                            height: "100%",
+                            border: "none",
+                            background: "#fff",
+                            fontSize: "18px",
+                            fontWeight: 300,
+                            cursor: (product.stock_status === "outofstock" || (product.stock_quantity !== null && qty >= product.stock_quantity)) ? "not-allowed" : "pointer",
+                            opacity: (product.stock_status === "outofstock" || (product.stock_quantity !== null && qty >= product.stock_quantity)) ? 0.5 : 1
+                        }}
+                    >
+                        +
+                    </button>
                 </div>
-                {product.stock_quantity !== null && product.stock_quantity !== undefined && product.stock_quantity <= 5 && (
+                {product.stock_status === "outofstock" ? (
+                    <span style={{ fontSize: "11px", color: "#e8002d", fontWeight: 600 }}>● Out of Stock</span>
+                ) : product.stock_quantity !== null && product.stock_quantity <= 5 ? (
                     <span style={{ fontSize: "11px", color: "#e8002d", fontWeight: 600 }}>● Only {product.stock_quantity} left</span>
-                )}
+                ) : null}
             </div>
 
             {/* CTAs */}
-            <button onClick={handleAdd} style={{ width: "100%", height: "52px", background: added ? "#2d7a2d" : "#000", color: "#fff", border: "none", borderRadius: "25px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer", marginBottom: "8px", transition: "background .2s", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-                {added ? (
+            <button
+                onClick={handleAdd}
+                disabled={product.stock_status === "outofstock"}
+                style={{
+                    width: "100%",
+                    height: "52px",
+                    background: product.stock_status === "outofstock" ? "#ccc" : (added ? "#2d7a2d" : "#000"),
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "25px",
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "15px",
+                    fontWeight: 800,
+                    letterSpacing: ".12em",
+                    textTransform: "uppercase",
+                    cursor: product.stock_status === "outofstock" ? "not-allowed" : "pointer",
+                    marginBottom: "8px",
+                    transition: "background .2s",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "10px"
+                }}
+            >
+                {product.stock_status === "outofstock" ? (
+                    "Out of Stock"
+                ) : added ? (
                     "Added to Bag ✓"
                 ) : (
                     <>
@@ -89,8 +152,24 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                     </>
                 )}
             </button>
-            <button style={{ width: "100%", height: "52px", background: "#e8002d", color: "#fff", border: "none", borderRadius: "25px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: "pointer" }}>
-                Buy Now — Pay on Delivery
+            <button
+                disabled={product.stock_status === "outofstock"}
+                style={{
+                    width: "100%",
+                    height: "52px",
+                    background: product.stock_status === "outofstock" ? "#ccc" : "#e8002d",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "25px",
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "15px",
+                    fontWeight: 800,
+                    letterSpacing: ".12em",
+                    textTransform: "uppercase",
+                    cursor: product.stock_status === "outofstock" ? "not-allowed" : "pointer"
+                }}
+            >
+                {product.stock_status === "outofstock" ? "Out of Stock" : "Buy Now — Pay on Delivery"}
             </button>
         </div>
     );

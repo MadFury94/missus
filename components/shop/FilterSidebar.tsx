@@ -134,7 +134,33 @@ export default function FilterSidebar({ filters, onChange, showCategories }: Fil
         (filters.occasions?.length ?? 0) > 0;
 
     return (
-        <aside style={{ fontFamily: "'Barlow', sans-serif" }}>
+        <aside
+            style={{
+                fontFamily: "'Barlow', sans-serif",
+                maxHeight: "calc(100vh - 120px)",
+                overflowY: "auto",
+                paddingRight: "8px",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#ccc transparent"
+            }}
+            className="filter-sidebar-scroll"
+        >
+            <style jsx>{`
+                .filter-sidebar-scroll::-webkit-scrollbar {
+                    width: 6px;
+                }
+                .filter-sidebar-scroll::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                    border-radius: 3px;
+                }
+                .filter-sidebar-scroll::-webkit-scrollbar-thumb {
+                    background: #ccc;
+                    border-radius: 3px;
+                }
+                .filter-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+                    background: #999;
+                }
+            `}</style>
             {/* Header */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
                 <span style={{ fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "#000" }}>

@@ -1,11 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { CreditCard, Truck, Check } from "lucide-react";
 import { useCurrency } from "@/lib/currency";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
 
-const PAY_ICONS = ["VISA", "MASTERCARD", "PAYSTACK", "FLUTTERWAVE", "OPAY"];
+const PAY_ICONS = [
+    { src: "/cards/missus_visa.svg", alt: "Visa" },
+    { src: "/cards/missus_mastercard.svg", alt: "Mastercard" },
+    { src: "/cards/missus_verve.svg", alt: "Verve" },
+];
 const EXPRESS = ["PAYSTACK", "OPAY", "KUDA"];
 
 interface Props {
@@ -159,8 +164,8 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     </p>
                     <div style={{ display: "flex", justifyContent: "center", gap: "6px", flexWrap: "wrap" }}>
                         {PAY_ICONS.map((icon) => (
-                            <span key={icon} style={{ background: "#f5f5f5", border: "1px solid #e0e0e0", borderRadius: "3px", padding: "4px 10px", fontFamily: "var(--font-barlow-condensed)", fontSize: "9px", fontWeight: 700, letterSpacing: ".08em", color: "#555" }}>
-                                {icon}
+                            <span key={icon.alt} style={{ width: "48px", height: "30px", background: "#fff", border: "1px solid #e0e0e0", borderRadius: "4px", padding: "4px 6px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Image src={icon.src} alt={icon.alt} width={40} height={22} style={{ width: "100%", height: "auto", maxHeight: "22px", objectFit: "contain" }} />
                             </span>
                         ))}
                     </div>
