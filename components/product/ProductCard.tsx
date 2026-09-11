@@ -198,9 +198,11 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                                 </button>
                             ))}
                         </div>
-                        <Link href={`/product/${product.slug}`} style={{ fontSize: "12px", color: "#999", textDecoration: "underline", fontFamily: "var(--font-body)" }}>
-                            View size guide
-                        </Link>
+                        {!product.categories?.some(cat => cat.slug === 'gift-shop' || cat.name.toLowerCase().includes('gift')) && (
+                            <Link href={`/product/${product.slug}`} style={{ fontSize: "12px", color: "#999", textDecoration: "underline", fontFamily: "var(--font-body)" }}>
+                                View size guide
+                            </Link>
+                        )}
                         {!stock && <p role="status">{stockError || "Checking availability..."}</p>}
                         {selectedStock?.available === false && selectedStock.id && (selectedSize || sizes.length === 0) && (
                             <RestockSignup key={selectedStock.id} productId={product.id} variationId={stock?.variable ? selectedStock.id : undefined} selection={[colourTerms[0]?.name, selectedSize].filter(Boolean).join(" / ")} />
