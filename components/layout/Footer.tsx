@@ -149,12 +149,19 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Link columns — accordion on mobile */}
-                    {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
-                        <AccordionSection key={heading} heading={heading} links={links} />
-                    ))}
+                    {/* Column 1: NEED HELP? */}
+                    <AccordionSection
+                        heading="NEED HELP?"
+                        links={[
+                            { label: "FAQ", href: "/faq" },
+                            { label: "Shipping Info", href: "/shipping" },
+                            { label: "Returns", href: "/returns" },
+                            { label: "Size Guide", href: "/size-guide" },
+                            { label: "Contact Us", href: "/contact" }
+                        ]}
+                    />
 
-                    {/* Quick Links column */}
+                    {/* Column 2: QUICK LINKS */}
                     <AccordionSection
                         heading="QUICK LINKS"
                         links={[
@@ -162,6 +169,25 @@ export default function Footer() {
                             { label: "Track My Order", href: "/account/orders" },
                             { label: "Gift Cards", href: "/gift-cards" },
                             { label: "Check Gift Card Balance", href: "/gift-card-balance" }
+                        ]}
+                    />
+
+                    {/* Column 3: MISSUS HQ */}
+                    <AccordionSection
+                        heading="MISSUS HQ"
+                        links={[
+                            { label: "About Missus", href: "/about" },
+                            { label: "Careers", href: "/careers" },
+                            { label: "Want to Collab?", href: "/contact#collab" }
+                        ]}
+                    />
+
+                    {/* Column 4: TERMS & LEGAL */}
+                    <AccordionSection
+                        heading="TERMS & LEGAL"
+                        links={[
+                            { label: "Privacy Policy", href: "/privacy" },
+                            { label: "Terms of Service", href: "/terms" }
                         ]}
                     />
                 </div>
