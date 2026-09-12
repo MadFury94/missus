@@ -84,8 +84,8 @@ export default function PromoCodeInput({ subtotal, onPromoApplied, onPromoRemove
                         ✓ {appliedCode} applied
                     </span>
                     <br />
-                    <span style={{ fontSize: "12px", color: "#0369a1" }}>
-                        {appliedLabel} • Saves ₦{discount.toLocaleString("en-NG")}
+                    <span style={{ fontSize: "12px", color: "#0369a1" }} className="currency-display">
+                        {appliedLabel} • Saves <span className="currency-symbol">₦{discount.toLocaleString("en-NG")}</span>
                     </span>
                 </div>
                 <button

@@ -328,10 +328,10 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         {product.name}
                     </p>
 
-                    <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", textAlign: "left", marginBottom: "4px" }}>
-                        <span style={{ color: isOnSale ? "#7F0E12" : "#000" }}>{priceNaira}</span>
+                    <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", textAlign: "left", marginBottom: "4px" }} className="currency-display">
+                        <span className="currency-symbol" style={{ color: isOnSale ? "#7F0E12" : "#000" }}>{priceNaira}</span>
                         {isOnSale && (
-                            <span style={{ color: "#aaa", fontWeight: 400, textDecoration: "line-through", marginLeft: "6px", fontSize: "11px" }}>{regularNaira}</span>
+                            <span className="currency-symbol" style={{ color: "#aaa", fontWeight: 400, textDecoration: "line-through", marginLeft: "6px", fontSize: "11px" }}>{regularNaira}</span>
                         )}
                     </p>
 

@@ -119,7 +119,7 @@ export default function Footer() {
             `}</style>
 
             <footer style={{ background: "#1a1a1a", color: "#fff", padding: "40px 20px 20px" }}>
-                <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto", marginBottom: "24px" }}>
+                <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto", marginBottom: "24px" }}>
                     {/* Brand */}
                     <div className="footer-brand">
                         <div style={{ marginBottom: "12px" }}>
@@ -153,29 +153,39 @@ export default function Footer() {
                     {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
                         <AccordionSection key={heading} heading={heading} links={links} />
                     ))}
+
+                    {/* Quick Links column */}
+                    <AccordionSection
+                        heading="QUICK LINKS"
+                        links={[
+                            { label: "Order History", href: "/account" },
+                            { label: "Track My Order", href: "/account/orders" },
+                            { label: "Gift Cards", href: "/gift-cards" },
+                            { label: "Check Gift Card Balance", href: "/gift-card-balance" }
+                        ]}
+                    />
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: "20px", marginTop: "8px" }}>
-                    <p style={{ fontSize: "11px", color: "rgba(255,255,255,.3)" }}>© {new Date().getFullYear()} Missus Outfits. All rights reserved.</p>
-
-                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                        <p style={{ fontSize: "11px", color: "rgba(255,255,255,.3)" }}>© {new Date().getFullYear()} Missus Outfits. All rights reserved.</p>
                         {/* Currency Switcher */}
                         <CurrencySwitcher />
+                    </div>
 
-                        {/* Payment Methods */}
-                        <div aria-label="Accepted payment methods" style={{ display: "flex", gap: "7px", alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
-                            {[
-                                { src: "/cards/missus_visa.svg", alt: "Visa" },
-                                { src: "/cards/missus_mastercard.svg", alt: "Mastercard" },
-                                { src: "/cards/missus_verve.svg", alt: "Verve" },
-                                { src: "/cards/Paystack_Logo.svg", alt: "Paystack" },
-                                { src: "/cards/Flutterwave_Logo.png", alt: "Flutterwave" },
-                            ].map((card) => (
-                                <span key={card.alt} style={{ width: "48px", height: "27px", padding: "3px 6px", background: "#fff", border: "1px solid rgba(255,255,255,.2)", borderRadius: "4px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Image src={card.src} alt={card.alt} width={40} height={21} style={{ width: "100%", height: "auto", maxHeight: "21px", objectFit: "contain" }} />
-                                </span>
-                            ))}
-                        </div>
+                    {/* Payment Methods */}
+                    <div aria-label="Accepted payment methods" style={{ display: "flex", gap: "4px", alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                        {[
+                            { src: "/cards/missus_visa.svg", alt: "Visa" },
+                            { src: "/cards/missus_mastercard.svg", alt: "Mastercard" },
+                            { src: "/cards/missus_verve.svg", alt: "Verve" },
+                            { src: "/cards/Paystack_Logo.svg", alt: "Paystack" },
+                            { src: "/cards/Flutterwave_Logo.png", alt: "Flutterwave" },
+                        ].map((card) => (
+                            <span key={card.alt} style={{ width: "32px", height: "18px", padding: "2px 3px", background: "#fff", border: "1px solid rgba(255,255,255,.2)", borderRadius: "3px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Image src={card.src} alt={card.alt} width={28} height={14} style={{ width: "100%", height: "auto", maxHeight: "14px", objectFit: "contain" }} />
+                            </span>
+                        ))}
                     </div>
                 </div>
             </footer>

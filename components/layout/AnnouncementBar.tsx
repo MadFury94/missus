@@ -36,14 +36,16 @@ export default function AnnouncementBar({ text, onDismiss }: { text?: string; on
         >
             <style>{`
                 @keyframes annScroll {
-                    from { transform: translateX(0); }
-                    to   { transform: translateX(-33.333%); }
+                    from { transform: translate3d(0, 0, 0); }
+                    to   { transform: translate3d(-33.333%, 0, 0); }
                 }
                 .ann-track {
                     display: flex;
                     white-space: nowrap;
                     animation: annScroll ${duration}s linear infinite;
                     width: max-content;
+                    will-change: transform;
+                    backface-visibility: hidden;
                 }
                 .ann-track:hover { animation-play-state: paused; }
             `}</style>
@@ -53,6 +55,7 @@ export default function AnnouncementBar({ text, onDismiss }: { text?: string; on
                     <Link
                         key={i}
                         href={slide.href}
+                        className="currency-display"
                         style={{
                             display: "inline-flex",
                             alignItems: "center",

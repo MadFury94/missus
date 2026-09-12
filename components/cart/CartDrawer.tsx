@@ -191,8 +191,8 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                 return (
                                     <div style={{ marginBottom: "16px" }}>
                                         {remaining > 0 ? (
-                                            <p style={{ fontSize: "12px", color: "#333", marginBottom: "8px", textAlign: "center" }}>
-                                                {"You're "}<strong>{"₦"}{remaining.toLocaleString("en-NG")}</strong>{" away from free shipping!"}
+                                            <p className="currency-display" style={{ fontSize: "12px", color: "#333", marginBottom: "8px", textAlign: "center" }}>
+                                                {"You're "}<strong className="currency-symbol">{"₦"}{remaining.toLocaleString("en-NG")}</strong>{" away from free shipping!"}
                                             </p>
                                         ) : (
                                             <p style={{ fontSize: "12px", color: "#00a32a", fontWeight: 700, marginBottom: "8px", textAlign: "center" }}>

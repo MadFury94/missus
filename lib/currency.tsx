@@ -60,6 +60,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     const convert = useCallback((naira: number): string => {
         if (!Number.isFinite(naira)) naira = 0;
         if (currency === "NGN" || !rates[currency]) {
+            // Ensure proper Unicode rendering of naira symbol
             return `₦${naira.toLocaleString("en-NG", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
         }
         const rate = rates[currency];

@@ -795,6 +795,29 @@ button {
 }
 
 /* Better fallback fonts for Unicode support */
+body,
 .font-unicode-safe {
-  font-family: var(--font-body), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: var(--font-body), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', 'Liberation Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Noto Sans Symbols';
+}
+
+/* Ensure currency symbols render properly */
+.currency-symbol,
+.currency-display,
+*:contains("₦"),
+*[data-currency="NGN"] {
+  font-feature-settings: "tnum" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force proper Unicode rendering for naira symbol */
+*::before,
+*::after {
+  unicode-bidi: isolate;
+}
+
+/* Specific fix for naira symbol rendering */
+body *:not(script):not(style) {
+  text-rendering: optimizeLegibility;
 }

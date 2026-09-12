@@ -9,6 +9,9 @@ import { DEFAULT_METADATA } from "@/lib/seo-config";
 import StructuredData from "@/components/seo/StructuredData";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/structured-data";
 
+// Fix Unicode character encoding globally
+export const charset = "utf-8";
+
 // ── FONT CONFIGURATION ───────────────────────────────────────
 // ★ DM SANS SITEWIDE: Using DM Sans for all text as agreed
 // --font-display → headings, hero, labels, nav display text (DM Sans)
@@ -69,6 +72,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       suppressHydrationWarning
     >
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <StructuredData schema={[getOrganizationSchema(), getWebsiteSchema()]} />
         <link rel="canonical" href={SITE_URL} />
         <meta name="theme-color" content="#000000" />
