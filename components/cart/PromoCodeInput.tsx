@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
+import type { CartItem } from "@/types";
 
 interface PromoCodeInputProps {
     subtotal: number;
+    cartItems?: CartItem[];
     onPromoApplied?: (code: string, discount: number) => void;
     onPromoRemoved?: () => void;
 }
 
-export default function PromoCodeInput({ subtotal, onPromoApplied, onPromoRemoved }: PromoCodeInputProps) {
+export default function PromoCodeInput({ subtotal, cartItems, onPromoApplied, onPromoRemoved }: PromoCodeInputProps) {
     const [code, setCode] = useState("");
     const [appliedCode, setAppliedCode] = useState("");
     const [appliedLabel, setAppliedLabel] = useState("");
@@ -29,7 +31,8 @@ export default function PromoCodeInput({ subtotal, onPromoApplied, onPromoRemove
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     code: code.trim(),
-                    subtotal: subtotal
+                    subtotal: subtotal,
+                    cart: cartItems || []
                 })
             });
 

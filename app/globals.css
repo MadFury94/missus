@@ -77,7 +77,7 @@ button {
 *[style*='"Cormorant"'],
 *[style*="var(--font-display"] {
   font-family: 'DM Sans', sans-serif !important;
-  letter-spacing: 0.04em !important;
+  letter-spacing: 0 !important;
   font-weight: 500 !important;
 }
 
@@ -88,6 +88,16 @@ button {
 .category-grid h3 {
   letter-spacing: 0.02em !important;
   font-weight: 600 !important;
+}
+
+/* Remove letter spacing from all subheadings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: 0 !important;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

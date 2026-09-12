@@ -150,7 +150,11 @@ export default function CheckoutPage() {
             const res = await fetch("/api/promo/validate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ code, subtotal: cart.subtotal }),
+                body: JSON.stringify({
+                    code,
+                    subtotal: cart.subtotal,
+                    cart: cart.items
+                }),
             });
             const data = await res.json();
             if (!data.valid) {

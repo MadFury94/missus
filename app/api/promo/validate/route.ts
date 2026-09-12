@@ -132,13 +132,35 @@ async function validateWooCommerceCoupon(code: string, subtotal: number) {
 
 export async function POST(request: NextRequest) {
     try {
-        const { code, subtotal } = await request.json();
+        const { code, subtotal, cart } = await request.json();
 
         if (!code || typeof subtotal !== "number") {
             return NextResponse.json({ valid: false, error: "Invalid request." }, { status: 400 });
         }
 
         const normalized = String(code).trim().toUpperCase();
+
+        // Check if cart has any items that should exclude discount codes
+        if (cart && Array.isArray(cart)) {
+            const hasIneligibleItems = cart.some((item: any) => {
+                // Check if item is on sale (price < regularPrice)
+                const isOnSale = item.price < item.regularPrice;
+
+                // Check if item is a gift card or gift box (by name or slug)
+                const isGiftItem = item.name?.toLowerCase().includes('gift') ||
+                    item.slug?.toLowerCase().includes('gift') ||
+                    item.name?.toLowerCase().includes('box');
+
+                return isOnSale || isGiftItem;
+            });
+
+            if (hasIneligibleItems) {
+                return NextResponse.json({
+                    valid: false,
+                    error: "Discount codes cannot be applied to sale items, gift cards, or gift boxes."
+                });
+            }
+        }
 
         // ── 1. Try as a gift card first ──────────────────────────────────
         const giftCard = await checkGiftCard(normalized);

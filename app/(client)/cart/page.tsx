@@ -152,6 +152,7 @@ export default function CartPage() {
                         <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid #e8e8e8" }}>
                             <PromoCodeInput
                                 subtotal={cart.subtotal}
+                                cartItems={cart.items}
                                 onPromoApplied={(code, discount) => {
                                     setPromoCode(code);
                                     setPromoDiscount(discount);
