@@ -3,6 +3,26 @@ function service(fail=false){const exports={};const calls=[];let count=0;const c
 const address=state=>({address_1:'Test',city:'Test',state,country:'Nigeria'});const items=quantity=>[{productId:1,name:'Dress',size:'M',quantity}];
 test('uses WooCommerce zone prices and filters unpriced Terminal placeholder',async()=>{const s=service();assert.deepEqual(Array.from(await s.getWooCommerceShippingRates(address('FCT Abuja'),items(1)),r=>r.amount),[700000,1300000]);assert.deepEqual(Array.from(await s.getWooCommerceShippingRates(address('Lagos'),items(1)),r=>r.amount),[400000,600000]);});
 test('preserves free-shipping eligibility calculated by WooCommerce',async()=>{const s=service();assert.equal((await s.getWooCommerceShippingRates(address('Lagos'),items(3)))[0].method_id,'free_shipping');assert.equal((await s.getWooCommerceShippingRates(address('Lagos'),items(1))).some(r=>r.method_id==='free_shipping'),false);});
+test('qualifying carts show free Standard with its zone price and retain paid Express', async () => {
+    const s = service();
+    for (const [state, original, express] of [['Lagos', 400000, 600000], ['FCT Abuja', 700000, 1300000]]) {
+        for (const quantity of [3, 4]) {
+            const rates = await s.getWooCommerceShippingRates(address(state), items(quantity));
+            assert.equal(rates.length, 2);
+            assert.equal(rates[0].carrier_name, 'Standard');
+            assert.equal(rates[0].amount, 0);
+            assert.equal(rates[0].original_amount, original);
+            assert.equal(rates[0].is_free_standard, true);
+            assert.equal(rates[0].rate_id, 'free_shipping:41');
+            assert.equal(rates[1].carrier_name, 'Express');
+            assert.equal(rates[1].amount, express);
+            assert.equal(rates[1].original_amount, undefined);
+        }
+        const below = await s.getWooCommerceShippingRates(address(state), items(2));
+        assert.equal(below[0].amount, original);
+        assert.equal(below[0].is_free_standard, undefined);
+    }
+});
 test('separate quotes never reuse a cart and coupons are applied before calculating rates',async()=>{const s=service();await Promise.all([s.getWooCommerceShippingRates(address('Lagos'),items(1),'SAVE'),s.getWooCommerceShippingRates(address('FCT Abuja'),items(1))]);assert.equal(new Set(s.calls.filter(c=>c.url.includes('/cart?')).map(c=>c.url)).size,2);const apply=s.calls.find(c=>c.url.endsWith('/cart/apply-coupon'));assert.equal(JSON.parse(apply.body).code,'SAVE');});
 test('upstream failure cannot return fallback prices',async()=>{await assert.rejects(service(true).getWooCommerceShippingRates(address('Lagos'),items(1)));});
 test('normalizes Nigerian states and existing codes',()=>{const s=service();for(const state of ['FCT Abuja','Abuja','FC','NG:FC'])assert.equal(s.normalizeShippingAddress(address(state)).state,'FC');});

@@ -122,7 +122,9 @@ export default function CheckoutPage() {
                 if (!res.ok) throw new Error(data.error);
                 if (!controller.signal.aborted) {
                     setRates(data.rates || []);
-                    if (data.rates?.length === 1) setSelectedRate(data.rates[0]);
+                    const freeStandard = data.rates?.find((rate: ShippingRate) => rate.is_free_standard);
+                    if (freeStandard) setSelectedRate(freeStandard);
+                    else if (data.rates?.length === 1) setSelectedRate(data.rates[0]);
                 }
             } catch (error) {
                 if (!controller.signal.aborted) setRatesError(error instanceof Error ? error.message : "Shipping options could not be loaded.");
@@ -1038,7 +1040,10 @@ export default function CheckoutPage() {
                                                         <div style={{ flex: 1 }}>
                                                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                                 <span style={{ fontSize: "14px", fontWeight: 500 }}>{rate.carrier_name}</span>
-                                                                <span style={{ fontSize: "14px", fontWeight: 600 }}>{convert(rate.amount / 100)}</span>
+                                                                <span style={{ fontSize: "14px", fontWeight: 600, textAlign: "right" }}>
+                                                                    {rate.is_free_standard && (rate.original_amount ?? 0) > 0 && <del style={{ display: "block", color: "#767676", fontWeight: 400 }}>{convert(rate.original_amount! / 100)}</del>}
+                                                                    <span style={{ display: "block" }}>{rate.amount === 0 ? "FREE" : convert(rate.amount / 100)}</span>
+                                                                </span>
                                                             </div>
                                                             <p style={{ fontSize: "12px", color: "#666", margin: "2px 0 0 0" }}>{rate.delivery_time}</p>
                                                         </div>
@@ -1709,7 +1714,10 @@ export default function CheckoutPage() {
                                                         <div style={{ flex: 1 }}>
                                                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                                 <span style={{ fontSize: "16px", fontWeight: 500 }}>{rate.carrier_name}</span>
-                                                                <span style={{ fontSize: "16px", fontWeight: 600 }}>{convert(rate.amount / 100)}</span>
+                                                                <span style={{ fontSize: "16px", fontWeight: 600, textAlign: "right" }}>
+                                                                    {rate.is_free_standard && (rate.original_amount ?? 0) > 0 && <del style={{ display: "block", color: "#767676", fontWeight: 400 }}>{convert(rate.original_amount! / 100)}</del>}
+                                                                    <span style={{ display: "block" }}>{rate.amount === 0 ? "FREE" : convert(rate.amount / 100)}</span>
+                                                                </span>
                                                             </div>
                                                             <p style={{ fontSize: "14px", color: "#666", margin: "4px 0 0 0" }}>{rate.delivery_time}</p>
                                                         </div>

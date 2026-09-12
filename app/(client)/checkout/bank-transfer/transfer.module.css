@@ -1,0 +1,81 @@
+.page { background: #fafafa; min-height: 70vh; color: #111; font-size: 13px; }
+.header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 22px 24px; }
+.headerInner { max-width: 960px; margin: auto; display: flex; align-items: center; gap: 12px; }
+.headerIcon { width: 40px; height: 40px; border-radius: 50%; background: #111; color: #fff; display: grid; place-items: center; flex-shrink: 0; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #737373; }
+.header h1 { font-family: var(--font-display, 'Cormorant', serif); font-size: clamp(24px, 3vw, 30px); font-weight: 600; line-height: 1.2; margin-top: 3px; }
+.status { margin-left: auto; background: #fbf4e7; color: #795411; padding: 7px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; max-width: 1008px; padding: 32px 24px 72px; margin: auto; align-items: start; }
+.mainColumn { min-width: 0; display: grid; gap: 16px; }
+.card { background: white; border: 1px solid #e5e5e5; }
+.payment { padding: 26px; border-top: 3px solid #111; }
+.sectionHeading { display: flex; align-items: center; gap: 12px; }
+.sectionHeading h2, .receipt h2 { font-size: 18px; font-weight: 600; }
+.sectionHeading p { color: #666; font-size: 12px; margin-top: 4px; line-height: 1.5; }
+.amount { display: flex; flex-direction: column; gap: 5px; background: #f6f5f2; padding: 22px; margin: 22px 0 8px; }
+.amount > span:first-child { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: #666; }
+.amount strong { font-size: clamp(28px, 4vw, 34px); font-weight: 600; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.amount > span:last-child { font-size: 11px; color: #737373; }
+.bankDetails > div { padding: 15px 0; border-bottom: 1px solid #eee; }
+.bankDetails dt { color: #737373; font-size: 11px; margin-bottom: 5px; }
+.bankDetails dd { font-size: 14px; font-weight: 600; margin: 0; }
+.accountRow { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.bankDetails .accountNumber { font-size: 23px; letter-spacing: .07em; font-variant-numeric: tabular-nums; }
+.copy { display: flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #ddd; border-radius: 5px; padding: 9px 11px; font-size: 11px; cursor: pointer; }
+.instructions { display: flex; align-items: flex-start; gap: 9px; margin: 18px 0; color: #666; line-height: 1.6; font-size: 12px; }
+.instructions svg { flex-shrink: 0; margin-top: 2px; }
+.primary { display: flex; align-items: center; justify-content: center; gap: 12px; background: #111; color: #fff; border: none; border-radius: 999px; width: 100%; min-height: 54px; padding: 15px 18px; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; transition: background .2s; }
+.primary:hover { background: #333; }
+.primary:disabled { opacity: .6; cursor: wait; }
+.primary:focus-visible, .copy:focus-visible, .footer a:focus-visible { outline: 3px solid #976f36; outline-offset: 4px; }
+.caption { text-align: center; color: #737373; font-size: 11px; line-height: 1.6; margin-top: 12px; }
+.map { overflow: hidden; }
+.map iframe { width: 100%; height: 200px; border: none; display: block; }
+.map > div { display: flex; gap: 9px; align-items: center; padding: 13px 16px; border-top: 1px solid #eee; color: #666; font-size: 12px; line-height: 1.6; }
+.map svg { flex-shrink: 0; }
+.details { padding: 22px; }
+.detailsGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; margin-top: 20px; }
+.detailsGrid h3 { font-size: 11px; font-weight: 600; color: #737373; margin-bottom: 6px; }
+.detailsGrid p { color: #444; line-height: 1.7; overflow-wrap: anywhere; }
+.footer { display: flex; justify-content: space-between; gap: 16px; font-size: 12px; padding-top: 5px; color: #666; }
+.footer a { display: inline-flex; align-items: center; gap: 5px; color: #111; text-decoration: underline; text-underline-offset: 3px; }
+.summary { position: sticky; top: 80px; padding: 24px; }
+.items { margin: 16px 0; }
+.item { display: flex; gap: 12px; padding: 14px 0; align-items: flex-start; }
+.item + .item { border-top: 1px solid #f0f0f0; }
+.image { position: relative; width: 56px; height: 72px; flex-shrink: 0; background: #f4f4f4; }
+.image > span { position: absolute; top: -7px; right: -7px; border-radius: 50%; min-width: 19px; height: 19px; background: #666; color: white; font-size: 10px; display: grid; place-items: center; padding: 0 4px; }
+.itemInfo { flex: 1; min-width: 0; }
+.item h3 { font-size: 13px; font-weight: 600; line-height: 1.4; }
+.item p { font-size: 11px; color: #777; margin-top: 4px; }
+.item > strong { font-size: 12px; white-space: nowrap; font-weight: 600; }
+.totals > div { display: flex; justify-content: space-between; gap: 16px; padding: 6px 0; }
+.totals dt { color: #666; }
+.totals dd { margin: 0; font-weight: 600; white-space: nowrap; }
+.totals .discount { color: #007a3d; }
+.totals .total { border-top: 2px solid #111; margin-top: 12px; padding-top: 16px; font-size: 18px; }
+.total dt { color: #111; font-weight: 600; }
+.total small { font-size: 10px; color: #777; font-weight: 400; margin-left: 5px; }
+.summaryNote { display: flex; justify-content: center; align-items: center; gap: 7px; border-top: 1px solid #eee; padding-top: 16px; margin-top: 20px; font-size: 10px; color: #777; }
+.summaryNote svg { flex-shrink: 0; }
+.receipt { display: grid; gap: 14px; }
+.receipt > svg { color: #007a3d; }
+.receipt > p:not(.eyebrow) { color: #666; line-height: 1.7; }
+.error { color: #a51b1b; padding: 12px; margin-top: 14px; background: #fff2f2; font-size: 12px; line-height: 1.6; }
+.empty { min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 32px; text-align: center; }
+.empty h1 { font-size: 24px; }
+.empty .primary { max-width: 280px; }
+@media (max-width: 768px) {
+    .header { padding: 20px 16px; }
+    .headerInner { flex-wrap: wrap; }
+    .status { margin-left: 52px; }
+    .grid { grid-template-columns: minmax(0, 1fr); padding: 20px 16px 48px; gap: 16px; }
+    .payment { padding: 20px; }
+    .summary { position: static; padding: 20px; }
+    .footer { flex-wrap: wrap; }
+}
+@media (max-width: 380px) {
+    .detailsGrid { grid-template-columns: 1fr; }
+    .bankDetails .accountNumber { font-size: 20px; }
+    .item { gap: 9px; }
+}

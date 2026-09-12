@@ -65,13 +65,27 @@ export async function getWooCommerceShippingRates(address: CustomerAddress, item
     const cart = await request("/cart/update-customer", { shipping_address: normalizeShippingAddress(address), billing_address: normalizeShippingAddress(address) });
     const packages = cart.shipping_rates || [];
     if (packages.length > 1) throw new Error("Multiple shipping packages are not supported by this checkout");
-    return packages.flatMap((pkg: any) => (pkg.shipping_rates || []).map((rate: any) => {
+    const rates: ShippingRate[] = packages.flatMap((pkg: any) => (pkg.shipping_rates || []).map((rate: any) => {
         const amount = Number(rate.price) + Number(rate.taxes || 0);
         if (!Number.isSafeInteger(amount) || amount < 0 || rate.currency_minor_unit !== 2 || rate.currency_code !== "NGN") throw new Error("Invalid shipping price from WooCommerce");
         return { rate_id: rate.rate_id, carrier_name: rate.name, amount, currency: rate.currency_code,
             delivery_time: rate.delivery_time || rate.description || "", method_id: rate.method_id, instance_id: Number(rate.instance_id) };
     })).filter((rate: ShippingRate) => !(rate.method_id === "terminal_delivery" && rate.amount === 0))
         .sort((a: ShippingRate, b: ShippingRate) => a.amount - b.amount);
+    const free = rates.find(rate => rate.method_id === "free_shipping" && rate.amount === 0);
+    const standard = rates.find(rate => rate.method_id !== "free_shipping" && /\bstandard\b/i.test(rate.carrier_name));
+    if (free && standard) {
+        // Keep WooCommerce's free rate identity for payment and order creation.
+        // Standard's paid quote supplies the real savings and delivery description.
+        return rates.filter(rate => rate !== standard).map(rate => rate === free ? {
+            ...free,
+            carrier_name: standard.carrier_name,
+            delivery_time: standard.delivery_time,
+            original_amount: standard.amount,
+            is_free_standard: true,
+        } : rate);
+    }
+    return rates;
 }
 
 export interface ShippingRate {
@@ -79,6 +93,8 @@ export interface ShippingRate {
     carrier_name: string;
     carrier_logo?: string;
     amount: number; // Price in kobo
+    original_amount?: number; // Standard's undiscounted price in kobo
+    is_free_standard?: boolean;
     currency: string;
     delivery_time: string;
     pickup_time?: string;

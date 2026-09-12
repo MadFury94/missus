@@ -1,392 +1,151 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Copy, CheckCircle } from "lucide-react";
-import { formatPrice } from "@/lib/woocommerce";
+import { ArrowLeft, ArrowRight, Check, CheckCircle, Copy, Landmark, MapPin, ShieldCheck } from "lucide-react";
+import styles from "./transfer.module.css";
 
 interface PendingOrder {
-    cart: Array<{
-        productId: number;
-        name: string;
-        price: number;
-        quantity: number;
-        size?: string;
-        image: string;
-    }>;
-    shipping: {
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        address: string;
-        apartment?: string;
-        city: string;
-        state: string;
-        postalCode?: string;
-    };
+    cart: Array<{ productId: number; name: string; price: number; quantity: number; size?: string; color?: string; image: string }>;
+    shipping: { firstName: string; lastName: string; email: string; phone: string; address: string; apartment?: string; city: string; state: string; postalCode?: string };
     promoCode?: string;
     promoDiscount: number;
-    selectedRate: {
-        carrier_name: string;
-        amount: number;
-    };
+    selectedRate: { carrier_name: string; amount: number; delivery_time?: string };
     total: number;
 }
 
-const BANK_DETAILS = {
-    bankName: "Access Bank",
-    accountName: "Missus Outfits Limited",
-    accountNumber: "1234567890"
-};
+const BANK_DETAILS = { bankName: "Access Bank", accountName: "Missus Outfits Limited", accountNumber: "1234567890" };
+// Checkout totals are in naira; shipping rates are in kobo.
+const money = (naira: number) => new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 2 }).format(naira);
 
 export default function BankTransferPage() {
     const [order, setOrder] = useState<PendingOrder | null>(null);
-    const [copied, setCopied] = useState<string>("");
-    const [paymentConfirmed, setPaymentConfirmed] = useState(false);
-    const [confirmingPayment, setConfirmingPayment] = useState(false);
+    const [loaded, setLoaded] = useState(false);
+    const [copied, setCopied] = useState("");
+    const [error, setError] = useState("");
+    const [receipt, setReceipt] = useState<{ orderId: number; orderNumber: string } | null>(null);
+    const [confirming, setConfirming] = useState(false);
+    const submitting = useRef(false);
 
     useEffect(() => {
-        const orderData = localStorage.getItem("pending_bank_order");
-        if (orderData) {
-            setOrder(JSON.parse(orderData));
-        }
+        try {
+            const pending = localStorage.getItem("pending_bank_order");
+            if (pending) setOrder(JSON.parse(pending));
+            else {
+                const saved = sessionStorage.getItem("bank_transfer_receipt");
+                if (saved) { const data = JSON.parse(saved); setOrder(data.order); setReceipt(data.receipt); }
+            }
+        } catch { setError("Your checkout details could not be loaded. Please return to checkout."); }
+        finally { setLoaded(true); }
     }, []);
 
-    const copyToClipboard = (text: string, field: string) => {
-        navigator.clipboard.writeText(text);
-        setCopied(field);
-        setTimeout(() => setCopied(""), 2000);
-    };
-
-    const handlePaymentConfirmation = async () => {
-        if (!order) return;
-
-        setConfirmingPayment(true);
-
+    async function copyAccount() {
         try {
-            // Create the order in the system
-            const response = await fetch("/api/orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    cart: order.cart,
-                    shipping: order.shipping,
-                    promoCode: order.promoCode,
-                    promoDiscount: order.promoDiscount,
-                    selectedRate: order.selectedRate,
-                    total: order.total,
-                    paymentMethod: "bank_transfer",
-                    paymentStatus: "pending",
-                }),
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-
-                // Notify admin of pending bank transfer payment
-                await fetch("/api/admin/notifications", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        type: "bank_transfer_payment_claimed",
-                        orderId: result.orderId,
-                        customerEmail: order.shipping.email,
-                        customerName: `${order.shipping.firstName} ${order.shipping.lastName}`,
-                        amount: order.total,
-                        message: `Customer has confirmed bank transfer payment for order #${result.orderId}`
-                    }),
-                });
-
-                setPaymentConfirmed(true);
-
-                // Clear the pending order from localStorage
-                localStorage.removeItem("pending_bank_order");
-            } else {
-                alert("There was an error processing your confirmation. Please try again or contact support.");
-            }
-        } catch (error) {
-            console.error("Error confirming payment:", error);
-            alert("There was an error processing your confirmation. Please try again or contact support.");
-        } finally {
-            setConfirmingPayment(false);
-        }
-    };
-
-    if (!order) {
-        return (
-            <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f9f9f9" }}>
-                <div style={{ textAlign: "center", padding: "40px" }}>
-                    <p style={{ fontSize: "18px", color: "#666", marginBottom: "20px" }}>No pending order found</p>
-                    <Link href="/checkout" style={{ background: "#000", color: "#fff", padding: "12px 24px", borderRadius: "6px", textDecoration: "none", fontSize: "14px", fontWeight: 600 }}>
-                        Back to Checkout
-                    </Link>
-                </div>
-            </div>
-        );
+            await navigator.clipboard.writeText(BANK_DETAILS.accountNumber);
+            setCopied("account");
+            setTimeout(() => setCopied(""), 2000);
+        } catch { setError("Copy is unavailable. Please select and copy the account number manually."); }
     }
 
-    return (
-        <div style={{ background: "#f9f9f9", minHeight: "100vh" }}>
-            {/* Header */}
-            <div style={{ background: "#fff", borderBottom: "1px solid #e5e5e5", padding: "20px 0" }}>
-                <div style={{ maxWidth: "600px", margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
-                    <Link href="/" style={{ display: "inline-block", fontFamily: "'Cormorant', serif", fontSize: "28px", fontWeight: 600, color: "#000", textDecoration: "none", letterSpacing: ".02em", marginBottom: "16px" }}>
-                        MISSUS
-                    </Link>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginTop: "12px" }}>
-                        <CheckCircle size={20} style={{ color: "#10b981" }} />
-                        <span style={{ fontSize: "16px", fontWeight: 500, color: "#000" }}>Order Confirmed</span>
+    async function confirmPayment() {
+        if (!order || submitting.current || receipt) return;
+        submitting.current = true;
+        setConfirming(true);
+        setError("");
+        try {
+            const response = await fetch("/api/orders", {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...order, paymentMethod: "bank_transfer", paymentStatus: "pending" }),
+            });
+            const result = await response.json();
+            if (!response.ok || !result.orderId) throw new Error(result.error || "We could not submit your payment confirmation. Please try again.");
+            const savedReceipt = { orderId: result.orderId, orderNumber: String(result.orderNumber || result.orderId) };
+            setReceipt(savedReceipt);
+            // Notification failures must not invite a second order submission.
+            try {
+                sessionStorage.setItem("bank_transfer_receipt", JSON.stringify({ order, receipt: savedReceipt }));
+                localStorage.removeItem("pending_bank_order");
+            } catch { /* The receipt remains visible in this tab. */ }
+            try {
+                await fetch("/api/admin/notifications", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ type: "bank_transfer_payment_claimed", orderId: result.orderId,
+                        customerEmail: order.shipping.email, customerName: `${order.shipping.firstName} ${order.shipping.lastName}`,
+                        amount: order.total, message: `Customer has reported a bank transfer for order #${result.orderId}` }),
+                });
+            } catch { /* The on-hold order already records the payment claim. */ }
+        } catch (err) { setError(err instanceof Error ? err.message : "Please try again or contact support."); }
+        finally { setConfirming(false); submitting.current = false; }
+    }
+
+    if (!loaded || !order) return <main className={styles.empty}>
+        <Landmark size={28} /><h1>{loaded ? "No pending transfer" : "Loading your checkout…"}</h1>
+        {loaded && <><p>{error || "Return to checkout to choose bank transfer for your order."}</p><Link className={styles.primary} href="/checkout">Back to checkout</Link></>}
+    </main>;
+
+    const address = [order.shipping.address, order.shipping.apartment, order.shipping.city, order.shipping.state, order.shipping.postalCode, "Nigeria"].filter(Boolean).join(", ");
+    const subtotal = order.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    return <main className={styles.page}>
+        <header className={styles.header}><div className={styles.headerInner}>
+            <span className={styles.headerIcon}>{receipt ? <Check size={20} /> : <Landmark size={20} />}</span>
+            <div><p className={styles.eyebrow}>{receipt ? `Order #${receipt.orderNumber}` : "Complete your payment"}</p><h1>Thank you, {order.shipping.firstName}!</h1></div>
+            <span className={styles.status}>{receipt ? "Awaiting verification" : "Awaiting transfer"}</span>
+        </div></header>
+        <div className={styles.grid}>
+            <div className={styles.mainColumn}>
+                <section className={`${styles.card} ${styles.payment}`} aria-labelledby="payment-title">
+                    {receipt ? <div className={styles.receipt} role="status">
+                        <CheckCircle size={36} /><p className={styles.eyebrow}>Transfer reported</p><h2 id="payment-title">We’re checking your payment</h2>
+                        <p>Your payment confirmation for order #{receipt.orderNumber} has been submitted. Your order is on hold until our team verifies the transfer.</p>
+                        <p>Please do not send another payment.</p>
+                        <Link className={styles.primary} href={`/account/orders/${receipt.orderId}?email=${encodeURIComponent(order.shipping.email.toLowerCase())}`}>View my order <ArrowRight size={17} /></Link>
+                    </div> : <>
+                        <div className={styles.sectionHeading}><Landmark size={22} /><div><h2 id="payment-title">Pay by bank transfer</h2><p>Transfer the exact amount to the account below.</p></div></div>
+                        <div className={styles.amount}><span>Amount to transfer</span><strong>{money(order.total)}</strong><span>NGN · Includes shipping and discounts</span></div>
+                        <dl className={styles.bankDetails}>
+                            <div><dt>Bank</dt><dd>{BANK_DETAILS.bankName}</dd></div>
+                            <div><dt>Account name</dt><dd>{BANK_DETAILS.accountName}</dd></div>
+                            <div className={styles.accountRow}><div><dt>Account number</dt><dd className={styles.accountNumber}>{BANK_DETAILS.accountNumber}</dd></div>
+                                <button type="button" className={styles.copy} onClick={copyAccount} aria-label="Copy account number">{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? "Copied" : "Copy"}</button>
+                            </div>
+                        </dl>
+                        <div className={styles.instructions}><ShieldCheck size={18} /><p>Check that the account name matches before sending. After completing your transfer, use the button below to let us know.</p></div>
+                        <button type="button" className={styles.primary} disabled={confirming} onClick={confirmPayment}>{confirming ? "Submitting confirmation…" : "I’ve made the transfer"}{!confirming && <ArrowRight size={18} />}</button>
+                        <p className={styles.caption}>Your order will be processed after we verify receipt of your payment.</p>
+                    </>}
+                    {error && <p className={styles.error} role="alert">{error}</p>}
+                </section>
+                <section className={`${styles.card} ${styles.map}`} aria-label="Delivery location">
+                    <iframe title="Delivery location" loading="lazy" src={`https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed&z=14`} />
+                    <div><MapPin size={16} /><p>{address}</p></div>
+                </section>
+                <section className={`${styles.card} ${styles.details}`} aria-labelledby="details-title">
+                    <h2 id="details-title" className={styles.eyebrow}>Order details</h2>
+                    <div className={styles.detailsGrid}>
+                        <div><h3>Contact</h3><p>{order.shipping.email}</p><p>{order.shipping.phone}</p></div>
+                        <div><h3>Payment</h3><p>Bank transfer</p><p>{receipt ? "Awaiting verification" : "Awaiting transfer"}</p></div>
+                        <div><h3>Shipping address</h3><p>{order.shipping.firstName} {order.shipping.lastName}</p><p>{address}</p></div>
+                        <div><h3>Shipping method</h3><p>{order.selectedRate.carrier_name}</p>{order.selectedRate.delivery_time && <p>{order.selectedRate.delivery_time}</p>}</div>
                     </div>
-                </div>
+                </section>
+                <div className={styles.footer}><Link href={receipt ? "/shop" : "/checkout"}><ArrowLeft size={14} />{receipt ? "Continue shopping" : "Return to checkout"}</Link><span>Need help? <Link href="/contact">Contact us</Link></span></div>
             </div>
-
-            {/* Main Content */}
-            <div style={{ maxWidth: "600px", margin: "0 auto", padding: "32px 24px" }}>
-
-                {/* Thank You Message */}
-                <div style={{ background: "#fff", borderRadius: "8px", padding: "32px", marginBottom: "24px", textAlign: "center", border: "1px solid #e5e5e5" }}>
-                    <h1 style={{ fontSize: "24px", fontWeight: 600, color: "#000", marginBottom: "8px" }}>
-                        Thank you, {order.shipping.firstName}!
-                    </h1>
-                    <p style={{ fontSize: "16px", color: "#666", marginBottom: "20px" }}>
-                        Your order has been confirmed. Complete your payment using the bank details below.
-                    </p>
-                    <div style={{ background: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: "6px", padding: "16px" }}>
-                        <p style={{ fontSize: "14px", color: "#0369a1", margin: 0, fontWeight: 500 }}>
-                            📧 A confirmation email with these details has been sent to {order.shipping.email}
-                        </p>
-                    </div>
-                </div>
-
-                {/* Bank Details */}
-                <div style={{ background: "#fff", borderRadius: "8px", padding: "32px", marginBottom: "24px", border: "1px solid #e5e5e5" }}>
-                    <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "20px" }}>Bank Transfer Details</h2>
-
-                    <div style={{ background: "#fef7ff", border: "1px solid #e9d5ff", borderRadius: "6px", padding: "16px", marginBottom: "24px" }}>
-                        <p style={{ fontSize: "14px", color: "#7c3aed", fontWeight: 500, marginBottom: "8px" }}>Important Payment Instructions:</p>
-                        <ul style={{ fontSize: "13px", color: "#7c3aed", margin: 0, paddingLeft: "20px" }}>
-                            <li>Transfer the exact amount: <strong>{formatPrice(order.total)}</strong></li>
-                            <li>Use your order reference as the transfer description</li>
-                            <li>Your order will be processed within 24 hours of payment confirmation</li>
-                        </ul>
-                    </div>
-
-                    <div style={{ display: "grid", gap: "16px" }}>
-                        {Object.entries({
-                            "Bank Name": BANK_DETAILS.bankName,
-                            "Account Name": BANK_DETAILS.accountName,
-                            "Account Number": BANK_DETAILS.accountNumber,
-                        }).map(([label, value]) => (
-                            <div key={label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px", background: "#f9f9f9", border: "1px solid #e5e5e5", borderRadius: "6px" }}>
-                                <div>
-                                    <p style={{ fontSize: "12px", color: "#666", marginBottom: "4px", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.5px" }}>{label}</p>
-                                    <p style={{ fontSize: "16px", color: "#000", fontWeight: 600, margin: 0, fontFamily: "monospace" }}>{value}</p>
-                                </div>
-                                <button
-                                    onClick={() => copyToClipboard(value, label)}
-                                    style={{ background: "none", border: "1px solid #d1d5db", borderRadius: "4px", padding: "8px", cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }}
-                                >
-                                    <Copy size={14} />
-                                    {copied === label ? (
-                                        <span style={{ fontSize: "12px", color: "#10b981" }}>Copied!</span>
-                                    ) : (
-                                        <span style={{ fontSize: "12px", color: "#666" }}>Copy</span>
-                                    )}
-                                </button>
-                            </div>
-                        ))}
-
-                        {/* Amount to Transfer */}
-                        <div style={{ padding: "20px", background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", color: "#fff", borderRadius: "8px", textAlign: "center" }}>
-                            <p style={{ fontSize: "14px", marginBottom: "8px", opacity: 0.9 }}>Amount to Transfer</p>
-                            <p style={{ fontSize: "28px", fontWeight: 700, margin: 0 }}>{formatPrice(order.total)}</p>
-                        </div>
-                    </div>
-                </div>
-                {/* Order Summary */}
-                <div style={{ background: "#fff", borderRadius: "8px", padding: "32px", marginBottom: "24px", border: "1px solid #e5e5e5" }}>
-                    <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "20px" }}>Order Summary</h2>
-
-                    {/* Items */}
-                    <div style={{ marginBottom: "20px" }}>
-                        {order.cart.map((item, index) => (
-                            <div key={index} style={{ display: "flex", gap: "16px", marginBottom: "16px", paddingBottom: "16px", borderBottom: index < order.cart.length - 1 ? "1px solid #f0f0f0" : "none" }}>
-                                <div style={{ width: "60px", height: "60px", background: "#f5f5f5", borderRadius: "6px", overflow: "hidden", flexShrink: 0, position: "relative" }}>
-                                    <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} sizes="60px" />
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                    <p style={{ fontSize: "14px", fontWeight: 500, color: "#000", marginBottom: "4px" }}>{item.name}</p>
-                                    {item.size && <p style={{ fontSize: "12px", color: "#666", marginBottom: "4px" }}>Size: {item.size}</p>}
-                                    <p style={{ fontSize: "12px", color: "#666" }}>Qty: {item.quantity}</p>
-                                </div>
-                                <div style={{ textAlign: "right" }}>
-                                    <p style={{ fontSize: "14px", fontWeight: 600, color: "#000" }}>{formatPrice(item.price * item.quantity)}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Totals */}
-                    <div style={{ borderTop: "1px solid #f0f0f0", paddingTop: "16px" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
-                            <span style={{ color: "#666" }}>Subtotal</span>
-                            <span>{formatPrice(order.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0))}</span>
-                        </div>
-                        {order.promoDiscount > 0 && (
-                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
-                                <span style={{ color: "#10b981" }}>Discount</span>
-                                <span style={{ color: "#10b981" }}>-{formatPrice(order.promoDiscount)}</span>
-                            </div>
-                        )}
-                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "14px" }}>
-                            <span style={{ color: "#666" }}>Shipping ({order.selectedRate.carrier_name})</span>
-                            <span>{formatPrice(order.selectedRate.amount)}</span>
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "space-between", paddingTop: "12px", borderTop: "1px solid #e5e5e5", fontSize: "18px", fontWeight: 600 }}>
-                            <span>Total</span>
-                            <span>{formatPrice(order.total)}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Delivery Information */}
-                <div style={{ background: "#fff", borderRadius: "8px", padding: "32px", marginBottom: "24px", border: "1px solid #e5e5e5" }}>
-                    <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "20px" }}>Delivery Information</h2>
-                    <div style={{ fontSize: "14px", lineHeight: 1.6, color: "#000" }}>
-                        <p><strong>{order.shipping.firstName} {order.shipping.lastName}</strong></p>
-                        <p>{order.shipping.address}</p>
-                        {order.shipping.apartment && <p>{order.shipping.apartment}</p>}
-                        <p>{order.shipping.city}, {order.shipping.state} {order.shipping.postalCode}</p>
-                        <p>Nigeria</p>
-                        <br />
-                        <p><strong>Contact:</strong></p>
-                        <p>📧 {order.shipping.email}</p>
-                        <p>📱 {order.shipping.phone}</p>
-                    </div>
-                </div>
-
-                {/* Actions */}
-                {!paymentConfirmed ? (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                        {/* Payment Confirmation Section */}
-                        <div style={{ background: "#fff", borderRadius: "8px", padding: "24px", marginBottom: "12px", border: "2px solid #f59e0b", textAlign: "center" }}>
-                            <h3 style={{ fontSize: "18px", fontWeight: 600, color: "#000", marginBottom: "12px" }}>Have you completed the transfer?</h3>
-                            <p style={{ fontSize: "14px", color: "#666", marginBottom: "20px" }}>
-                                Click the button below after you have successfully transferred the money to our account.
-                                Our team will verify your payment and process your order within 24 hours.
-                            </p>
-                            <button
-                                onClick={handlePaymentConfirmation}
-                                disabled={confirmingPayment}
-                                style={{
-                                    background: confirmingPayment ? "#9ca3af" : "#10b981",
-                                    color: "#fff",
-                                    border: "none",
-                                    borderRadius: "8px",
-                                    padding: "16px 32px",
-                                    fontSize: "16px",
-                                    fontWeight: 600,
-                                    cursor: confirmingPayment ? "not-allowed" : "pointer",
-                                    transition: "background-color 0.2s",
-                                    marginBottom: "16px"
-                                }}
-                            >
-                                {confirmingPayment ? "Confirming..." : "✓ I have made the payment"}
-                            </button>
-                            <p style={{ fontSize: "12px", color: "#666", fontStyle: "italic" }}>
-                                Only click this button after you have successfully completed the bank transfer
-                            </p>
-                        </div>
-
-                        <Link
-                            href="/shop"
-                            style={{
-                                display: "block",
-                                textAlign: "center",
-                                background: "#fff",
-                                color: "#000",
-                                border: "1px solid #d1d5db",
-                                padding: "16px",
-                                borderRadius: "6px",
-                                textDecoration: "none",
-                                fontSize: "16px",
-                                fontWeight: 600
-                            }}
-                        >
-                            Continue Shopping
-                        </Link>
-                    </div>
-                ) : (
-                    <div style={{ textAlign: "center" }}>
-                        {/* Payment Confirmed Message */}
-                        <div style={{ background: "#f0f9ff", border: "2px solid #10b981", borderRadius: "8px", padding: "24px", marginBottom: "20px" }}>
-                            <CheckCircle size={32} style={{ color: "#10b981", margin: "0 auto 12px" }} />
-                            <h3 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "12px" }}>Payment Confirmation Received!</h3>
-                            <p style={{ fontSize: "14px", color: "#666", marginBottom: "16px" }}>
-                                Thank you for confirming your payment. Our team has been notified and will verify your
-                                bank transfer within 24 hours. You will receive an email update once your payment is confirmed.
-                            </p>
-                            <div style={{ background: "#e0f2fe", border: "1px solid #0891b2", borderRadius: "6px", padding: "12px" }}>
-                                <p style={{ fontSize: "13px", color: "#0891b2", margin: 0, fontWeight: 500 }}>
-                                    💌 Keep an eye on your email for order updates and tracking information
-                                </p>
-                            </div>
-                        </div>
-
-                        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                            <Link
-                                href="/account"
-                                style={{
-                                    display: "block",
-                                    textAlign: "center",
-                                    background: "#000",
-                                    color: "#fff",
-                                    padding: "16px",
-                                    borderRadius: "6px",
-                                    textDecoration: "none",
-                                    fontSize: "16px",
-                                    fontWeight: 600
-                                }}
-                            >
-                                View My Orders
-                            </Link>
-                            <Link
-                                href="/shop"
-                                style={{
-                                    display: "block",
-                                    textAlign: "center",
-                                    background: "#fff",
-                                    color: "#000",
-                                    border: "1px solid #d1d5db",
-                                    padding: "16px",
-                                    borderRadius: "6px",
-                                    textDecoration: "none",
-                                    fontSize: "16px",
-                                    fontWeight: 600
-                                }}
-                            >
-                                Continue Shopping
-                            </Link>
-                        </div>
-                    </div>
-                )}
-
-                {/* Help */}
-                <div style={{ background: "#fff", borderRadius: "8px", padding: "24px", marginTop: "24px", border: "1px solid #e5e5e5", textAlign: "center" }}>
-                    <p style={{ fontSize: "14px", color: "#666", marginBottom: "12px" }}>Need help with your payment?</p>
-                    <Link
-                        href="/contact"
-                        style={{ fontSize: "14px", color: "#6366f1", textDecoration: "underline", fontWeight: 500 }}
-                    >
-                        Contact our support team
-                    </Link>
-                </div>
-            </div>
+            <aside className={`${styles.card} ${styles.summary}`} aria-labelledby="summary-title">
+                <h2 id="summary-title" className={styles.eyebrow}>Order summary</h2>
+                <div className={styles.items}>{order.cart.map((item, index) => <div className={styles.item} key={`${item.productId}-${index}`}>
+                    <div className={styles.image}>{item.image && <Image src={item.image} alt={item.name} fill sizes="56px" style={{ objectFit: "cover", objectPosition: "top" }} />}<span>{item.quantity}</span></div>
+                    <div className={styles.itemInfo}><h3>{item.name}</h3><p>{[item.color, item.size].filter(Boolean).join(" / ")}</p><p>Qty: {item.quantity}</p></div><strong>{money(item.price * item.quantity)}</strong>
+                </div>)}</div>
+                <dl className={styles.totals}>
+                    <div><dt>Subtotal</dt><dd>{money(subtotal)}</dd></div>
+                    {order.promoDiscount > 0 && <div><dt>Discount{order.promoCode ? ` (${order.promoCode})` : ""}</dt><dd className={styles.discount}>−{money(order.promoDiscount)}</dd></div>}
+                    <div><dt>Shipping</dt><dd>{order.selectedRate.amount === 0 ? "FREE" : money(order.selectedRate.amount / 100)}</dd></div>
+                    <div className={styles.total}><dt>Total <small>NGN</small></dt><dd>{money(order.total)}</dd></div>
+                </dl>
+                <p className={styles.summaryNote}><ShieldCheck size={15} />{receipt ? "Payment verification in progress" : "Complete your payment to finish checkout"}</p>
+            </aside>
         </div>
-    );
+    </main>;
 }
