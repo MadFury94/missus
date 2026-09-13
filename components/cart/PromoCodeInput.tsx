@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import type { CartItem } from "@/types";
 
@@ -18,6 +18,35 @@ export default function PromoCodeInput({ subtotal, cartItems, onPromoApplied, on
     const [discount, setDiscount] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const callbacks = useRef({ onPromoApplied, onPromoRemoved });
+    callbacks.current = { onPromoApplied, onPromoRemoved };
+    const cartKey = JSON.stringify(cartItems || []);
+
+    useEffect(() => {
+        if (!appliedCode) { setLoading(false); return; }
+        const controller = new AbortController();
+        setLoading(true);
+        setDiscount(0);
+        callbacks.current.onPromoApplied?.(appliedCode, 0);
+        fetch("/api/promo/validate", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+            body: JSON.stringify({ code: appliedCode, subtotal, cart: JSON.parse(cartKey) }),
+        }).then(res => res.json()).then(result => {
+            if (controller.signal.aborted) return;
+            if (!result.valid) throw new Error(result.error || "This code no longer applies.");
+            setDiscount(result.discount);
+            setAppliedLabel(result.label);
+            callbacks.current.onPromoApplied?.(result.code, result.discount);
+        }).catch(error => {
+            if (controller.signal.aborted) return;
+            setAppliedCode("");
+            setDiscount(0);
+            setError(error.message || "Could not revalidate code. Please try again.");
+            callbacks.current.onPromoRemoved?.();
+        }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
+        return () => controller.abort();
+    }, [appliedCode, cartKey, subtotal]);
 
     const handleApply = async () => {
         if (!code.trim()) return;
@@ -88,7 +117,8 @@ export default function PromoCodeInput({ subtotal, cartItems, onPromoApplied, on
                     </span>
                     <br />
                     <span style={{ fontSize: "12px", color: "#0369a1" }} className="currency-display">
-                        {appliedLabel} • Saves <span className="currency-symbol">₦{discount.toLocaleString("en-NG")}</span>
+                        {loading ? "Recalculating…" : <>{appliedLabel} • Saves <span className="currency-symbol">₦{discount.toLocaleString("en-NG")}</span></>}
+                        <br />Sale items, gift cards, and gift boxes are excluded.
                     </span>
                 </div>
                 <button

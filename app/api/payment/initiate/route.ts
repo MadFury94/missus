@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { initializePayment, generateReference } from "@/lib/paystack";
 import { getWooCommerceShippingRates } from "@/lib/woocommerce-shipping";
+import { allocatePromoDiscount } from "@/lib/promo-items";
 
 export async function POST(req: NextRequest) {
     try {
@@ -11,6 +12,11 @@ export async function POST(req: NextRequest) {
         const shipping = metadata?.shipping;
         if (!shipping || !Array.isArray(metadata.cart) || !metadata.cart.length || !metadata.selectedRate) {
             return NextResponse.json({ error: "Choose a shipping method before paying." }, { status: 400 });
+        }
+        try {
+            allocatePromoDiscount(metadata.cart, Number(metadata.promoDiscount || 0));
+        } catch {
+            return NextResponse.json({ error: "Your discount no longer applies to these items. Please reapply your code." }, { status: 409 });
         }
         const rates = await getWooCommerceShippingRates({
             address_1: shipping.address, city: shipping.city, state: shipping.state,

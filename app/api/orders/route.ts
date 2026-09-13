@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchOrderRequest, isOrderConnectionFailure } from "@/lib/order-request";
+import { allocatePromoDiscount } from "@/lib/promo-items";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -35,10 +36,13 @@ export async function POST(request: NextRequest) {
         }
 
         // Create line items for WooCommerce
-        const lineItems = cart.map((item: any) => ({
+        const reductions = allocatePromoDiscount(cart, Number(promoDiscount || 0));
+        const lineItems = cart.map((item: any, index: number) => ({
             product_id: item.productId,
             ...(item.variationId ? { variation_id: item.variationId } : {}),
             quantity: item.quantity,
+            subtotal: (Math.round(item.price * item.quantity * 100) / 100).toFixed(2),
+            total: ((Math.round(item.price * item.quantity * 100) - reductions[index]) / 100).toFixed(2),
             ...(item.size ? { meta_data: [{ key: "Size", value: item.size }] } : {}),
         }));
 

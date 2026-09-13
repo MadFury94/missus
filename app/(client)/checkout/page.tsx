@@ -51,6 +51,7 @@ export default function CheckoutPage() {
     const [promoError, setPromoError] = useState("");
     const [promoLoading, setPromoLoading] = useState(false);
     const [promoDiscount, setPromoDiscount] = useState(0);
+    const [promoType, setPromoType] = useState("");
     const [form, setForm] = useState({
         firstName: "", lastName: "", email: "", phone: "",
         address: "", apartment: "", city: "", state: "", postalCode: "",
@@ -70,7 +71,7 @@ export default function CheckoutPage() {
 
 
     useEffect(() => {
-        const currentCart = getCart();
+        let currentCart = getCart();
         setCart(currentCart);
 
         // Add cart change listener to detect if cart gets modified during checkout
@@ -86,6 +87,7 @@ export default function CheckoutPage() {
 
                 // Update the cart state but warn user
                 setCart(updatedCart);
+                currentCart = updatedCart;
 
                 // Clear shipping rates to force recalculation
                 setRates([]);
@@ -115,7 +117,7 @@ export default function CheckoutPage() {
                     body: JSON.stringify({
                         city: form.city, state: form.state, items: cart.items,
                         address_1: form.address, postcode: form.postalCode, country: form.country,
-                        coupon: promoLabel.toLowerCase().includes("gift") ? "" : promoCode
+                        coupon: promoType === "gift_card" ? "" : promoCode
                     }),
                 });
                 const data = await res.json();
@@ -133,7 +135,31 @@ export default function CheckoutPage() {
             }
         }, 600);
         return () => { clearTimeout(timer); controller.abort(); };
-    }, [cart.items, form.city, form.state, form.address, form.postalCode, form.country, promoCode, promoLabel, ratesRetry]);
+    }, [cart.items, form.city, form.state, form.address, form.postalCode, form.country, promoCode, promoType, ratesRetry]);
+
+    useEffect(() => {
+        if (!promoCode) { setPromoLoading(false); return; }
+        const controller = new AbortController();
+        setPromoLoading(true);
+        setPromoDiscount(0);
+        fetch("/api/promo/validate", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+            body: JSON.stringify({ code: promoCode, subtotal: cart.subtotal, cart: cart.items }),
+        }).then(res => res.json()).then(data => {
+            if (controller.signal.aborted) return;
+            if (!data.valid) throw new Error(data.error || "This code no longer applies.");
+            setPromoDiscount(data.discount);
+            setPromoLabel(data.label);
+            setPromoType(data.type);
+            setPromoError("");
+        }).catch(error => {
+            if (controller.signal.aborted) return;
+            setPromoDiscount(0); setPromoCode(""); setPromoLabel(""); setPromoType("");
+            setPromoError(error.message || "Could not revalidate code. Please try again.");
+        }).finally(() => { if (!controller.signal.aborted) setPromoLoading(false); });
+        return () => controller.abort();
+    }, [cart.items, cart.subtotal, promoCode]);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
         const { name, value } = e.target;
@@ -143,39 +169,15 @@ export default function CheckoutPage() {
         }
         setForm(f => ({ ...f, [name]: value }));
     }
-    async function applyPromo() {
+    function applyPromo() {
         const code = promoInput.trim().toUpperCase();
         if (!code) return;
-        setPromoLoading(true);
         setPromoError("");
-        try {
-            const res = await fetch("/api/promo/validate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    code,
-                    subtotal: cart.subtotal,
-                    cart: cart.items
-                }),
-            });
-            const data = await res.json();
-            if (!data.valid) {
-                setPromoError(data.error || "Invalid promo code.");
-                setPromoDiscount(0); setPromoCode(""); setPromoLabel("");
-            } else {
-                setPromoDiscount(data.discount);
-                setPromoCode(data.code);
-                setPromoLabel(data.label);
-                setPromoError("");
-            }
-        } catch {
-            setPromoError("Could not validate code. Please try again.");
-        } finally {
-            setPromoLoading(false);
-        }
+        setPromoCode(code);
     }
 
     function removePromo() {
+        setPromoType("");
         setPromoCode(""); setPromoLabel(""); setPromoInput(""); setPromoDiscount(0); setPromoError("");
     }
 
@@ -232,8 +234,8 @@ export default function CheckoutPage() {
                         promoCode,
                         promoDiscount,
                         selectedRate, // Pass the full rate object
-                        giftCardCode: promoCode && promoLabel.toLowerCase().includes("gift") ? promoCode : "",
-                        giftCardAmount: promoCode && promoLabel.toLowerCase().includes("gift") ? promoDiscount : 0,
+                        giftCardCode: promoType === "gift_card" ? promoCode : "",
+                        giftCardAmount: promoType === "gift_card" ? promoDiscount : 0,
                         // Add validation metadata
                         validationInfo: {
                             cartSubtotal,
@@ -292,6 +294,7 @@ export default function CheckoutPage() {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+        if (promoLoading) return;
         if (paymentMethod === "card") {
             await handlePaystackCheckout();
         } else {
@@ -1112,7 +1115,7 @@ export default function CheckoutPage() {
                                 {/* Submit Button */}
                                 <button
                                     type="submit"
-                                    disabled={loading || ratesLoading || cart.items.length === 0 || !selectedRate}
+                                    disabled={loading || promoLoading || ratesLoading || cart.items.length === 0 || !selectedRate}
                                     style={{
                                         width: "100%",
                                         background: "#000",
@@ -1787,7 +1790,7 @@ export default function CheckoutPage() {
                                 {/* Submit Button */}
                                 <button
                                     type="submit"
-                                    disabled={loading || ratesLoading || cart.items.length === 0 || !selectedRate}
+                                    disabled={loading || promoLoading || ratesLoading || cart.items.length === 0 || !selectedRate}
                                     style={{
                                         width: "100%",
                                         background: "#000",

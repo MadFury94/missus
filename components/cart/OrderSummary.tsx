@@ -25,9 +25,9 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
     const isShippingFree = subtotal >= FREE_SHIPPING_THRESHOLD;
     const { convert } = useCurrency();
 
-    // Calculate the actual total with all discounts applied
+    // Item totals already include sale prices; only subtract the promo again.
     const totalDiscounts = discount + promoDiscount;
-    const finalTotal = Math.max(0, subtotal - totalDiscounts);
+    const finalTotal = Math.max(0, total - promoDiscount);
 
     return (
         <div style={{ border: "1.5px solid #000", position: "sticky", top: "80px", background: "#fff" }}>
@@ -46,7 +46,7 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                             Subtotal ({itemCount} item{itemCount !== 1 ? "s" : ""})
                         </span>
                         <span style={{ fontSize: "13px", fontWeight: 600, color: "#000" }}>
-                            {convert(subtotal)}
+                            {convert(subtotal + discount)}
                         </span>
                     </div>
 

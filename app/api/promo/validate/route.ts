@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkGiftCard, giftCardDiscountFor } from "@/lib/giftCards";
+import { eligiblePromoSubtotal } from "@/lib/promo-items";
 
 // Fallback promo codes if WooCommerce is unavailable
 const PROMO_CODES_FALLBACK: Record<string, { type: "percent" | "fixed"; value: number; label: string }> = {
@@ -106,12 +107,12 @@ async function validateWooCommerceCoupon(code: string, subtotal: number) {
             discountType = "percent";
             label = `${coupon.amount}% off`;
         } else if (coupon.discount_type === 'fixed_cart') {
-            discount = parseFloat(coupon.amount) * 100; // Convert to kobo/cents
+            discount = parseFloat(coupon.amount); // Cart prices and discounts are in naira.
             discountType = "fixed";
             label = `₦${parseFloat(coupon.amount).toLocaleString('en-NG')} off`;
         } else {
             // Handle other WooCommerce discount types if needed
-            discount = parseFloat(coupon.amount) * 100;
+            discount = parseFloat(coupon.amount);
             label = coupon.description || `₦${parseFloat(coupon.amount).toLocaleString('en-NG')} off`;
         }
 
@@ -132,34 +133,22 @@ async function validateWooCommerceCoupon(code: string, subtotal: number) {
 
 export async function POST(request: NextRequest) {
     try {
-        const { code, subtotal, cart } = await request.json();
+        const { code, subtotal: requestedSubtotal, cart } = await request.json();
 
-        if (!code || typeof subtotal !== "number") {
+        if (!code || !Number.isFinite(requestedSubtotal) || requestedSubtotal < 0 ||
+            !Array.isArray(cart) || cart.some(item => !item || !Number.isFinite(item.price) || item.price < 0 ||
+                !Number.isInteger(item.quantity) || item.quantity <= 0)) {
             return NextResponse.json({ valid: false, error: "Invalid request." }, { status: 400 });
         }
 
         const normalized = String(code).trim().toUpperCase();
 
-        // Check if cart has any items that should exclude discount codes
-        if (cart && Array.isArray(cart)) {
-            const hasIneligibleItems = cart.some((item: any) => {
-                // Check if item is on sale (price < regularPrice)
-                const isOnSale = item.price < item.regularPrice;
-
-                // Check if item is a gift card or gift box (by name or slug)
-                const isGiftItem = item.name?.toLowerCase().includes('gift') ||
-                    item.slug?.toLowerCase().includes('gift') ||
-                    item.name?.toLowerCase().includes('box');
-
-                return isOnSale || isGiftItem;
+        const subtotal = eligiblePromoSubtotal(cart);
+        if (subtotal <= 0) {
+            return NextResponse.json({
+                valid: false,
+                error: "No eligible items for this code. Sale items, gift cards, and gift boxes are excluded."
             });
-
-            if (hasIneligibleItems) {
-                return NextResponse.json({
-                    valid: false,
-                    error: "Discount codes cannot be applied to sale items, gift cards, or gift boxes."
-                });
-            }
         }
 
         // ── 1. Try as a gift card first ──────────────────────────────────

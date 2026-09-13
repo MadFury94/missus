@@ -1,5 +1,6 @@
 import { findOrderByReference } from "./order-reference";
 import { redeemGiftCard } from "./giftCards";
+import { allocatePromoDiscount } from "./promo-items";
 
 // Coalesce callback/recovery requests for the same payment in this server process.
 const pending = new Map<string, Promise<{ order: any; created: boolean }>>();
@@ -38,16 +39,16 @@ async function persist(reference: string) {
         return Math.round(item.price * item.quantity * 100);
     });
     const subtotal = amounts.reduce((sum: number, amount: number) => sum + amount, 0);
-    const discount = Math.round((Number(meta.promoDiscount || 0) + Number(meta.giftCardAmount || 0)) * 100);
+    // Checkout includes gift-card redemption in promoDiscount already.
+    const discount = Math.round(Number(meta.promoDiscount || meta.giftCardAmount || 0) * 100);
     const shippingAmount = Number(rate.amount);
     if (!Number.isSafeInteger(shippingAmount) || shippingAmount < 0 || !Number.isSafeInteger(discount) || discount < 0 || discount > subtotal || subtotal - discount + shippingAmount !== transaction.amount) {
         throw new Error("Order totals do not match verified payment");
     }
     const money = (minor: number) => (minor / 100).toFixed(2);
-    let remainingDiscount = discount;
+    const reductions = allocatePromoDiscount(cart, discount / 100);
     const lineItems = cart.map((item: any, index: number) => {
-        const reduction = Math.min(amounts[index], remainingDiscount);
-        remainingDiscount -= reduction;
+        const reduction = reductions[index];
         return {
             product_id: item.productId, ...(item.variationId ? { variation_id: item.variationId } : {}),
             name: item.name, quantity: item.quantity,
