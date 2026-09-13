@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
         // Test creating an order with shipping_lines (same structure as updated callback)
         const selectedRate = {
             rate_id: "fallback_standard_countrywide",
-            carrier_name: "Standard Shipping (4-7 Days)",
+            carrier_name: "Standard Shipping (4-7 Business Days)",
             amount: 400000, // ₦4,000 in kobo
             method_id: "flat_rate",
             instance_id: 1,
