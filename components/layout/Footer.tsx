@@ -119,7 +119,7 @@ export default function Footer() {
             `}</style>
 
             <footer style={{ background: "#1a1a1a", color: "#fff", padding: "40px 20px 20px" }}>
-                <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto", marginBottom: "24px" }}>
+                <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto", marginBottom: "16px" }}>
                     {/* Brand */}
                     <div className="footer-brand">
                         <div style={{ marginBottom: "12px" }}>
@@ -192,15 +192,15 @@ export default function Footer() {
                     />
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: "20px", marginTop: "8px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-                        <p style={{ fontSize: "11px", color: "rgba(255,255,255,.3)" }}>© {new Date().getFullYear()} Missus Outfits. All rights reserved.</p>
-                        {/* Currency Switcher */}
+                {/* Currency Switcher & Payment Cards Row */}
+                <div className="footer-currency-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", maxWidth: "1200px", margin: "0 auto", marginBottom: "20px", borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: "16px" }}>
+                    {/* Currency Switcher (left side) */}
+                    <div style={{ display: "flex", alignItems: "center" }}>
                         <CurrencySwitcher />
                     </div>
 
-                    {/* Payment Methods */}
-                    <div aria-label="Accepted payment methods" style={{ display: "flex", gap: "4px", alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                    {/* Payment Cards (right side) */}
+                    <div style={{ display: "flex", gap: "4px", alignItems: "center", flexWrap: "wrap" }}>
                         {[
                             { src: "/cards/missus_visa.svg", alt: "Visa" },
                             { src: "/cards/missus_mastercard.svg", alt: "Mastercard" },
@@ -213,6 +213,11 @@ export default function Footer() {
                             </span>
                         ))}
                     </div>
+                </div>
+
+                {/* Copyright */}
+                <div style={{ textAlign: "center", borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: "20px", maxWidth: "1200px", margin: "0 auto" }}>
+                    <p style={{ fontSize: "11px", color: "rgba(255,255,255,.3)" }}>© {new Date().getFullYear()} Missus Outfits. All rights reserved.</p>
                 </div>
             </footer>
         </>
