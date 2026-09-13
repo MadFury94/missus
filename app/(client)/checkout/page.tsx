@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, ChevronUp, CreditCard, Banknote } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import type { Cart } from "@/types";
 import { getCart } from "@/lib/cart";
 import { useCurrency } from "@/lib/currency";
@@ -24,9 +24,9 @@ function PaymentCardLogos() {
             {PAYMENT_CARDS.map((card) => (
                 <span
                     key={card.alt}
-                    style={{ width: "48px", height: "30px", padding: "4px 6px", border: "1px solid #e1e4e8", borderRadius: "5px", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}
+                    style={{ position: "relative", width: "48px", height: "30px", border: "1px solid #e1e4e8", borderRadius: "5px", background: "#fff" }}
                 >
-                    <Image src={card.src} alt={card.alt} width={40} height={22} style={{ width: "100%", height: "auto", maxHeight: "22px", objectFit: "contain" }} />
+                    <Image src={card.src} alt={card.alt} fill sizes="48px" style={{ padding: "4px 6px", objectFit: "contain" }} />
                 </span>
             ))}
         </div>
@@ -332,7 +332,7 @@ export default function CheckoutPage() {
                         {/* Header with security indicator */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "8px 0" }}>
-                                <Image src="/missus-logo.webp" alt="MISSUS" width={100} height={32} style={{ height: "auto" }} />
+                                <span style={{ position: "relative", display: "block", width: "100px", height: "32px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="100px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                                 {/* Security indicator */}
@@ -479,7 +479,7 @@ export default function CheckoutPage() {
                         {/* Header row */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "12px 0" }}>
-                                <Image src="/missus-logo.webp" alt="MISSUS" width={120} height={40} style={{ height: "auto" }} />
+                                <span style={{ position: "relative", display: "block", width: "120px", height: "40px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="120px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                                 {/* Security indicator */}
@@ -1077,7 +1077,6 @@ export default function CheckoutPage() {
                                                 onChange={() => setPaymentMethod("card")}
                                                 style={{ marginRight: "12px" }}
                                             />
-                                            <CreditCard size={18} style={{ marginRight: "8px" }} />
                                             <span style={{ fontSize: "14px", fontWeight: 500 }}>Credit card</span>
                                             <PaymentCardLogos />
                                         </label>
@@ -1097,7 +1096,6 @@ export default function CheckoutPage() {
                                                 onChange={() => setPaymentMethod("bank_transfer")}
                                                 style={{ marginRight: "12px" }}
                                             />
-                                            <Banknote size={18} style={{ marginRight: "8px" }} />
                                             <span style={{ fontSize: "14px", fontWeight: 500 }}>Bank transfer</span>
                                         </label>
                                     </div>
@@ -1753,7 +1751,6 @@ export default function CheckoutPage() {
                                                 onChange={() => setPaymentMethod("card")}
                                                 style={{ marginRight: "16px", width: "18px", height: "18px" }}
                                             />
-                                            <CreditCard size={20} style={{ marginRight: "12px" }} />
                                             <span style={{ fontSize: "16px", fontWeight: 500 }}>Credit card</span>
                                             <PaymentCardLogos />
                                         </label>
@@ -1774,7 +1771,6 @@ export default function CheckoutPage() {
                                                 onChange={() => setPaymentMethod("bank_transfer")}
                                                 style={{ marginRight: "16px", width: "18px", height: "18px" }}
                                             />
-                                            <Banknote size={20} style={{ marginRight: "12px" }} />
                                             <span style={{ fontSize: "16px", fontWeight: 500 }}>Bank transfer</span>
                                         </label>
                                     </div>

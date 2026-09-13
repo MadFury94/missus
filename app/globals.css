@@ -813,7 +813,6 @@ body,
 /* Ensure currency symbols render properly */
 .currency-symbol,
 .currency-display,
-*:contains("₦"),
 *[data-currency="NGN"] {
   font-feature-settings: "tnum" 1;
   text-rendering: optimizeLegibility;

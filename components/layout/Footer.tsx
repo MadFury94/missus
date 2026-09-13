@@ -208,8 +208,8 @@ export default function Footer() {
                             { src: "/cards/Paystack_Logo.svg", alt: "Paystack" },
                             { src: "/cards/Flutterwave_Logo.png", alt: "Flutterwave" },
                         ].map((card) => (
-                            <span key={card.alt} style={{ width: "32px", height: "18px", padding: "2px 3px", background: "#fff", border: "1px solid rgba(255,255,255,.2)", borderRadius: "3px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Image src={card.src} alt={card.alt} width={28} height={14} style={{ width: "100%", height: "auto", maxHeight: "14px", objectFit: "contain" }} />
+                            <span key={card.alt} style={{ position: "relative", width: "32px", height: "18px", background: "#fff", border: "1px solid rgba(255,255,255,.2)", borderRadius: "3px" }}>
+                                <Image src={card.src} alt={card.alt} fill sizes="32px" style={{ padding: "2px 3px", objectFit: "contain" }} />
                             </span>
                         ))}
                     </div>

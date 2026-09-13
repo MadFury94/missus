@@ -45,7 +45,13 @@ export async function storeFetch<T>(
         },
     });
     if (!res || !res.ok) return null;
-    return res.json() as Promise<T>;
+    try {
+        // A response can arrive before its body fails or the connection closes.
+        return await res.json() as T;
+    } catch (err) {
+        console.warn("[wp-fetch] response body failed:", path, err instanceof Error ? err.message : err);
+        return null;
+    }
 }
 
 /** WooCommerce REST API v3 fetch with timeout — for authenticated admin/account routes. */

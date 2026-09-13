@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { CreditCard, Truck, Check } from "lucide-react";
+import { Truck, Check } from "lucide-react";
 import { useCurrency } from "@/lib/currency";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/config";
 
@@ -11,7 +11,6 @@ const PAY_ICONS = [
     { src: "/cards/missus_mastercard.svg", alt: "Mastercard" },
     { src: "/cards/missus_verve.svg", alt: "Verve" },
 ];
-const EXPRESS = ["PAYSTACK", "OPAY", "KUDA"];
 
 interface Props {
     subtotal: number;
@@ -110,7 +109,6 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     onMouseEnter={(e) => (e.currentTarget.style.background = "#222")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
                 >
-                    <CreditCard size={16} />
                     <span style={{ fontSize: "13px", fontWeight: 600, letterSpacing: ".04em" }}>
                         Proceed to Checkout
                     </span>
@@ -125,25 +123,6 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                 >
                     Continue Shopping
                 </Link>
-
-                {/* Express checkout - CLEANED VERSION */}
-                <div style={{ marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #e8e8e8" }}>
-                    <p style={{ fontSize: "11px", color: "#aaa", textAlign: "center", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "10px" }}>
-                        Express Checkout
-                    </p>
-                    <div style={{ display: "flex", gap: "8px" }}>
-                        {EXPRESS.map((name) => (
-                            <button
-                                key={name}
-                                style={{ flex: 1, height: "44px", border: "1.5px solid #e0e0e0", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-barlow-condensed)", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", transition: "all .15s", color: "#555" }}
-                                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#000"; e.currentTarget.style.color = "#000"; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#555"; }}
-                            >
-                                {name}
-                            </button>
-                        ))}
-                    </div>
-                </div>
 
                 {/* Delivery estimate */}
                 <div style={{ background: "#f5f5f5", padding: "12px 14px", marginTop: "14px", display: "flex", alignItems: "flex-start", gap: "10px" }}>
@@ -161,8 +140,8 @@ export default function OrderSummary({ subtotal, discount, total, itemCount, pro
                     </p>
                     <div style={{ display: "flex", justifyContent: "center", gap: "6px", flexWrap: "wrap" }}>
                         {PAY_ICONS.map((icon) => (
-                            <span key={icon.alt} style={{ width: "48px", height: "30px", background: "#fff", border: "1px solid #e0e0e0", borderRadius: "4px", padding: "4px 6px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Image src={icon.src} alt={icon.alt} width={40} height={22} style={{ width: "100%", height: "auto", maxHeight: "22px", objectFit: "contain" }} />
+                            <span key={icon.alt} style={{ position: "relative", width: "48px", height: "30px", background: "#fff", border: "1px solid #e0e0e0", borderRadius: "4px" }}>
+                                <Image src={icon.src} alt={icon.alt} fill sizes="48px" style={{ padding: "4px 6px", objectFit: "contain" }} />
                             </span>
                         ))}
                     </div>

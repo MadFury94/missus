@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { fetchOrderRequest, isOrderConnectionFailure } from "@/lib/order-request";
 
 const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
@@ -99,7 +100,7 @@ export async function POST(request: NextRequest) {
             ],
         };
 
-        const orderRes = await fetch(`${WC_API_URL}/orders`, {
+        const orderRes = await fetchOrderRequest(`${WC_API_URL}/orders`, {
             method: "POST",
             headers: getWCAuth(),
             body: JSON.stringify(orderPayload),
@@ -124,10 +125,13 @@ export async function POST(request: NextRequest) {
         });
 
     } catch (error) {
-        console.error("Order creation error:", error);
+        const cause = error instanceof Error ? error.cause as { code?: string } | undefined : undefined;
+        console.error("Order creation error:", error, { causeCode: cause?.code });
         return NextResponse.json(
-            { error: "Failed to create order" },
-            { status: 500 }
+            { error: isOrderConnectionFailure(error)
+                ? "We could not connect to our order system. Your checkout details are saved. Please try again shortly; do not make another transfer."
+                : "We could not confirm your order submission. Please contact support before submitting again; do not make another transfer." },
+            { status: 503 }
         );
     }
 }
