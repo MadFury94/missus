@@ -1,0 +1,10 @@
+                    <input
+                        ref={inputRef}
+                        type="search"
+                        value={inputValue}
+                        onChange={(e) => onInputChange(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter") submitSearch(inputValue); }}
+                        placeholder="Search products"
+                        aria-label="Search products"
+                        style={{ flex: 1, border: "none", outline: "none", fontSize: "16px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 300, color: "#000", background: "transparent", minWidth: 0, letterSpacing: ".02em" }}
+                    />

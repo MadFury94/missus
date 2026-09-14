@@ -33,6 +33,16 @@ const TRUST_ITEMS = [
         title: "24/7 DM Support",
         sub: "Reply within 1 hour",
     },
+    {
+        icon: (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M7 16l5 2 5-2" />
+            </svg>
+        ),
+        title: "Affordability",
+        sub: "Good outfits, great prices",
+    },
 ];
 
 export default function NewsletterBar({
