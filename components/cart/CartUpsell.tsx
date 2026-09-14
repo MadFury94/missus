@@ -42,7 +42,7 @@ export default function CartUpsell({ products }: Props) {
                                 )}
                                 <button
                                     className="up-atb"
-                                    style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "10px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", padding: "9px 0", opacity: 0, transition: "opacity .2s", border: "none", width: "100%", cursor: "pointer" }}
+                                    style={{ borderRadius: "999px", position: "absolute", bottom: "8px", left: "8px", right: "8px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "10px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", padding: "9px 0", opacity: 0, transition: "opacity .2s", border: "none", width: "calc(100% - 16px)", cursor: "pointer" }}
                                 >
                                     Add to Bag
                                 </button>

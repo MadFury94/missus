@@ -144,7 +144,7 @@ export default function GiftCardBalancePage() {
                             type="submit"
                             className="gc-btn"
                             disabled={loading || !code.trim()}
-                            style={{
+                            style={{ borderRadius: "999px",
                                 width: "100%",
                                 padding: "16px",
                                 background: "#000",
@@ -295,7 +295,7 @@ export default function GiftCardBalancePage() {
                                     <Link
                                         href="/shop"
                                         className="gc-shop-btn"
-                                        style={{
+                                        style={{ borderRadius: "999px",
                                             display: "block",
                                             textAlign: "center",
                                             background: "#000",

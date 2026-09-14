@@ -153,10 +153,10 @@ export default function FAQPage() {
                             Our team replies within 1 hour during business hours.
                         </p>
                         <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                            <Link href="/contact" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none" }}>
+                            <Link href="/contact" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none" }}>
                                 Contact Us
                             </Link>
-                            <a href="https://instagram.com/missusoutfits" target="_blank" rel="noopener noreferrer" style={{ background: "#fff", color: "#000", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", border: "1.5px solid #000" }}>
+                            <a href="https://instagram.com/missusoutfits" target="_blank" rel="noopener noreferrer" style={{ borderRadius: "999px", background: "#fff", color: "#000", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", border: "1.5px solid #000" }}>
                                 DM on Instagram
                             </a>
                         </div>

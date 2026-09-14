@@ -45,7 +45,7 @@ export default function GlobalError({
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
                 <button
                     onClick={reset}
-                    style={{
+                    style={{ borderRadius: "999px",
                         background: "#000",
                         color: "#fff",
                         border: "none",
@@ -62,7 +62,7 @@ export default function GlobalError({
                 </button>
                 <Link
                     href="/"
-                    style={{
+                    style={{ borderRadius: "999px",
                         background: "#fff",
                         color: "#000",
                         border: "1.5px solid #000",

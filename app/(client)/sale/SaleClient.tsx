@@ -201,7 +201,7 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                     <div className="sale-filter-bar" style={{ alignItems: "center", gap: "8px", padding: "10px 12px", borderBottom: "1px solid #e8e8e8", background: "#fff", position: "sticky", top: "0", zIndex: 10 }}>
                         <button
                             onClick={() => setFilterOpen(true)}
-                            style={{ display: "flex", alignItems: "center", gap: "6px", flex: 1, justifyContent: "center", border: "1px solid #e0e0e0", padding: "9px", background: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer" }}
+                            style={{ borderRadius: "999px", display: "flex", alignItems: "center", gap: "6px", flex: 1, justifyContent: "center", border: "1px solid #e0e0e0", padding: "9px", background: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer" }}
                         >
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                                 <line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="14" y2="12" /><line x1="4" y1="18" x2="10" y2="18" />
@@ -326,7 +326,7 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                         </div>
                         <FilterSidebar filters={filters} onChange={(f) => { setFilters(f); }} />
                         <div style={{ position: "sticky", bottom: 0, background: "#fff", padding: "12px 0 0" }}>
-                            <button onClick={() => setFilterOpen(false)} style={{ width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "16px", border: "none", cursor: "pointer" }}>
+                            <button onClick={() => setFilterOpen(false)} style={{ borderRadius: "999px", width: "100%", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "16px", border: "none", cursor: "pointer" }}>
                                 View Results
                             </button>
                         </div>

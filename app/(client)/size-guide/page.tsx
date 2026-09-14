@@ -108,7 +108,7 @@ export default function SizeGuidePage() {
                     <p style={{ fontSize: "13px", color: "#555", marginBottom: "16px" }}>
                         Still not sure about your size?
                     </p>
-                    <Link href="/contact" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", display: "inline-block" }}>
+                    <Link href="/contact" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", display: "inline-block" }}>
                         Ask Us
                     </Link>
                 </div>

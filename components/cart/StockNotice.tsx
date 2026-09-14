@@ -20,7 +20,7 @@ export default function StockNotice({ items, empty, onClose }: {
         </p>)}
         {empty && <p>Your bag is now empty. Your saved items are in your wishlist.</p>}
         <Link href="/wishlist" onClick={onClose} style={{ display: "block", margin: "20px 0", color: "#111", textDecoration: "underline" }}>View your wishlist</Link>
-        {empty ? <Link href="/shop" style={{ display: "block", padding: "14px", background: "#111", color: "white", textAlign: "center" }}>Continue shopping</Link>
-            : <button type="button" onClick={onClose} style={{ width: "100%", padding: "14px", border: 0, background: "#111", color: "white", cursor: "pointer" }}>Continue to checkout</button>}
+        {empty ? <Link href="/shop" style={{ borderRadius: "999px", display: "block", padding: "14px", background: "#111", color: "white", textAlign: "center" }}>Continue shopping</Link>
+            : <button type="button" onClick={onClose} style={{ borderRadius: "999px", width: "100%", padding: "14px", border: 0, background: "#111", color: "white", cursor: "pointer" }}>Continue to checkout</button>}
     </dialog>;
 }

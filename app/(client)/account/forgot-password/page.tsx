@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                style={{ width: "100%", height: "48px", background: loading ? "#555" : "#000", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 900, letterSpacing: ".14em", textTransform: "uppercase", cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "background .2s" }}
+                                style={{ borderRadius: "999px", width: "100%", height: "48px", background: loading ? "#555" : "#000", color: "#fff", border: "none", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 900, letterSpacing: ".14em", textTransform: "uppercase", cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "background .2s" }}
                                 onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = "#222"; }}
                                 onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = "#000"; }}
                             >

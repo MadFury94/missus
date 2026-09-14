@@ -99,7 +99,7 @@ export default function ShippingPage() {
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8, marginBottom: "16px" }}>
                         If your order is delayed, damaged, or missing, contact us immediately. We&apos;ll sort it out — no stress.
                     </p>
-                    <Link href="/contact" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", display: "inline-block" }}>
+                    <Link href="/contact" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", display: "inline-block" }}>
                         Contact Us
                     </Link>
                 </Section>

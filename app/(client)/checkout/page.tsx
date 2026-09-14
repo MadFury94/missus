@@ -477,7 +477,7 @@ export default function CheckoutPage() {
                                                     type="button"
                                                     onClick={applyPromo}
                                                     disabled={promoLoading}
-                                                    style={{ background: "#000", color: "#fff", border: "none", borderRadius: "25px", padding: "12px 16px", fontSize: "14px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
+                                                    style={{ background: "#000", color: "#fff", border: "none", borderRadius: "999px", padding: "12px 16px", fontSize: "14px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
                                                 >
                                                     {promoLoading ? "..." : "Apply"}
                                                 </button>
@@ -1915,7 +1915,7 @@ export default function CheckoutPage() {
                                                 type="button"
                                                 onClick={applyPromo}
                                                 disabled={promoLoading}
-                                                style={{ background: "#000", color: "#fff", border: "none", borderRadius: "8px", padding: "16px 20px", fontSize: "16px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
+                                                style={{ background: "#000", color: "#fff", border: "none", borderRadius: "999px", padding: "16px 20px", fontSize: "16px", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", opacity: promoLoading ? 0.6 : 1 }}
                                             >
                                                 {promoLoading ? "..." : "Apply"}
                                             </button>

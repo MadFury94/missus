@@ -59,7 +59,7 @@ export default function NotFound() {
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
                 <Link
                     href="/shop"
-                    style={{
+                    style={{ borderRadius: "999px",
                         background: "#000",
                         color: "#fff",
                         fontFamily: "'Barlow Condensed', sans-serif",
@@ -75,7 +75,7 @@ export default function NotFound() {
                 </Link>
                 <Link
                     href="/"
-                    style={{
+                    style={{ borderRadius: "999px",
                         background: "#fff",
                         color: "#000",
                         border: "1.5px solid #000",

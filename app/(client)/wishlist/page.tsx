@@ -88,7 +88,7 @@ function SizePickerModal({
                 <button
                     disabled={!selected}
                     onClick={() => selected && onConfirm(selected)}
-                    style={{
+                    style={{ borderRadius: "999px",
                         width: "100%", height: "46px",
                         background: selected ? "#000" : "#ccc", color: "#fff", border: "none",
                         fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600,
@@ -202,10 +202,10 @@ export default function WishlistPage() {
                 </p>
 
                 <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap", marginBottom: "56px" }}>
-                    <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none" }}>
+                    <Link href="/shop" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none" }}>
                         Shop Now
                     </Link>
-                    <Link href="/new-in" style={{ background: "#fff", color: "#000", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none", border: "1.5px solid #000" }}>
+                    <Link href="/new-in" style={{ borderRadius: "999px", background: "#fff", color: "#000", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "13px 32px", textDecoration: "none", border: "1.5px solid #000" }}>
                         New Arrivals
                     </Link>
                 </div>
@@ -257,7 +257,7 @@ export default function WishlistPage() {
                     </button>
                     <button
                         onClick={handleMoveAll}
-                        style={{ display: "flex", alignItems: "center", gap: "6px", background: "#000", color: "#fff", border: "none", padding: "8px 18px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", cursor: "pointer", transition: "background .15s" }}
+                        style={{ borderRadius: "999px", display: "flex", alignItems: "center", gap: "6px", background: "#000", color: "#fff", border: "none", padding: "8px 18px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", cursor: "pointer", transition: "background .15s" }}
                         onMouseEnter={(e) => (e.currentTarget.style.background = "#333")}
                         onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
                     >
@@ -388,8 +388,8 @@ function WishlistCard({
                 {/* Add to bag bar — visible on hover on desktop, always visible on touch */}
                 <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToBag(item); }}
-                    style={{
-                        position: "absolute", bottom: 0, left: 0, right: 0,
+                    style={{ borderRadius: "999px",
+                        position: "absolute", bottom: "8px", left: "8px", right: "8px",
                         background: "#000", color: "#fff",
                         fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700,
                         letterSpacing: ".12em", textTransform: "uppercase",
@@ -419,7 +419,7 @@ function WishlistCard({
                 {/* Mobile add-to-bag button — always visible */}
                 <button
                     onClick={() => onAddToBag(item)}
-                    style={{ marginTop: "8px", width: "100%", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px", border: "none", cursor: "pointer", display: "none" }}
+                    style={{ borderRadius: "999px", marginTop: "8px", width: "100%", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px", border: "none", cursor: "pointer", display: "none" }}
                     className="wishlist-mobile-add"
                 >
                     Add to Bag
@@ -474,7 +474,7 @@ function WishlistListRow({
             <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                 <button
                     onClick={() => onAddToBag(item)}
-                    style={{ background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px 16px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px", whiteSpace: "nowrap" }}
+                    style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px 16px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px", whiteSpace: "nowrap" }}
                 >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9h12l-1.5 10H7.5L6 9z" /><path d="M9 9V7a3 3 0 0 1 6 0v2" /></svg>
                     Add to Bag

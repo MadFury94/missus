@@ -51,7 +51,7 @@ export default function NewsletterPage() {
                         <p style={{ fontSize: "14px", color: "#555", lineHeight: 1.7, marginBottom: "28px" }}>
                             Welcome to the Missus Circle. Expect early drops, exclusive deals, and style inspo straight to your inbox.
                         </p>
-                        <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 36px", textDecoration: "none", display: "inline-block" }}>
+                        <Link href="/shop" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 36px", textDecoration: "none", display: "inline-block" }}>
                             Shop Now
                         </Link>
                     </div>
@@ -99,7 +99,7 @@ export default function NewsletterPage() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                style={{ background: loading ? "#555" : "#000", color: "#fff", border: "none", height: "52px", fontFamily: "var(--font-barlow-condensed)", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: loading ? "not-allowed" : "pointer", transition: "background .2s" }}
+                                style={{ borderRadius: "999px", background: loading ? "#555" : "#000", color: "#fff", border: "none", height: "52px", fontFamily: "var(--font-barlow-condensed)", fontSize: "15px", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", cursor: loading ? "not-allowed" : "pointer", transition: "background .2s" }}
                             >
                                 {loading ? "Subscribing..." : "Join the Circle ?"}
                             </button>

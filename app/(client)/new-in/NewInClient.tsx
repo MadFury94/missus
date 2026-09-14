@@ -135,7 +135,7 @@ export default function NewInClient() {
                         {/* Mobile filter button */}
                         <button
                             onClick={() => setFilterOpen(true)}
-                            style={{
+                            style={{ borderRadius: "999px",
                                 display: "none",
                                 alignItems: "center",
                                 gap: "6px",

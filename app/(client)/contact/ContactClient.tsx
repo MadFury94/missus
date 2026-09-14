@@ -73,7 +73,7 @@ export default function ContactClient() {
                     </p>
                     <button
                         onClick={() => setSent(false)}
-                        style={{
+                        style={{ borderRadius: "999px",
                             padding: "12px 32px",
                             background: "#000",
                             color: "#fff",
@@ -266,7 +266,7 @@ export default function ContactClient() {
                         <button
                             type="submit"
                             disabled={sending}
-                            style={{
+                            style={{ borderRadius: "999px",
                                 padding: "14px",
                                 background: sending ? "#ccc" : "#000",
                                 color: "#fff",

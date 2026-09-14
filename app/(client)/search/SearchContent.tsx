@@ -144,7 +144,7 @@ export default function SearchContent() {
                                 </button>
                             )}
                         </div>
-                        <button type="submit" style={{ background: "#fff", color: "#000", border: "none", paddingInline: "24px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}>
+                        <button type="submit" style={{ borderRadius: "999px", background: "#fff", color: "#000", border: "none", paddingInline: "24px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}>
                             Search
                         </button>
                     </form>
@@ -175,7 +175,7 @@ export default function SearchContent() {
                             <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                                 <button
                                     onClick={() => setFilterOpen(true)}
-                                    style={{
+                                    style={{ borderRadius: "999px",
                                         display: "none",
                                         alignItems: "center",
                                         gap: "6px",
@@ -290,7 +290,7 @@ export default function SearchContent() {
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                             {["Dresses", "Matching Sets", "Tops", "Bottoms", "Athleisure", "What's New", "Sale"].map((term) => (
                                 <button key={term} onClick={() => { setInputVal(term); setQuery(term); }}
-                                    style={{ border: "1.5px solid #e0e0e0", padding: "8px 16px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", cursor: "pointer", background: "#fff", color: "#333", transition: "all .15s" }}
+                                    style={{ borderRadius: "999px", border: "1.5px solid #e0e0e0", padding: "8px 16px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", cursor: "pointer", background: "#fff", color: "#333", transition: "all .15s" }}
                                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#000"; e.currentTarget.style.color = "#000"; }}
                                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e0e0e0"; e.currentTarget.style.color = "#333"; }}
                                 >

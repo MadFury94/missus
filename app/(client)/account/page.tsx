@@ -141,7 +141,7 @@ export default function AccountPage() {
                             <ShoppingBag style={{ width: "48px", height: "48px", color: "#e0e0e0", margin: "0 auto 16px" }} />
                             <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "22px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".04em", color: "#ccc", marginBottom: "8px" }}>No orders yet</h2>
                             <p style={{ fontSize: "13px", color: "#aaa", marginBottom: "24px" }}>Time to treat yourself.</p>
-                            <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 32px", textDecoration: "none" }}>Shop Now</Link>
+                            <Link href="/shop" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 32px", textDecoration: "none" }}>Shop Now</Link>
                         </div>
                     ) : (
                         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>

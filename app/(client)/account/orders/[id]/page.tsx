@@ -340,7 +340,7 @@ function OrderDetailContent() {
                             textDecoration: "none",
                             marginBottom: "24px",
                             padding: "8px 12px",
-                            borderRadius: "6px",
+                            borderRadius: "999px",
                             transition: "all 0.2s"
                         }}
                         onMouseEnter={(e) => {
@@ -707,7 +707,7 @@ function OrderDetailContent() {
                             background: "var(--color-brand-primary, #7F0E12)",
                             color: "#fff",
                             padding: "10px 20px",
-                            borderRadius: "8px",
+                            borderRadius: "999px",
                             fontSize: "14px",
                             fontWeight: 600,
                             textDecoration: "none",

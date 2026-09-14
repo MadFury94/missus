@@ -104,14 +104,14 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                         <div style={{ display: "flex", gap: "10px", width: "100%" }}>
                             <button
                                 onClick={onClose}
-                                style={{ flex: 1, background: "#111", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 16px", border: "none", cursor: "pointer" }}
+                                style={{ borderRadius: "999px", flex: 1, background: "#111", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 16px", border: "none", cursor: "pointer" }}
                             >
                                 Start Shopping
                             </button>
                             <Link
                                 href="/account/login"
                                 onClick={onClose}
-                                style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", background: "#fff", color: "#111", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 16px", border: "1.5px solid #ddd", textDecoration: "none" }}
+                                style={{ borderRadius: "999px", flex: 1, display: "flex", alignItems: "center", justifyContent: "center", background: "#fff", color: "#111", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 16px", border: "1.5px solid #ddd", textDecoration: "none" }}
                             >
                                 Sign In
                             </Link>

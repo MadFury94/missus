@@ -288,7 +288,7 @@ export default function RestockSignup({ productId, variationId, selection, inlin
                             border: 0,
                             cursor: "pointer",
                             opacity: pending ? 0.6 : 1,
-                            borderRadius: "4px",
+                            borderRadius: "999px",
                             fontSize: "14px",
                             fontWeight: 600,
                             fontFamily: "'DM Sans', sans-serif"

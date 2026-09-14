@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+:root {
+  --font-body: var(--font-dm-sans);
+  --font-display: var(--font-dm-sans);
+  --font-admin-sans: var(--font-dm-sans);
+  --font-admin-serif: var(--font-dm-sans);
+  --font-barlow: var(--font-dm-sans);
+  --font-barlow-condensed: var(--font-dm-sans);
+}
+
 *,
 *::before,
 *::after {
@@ -835,4 +844,16 @@ body,
 /* Specific fix for naira symbol rendering */
 body *:not(script):not(style) {
   text-rendering: optimizeLegibility;
+}
+
+/* One font across legacy inline styles, forms, headings, and the admin UI.
+   Use Next's generated family rather than the unregistered literal "DM Sans". */
+html,
+html body,
+html body *,
+html body [style],
+html body [class],
+html body *::before,
+html body *::after {
+  font-family: var(--font-dm-sans), sans-serif !important;
 }
