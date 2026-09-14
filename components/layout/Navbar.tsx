@@ -379,64 +379,12 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                             <Menu size={22} color={iconColor} />
                         </button>
 
-                        {/* Core Values — desktop only */}
-                        <div className="nav-search-desktop" style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-                            {/* Affordability */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={transparent ? "rgba(255,255,255,.7)" : "#666"} strokeWidth="1.5">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                                    <path d="m2 17 10 5 10-5" />
-                                    <path d="m2 12 10 5 10-5" />
-                                </svg>
-                                <span style={{
-                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                                    fontSize: "10px",
-                                    fontWeight: 500,
-                                    letterSpacing: ".06em",
-                                    color: transparent ? "rgba(255,255,255,.8)" : "#666",
-                                    textTransform: "uppercase"
-                                }}>
-                                    Affordability
-                                </span>
-                            </div>
-
-                            {/* Convenience */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={transparent ? "rgba(255,255,255,.7)" : "#666"} strokeWidth="1.5">
-                                    <rect x="2" y="3" width="20" height="14" rx="2" />
-                                    <line x1="8" y1="21" x2="16" y2="21" />
-                                    <line x1="12" y1="17" x2="12" y2="21" />
-                                </svg>
-                                <span style={{
-                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                                    fontSize: "10px",
-                                    fontWeight: 500,
-                                    letterSpacing: ".06em",
-                                    color: transparent ? "rgba(255,255,255,.8)" : "#666",
-                                    textTransform: "uppercase"
-                                }}>
-                                    Convenience
-                                </span>
-                            </div>
-
-                            {/* Fast Shipping */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={transparent ? "rgba(255,255,255,.7)" : "#666"} strokeWidth="1.5">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                                    <path d="m2 17 10 5 10-5" />
-                                    <path d="m2 12 10 5 10-5" />
-                                </svg>
-                                <span style={{
-                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                                    fontSize: "10px",
-                                    fontWeight: 500,
-                                    letterSpacing: ".06em",
-                                    color: transparent ? "rgba(255,255,255,.8)" : "#666",
-                                    textTransform: "uppercase"
-                                }}>
-                                    Fast Shipping
-                                </span>
-                            </div>
+                        {/* Search Bar — desktop only */}
+                        <div className="nav-search-desktop" style={{ display: "flex", alignItems: "center" }}>
+                            <button className="nav-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Open search" aria-haspopup="dialog">
+                                <Search size={14} color={transparent ? "rgba(255,255,255,.6)" : "#999"} />
+                                <span>Search</span>
+                            </button>
                         </div>
                     </div>
 
@@ -449,6 +397,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                     {/* RIGHT: icons + currency */}
                     <div style={{ display: "flex", alignItems: "center", gap: "20px", marginLeft: "auto" }}>
 
+                        {/* Account */}
                         {/* Account */}
                         <Link href="/account" className="nav-icon-link" style={{ color: iconColor, display: "flex", alignItems: "center", textDecoration: "none", transition: "color .3s" }}>
                             <User size={17} />

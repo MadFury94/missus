@@ -202,7 +202,7 @@ export default function BulkImportPage() {
                     {preview.length > 0 && (
                         <div style={{ marginBottom: "24px" }}>
                             <h3 style={{ fontSize: "14px", fontWeight: 600, marginBottom: "12px", color: "#1d2327" }}>
-                                Preview  {preview.length} product{preview.length !== 1 ? "s" : ""} ready to import
+                                Preview — {preview.length} product{preview.length !== 1 ? "s" : ""} ready to import
                             </h3>
                             <div style={{ overflowX: "auto" }}>
                                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
@@ -218,10 +218,10 @@ export default function BulkImportPage() {
                                             <tr key={i} style={{ borderBottom: "1px solid #f0f0f1", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                                                 <td style={{ padding: "8px 12px", fontWeight: 600 }}>{row.name || <span style={{ color: "#7F0E12" }}>Missing!</span>}</td>
                                                 <td style={{ padding: "8px 12px" }}>₦{row.regular_price}</td>
-                                                <td style={{ padding: "8px 12px", color: "#7F0E12" }}>{row.sale_price ? `?${row.sale_price}` : ""}</td>
-                                                <td style={{ padding: "8px 12px", color: "#767676" }}>{row.sku || ""}</td>
-                                                <td style={{ padding: "8px 12px" }}>{row.categories || ""}</td>
-                                                <td style={{ padding: "8px 12px" }}>{row.sizes || ""}</td>
+                                                <td style={{ padding: "8px 12px", color: "#7F0E12" }}>{row.sale_price ? `₦${row.sale_price}` : "—"}</td>
+                                                <td style={{ padding: "8px 12px", color: "#767676" }}>{row.sku || "—"}</td>
+                                                <td style={{ padding: "8px 12px" }}>{row.categories || "—"}</td>
+                                                <td style={{ padding: "8px 12px" }}>{row.sizes || "—"}</td>
                                                 <td style={{ padding: "8px 12px" }}>
                                                     <span style={{ background: row.status === "publish" ? "#d7f0d7" : "#f0f0f0", color: row.status === "publish" ? "#007a3d" : "#555", padding: "2px 8px", fontSize: "11px", fontWeight: 600 }}>
                                                         {row.status || "publish"}

@@ -85,7 +85,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
             .catch(() => { });
     }, [isOpen]);
 
-    // Debounced live search  only products with images
+    // Debounced live search — only products with images
     useEffect(() => {
         const q = inputValue.trim();
         if (!q) { setLiveResults([]); return; }
@@ -137,7 +137,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
         );
     }
 
-    // Accent row (for New In / Sale  no WC image, use a colour block)
+    // Accent row (for New In / Sale — no WC image, use a colour block)
     function AccentRow({ rank, label, href, bg, accent }: {
         rank: number; label: string; href: string; bg: string; accent: string;
     }) {
@@ -212,7 +212,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                         value={inputValue}
                         onChange={(e) => onInputChange(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") submitSearch(inputValue); }}
-                        placeholder="Search"
+                        placeholder="Search…"
                         aria-label="Search products"
                         style={{ flex: 1, border: "none", outline: "none", fontSize: "16px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 300, color: "#000", background: "transparent", minWidth: 0, letterSpacing: ".02em" }}
                     />
@@ -224,7 +224,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                             <X size={14} />
                         </button>
                     )}
-                    {/* Close  text link, not a box */}
+                    {/* Close — text link, not a box */}
                     <button
                         onClick={onClose}
                         aria-label="Close search"
@@ -281,7 +281,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                             )}
                             {!liveLoading && liveResults.length === 0 && (
                                 <p style={{ fontSize: "14px", color: "#888", padding: "20px 0" }}>
-                                    No results for &ldquo;{inputValue.trim()}&rdquo;  try different keywords.
+                                    No results for &ldquo;{inputValue.trim()}&rdquo; — try different keywords.
                                 </p>
                             )}
                         </div>
@@ -310,7 +310,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                             {/* Three cols desktop / Two cols mobile */}
                             <div className="search-overlay-cols">
 
-                                {/* Col 1: Shop by Style  desktop only, text links */}
+                                {/* Col 1: Shop by Style — desktop only, text links */}
                                 <div className="search-col-desktop">
                                     <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#999", marginBottom: "10px" }}>
                                         Shop by Style
@@ -333,7 +333,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </div>
                                 </div>
 
-                                {/* Col 2: It-Girl Picks  first 2 imaged cats + accent rows */}
+                                {/* Col 2: It-Girl Picks — first 2 imaged cats + accent rows */}
                                 <div>
                                     <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#999", marginBottom: "10px" }}>
                                         It-Girl Picks
@@ -347,7 +347,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </div>
                                 </div>
 
-                                {/* Col 3: Fresh Fits  last 2 imaged cats + Shop All */}
+                                {/* Col 3: Fresh Fits — last 2 imaged cats + Shop All */}
                                 <div>
                                     <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#999", marginBottom: "10px" }}>
                                         Fresh Fits

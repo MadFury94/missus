@@ -32,7 +32,7 @@ export default function HeroBanner() {
                     Dress Like<br /><span style={{ color: "#7F0E12" }}>Her.</span>
                 </h1>
                 <p style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 300, marginBottom: "28px", maxWidth: "420px", lineHeight: 1.6 }}>
-                    Trend-forward, affordable fashion for the modern Nigerian girl. From Lagos to Abuja  we deliver style to your door.
+                    Trend-forward, affordable fashion for the modern Nigerian girl. From Lagos to Abuja — we deliver style to your door.
                 </p>
                 <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                     <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "13px" }}>

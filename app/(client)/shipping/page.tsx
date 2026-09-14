@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Shipping Info  Missus",
+    title: "Shipping Info — Missus",
     description: "Shipping rates, delivery times, and everything you need to know about getting your Missus order.",
 };
 
@@ -31,7 +31,7 @@ export default function ShippingPage() {
                         <circle cx="18.5" cy="18.5" r="2.5" />
                     </svg>
                     <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
-                        Free shipping on all orders ?150,000 and above
+                        Free shipping on all orders ₦150,000 and above
                     </p>
                 </div>
 
@@ -49,12 +49,12 @@ export default function ShippingPage() {
                         </thead>
                         <tbody>
                             {[
-                                ["Lagos (Island & Mainland)", "12 hours", "?2,500"],
-                                ["Lagos (Outskirts)", "24 hours", "?3,500"],
-                                ["Abuja", "Next day", "?4,500"],
-                                ["Port Harcourt", "12 business days", "?4,500"],
-                                ["Other States", "24 business days", "?5,000"],
-                                ["Orders ?150,000+", "Any zone", "FREE"],
+                                ["Lagos (Island & Mainland)", "1–2 hours", "₦2,500"],
+                                ["Lagos (Outskirts)", "2–4 hours", "₦3,500"],
+                                ["Abuja", "Next day", "₦4,500"],
+                                ["Port Harcourt", "1–2 business days", "₦4,500"],
+                                ["Other States", "2–4 business days", "₦5,000"],
+                                ["Orders ₦150,000+", "Any zone", "FREE"],
                             ].map(([zone, time, cost], i) => (
                                 <tr key={zone} style={{ borderBottom: "1px solid #f0f0f0", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                                     <td style={{ padding: "12px", color: "#333", fontWeight: cost === "FREE" ? 700 : 400 }}>{zone}</td>
@@ -71,7 +71,7 @@ export default function ShippingPage() {
                         {[
                             "Place your order and complete payment at checkout.",
                             "You'll receive an order confirmation via email or WhatsApp.",
-                            "We process and dispatch your order within 12 hours (Lagos) or same day (nationwide).",
+                            "We process and dispatch your order within 1–2 hours (Lagos) or same day (nationwide).",
                             "You'll get a tracking update once your order is on its way.",
                             "Receive your order and look amazing.",
                         ].map((step, i) => (
@@ -97,7 +97,7 @@ export default function ShippingPage() {
 
                 <Section title="Issues with Your Delivery?">
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8, marginBottom: "16px" }}>
-                        If your order is delayed, damaged, or missing, contact us immediately. We&apos;ll sort it out  no stress.
+                        If your order is delayed, damaged, or missing, contact us immediately. We&apos;ll sort it out — no stress.
                     </p>
                     <Link href="/contact" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", display: "inline-block" }}>
                         Contact Us

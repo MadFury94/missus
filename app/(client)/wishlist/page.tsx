@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,9 +8,9 @@ import { addToCart } from "@/lib/cart";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
 
-// price in WishlistItem is already in naira Â— format directly
+// price in WishlistItem is already in naira — format directly
 function fmtNaira(naira: number) {
-    return `â‚¦${naira.toLocaleString("en-NG")}`;
+    return `₦${naira.toLocaleString("en-NG")}`;
 }
 
 // --- SIZE PICKER MODAL --------------------------------------------------------
@@ -385,7 +385,7 @@ function WishlistCard({
                     </svg>
                 </button>
 
-                {/* Add to bag bar Â— visible on hover on desktop, always visible on touch */}
+                {/* Add to bag bar — visible on hover on desktop, always visible on touch */}
                 <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAddToBag(item); }}
                     style={{
@@ -416,7 +416,7 @@ function WishlistCard({
                     {item.name}
                 </Link>
                 <p style={{ fontSize: "14px", fontWeight: 700, color: "#000", fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}>{fmtNaira(item.price)}</p>
-                {/* Mobile add-to-bag button Â— always visible */}
+                {/* Mobile add-to-bag button — always visible */}
                 <button
                     onClick={() => onAddToBag(item)}
                     style={{ marginTop: "8px", width: "100%", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "11px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", padding: "9px", border: "none", cursor: "pointer", display: "none" }}

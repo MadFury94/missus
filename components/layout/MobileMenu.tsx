@@ -105,7 +105,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
 
                 <div style={{ flex: 1, padding: "0 0 32px" }}>
 
-                    {/* -- Search  opens the same overlay as desktop -- */}
+                    {/* -- Search — opens the same overlay as desktop -- */}
                     <div style={{ padding: "16px 20px", borderBottom: "1px solid #f0f0f0" }}>
                         <button
                             onClick={() => { onClose(); setTimeout(() => onSearchOpen?.(), 50); }}
@@ -332,7 +332,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                     <div style={{ margin: "20px 20px 0", padding: "14px 16px", background: "#f5f5f5" }}>
                         <p style={{ fontSize: "12px", color: "#555", display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2"><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>
-                            Lagos 12 hour delivery
+                            Lagos 1–2 hour delivery
                         </p>
                         <p style={{ fontSize: "12px", color: "#555", display: "flex", alignItems: "center", gap: "6px" }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>

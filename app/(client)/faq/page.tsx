@@ -11,11 +11,11 @@ const FAQS = [
         items: [
             {
                 q: "How fast do you deliver in Lagos?",
-                a: "Lagos orders are typically delivered within 12 hours of dispatch. We dispatch same-day for orders placed before 6pm. Orders placed after 6pm are dispatched the next morning.",
+                a: "Lagos orders are typically delivered within 1–2 hours of dispatch. We dispatch same-day for orders placed before 6pm. Orders placed after 6pm are dispatched the next morning.",
             },
             {
                 q: "Do you deliver nationwide?",
-                a: "Yes! We deliver to all states in Nigeria. Abuja and Port Harcourt take 12 business days. Other states take 24 business days. See our full shipping info for rates.",
+                a: "Yes! We deliver to all states in Nigeria. Abuja and Port Harcourt take 1–2 business days. Other states take 2–4 business days. See our full shipping info for rates.",
             },
             {
                 q: "Can I pay on delivery?",
@@ -36,7 +36,7 @@ const FAQS = [
         items: [
             {
                 q: "How do I know what size to order?",
-                a: "Each product page has a size guide. We recommend checking measurements rather than going by label size alone. If you're between sizes, size up  our pieces are designed to be worn with confidence.",
+                a: "Each product page has a size guide. We recommend checking measurements rather than going by label size alone. If you're between sizes, size up — our pieces are designed to be worn with confidence.",
             },
             {
                 q: "Are the colours accurate in photos?",
@@ -44,7 +44,7 @@ const FAQS = [
             },
             {
                 q: "Is the quality good?",
-                a: "Yes  quality is something we take seriously. Every piece is checked before it ships. If you ever receive something that doesn't meet your expectations, contact us and we'll sort it.",
+                a: "Yes — quality is something we take seriously. Every piece is checked before it ships. If you ever receive something that doesn't meet your expectations, contact us and we'll sort it.",
             },
         ],
     },
@@ -53,7 +53,7 @@ const FAQS = [
         items: [
             {
                 q: "What is your return policy?",
-                a: "We accept returns within 7 days of delivery. Items must be unworn, unwashed, and in original condition with tags. Returns are issued as store credit  no cash refunds.",
+                a: "We accept returns within 7 days of delivery. Items must be unworn, unwashed, and in original condition with tags. Returns are issued as store credit — no cash refunds.",
             },
             {
                 q: "How do I start a return?",
@@ -74,7 +74,7 @@ const FAQS = [
             },
             {
                 q: "Is it safe to pay on your website?",
-                a: "Yes. All payments are processed through Paystack  a PCI-DSS compliant, fully encrypted payment processor. We never store your card details.",
+                a: "Yes. All payments are processed through Paystack — a PCI-DSS compliant, fully encrypted payment processor. We never store your card details.",
             },
         ],
     },

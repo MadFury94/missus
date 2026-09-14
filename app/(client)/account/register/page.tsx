@@ -77,7 +77,7 @@ export default function RegisterPage() {
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "8px" }}>
                         &quot;I ordered my dress at noon and it was at my door by 2pm. Missus is built different.&quot;
                     </p>
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#7F0E12" }}>Temi A.  Lagos</p>
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#7F0E12" }}>Temi A. — Lagos</p>
                 </div>
             </div>
 
@@ -203,7 +203,7 @@ export default function RegisterPage() {
                             onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = "#222"; }}
                             onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = "#000"; }}
                         >
-                            {loading ? "Creating Account" : "Create Account"}
+                            {loading ? "Creating Account…" : "Create Account"}
                             {!loading && <ArrowRight style={{ width: "16px", height: "16px" }} strokeWidth={2.5} />}
                         </button>
 

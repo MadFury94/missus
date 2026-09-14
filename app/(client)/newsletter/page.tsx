@@ -58,7 +58,7 @@ export default function NewsletterPage() {
                 ) : (
                     <>
                         <p style={{ fontSize: "15px", color: "#444", lineHeight: 1.8, marginBottom: "32px" }}>
-                            Get early access to new drops, exclusive discount codes, and style inspo  straight to your inbox. No spam, ever.
+                            Get early access to new drops, exclusive discount codes, and style inspo — straight to your inbox. No spam, ever.
                         </p>
 
                         {/* Perks */}

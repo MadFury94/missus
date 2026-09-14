@@ -3,7 +3,7 @@ import { getSaleProducts } from "@/lib/woocommerce";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import SaleClient from "./SaleClient";
 
-export const metadata: Metadata = { title: "MissusDeals  Up to 60% Off" };
+export const metadata: Metadata = { title: "MissusDeals — Up to 60% Off" };
 export const revalidate = 60;
 
 export default async function SalePage() {
@@ -66,7 +66,7 @@ export default async function SalePage() {
                 </div>
             </div>
 
-            {/* Client section  tabs, sort, grid */}
+            {/* Client section — tabs, sort, grid */}
             <SaleClient initialProducts={products} />
         </>
     );

@@ -28,7 +28,7 @@ export default function DarkSaleBanner() {
                         UP TO 60%<br /><span style={{ color: "#7F0E12" }}>OFF SITEWIDE</span>
                     </h2>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "12px" }}>
-                        MissusDeals  prices as marked. While stocks last.
+                        MissusDeals — prices as marked. While stocks last.
                     </p>
                     <button style={{ marginTop: "24px", background: "#7F0E12", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", border: "none", cursor: "pointer", padding: "15px 40px", fontSize: "14px" }}>
                         Shop Sale Now
