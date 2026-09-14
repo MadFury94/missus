@@ -55,6 +55,16 @@ export function clearCart(): void {
     if (typeof window !== "undefined") localStorage.removeItem(CART_KEY);
 }
 
+// Remove exact selections; another size or colour of the product stays in the bag.
+export function removeCartSelections(selections: CartItem[]): Cart {
+    const items = getCart().items.filter(item => !selections.some(selected =>
+        selected.productId === item.productId && selected.variationId === item.variationId &&
+        selected.size === item.size && selected.color === item.color));
+    saveCart(items);
+    window.dispatchEvent(new Event("cart-updated"));
+    return calcCart(items);
+}
+
 function saveCart(items: CartItem[]): void {
     if (typeof window !== "undefined") {
         localStorage.setItem(CART_KEY, JSON.stringify(items));

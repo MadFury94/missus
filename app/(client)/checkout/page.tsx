@@ -1,9 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import type { Cart } from "@/types";
+import type { Cart, CartItem } from "@/types";
+import { checkCheckoutStock } from "@/lib/checkout-stock";
+import StockNotice from "@/components/cart/StockNotice";
 import { getCart } from "@/lib/cart";
 import { useCurrency } from "@/lib/currency";
 import type { ShippingRate } from "@/lib/woocommerce-shipping";
@@ -48,6 +50,30 @@ const STATES = [
 export default function CheckoutPage() {
     const { convert } = useCurrency();
     const [cart, setCart] = useState<Cart>({ items: [], subtotal: 0, total: 0 });
+    const [stockChecking, setStockChecking] = useState(true);
+    const [stockError, setStockError] = useState("");
+    const [removedItems, setRemovedItems] = useState<CartItem[]>([]);
+    const stockBusy = useRef(false);
+    const checkStock = useCallback(async () => {
+        if (stockBusy.current) return false;
+        stockBusy.current = true;
+        setStockChecking(true);
+        setStockError("");
+        try {
+            const result = await checkCheckoutStock();
+            if (result.changed) setCart(result.cart);
+            if (result.removed.length) setRemovedItems(previous => [...previous, ...result.removed]);
+            return !result.changed && result.cart.items.length > 0;
+        } catch (error) {
+            setStockError(error instanceof Error ? error.message : "Could not check stock. Please try again.");
+            return false;
+        } finally {
+            stockBusy.current = false;
+            setStockChecking(false);
+        }
+    }, []);
+
+    useEffect(() => { void checkStock(); }, [cart.items, checkStock]);
     const [loading, setLoading] = useState(false);
     const [promoCode, setPromoCode] = useState("");
     const [promoLabel, setPromoLabel] = useState("");
@@ -299,6 +325,7 @@ export default function CheckoutPage() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         if (promoLoading) return;
+        if (stockChecking || removedItems.length || !(await checkStock())) return;
         if (paymentMethod === "card") {
             await handlePaystackCheckout();
         } else {
@@ -307,6 +334,11 @@ export default function CheckoutPage() {
     }
     return (
         <>
+            <StockNotice items={removedItems} empty={cart.items.length === 0} onClose={() => setRemovedItems([])} />
+            {(stockChecking || stockError) && <div role={stockError ? "alert" : "status"} style={{ padding: "16px 24px", background: "#fff5f5", color: "#111", textAlign: "center" }}>
+                {stockChecking ? "Checking availability of the items in your bag…" : stockError}
+                {stockError && !stockChecking && <button type="button" onClick={() => void checkStock()} style={{ marginLeft: "12px", textDecoration: "underline", cursor: "pointer" }}>Retry stock check</button>}
+            </div>}
             <DynamicTitle prefix="Checkout - " enabled={true} />
             <div style={{ background: "#f9f9f9", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
                 <style>{`
@@ -1119,7 +1151,7 @@ export default function CheckoutPage() {
                                 {/* Submit Button */}
                                 <button
                                     type="submit"
-                                    disabled={loading || promoLoading || ratesLoading || cart.items.length === 0 || !selectedRate}
+                                    disabled={loading || stockChecking || !!stockError || removedItems.length > 0 || promoLoading || ratesLoading || cart.items.length === 0 || !selectedRate}
                                     style={{
                                         width: "100%",
                                         background: "#000",
@@ -1794,7 +1826,7 @@ export default function CheckoutPage() {
                                 {/* Submit Button */}
                                 <button
                                     type="submit"
-                                    disabled={loading || promoLoading || ratesLoading || cart.items.length === 0 || !selectedRate}
+                                    disabled={loading || stockChecking || !!stockError || removedItems.length > 0 || promoLoading || ratesLoading || cart.items.length === 0 || !selectedRate}
                                     style={{
                                         width: "100%",
                                         background: "#000",

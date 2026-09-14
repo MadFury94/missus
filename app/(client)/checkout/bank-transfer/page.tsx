@@ -15,7 +15,7 @@ interface PendingOrder {
     total: number;
 }
 
-const BANK_DETAILS = { bankName: "Access Bank", accountName: "Missus Outfits Limited", accountNumber: "1234567890" };
+const BANK_DETAILS = { bankName: "Moniepoint MFB", accountName: "Missus Outfits Enterprises", accountNumber: "6683202967" };
 // Checkout totals are in naira; shipping rates are in kobo.
 const money = (naira: number) => new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 2 }).format(naira);
 
@@ -70,9 +70,11 @@ export default function BankTransferPage() {
             try {
                 await fetch("/api/admin/notifications", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ type: "bank_transfer_payment_claimed", orderId: result.orderId,
+                    body: JSON.stringify({
+                        type: "bank_transfer_payment_claimed", orderId: result.orderId,
                         customerEmail: order.shipping.email, customerName: `${order.shipping.firstName} ${order.shipping.lastName}`,
-                        amount: order.total, message: `Customer has reported a bank transfer for order #${result.orderId}` }),
+                        amount: order.total, message: `Customer has reported a bank transfer for order #${result.orderId}`
+                    }),
                 });
             } catch { /* The on-hold order already records the payment claim. */ }
         } catch (err) { setError(err instanceof Error ? err.message : "Please try again or contact support."); }
