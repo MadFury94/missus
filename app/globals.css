@@ -86,7 +86,7 @@ button {
 .style-radar-section h2,
 .newin-section h2,
 .category-grid h3 {
-  letter-spacing: 0.02em !important;
+  letter-spacing: 0 !important;
   font-weight: 600 !important;
 }
 
@@ -97,6 +97,12 @@ h3,
 h4,
 h5,
 h6 {
+  letter-spacing: 0 !important;
+}
+
+/* Override legacy font tracking and nested labels on every subheading. */
+body :is(h2, h3, h4, h5, h6, .homepage-subheading),
+body :is(h2, h3, h4, h5, h6, .homepage-subheading) * {
   letter-spacing: 0 !important;
 }
 

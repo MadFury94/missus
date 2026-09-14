@@ -6,14 +6,14 @@ const TRUST_ITEMS = [
     {
         icon: (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <rect x="1" y="3" width="15" height="13" />
-                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                <circle cx="5.5" cy="18.5" r="2.5" />
-                <circle cx="18.5" cy="18.5" r="2.5" />
+                <path d="M4 16 20 16" />
+                <path d="m10 12 4-4 4 4" />
+                <path d="M14 8v8" />
+                <path d="M6 8 l-2 8 M18 8 l2 8" />
             </svg>
         ),
-        title: "Lagos: 1–2 Hours",
-        sub: "Express delivery available",
+        title: "Fast Shipping",
+        sub: "Receive your order in no time",
     },
     {
         icon: (
@@ -36,8 +36,8 @@ const TRUST_ITEMS = [
     {
         icon: (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M7 16l5 2 5-2" />
+                <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.002 2.002 0 0 0 2.828 0l8.704-8.704A2 2 0 0 0 22 11.172V4a2 2 0 0 0-2-2h-7.172a2 2 0 0 0-1.414.586L12.586 2.586z" />
+                <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
             </svg>
         ),
         title: "Affordability",

@@ -119,7 +119,7 @@ export default function Footer() {
             `}</style>
 
             <footer style={{ background: "#1a1a1a", color: "#fff", padding: "40px 20px 20px" }}>
-                <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto", marginBottom: "16px" }}>
+                <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto" }}>
                     {/* Brand */}
                     <div className="footer-brand">
                         <div style={{ marginBottom: "12px" }}>
@@ -193,7 +193,7 @@ export default function Footer() {
                 </div>
 
                 {/* Currency Switcher & Payment Cards Row */}
-                <div className="footer-currency-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", maxWidth: "1200px", margin: "0 auto", marginBottom: "20px", borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: "16px" }}>
+                <div className="footer-currency-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", maxWidth: "1200px", marginTop: "32px", marginLeft: "auto", marginRight: "auto", marginBottom: "20px", paddingTop: "16px" }}>
                     {/* Currency Switcher (left side) */}
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <CurrencySwitcher />

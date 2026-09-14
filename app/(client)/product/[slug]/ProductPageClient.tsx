@@ -87,14 +87,32 @@ export default function ProductPageClient({ params, product, related }: {
     const [adding, setAdding] = useState(false);
     const [added, setAdded] = useState(false);
     const [isWished, setIsWished] = useState(false);
+    const [wishlistError, setWishlistError] = useState("");
     const [stickyVisible, setStickyVisible] = useState(false);
     const addToBagRef = useRef<HTMLDivElement>(null);
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
 
     useEffect(() => {
-        setIsWished(isInWishlist(product.id));
+        const syncWishlist = () => setIsWished(isInWishlist(product.id));
+        syncWishlist();
+        window.addEventListener("wishlistUpdated", syncWishlist);
+        window.addEventListener("storage", syncWishlist);
+        return () => {
+            window.removeEventListener("wishlistUpdated", syncWishlist);
+            window.removeEventListener("storage", syncWishlist);
+        };
     }, [product.id]);
+
+    function handleWishlist() {
+        const expected = toggleWishlist({
+            productId: product.id, name: product.name, slug: product.slug,
+            price: toNaira(product.prices.price), image: product.images?.[0]?.src || "",
+        });
+        const saved = isInWishlist(product.id);
+        setIsWished(saved);
+        setWishlistError(saved === expected ? "" : "Could not update your wishlist. Please try again.");
+    }
 
     // Pre-select first color if available
     useEffect(() => {
@@ -215,6 +233,17 @@ export default function ProductPageClient({ params, product, related }: {
 
                 /* Size button focus ring */
                 .size-btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+                .pdp-wishlist {
+                    display: flex; align-items: center; justify-content: center; gap: 9px;
+                    width: 100%; min-height: 48px; margin-top: 10px; padding: 13px 20px;
+                    border: 1px solid #d5d5d5; border-radius: 999px; background: #fff; color: #222;
+                    font-family: var(--font-body, 'DM Sans', sans-serif); font-size: 12px;
+                    font-weight: 600; letter-spacing: .06em; text-transform: uppercase; cursor: pointer;
+                    transition: border-color .2s, background .2s, color .2s;
+                }
+                .pdp-wishlist:hover { border-color: #111; background: #fafafa; }
+                .pdp-wishlist[aria-pressed="true"] { color: #7f0e12; border-color: #7f0e12; background: #fff8f8; }
+                .pdp-wishlist:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
 
                 /* Related grid mobile */
                 @media (max-width: 768px) {
@@ -459,7 +488,7 @@ export default function ProductPageClient({ params, product, related }: {
                     )}
 
                     {/* Add to Bag */}
-                    <div ref={addToBagRef} style={{ marginBottom: "14px" }}>
+                    <div ref={addToBagRef}>
                         {/* Pill Add to Bag */}
                         <button
                             onClick={handleAddToCart}
@@ -482,6 +511,18 @@ export default function ProductPageClient({ params, product, related }: {
                         >
                             {soldOut ? "OUT OF STOCK - NOTIFY ME" : stockLoading ? "Checking availability..." : added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
                         </button>
+                    </div>
+
+                    <div style={{ marginBottom: "18px" }}>
+                        <button type="button" className="pdp-wishlist" onClick={handleWishlist}
+                            aria-pressed={isWished} aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill={isWished ? "currentColor" : "none"}
+                                stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" />
+                            </svg>
+                            <span aria-live="polite">{isWished ? "Saved to wishlist" : "Add to wishlist"}</span>
+                        </button>
+                        {wishlistError && <p role="alert" style={{ fontSize: "12px", color: "#7f0e12", marginTop: "8px" }}>{wishlistError}</p>}
                     </div>
 
                     {/* Delivery note */}
