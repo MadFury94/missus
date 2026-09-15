@@ -1,45 +1,26 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { Plane, Shield, MessageCircle, Tag } from "lucide-react";
 
 const TRUST_ITEMS = [
     {
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path d="M4 16 20 16" />
-                <path d="m10 12 4-4 4 4" />
-                <path d="M14 8v8" />
-                <path d="M6 8 l-2 8 M18 8 l2 8" />
-            </svg>
-        ),
+        icon: <Plane size={18} />,
         title: "Fast Shipping",
         sub: "Receive your order in no time",
     },
     {
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-        ),
+        icon: <Shield size={18} />,
         title: "Secure Checkout",
         sub: "100% safe & encrypted",
     },
     {
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-        ),
+        icon: <MessageCircle size={18} />,
         title: "24/7 DM Support",
         sub: "Reply within 1 hour",
     },
     {
-        icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.002 2.002 0 0 0 2.828 0l8.704-8.704A2 2 0 0 0 22 11.172V4a2 2 0 0 0-2-2h-7.172a2 2 0 0 0-1.414.586L12.586 2.586z" />
-                <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
-            </svg>
-        ),
+        icon: <Tag size={18} />,
         title: "Affordability",
         sub: "Good outfits, great prices",
     },

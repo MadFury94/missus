@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
 import { SUB_NAV, SOCIAL_LINKS } from "@/lib/config";
 import { getCurrentUser, logoutUser, type User } from "@/lib/auth";
 import { getWishlistCount } from "@/lib/wishlist";

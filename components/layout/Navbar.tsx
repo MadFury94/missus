@@ -328,6 +328,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
             <style>{`
                 .nav-gender { display: flex; align-items: center; }
                 .nav-search-desktop { display: flex; align-items: center; }
+                .nav-search-mobile { display: none; }
                 .nav-search-trigger {
                     display: flex; align-items: center; gap: 8px;
                     border: none; border-bottom: 1px solid ${transparent ? "rgba(255,255,255,.4)" : "#ccc"};
@@ -354,7 +355,10 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                 .nav-icon-link:focus-visible { outline: 2px solid ${iconColor}; outline-offset: 2px; border-radius: 2px; }
                 @media (max-width: 768px) {
                     .nav-gender { display: none; }
-                    .nav-search-desktop { display: none; }
+                    .nav-search-desktop { display: flex; align-items: center; }
+                    .nav-search-mobile { display: flex; align-items: center; }
+                    .nav-search-trigger { border: none; padding: 4px; width: auto; max-width: none; }
+                    .nav-search-trigger span { display: none; }
                     .nav-hamburger { display: flex; align-items: center; justify-content: center; }
                     .currency-btn-desktop { display: none !important; }
                     .navbar-container { padding: 0 12px !important; }
@@ -382,7 +386,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         {/* Search Bar — desktop only */}
                         <div className="nav-search-desktop" style={{ display: "flex", alignItems: "center" }}>
                             <button className="nav-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Open search" aria-haspopup="dialog">
-                                <Search size={14} color={transparent ? "rgba(255,255,255,.6)" : "#999"} />
+                                <Search size={17} color={transparent ? "rgba(255,255,255,.6)" : "#999"} />
                                 <span>Search</span>
                             </button>
                         </div>
