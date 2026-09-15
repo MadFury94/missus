@@ -9,6 +9,8 @@ const STATE_CODES: Record<string, string> = {
     oyo: "OY", plateau: "PL", rivers: "RI", sokoto: "SO", taraba: "TA", yobe: "YO", zamfara: "ZA",
 };
 
+const WP_ORIGIN = "https://missusoutfits.com";
+
 export function normalizeShippingAddress(address: CustomerAddress): CustomerAddress {
     const country = address.country.toLowerCase() === "nigeria" ? "NG" : address.country.toUpperCase();
     const state = country === "NG" ? STATE_CODES[address.state.trim().toLowerCase()] || address.state.replace(/^NG:/i, "").toUpperCase() : address.state;
@@ -22,7 +24,14 @@ async function prepareCart(items: CartItem[]) {
     async function request(path: string, body?: unknown) {
         const response = await fetch(`${base}${path}`, {
             method: body === undefined ? "GET" : "POST", cache: "no-store",
-            headers: { "Content-Type": "application/json", ...(token ? { "Cart-Token": token } : {}) },
+            headers: {
+                "Content-Type": "application/json",
+                // Some WordPress/WooCommerce security rules reject server-side
+                // Store API calls that do not identify the storefront origin.
+                Origin: WP_ORIGIN,
+                Referer: WP_ORIGIN,
+                ...(token ? { "Cart-Token": token } : {}),
+            },
             ...(body === undefined ? {} : { body: JSON.stringify(body) }), signal: AbortSignal.timeout(20000),
         });
         const data = await response.json();

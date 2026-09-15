@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CartAvailabilityError, getWooCommerceShippingRates } from "@/lib/woocommerce-shipping";
 
+export const runtime = "nodejs";
+// Shipping quotes perform several WooCommerce Store API calls in sequence.
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
     try {
         const { city, state, items, address_1, postcode, country = "NG", coupon = "" } = await req.json();
