@@ -109,12 +109,16 @@ export default function Footer() {
                 @media (max-width: 768px) {
                     .footer-grid {
                         grid-template-columns: 1fr !important;
+                        border-bottom: none !important;
+                        padding-bottom: 0 !important;
+                        margin-bottom: 20px !important;
                     }
                     .footer-col-heading { display: none !important; }
                     .footer-col-toggle { display: flex !important; }
                     .footer-col-links { display: none; overflow: hidden; }
                     .footer-col-links.open { display: block; padding: 8px 0 16px; }
                     .footer-brand { grid-column: span 1 !important; }
+                    .footer-copyright { border-top: none !important; }
                 }
             `}</style>
 
