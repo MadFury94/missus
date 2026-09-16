@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getCategoryImageUrl } from "@/lib/api-helpers";
 
 export default function WideBanner() {
     return (
@@ -18,7 +19,7 @@ export default function WideBanner() {
             }}>
                 {/* Background product image */}
                 <Image
-                    src="https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-93.jpeg"
+                    src={getCategoryImageUrl("Product-Photos-93.jpeg")}
                     alt=""
                     fill
                     style={{ objectFit: "cover", objectPosition: "center 20%" }}

@@ -13,8 +13,9 @@ export function ensurePaidOrder(reference: string) {
     return task;
 }
 
+import { wcApiFetch } from "./api-helpers";
+
 async function persist(reference: string) {
-    const api = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
     const headers = {
         Authorization: `Basic ${Buffer.from(`${process.env.WC_CONSUMER_KEY}:${process.env.WC_CONSUMER_SECRET}`).toString("base64")}`,
         "Content-Type": "application/json",

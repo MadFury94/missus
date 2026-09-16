@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Search, X, Menu, User, Heart, ShoppingBag } from "lucide-react";
+import { Search, X, Menu, User, Heart } from "lucide-react";
 import { getCart, cartCount } from "@/lib/cart";
 import { getWishlistCount } from "@/lib/wishlist";
 import MobileMenu from "@/components/layout/MobileMenu";
@@ -417,7 +417,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
 
                         {/* Bag */}
                         <button onClick={onBagClick} className="nav-icon-link" aria-label={`Shopping bag${bagCount > 0 ? `, ${bagCount} items` : ""}`} style={{ display: "flex", alignItems: "center", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0, color: iconColor, transition: "color .3s" }}>
-                            <ShoppingBag size={17} />
+                            <img src="/bag-svgrepo-com.svg" alt="" aria-hidden="true" width={18} height={18} style={{ display: "block", filter: transparent ? "brightness(0) invert(1)" : "none" }} />
                             {bagCount > 0 && (
                                 <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-6px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{bagCount}</span>
                             )}

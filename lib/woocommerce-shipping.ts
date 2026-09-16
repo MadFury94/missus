@@ -1,4 +1,5 @@
 import type { CartItem } from "@/types";
+import { API_ENDPOINTS, WP_BASE_URL } from "./config";
 
 const STATE_CODES: Record<string, string> = {
     abia: "AB", adamawa: "AD", "akwa ibom": "AK", anambra: "AN", bauchi: "BA", bayelsa: "BY",
@@ -9,8 +10,6 @@ const STATE_CODES: Record<string, string> = {
     oyo: "OY", plateau: "PL", rivers: "RI", sokoto: "SO", taraba: "TA", yobe: "YO", zamfara: "ZA",
 };
 
-const WP_ORIGIN = "https://missusoutfits.com";
-
 export function normalizeShippingAddress(address: CustomerAddress): CustomerAddress {
     const country = address.country.toLowerCase() === "nigeria" ? "NG" : address.country.toUpperCase();
     const state = country === "NG" ? STATE_CODES[address.state.trim().toLowerCase()] || address.state.replace(/^NG:/i, "").toUpperCase() : address.state;
@@ -18,7 +17,7 @@ export function normalizeShippingAddress(address: CustomerAddress): CustomerAddr
 }
 
 async function prepareCart(items: CartItem[]) {
-    const base = `${(process.env.WP_API_URL || "https://missusoutfits.com/wp-json").replace(/\/$/, "")}/wc/store/v1`;
+    const base = API_ENDPOINTS.woocommerce.store;
     // Each quote gets a separate cart; server fetch does not maintain browser cookies.
     let token = "";
     async function request(path: string, body?: unknown) {
@@ -28,8 +27,8 @@ async function prepareCart(items: CartItem[]) {
                 "Content-Type": "application/json",
                 // Some WordPress/WooCommerce security rules reject server-side
                 // Store API calls that do not identify the storefront origin.
-                Origin: WP_ORIGIN,
-                Referer: WP_ORIGIN,
+                Origin: WP_BASE_URL,
+                Referer: WP_BASE_URL,
                 ...(token ? { "Cart-Token": token } : {}),
             },
             ...(body === undefined ? {} : { body: JSON.stringify(body) }), signal: AbortSignal.timeout(20000),
@@ -62,7 +61,7 @@ async function prepareCart(items: CartItem[]) {
     return request;
 }
 
-export class CartAvailabilityError extends Error {}
+export class CartAvailabilityError extends Error { }
 
 export async function validateCartAvailability(items: CartItem[]) {
     await prepareCart(items);
@@ -77,8 +76,10 @@ export async function getWooCommerceShippingRates(address: CustomerAddress, item
     const rates: ShippingRate[] = packages.flatMap((pkg: any) => (pkg.shipping_rates || []).map((rate: any) => {
         const amount = Number(rate.price) + Number(rate.taxes || 0);
         if (!Number.isSafeInteger(amount) || amount < 0 || rate.currency_minor_unit !== 2 || rate.currency_code !== "NGN") throw new Error("Invalid shipping price from WooCommerce");
-        return { rate_id: rate.rate_id, carrier_name: rate.name, amount, currency: rate.currency_code,
-            delivery_time: rate.delivery_time || rate.description || "", method_id: rate.method_id, instance_id: Number(rate.instance_id) };
+        return {
+            rate_id: rate.rate_id, carrier_name: rate.name, amount, currency: rate.currency_code,
+            delivery_time: rate.delivery_time || rate.description || "", method_id: rate.method_id, instance_id: Number(rate.instance_id)
+        };
     })).filter((rate: ShippingRate) => !(rate.method_id === "terminal_delivery" && rate.amount === 0))
         .sort((a: ShippingRate, b: ShippingRate) => a.amount - b.amount);
     const free = rates.find(rate => rate.method_id === "free_shipping" && rate.amount === 0);

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getCategoryImageUrl } from "@/lib/api-helpers";
 
 // Real Missus product images
-const LEFT_IMG = "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg";
-const RIGHT_IMG = "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-90.jpeg";
+const LEFT_IMG = getCategoryImageUrl("Product-Photos-88.jpeg");
+const RIGHT_IMG = getCategoryImageUrl("Product-Photos-90.jpeg");
 
 export default function HeroBanner() {
     return (

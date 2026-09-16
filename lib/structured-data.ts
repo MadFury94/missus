@@ -88,9 +88,11 @@ export function getProductSchema(product: StoreProduct) {
             "@type": "Offer",
             price: product.prices?.price ? (parseInt(product.prices.price) / 100).toString() : "0",
             priceCurrency: "NGN",
-            availability: product.stock_status === "instock"
-                ? "https://schema.org/InStock"
-                : "https://schema.org/OutOfStock",
+            availability: product.stock_status === "onbackorder"
+                ? "https://schema.org/BackOrder"
+                : product.stock_status === "outofstock"
+                    ? "https://schema.org/OutOfStock"
+                    : "https://schema.org/InStock",
             seller: {
                 "@type": "Organization",
                 name: BRAND_CONFIG.name

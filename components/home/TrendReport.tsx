@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getCategoryImageUrl, getProductImageUrl } from "@/lib/api-helpers";
 
 // Real Missus product images for trend cards
 const TREND_CARDS = [
@@ -7,25 +8,25 @@ const TREND_CARDS = [
         label: "Night Out",
         title: "Club Night\nEnergy",
         href: "/category/dresses",
-        img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-96.jpeg",
+        img: getCategoryImageUrl("Product-Photos-96.jpeg"),
     },
     {
         label: "Resort Escape",
         title: "Resort\nEscape",
         href: "/category/dresses",
-        img: "https://missusoutfits.com/wp-content/uploads/2026/03/Leila-Halter-Mini-Dress.jpg",
+        img: getCategoryImageUrl("Leila-Halter-Mini-Dress.jpg"),
     },
     {
         label: "Spring Sets",
         title: "Spring\nEssentials",
         href: "/category/matching-sets",
-        img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png",
+        img: getProductImageUrl("Product-Photos-Your-Story-27.png"),
     },
     {
         label: "Prom Queen",
         title: "Prom Queen\nEnergy",
         href: "/category/dresses",
-        img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
+        img: getCategoryImageUrl("Product-Photos-88.jpeg"),
     },
 ];
 

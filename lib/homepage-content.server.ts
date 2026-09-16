@@ -2,8 +2,7 @@
 import { cache } from "react";
 import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
-
-const WP_API = (process.env.WP_API_URL || "https://missusoutfits.com/wp-json").replace(/\/$/, "");
+import { API_ENDPOINTS, WP_HEADERS } from "./config";
 
 function wpHeaders(write = false): Record<string, string> {
     // Published homepage fields are public. Do not make storefront reads depend
@@ -24,7 +23,7 @@ async function wpRequest(url: string, init: RequestInit = {}) {
 
 async function getHomepagePost() {
     for (const slug of ["homepage-settings", "homepage_settings"]) {
-        const url = `${WP_API}/wp/v2/${slug}`;
+        const url = `${API_ENDPOINTS.wordpress.core}/wp/v2/${slug}`;
         const response = await fetch(`${url}?per_page=1&_fields=id,acf`, {
             headers: wpHeaders(), cache: "no-store", signal: AbortSignal.timeout(12000),
         });

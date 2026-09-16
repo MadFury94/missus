@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { validateTryOnImage } from "@/lib/virtual-tryon";
+import { API_ENDPOINTS } from "@/lib/config";
 
 interface Props {
     productImage: string;
@@ -17,7 +18,7 @@ async function uploadToWordPress(file: File): Promise<string> {
     const formData = new FormData();
     formData.append("file", file, file.name);
 
-    const res = await fetch("https://missusoutfits.com/wp-json/wp/v2/media", {
+    const res = await fetch(API_ENDPOINTS.wordpress.media, {
         method: "POST",
         body: formData,
         // WordPress requires auth for media upload; users must be logged in via JWT

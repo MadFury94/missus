@@ -131,6 +131,9 @@ export default function CartPage() {
                 <div className="cart-grid" style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: "40px", alignItems: "start", marginTop: "28px" }}>
                     {/* LEFT — Items */}
                     <div>
+                        {cart.items.some(item => item.isOnBackorder || item.stockStatus === "onbackorder") && <div role="status" style={{ marginBottom: "16px", padding: "12px 14px", border: "1px solid #ead9b5", background: "#fffaf0", color: "#76520c", fontSize: "12px", lineHeight: 1.5 }}>
+                            One or more items in your bag are available on backorder. They will ship when stock becomes available.
+                        </div>}
                         {/* Column headers */}
                         <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: "20px", paddingBottom: "10px", borderBottom: "1.5px solid #000", marginBottom: 0 }}>
                             {["Product", "Quantity", "Price"].map((h) => (

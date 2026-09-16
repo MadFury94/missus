@@ -1,25 +1,13 @@
-// Uses the public WooCommerce Store API — no auth required
-const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
-
-// WordPress may apply Referer / origin checks on certain endpoints (e.g. orderby=popularity).
-// Sending the site's own origin server-to-server satisfies those checks.
-const WP_ORIGIN = "https://missusoutfits.com";
-
-// In dev your machine may not reach the live WP host — fail fast rather than hanging.
-const FETCH_TIMEOUT_MS = process.env.NODE_ENV === "development" ? 4000 : 12000;
+import { API_ENDPOINTS, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
 
 // ── Fetch helper ──────────────────────────────────────────────────────────
 
 async function storeFetch<T>(path: string, revalidate = 60): Promise<T | null> {
     try {
-        const res = await fetch(`${STORE_API}${path}`, {
+        const res = await fetch(`${API_ENDPOINTS.woocommerce.store}${path}`, {
             next: { revalidate },
-            headers: {
-                "Content-Type": "application/json",
-                Referer: WP_ORIGIN,
-                Origin: WP_ORIGIN,
-            },
-            signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+            headers: WP_HEADERS,
+            signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
         });
         if (!res.ok) {
             console.warn(`Store API error: ${res.status} ${path}`);
@@ -59,6 +47,8 @@ export interface StoreProduct {
     is_in_stock?: boolean;
     stock_status: string;
     stock_quantity: number | null;
+    backorders_allowed?: boolean;
+    is_on_backorder?: boolean;
     sku: string;
 }
 
@@ -171,14 +161,13 @@ export async function getSaleProducts(limit = 60): Promise<StoreProduct[]> {
 
 export async function getRelatedProducts(productId: number, limit = 5): Promise<StoreProduct[]> {
     // Fetch related_ids from WC REST v3 (requires auth, server-side only)
-    const wcApiUrl = process.env.WC_API_URL ?? "https://missusoutfits.com/wp-json/wc/v3";
     const key = process.env.WC_CONSUMER_KEY;
     const secret = process.env.WC_CONSUMER_SECRET;
 
     if (key && secret) {
         try {
             const auth = Buffer.from(`${key}:${secret}`).toString("base64");
-            const res = await fetch(`${wcApiUrl}/products/${productId}?_fields=related_ids`, {
+            const res = await fetch(`${API_ENDPOINTS.woocommerce.rest}/products/${productId}?_fields=related_ids`, {
                 headers: { Authorization: `Basic ${auth}` },
                 next: { revalidate: 120 },
             });
@@ -219,7 +208,7 @@ export async function getCategories(): Promise<StoreCategory[]> {
 
 export async function getStoreName(): Promise<string> {
     try {
-        const res = await fetch("https://missusoutfits.com/wp-json/wp/v2/settings", { next: { revalidate: 3600 } });
+        const res = await fetch(API_ENDPOINTS.wordpress.settings, { next: { revalidate: 3600 } });
         if (res.ok) {
             const data = await res.json();
             return data.title ?? "Missus";

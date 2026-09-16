@@ -135,6 +135,7 @@ export default function CartDrawer({ isOpen, onClose }: Props) {
                                             <div>
                                                 <Link href={`/product/${item.slug}`} onClick={onClose} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: ".03em", textTransform: "uppercase", color: "#000", textDecoration: "none", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                                     {item.name}
+                                                    {(item.isOnBackorder || item.stockStatus === "onbackorder") && <small style={{ display: "block", color: "#8a5a00", marginTop: "4px" }}>Available on Backorder</small>}
                                                 </Link>
                                                 {item.size && <p style={{ fontSize: "11px", color: "#767676", marginTop: "3px" }}>Size: {item.size}</p>}
                                                 <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>

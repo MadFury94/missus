@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { storeFetch } from "@/lib/wp-fetch";
-
-const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
+import { wcStoreFetch } from "@/lib/api-helpers";
 
 export async function GET(
     _request: NextRequest,
@@ -9,9 +7,8 @@ export async function GET(
 ) {
     const { slug } = await params;
 
-    const data = await storeFetch<Record<string, unknown>[]>(
-        `/products?slug=${encodeURIComponent(slug)}&_fields=id,name,slug,attributes,variations`,
-        3600
+    const data = await wcStoreFetch<Record<string, unknown>[]>(
+        `/products?slug=${encodeURIComponent(slug)}&_fields=id,name,slug,attributes,variations`
     );
 
     const product = data?.[0];

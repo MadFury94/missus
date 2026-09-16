@@ -449,7 +449,8 @@ export default function CheckoutPage() {
                                                     {item.quantity}
                                                 </div>
                                                 <div style={{ flex: 1 }}>
-                                                    <p style={{ fontSize: "14px", fontWeight: 500, color: "#000", marginBottom: "4px" }}>{item.name}</p>
+                                            <p style={{ fontSize: "14px", fontWeight: 500, color: "#000", marginBottom: "4px" }}>{item.name}</p>
+                                            {(item.isOnBackorder || item.stockStatus === "onbackorder") && <p style={{ fontSize: "11px", color: "#8a5a00", marginBottom: "4px" }}>Available on Backorder</p>}
                                                     {item.size && <p style={{ fontSize: "12px", color: "#666", marginBottom: "4px" }}>Size: {item.size}</p>}
                                                     <p style={{ fontSize: "14px", fontWeight: 600, color: "#000" }}>{convert(item.price * item.quantity)}</p>
                                                 </div>
@@ -1888,6 +1889,7 @@ export default function CheckoutPage() {
                                             </div>
                                             <div style={{ flex: 1 }}>
                                                 <p style={{ fontSize: "16px", fontWeight: 500, color: "#000", marginBottom: "6px" }}>{item.name}</p>
+                                                {(item.isOnBackorder || item.stockStatus === "onbackorder") && <p style={{ fontSize: "12px", color: "#8a5a00", marginBottom: "6px" }}>Available on Backorder</p>}
                                                 {item.size && <p style={{ fontSize: "14px", color: "#666", marginBottom: "6px" }}>Size: {item.size}</p>}
                                                 <p style={{ fontSize: "16px", fontWeight: 600, color: "#000" }}>{convert(item.price * item.quantity)}</p>
                                             </div>

@@ -1,6 +1,6 @@
 // WordPress JWT Authentication
+import { API_ENDPOINTS } from "./config";
 
-const WP_API_URL = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
 const JWT_SECRET = process.env.JWT_API;
 
 export interface User {
@@ -44,7 +44,7 @@ export async function loginUser(username: string, password: string): Promise<Log
 // Validate token
 export async function validateToken(token: string): Promise<boolean> {
     try {
-        const response = await fetch(`${WP_API_URL}/jwt-auth/v1/token/validate`, {
+        const response = await fetch(`${API_ENDPOINTS.wordpress.core}/jwt-auth/v1/token/validate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const WP_API_URL = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
+import { API_ENDPOINTS } from "./config";
 
 /**
  * Validates the Bearer JWT token in the Authorization header against WordPress.
@@ -22,7 +21,7 @@ export async function requireAdminAuth(request: NextRequest): Promise<NextRespon
     }
 
     try {
-        const res = await fetch(`${WP_API_URL}/jwt-auth/v1/token/validate`, {
+        const res = await fetch(`${API_ENDPOINTS.wordpress.core}/jwt-auth/v1/token/validate`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,

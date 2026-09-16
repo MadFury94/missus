@@ -1,3 +1,5 @@
+import { wcApiFetch } from "./api-helpers";
+
 export interface StockVariant {
     id: number;
     available: boolean;
@@ -12,12 +14,8 @@ export interface ProductStock {
 }
 
 export async function getProductStock(productId: number): Promise<ProductStock> {
-    const api = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
-    const headers = { Authorization: `Basic ${Buffer.from(`${process.env.WC_CONSUMER_KEY}:${process.env.WC_CONSUMER_SECRET}`).toString("base64")}` };
     async function read(path: string) {
-        const response = await fetch(`${api}${path}`, { headers, cache: "no-store", signal: AbortSignal.timeout(12000) });
-        if (!response.ok) throw new Error("Product availability could not be loaded");
-        return response.json();
+        return await wcApiFetch(path);
     }
     const product = await read(`/products/${productId}`);
     if (product.status !== "publish") throw new Error("Product unavailable");

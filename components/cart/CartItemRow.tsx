@@ -51,6 +51,7 @@ export default function CartItemRow({ item, onUpdateQty, onRemove }: Props) {
 
             {/* Details */}
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                {(item.isOnBackorder || item.stockStatus === "onbackorder") && <p style={{ fontSize: "11px", color: "#8a5a00", fontWeight: 600, marginBottom: "6px" }}>Available on Backorder — ships when available</p>}
                 {/* Top: name + price */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "16px" }}>
                     <div>

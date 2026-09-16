@@ -11,6 +11,7 @@ import type { ProductStock } from "@/lib/product-stock";
 import { stockForSelection } from "@/lib/stock-selection";
 import ProductCard from "@/components/product/ProductCard";
 import { useCurrency } from "@/lib/currency";
+import { normalizeStockStatus, stockStatusLabel } from "@/lib/stock-status";
 
 function AccordionItem({ title, content }: { title: string; content: string }) {
     const [open, setOpen] = useState(false);
@@ -145,9 +146,8 @@ export default function ProductPageClient({ params, product, related }: {
     const currentStock = stock?.productId === product.id ? stock : null;
     const selectionStock = stockForSelection(currentStock, selectedSize, selectedColor);
     // Catalogue stock is available on first render; fresh inventory can supersede it.
-    const soldOut = selectionStock !== null
-        ? !selectionStock.available
-        : product.is_in_stock === false || product.stock_status === "outofstock";
+    const productStatus = normalizeStockStatus(product.stock_status, product.is_in_stock);
+    const soldOut = selectionStock !== null ? !selectionStock.available : productStatus === "outofstock";
     const handleAddToCart = async () => {
         if (soldOut) {
             document.getElementById("restock-signup")?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -171,7 +171,10 @@ export default function ProductPageClient({ params, product, related }: {
             image: product.images[0]?.src || "",
             size: selectedSize || undefined,
             color: selectedColor || undefined,
-            quantity: 1
+            quantity: 1,
+            stockStatus: productStatus,
+            backordersAllowed: product.backorders_allowed,
+            isOnBackorder: product.is_on_backorder,
         };
         try {
             const existingQuantity = getCart().items.filter(existing => existing.productId === item.productId && existing.size === item.size && existing.color === item.color)
@@ -524,6 +527,10 @@ export default function ProductPageClient({ params, product, related }: {
                         </button>
                         {wishlistError && <p role="alert" style={{ fontSize: "12px", color: "#7f0e12", marginTop: "8px" }}>{wishlistError}</p>}
                     </div>
+
+                    {productStatus !== "instock" && <p style={{ margin: "0 0 14px", fontSize: "12px", color: productStatus === "onbackorder" ? "#8a5a00" : "#7f0e12", fontWeight: 600 }}>
+                        {stockStatusLabel(productStatus)}
+                    </p>}
 
                     {/* Delivery note */}
                     <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "24px", padding: "14px 0", borderTop: "1px solid #f0f0f0", borderBottom: "1px solid #f0f0f0" }}>

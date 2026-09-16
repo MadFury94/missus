@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getBannerImageUrl } from "@/lib/api-helpers";
 
 export default function DarkSaleBanner() {
     return (
@@ -7,7 +8,7 @@ export default function DarkSaleBanner() {
             <div style={{ position: "relative", textAlign: "center", padding: "48px 20px", cursor: "pointer", overflow: "hidden", minHeight: "280px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 {/* Background */}
                 <Image
-                    src="https://missusoutfits.com/wp-content/uploads/2026/02/CFA10BC2-194D-40E4-AA22-207DB5DE17BA.jpg"
+                    src={getBannerImageUrl("CFA10BC2-194D-40E4-AA22-207DB5DE17BA.jpg")}
                     alt="Sale"
                     fill
                     style={{ objectFit: "cover", objectPosition: "center 30%" }}

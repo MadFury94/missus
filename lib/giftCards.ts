@@ -1,7 +1,8 @@
 // Server-only. Never import this from a client component — GIFT_CARD_SECRET
+import { API_ENDPOINTS } from "./config";
+
 // must never reach the browser bundle.
 
-const WP_API_BASE = process.env.WP_API_BASE ?? "https://missusoutfits.com/wp-json/missus/v1";
 const GIFT_CARD_SECRET = process.env.MISSUS_GIFT_CARD_SECRET ?? "";
 
 export interface GiftCardCheckResult {
@@ -25,7 +26,7 @@ export interface GiftCardRedeemResult {
 export async function checkGiftCard(code: string): Promise<GiftCardCheckResult | null> {
     try {
         const res = await fetch(
-            `${WP_API_BASE}/gift-cards/check?code=${encodeURIComponent(code)}`,
+            `${API_ENDPOINTS.custom.giftCards}/gift-cards/check?code=${encodeURIComponent(code)}`,
             { cache: "no-store" }
         );
         if (!res.ok) return null;
@@ -44,7 +45,7 @@ export async function redeemGiftCard(
     amount: number,
     orderId?: number
 ): Promise<GiftCardRedeemResult> {
-    const res = await fetch(`${WP_API_BASE}/gift-cards/redeem`, {
+    const res = await fetch(`${API_ENDPOINTS.custom.giftCards}/gift-cards/redeem`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

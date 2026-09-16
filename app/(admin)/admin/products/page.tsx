@@ -87,7 +87,7 @@ export default function AdminProducts() {
                                     </div>
                                 </ATd>
                                 <ATd muted>{p.sku || "—"}</ATd>
-                                <ATd><StatusDot status={p.stock_status === "instock" ? "instock" : "outofstock"} /></ATd>
+                                <ATd><StatusDot status={p.stock_status === "onbackorder" ? "onbackorder" : p.stock_status === "outofstock" ? "outofstock" : "instock"} /></ATd>
                                 <ATd primary>₦{parseInt(p.price || p.regular_price || "0").toLocaleString()}</ATd>
                                 <ATd muted>{p.categories?.map((c: any) => c.name).join(", ") || "—"}</ATd>
                                 <ATd muted>{new Date(p.date_created).toLocaleDateString()}</ATd>

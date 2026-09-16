@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useEffect } from "react";
+import { getCategoryImageUrl } from "@/lib/api-helpers";
 
 export default function VideoSection() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -31,7 +32,7 @@ export default function VideoSection() {
                 loop
                 playsInline
                 preload="none"
-                poster="https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-93.jpeg"
+                poster={getCategoryImageUrl("Product-Photos-93.jpeg")}
                 style={{
                     display: "block",
                     width: "100%",

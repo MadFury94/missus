@@ -11,6 +11,9 @@ export interface CartItem {
     quantity: number;
     size?: string;
     color?: string;
+    stockStatus?: "instock" | "outofstock" | "onbackorder";
+    backordersAllowed?: boolean;
+    isOnBackorder?: boolean;
 }
 
 export interface Cart {

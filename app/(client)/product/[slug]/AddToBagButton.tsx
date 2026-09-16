@@ -2,6 +2,7 @@
 import { useState } from "react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import { addToCart } from "@/lib/cart";
+import { normalizeStockStatus, stockStatusLabel } from "@/lib/stock-status";
 import { getProductImage } from "@/lib/woocommerce";
 import { useCurrency } from "@/lib/currency";
 
@@ -11,16 +12,18 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
     const [selectedColor, setSelectedColor] = useState(colors[0] ?? "");
     const [qty, setQty] = useState(1);
     const [added, setAdded] = useState(false);
+    const stockStatus = normalizeStockStatus(product.stock_status, product.is_in_stock);
+    const soldOut = stockStatus === "outofstock";
 
     function handleAdd() {
         // Check if product is out of stock
-        if (product.stock_status === "outofstock" || (product.stock_quantity !== null && product.stock_quantity <= 0)) {
+        if (soldOut) {
             alert("This item is currently out of stock and cannot be added to your bag.");
             return;
         }
 
         // Check if requested quantity exceeds available stock
-        if (product.stock_quantity !== null && qty > product.stock_quantity) {
+        if (stockStatus === "instock" && product.stock_quantity !== null && qty > product.stock_quantity) {
             alert(`Only ${product.stock_quantity} items available in stock.`);
             return;
         }
@@ -35,6 +38,9 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
             quantity: qty,
             size: selectedSize,
             color: selectedColor,
+            stockStatus,
+            backordersAllowed: product.backorders_allowed,
+            isOnBackorder: product.is_on_backorder,
         });
         window.dispatchEvent(new Event("cart-updated"));
         setAdded(true);
@@ -82,8 +88,8 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                 <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #e0e0e0", height: "46px" }}>
                     <button
                         onClick={() => setQty(Math.max(1, qty - 1))}
-                        disabled={product.stock_status === "outofstock"}
-                        style={{ width: "40px", height: "100%", border: "none", background: "#fff", fontSize: "18px", fontWeight: 300, cursor: product.stock_status === "outofstock" ? "not-allowed" : "pointer", opacity: product.stock_status === "outofstock" ? 0.5 : 1 }}
+                        disabled={soldOut}
+                        style={{ width: "40px", height: "100%", border: "none", background: "#fff", fontSize: "18px", fontWeight: 300, cursor: soldOut ? "not-allowed" : "pointer", opacity: soldOut ? 0.5 : 1 }}
                     >
                         −
                     </button>
@@ -93,7 +99,7 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                             const maxQty = product.stock_quantity !== null ? product.stock_quantity : 99;
                             setQty(Math.min(maxQty, qty + 1));
                         }}
-                        disabled={product.stock_status === "outofstock" || (product.stock_quantity !== null && qty >= product.stock_quantity)}
+                        disabled={soldOut || (stockStatus === "instock" && product.stock_quantity !== null && qty >= product.stock_quantity)}
                         style={{
                             width: "40px",
                             height: "100%",
@@ -101,15 +107,15 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                             background: "#fff",
                             fontSize: "18px",
                             fontWeight: 300,
-                            cursor: (product.stock_status === "outofstock" || (product.stock_quantity !== null && qty >= product.stock_quantity)) ? "not-allowed" : "pointer",
-                            opacity: (product.stock_status === "outofstock" || (product.stock_quantity !== null && qty >= product.stock_quantity)) ? 0.5 : 1
+                            cursor: (soldOut || (stockStatus === "instock" && product.stock_quantity !== null && qty >= product.stock_quantity)) ? "not-allowed" : "pointer",
+                            opacity: (soldOut || (stockStatus === "instock" && product.stock_quantity !== null && qty >= product.stock_quantity)) ? 0.5 : 1
                         }}
                     >
                         +
                     </button>
                 </div>
-                {product.stock_status === "outofstock" ? (
-                    <span style={{ fontSize: "11px", color: "#e8002d", fontWeight: 600 }}>● Out of Stock</span>
+                        {normalizeStockStatus(product.stock_status, product.is_in_stock) !== "instock" ? (
+                    <span style={{ fontSize: "11px", color: "#8a5a00", fontWeight: 600 }}>● {stockStatusLabel(product.stock_status, product.is_in_stock)}</span>
                 ) : product.stock_quantity !== null && product.stock_quantity <= 5 ? (
                     <span style={{ fontSize: "11px", color: "#e8002d", fontWeight: 600 }}>● Only {product.stock_quantity} left</span>
                 ) : null}
@@ -118,11 +124,11 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
             {/* CTAs */}
             <button
                 onClick={handleAdd}
-                disabled={product.stock_status === "outofstock"}
+                disabled={soldOut}
                 style={{
                     width: "100%",
                     height: "52px",
-                    background: product.stock_status === "outofstock" ? "#ccc" : (added ? "#2d7a2d" : "#000"),
+                    background: soldOut ? "#ccc" : (added ? "#2d7a2d" : "#000"),
                     color: "#fff",
                     border: "none",
                     borderRadius: "25px",
@@ -131,7 +137,7 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                     fontWeight: 800,
                     letterSpacing: ".12em",
                     textTransform: "uppercase",
-                    cursor: product.stock_status === "outofstock" ? "not-allowed" : "pointer",
+                    cursor: soldOut ? "not-allowed" : "pointer",
                     marginBottom: "8px",
                     transition: "background .2s",
                     display: "flex",
@@ -140,24 +146,24 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                     gap: "10px"
                 }}
             >
-                {product.stock_status === "outofstock" ? (
+                {soldOut ? (
                     "Out of Stock"
                 ) : added ? (
                     "Added to Bag ✓"
                 ) : (
                     <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src="/shopping-bag.png" alt="" aria-hidden="true" width={18} height={18} style={{ filter: "brightness(0) invert(1)", display: "block" }} />
+                        <img src="/bag-plus-svgrepo-com.svg" alt="" aria-hidden="true" width={18} height={18} style={{ filter: "brightness(0) invert(1)", display: "block" }} />
                         Add to Bag
                     </>
                 )}
             </button>
             <button
-                disabled={product.stock_status === "outofstock"}
+                disabled={soldOut}
                 style={{
                     width: "100%",
                     height: "52px",
-                    background: product.stock_status === "outofstock" ? "#ccc" : "#e8002d",
+                    background: soldOut ? "#ccc" : "#e8002d",
                     color: "#fff",
                     border: "none",
                     borderRadius: "25px",
@@ -166,10 +172,10 @@ export default function AddToBagButton({ product, sizes, colors }: { product: St
                     fontWeight: 800,
                     letterSpacing: ".12em",
                     textTransform: "uppercase",
-                    cursor: product.stock_status === "outofstock" ? "not-allowed" : "pointer"
+                    cursor: soldOut ? "not-allowed" : "pointer"
                 }}
             >
-                {product.stock_status === "outofstock" ? "Out of Stock" : "Buy Now — Pay on Delivery"}
+                {soldOut ? "Out of Stock" : "Buy Now — Pay on Delivery"}
             </button>
         </div>
     );

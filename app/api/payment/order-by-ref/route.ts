@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { findOrderByReference } from "@/lib/order-reference";
 import { ensurePaidOrder } from "@/lib/paid-order";
+import { wcApiFetch, getWooCommerceAuth } from "@/lib/api-helpers";
 
 export async function POST(req: NextRequest) {
     const ref = req.nextUrl.searchParams.get("ref");
@@ -17,12 +18,8 @@ export async function POST(req: NextRequest) {
 // Looks up a WooCommerce order by Paystack transaction reference.
 // Used by the confirmation page to show order details without requiring login.
 
-const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
-const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
-const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
-
 function getWCAuth() {
-    const auth = Buffer.from(`${WC_CONSUMER_KEY}:${WC_CONSUMER_SECRET}`).toString("base64");
+    return getWooCommerceAuth();
     return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
 }
 
@@ -31,7 +28,7 @@ export async function GET(req: NextRequest) {
     if (!ref) return NextResponse.json({ error: "ref required" }, { status: 400 });
 
     try {
-        const o = await findOrderByReference(ref, WC_API_URL, getWCAuth());
+        const o = await findOrderByReference(ref, "", getWCAuth());
         if (!o) {
             return NextResponse.json({ error: "Order not found" }, { status: 404 });
         }

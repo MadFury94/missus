@@ -261,6 +261,7 @@ export function StatusDot({ status }: { status: string }) {
         disabled: { dot: "var(--rust)", label: "Disabled" },
         expired: { dot: "var(--rust)", label: "Expired" },
         outofstock: { dot: "var(--rust)", label: "Out of stock" },
+        onbackorder: { dot: "var(--amber)", label: "Available on backorder" },
     };
     const s = map[status] ?? { dot: "var(--stone)", label: status };
     return (

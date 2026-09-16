@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getProductImageUrl, getCategoryImageUrl } from "@/lib/api-helpers";
 
 // 5 categories total — matches FashionNova's layout exactly
 // Desktop: 1 tall feature left (spans 2 rows) + 2×2 grid right
@@ -8,29 +9,29 @@ import Image from "next/image";
 const FEATURE = {
     label: "Dresses",
     href: "/category/dresses",
-    img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-8.png",
+    img: getProductImageUrl("Product-Photos-Your-Story-8.png"),
 };
 
 const GRID = [
     {
         label: "Matching Sets",
         href: "/category/matching-sets",
-        img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png",
+        img: getProductImageUrl("Product-Photos-Your-Story-27.png"),
     },
     {
         label: "Bottoms",
         href: "/category/bottoms",
-        img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-22.png",
+        img: getProductImageUrl("Product-Photos-Your-Story-22.png"),
     },
     {
         label: "Tops",
         href: "/category/tops",
-        img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-17.png",
+        img: getProductImageUrl("Product-Photos-Your-Story-17.png"),
     },
     {
         label: "Athleisure & Loungewear",
         href: "/category/athleisure-loungewear",
-        img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
+        img: getCategoryImageUrl("Product-Photos-88.jpeg"),
     },
 ];
 
