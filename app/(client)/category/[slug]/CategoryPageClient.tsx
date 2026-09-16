@@ -5,6 +5,7 @@ import ProductCard from "@/components/product/ProductCard";
 import ProductSkeleton from "@/components/product/ProductSkeleton";
 import FilterSidebar from "@/components/shop/FilterSidebar";
 import type { ProductFilters } from "@/types";
+import { decodeHtmlEntities } from "@/lib/api-helpers";
 
 const SORT_OPTIONS = [
     { label: "Featured", value: "" },
@@ -174,7 +175,7 @@ export default function CategoryPageClient({
                         margin: "0 auto",
                         lineHeight: 1.6
                     }}
-                        dangerouslySetInnerHTML={{ __html: category.description }}
+                        dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(category.description) }}
                     />
                 )}
             </div>

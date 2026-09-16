@@ -1,6 +1,7 @@
 import { SITE_URL } from "@/lib/config";
 import { BRAND_CONFIG } from "@/lib/seo-config";
 import type { StoreProduct, StoreCategory } from "@/lib/woocommerce";
+import { cleanCategoryName, decodeHtmlEntities } from "./api-helpers";
 
 // Organization Schema
 export function getOrganizationSchema() {
@@ -73,11 +74,15 @@ export function getBreadcrumbSchema(items: Array<{ name: string; url: string }>)
 export function getProductSchema(product: StoreProduct) {
     const baseUrl = SITE_URL.replace(/\/$/, "");
 
+    const cleanProductName = decodeHtmlEntities(product.name);
+    const cleanShortDesc = decodeHtmlEntities(product.short_description?.replace(/<[^>]+>/g, "") || "");
+    const cleanDesc = decodeHtmlEntities(product.description?.replace(/<[^>]+>/g, "") || "");
+
     return {
         "@context": "https://schema.org",
         "@type": "Product",
-        name: product.name,
-        description: product.short_description?.replace(/<[^>]+>/g, "") || product.description?.replace(/<[^>]+>/g, ""),
+        name: cleanProductName,
+        description: cleanShortDesc || cleanDesc,
         image: product.images?.[0]?.src || "",
         sku: product.sku || product.id.toString(),
         brand: {
@@ -108,12 +113,14 @@ export function getProductSchema(product: StoreProduct) {
 // Category/Collection Schema
 export function getCollectionPageSchema(category: StoreCategory, products: StoreProduct[]) {
     const baseUrl = SITE_URL.replace(/\/$/, "");
+    const cleanName = cleanCategoryName(category.name, category.slug);
+    const cleanDesc = decodeHtmlEntities(category.description?.replace(/<[^>]+>/g, "") || "");
 
     return {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        name: `${category.name} - ${BRAND_CONFIG.name}`,
-        description: category.description?.replace(/<[^>]+>/g, "") || `Shop ${category.name} collection at ${BRAND_CONFIG.name}`,
+        name: `${cleanName} - ${BRAND_CONFIG.name}`,
+        description: cleanDesc || `Shop ${cleanName} collection at ${BRAND_CONFIG.name}`,
         url: `${baseUrl}/category/${category.slug}`,
         mainEntity: {
             "@type": "ItemList",
@@ -123,7 +130,7 @@ export function getCollectionPageSchema(category: StoreCategory, products: Store
                 position: index + 1,
                 item: {
                     "@type": "Product",
-                    name: product.name,
+                    name: decodeHtmlEntities(product.name),
                     url: `${baseUrl}/product/${product.slug}`,
                     image: product.images?.[0]?.src,
                     offers: {

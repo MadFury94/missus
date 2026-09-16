@@ -6,6 +6,7 @@ import { generatePageMetadata } from "@/lib/seo-config";
 import StructuredData from "@/components/seo/StructuredData";
 import { getProductSchema, getBreadcrumbSchema } from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/config";
+import { decodeHtmlEntities } from "@/lib/api-helpers";
 
 export const revalidate = 60;
 
@@ -14,15 +15,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const product = await getProduct(slug);
     if (!product) return { title: "Product Not Found" };
 
-    const cleanDescription = product.short_description?.replace(/<[^>]+>/g, "") ||
+    const cleanDescription = decodeHtmlEntities(product.short_description?.replace(/<[^>]+>/g, "") ||
         product.description?.replace(/<[^>]+>/g, "") ||
-        `Shop ${product.name} at Missus. Premium women's fashion with fast shipping across Nigeria.`;
+        `Shop ${decodeHtmlEntities(product.name)} at Missus. Premium women's fashion with fast shipping across Nigeria.`);
+
+    const cleanProductName = decodeHtmlEntities(product.name);
 
     return generatePageMetadata({
-        title: `${product.name} | Premium Women's Fashion`,
+        title: `${cleanProductName} | Premium Women's Fashion`,
         description: cleanDescription,
         keywords: [
-            product.name.toLowerCase(),
+            cleanProductName.toLowerCase(),
             product.categories?.[0]?.name.toLowerCase() || "fashion",
             "women's fashion",
             "premium clothing",
@@ -41,6 +44,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     if (!product) notFound();
 
     const related = await getRelatedProducts(product.id, 5);
+    const cleanProductName = decodeHtmlEntities(product.name);
 
     // Breadcrumb data
     const breadcrumbs = [
@@ -50,7 +54,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             name: product.categories[0].name,
             url: `${SITE_URL}/category/${product.categories[0].slug}`
         }] : []),
-        { name: product.name, url: `${SITE_URL}/product/${slug}` }
+        { name: cleanProductName, url: `${SITE_URL}/product/${slug}` }
     ];
 
     return (

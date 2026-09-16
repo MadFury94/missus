@@ -12,6 +12,7 @@ import { stockForSelection } from "@/lib/stock-selection";
 import ProductCard from "@/components/product/ProductCard";
 import { useCurrency } from "@/lib/currency";
 import { normalizeStockStatus, stockStatusLabel } from "@/lib/stock-status";
+import { decodeHtmlEntities } from "@/lib/api-helpers";
 
 function AccordionItem({ title, content }: { title: string; content: string }) {
     const [open, setOpen] = useState(false);
@@ -226,12 +227,15 @@ export default function ProductPageClient({ params, product, related }: {
                 .pdp-mobile-dots { display: none; }
 
                 @media (max-width: 900px) {
-                    .pdp-wrap { grid-template-columns: 1fr; }
+                    .pdp-wrap { 
+                        grid-template-columns: 1fr; 
+                        margin-top: -41px; /* Pull up under category nav (41px height) */
+                    }
                     .pdp-thumb-col { display: none; }
                     .pdp-info-col { padding: 20px 16px 40px; position: static; }
-                    .pdp-breadcrumb { display: none; }
-                    .pdp-mobile-dots { display: flex; }
+                    .pdp-breadcrumb { display: none !important; }
                     .pdp-main-img { min-height: 420px !important; }
+                    .pdp-mobile-dots { display: flex; }
                 }
 
                 /* Size button focus ring */
@@ -349,7 +353,7 @@ export default function ProductPageClient({ params, product, related }: {
 
                     {/* Name */}
                     <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 600, lineHeight: 1.2, marginBottom: "12px", color: "#000", letterSpacing: "-.01em" }}>
-                        {product.name}
+                        {decodeHtmlEntities(product.name)}
                     </h1>
 
                     {/* Price */}
@@ -634,8 +638,10 @@ export default function ProductPageClient({ params, product, related }: {
                 style={{
                     position: "fixed",
                     bottom: 0, left: 0, right: 0,
-                    background: "#fff",
-                    borderTop: "1px solid #e8e8e8",
+                    background: "rgba(255, 255, 255, 0.85)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    borderTop: "1px solid rgba(232, 232, 232, 0.6)",
                     padding: "12px 16px calc(12px + env(safe-area-inset-bottom))",
                     display: "flex",
                     alignItems: "center",
@@ -672,7 +678,7 @@ export default function ProductPageClient({ params, product, related }: {
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                         lineHeight: 1.3,
                     }}>
-                        {product.name}
+                        {decodeHtmlEntities(product.name)}
                     </p>
                     <p style={{ fontSize: "12px", color: "#888", marginTop: "2px" }}>
                         {convert(toNaira(product.prices.price))}

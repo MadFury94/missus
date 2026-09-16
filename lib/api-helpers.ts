@@ -8,6 +8,51 @@
 import { API_ENDPOINTS, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
 
 // ──────────────────────────────────────────────────────────────────────────
+// HTML Entity Decoding Utilities
+// ──────────────────────────────────────────────────────────────────────────
+
+/**
+ * Decode HTML entities in text (server-side safe)
+ * Handles common entities like &#8217; (apostrophe), &quot; (quotes), &amp; (ampersand)
+ */
+export function decodeHtmlEntities(text: string): string {
+    if (!text) return text;
+
+    return text
+        .replace(/&#8217;/g, "'")      // Right single quotation mark
+        .replace(/&#8216;/g, "'")      // Left single quotation mark  
+        .replace(/&#8220;/g, '"')      // Left double quotation mark
+        .replace(/&#8221;/g, '"')      // Right double quotation mark
+        .replace(/&#8211;/g, "–")      // En dash
+        .replace(/&#8212;/g, "—")      // Em dash
+        .replace(/&#8230;/g, "...")    // Horizontal ellipsis
+        .replace(/&quot;/g, '"')       // Quotation mark
+        .replace(/&#0?39;/g, "'")      // Apostrophe (alternate encoding)
+        .replace(/&amp;/g, "&")        // Ampersand (must be last)
+        .replace(/&lt;/g, "<")         // Less than
+        .replace(/&gt;/g, ">")         // Greater than
+        .replace(/&nbsp;/g, " ");      // Non-breaking space
+}
+
+/**
+ * Clean category name from WooCommerce (decode entities + proper casing)
+ */
+export function cleanCategoryName(name: string, fallbackSlug?: string): string {
+    if (name) {
+        return decodeHtmlEntities(name);
+    }
+
+    // Fallback: convert slug to readable name
+    if (fallbackSlug) {
+        return fallbackSlug
+            .replace(/-/g, " ")
+            .replace(/\b\w/g, (c: string) => c.toUpperCase());
+    }
+
+    return name || "";
+}
+
+// ──────────────────────────────────────────────────────────────────────────
 // WooCommerce API Helpers
 // ──────────────────────────────────────────────────────────────────────────
 

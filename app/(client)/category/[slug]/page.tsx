@@ -6,6 +6,7 @@ import { generatePageMetadata } from "@/lib/seo-config";
 import StructuredData from "@/components/seo/StructuredData";
 import { getCollectionPageSchema, getBreadcrumbSchema } from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/config";
+import { cleanCategoryName, decodeHtmlEntities } from "@/lib/api-helpers";
 
 export const revalidate = 300; // 5 minutes
 
@@ -31,9 +32,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             return { title: "Category Not Found" };
         }
 
-        const label = category.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
-        const cleanDescription = category.description?.replace(/<[^>]+>/g, "") ||
-            `Shop ${label} collection at Missus. Discover premium women's fashion, contemporary styles, and trendsetting pieces with fast shipping across Nigeria.`;
+        const label = cleanCategoryName(category.name, slug);
+        let cleanDescription = decodeHtmlEntities(category.description?.replace(/<[^>]+>/g, "") || "");
+
+        if (!cleanDescription) {
+            cleanDescription = `Shop ${label} collection at Missus. Discover premium women's fashion, contemporary styles, and trendsetting pieces with fast shipping across Nigeria.`;
+        }
 
         return generatePageMetadata({
             title: `${label} Collection | Premium Women's Fashion`,
@@ -67,7 +71,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         const category = categories.find(c => c.slug === slug);
         if (!category) notFound();
 
-        const label = category.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+        const label = cleanCategoryName(category.name, slug);
 
         // Breadcrumb data
         const breadcrumbs = [
