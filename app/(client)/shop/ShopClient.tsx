@@ -53,7 +53,10 @@ export default function ShopClient() {
         if (f.onSale) params.set("on_sale", "true");
 
         fetch(`/api/products?${params}`)
-            .then((r) => r.json())
+            .then((r) => {
+                if (!r.ok) throw new Error(`Products request failed (${r.status})`);
+                return r.json();
+            })
             .then((data) => {
                 let results: StoreProduct[] = data.products ?? [];
 

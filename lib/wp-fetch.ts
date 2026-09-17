@@ -7,11 +7,13 @@
  *   empty result rather than a 500.
  */
 
-const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
-const WP_ORIGIN = "https://missusoutfits.com";
+import { API_ENDPOINTS, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
+
+const STORE_API = API_ENDPOINTS.woocommerce.store;
+const WP_ORIGIN = WP_HEADERS.Origin;
 
 // 4 s in dev, 12 s in production
-const TIMEOUT_MS = process.env.NODE_ENV === "development" ? 4000 : 12000;
+const TIMEOUT_MS = WP_FETCH_TIMEOUT;
 
 export { STORE_API, WP_ORIGIN };
 
@@ -38,11 +40,7 @@ export async function storeFetch<T>(
 ): Promise<T | null> {
     const res = await wpFetch(`${STORE_API}${path}`, {
         next: { revalidate },
-        headers: {
-            "Content-Type": "application/json",
-            Referer: WP_ORIGIN,
-            Origin: WP_ORIGIN,
-        },
+        headers: WP_HEADERS,
     });
     if (!res || !res.ok) return null;
     try {
