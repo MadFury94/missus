@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import Navbar from "@/components/layout/Navbar";
 import CategoryNav from "@/components/layout/CategoryNav";
+import HeaderSearchBar from "@/components/layout/HeaderSearchBar";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import { CurrencyProvider } from "@/lib/currency";
@@ -12,7 +13,7 @@ import { CurrencyProvider } from "@/lib/currency";
 const ANN_H = 34;   // AnnouncementBar
 const NAV_H = 52;   // Navbar
 const CAT_H = 41;   // CategoryNav
-const TOTAL_H = ANN_H + NAV_H + CAT_H; // 127px
+const MOBILE_SEARCH_H = 56; // HeaderSearchBar (mobile only)
 
 export default function ClientShell({ children, announcement }: { children: React.ReactNode; announcement?: string }) {
     const pathname = usePathname();
@@ -49,6 +50,8 @@ export default function ClientShell({ children, announcement }: { children: Reac
     }
 
     const annH = annVisible ? ANN_H : 0;
+    // Desktop: no mobile search bar height
+    // Mobile: add mobile search bar height (handled by CSS)
     const solidHeaderH = annH + NAV_H + CAT_H;
 
     return (
@@ -66,15 +69,27 @@ export default function ClientShell({ children, announcement }: { children: Reac
 
                 {/* 3. Category nav — solid white, always visible on desktop */}
                 <CategoryNav />
+
+                {/* 4. Full-width search bar */}
+                <HeaderSearchBar />
             </div>
 
             {/*
                 Page content spacer:
                 - On homepage: hero sits under the transparent header, no spacer needed
                 - On all other pages: push content below the solid header
+                - Mobile gets additional space for search bar
             */}
-            {!isHome && <div style={{ height: `${solidHeaderH}px` }} />}
+            {!isHome && <div style={{ height: `${solidHeaderH}px` }} className="page-spacer" />}
             {isHome && <div style={{ height: `${annH}px` }} />}
+
+            <style>{`
+                @media (max-width: 768px) {
+                    .page-spacer {
+                        height: ${solidHeaderH + MOBILE_SEARCH_H}px !important;
+                    }
+                }
+            `}</style>
 
             <main style={{ flex: 1 }}>{children}</main>
             <Footer />

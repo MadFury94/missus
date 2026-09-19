@@ -326,9 +326,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
     return (
         <>
             <style>{`
-                .nav-gender { display: flex; align-items: center; }
                 .nav-search-desktop { display: flex; align-items: center; }
-                .nav-search-mobile { display: none; }
                 .nav-search-trigger {
                     display: flex; align-items: center; gap: 8px;
                     border: none; border-bottom: 1px solid ${transparent ? "rgba(255,255,255,.4)" : "#ccc"};
@@ -343,22 +341,8 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                 }
                 .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
                 .nav-hamburger:focus-visible { outline: 2px solid ${iconColor}; outline-offset: 2px; }
-                .gender-tab-link {
-                    font-family: var(--font-display, 'Cormorant', serif);
-                    font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-                    padding: 0 14px; height: 52px; display: flex; align-items: center;
-                    border-bottom: 2px solid transparent;
-                    color: ${transparent ? "rgba(255,255,255,.9)" : "#555"};
-                    white-space: nowrap; transition: border-color .15s, color .3s;
-                }
-                .gender-tab-link:hover { border-bottom-color: ${transparent ? "#fff" : "#000"}; color: ${transparent ? "#fff" : "#000"}; }
-                .nav-icon-link:focus-visible { outline: 2px solid ${iconColor}; outline-offset: 2px; border-radius: 2px; }
                 @media (max-width: 768px) {
-                    .nav-gender { display: none; }
-                    .nav-search-desktop { display: flex; align-items: center; }
-                    .nav-search-mobile { display: flex; align-items: center; }
-                    .nav-search-trigger { border: none; padding: 4px; width: auto; max-width: none; }
-                    .nav-search-trigger span { display: none; }
+                    .nav-search-desktop { display: none; }
                     .nav-hamburger { display: flex; align-items: center; justify-content: center; }
                     .currency-btn-desktop { display: none !important; }
                     .navbar-container { padding: 0 12px !important; }
