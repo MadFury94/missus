@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import AdminLayout, { ABtn, APanel } from "@/components/admin/AdminLayout";
@@ -23,6 +23,39 @@ function Field({ label, value, onChange, multiline }: { label: string; value: st
             }
         </label>
     );
+}
+
+function ImageField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [uploading, setUploading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const upload = async (file: File) => {
+        setUploading(true); setError(null);
+        try {
+            const user = getCurrentUser();
+            const form = new FormData();
+            form.append("file", file);
+            const response = await fetch("/api/admin/media", {
+                method: "POST",
+                headers: user?.token ? { Authorization: `Bearer ${user.token}` } : {},
+                body: form,
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || "Upload failed.");
+            onChange(data.url);
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : "Upload failed.");
+        } finally { setUploading(false); }
+    };
+    return <div style={{ marginBottom: "12px" }}>
+        <span style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "var(--stone)", marginBottom: "4px", letterSpacing: ".03em", fontFamily: T.sans }}>{label}</span>
+        <div style={{ display: "flex", gap: "6px" }}>
+            <input value={value} onChange={(e) => onChange(e.target.value)} style={{ flex: 1, minWidth: 0, border: "1px solid var(--sand-deep)", borderRadius: "var(--admin-radius)", padding: "7px 10px", fontSize: "13px", fontFamily: T.sans, background: "var(--paper-raised)", color: "var(--ink)" }} />
+            <button type="button" disabled={uploading} onClick={() => inputRef.current?.click()} style={{ whiteSpace: "nowrap", padding: "6px 10px", border: "1px solid var(--sand-deep)", borderRadius: "var(--admin-radius)", background: "var(--paper)", cursor: uploading ? "wait" : "pointer", fontSize: "11px" }}>{uploading ? "Uploading…" : "Upload"}</button>
+            <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden onChange={(e) => { const file = e.target.files?.[0]; if (file) void upload(file); e.currentTarget.value = ""; }} />
+        </div>
+        {error && <span role="alert" style={{ display: "block", color: "#a00", fontSize: "11px", marginTop: "3px" }}>{error}</span>}
+    </div>;
 }
 
 function SectionBox({ title, children }: { title: string; children: React.ReactNode }) {
@@ -183,18 +216,29 @@ export default function HomepageContentPage() {
                                 )}
                             </div>
 
-                            {/* Image preview */}
-                            {slide.src && (
-                                <div style={{ marginBottom: "12px" }}>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={slide.src} alt="" style={{ height: "80px", width: "auto", objectFit: "cover", borderRadius: "3px", border: "1px solid var(--sand)" }} onError={(e) => (e.currentTarget.style.display = "none")} />
-                                </div>
-                            )}
+                            {/* Image previews */}
+                            <div style={{ display: "flex", gap: "16px", marginBottom: "12px" }}>
+                                {slide.src && (
+                                    <div style={{ flex: 1 }}>
+                                        <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--stone)", marginBottom: "4px", display: "block" }}>Desktop Preview</span>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={slide.src} alt="" style={{ height: "80px", width: "auto", objectFit: "cover", borderRadius: "3px", border: "1px solid var(--sand)" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                                    </div>
+                                )}
+                                {slide.mobileSrc && (
+                                    <div style={{ flex: 1 }}>
+                                        <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--stone)", marginBottom: "4px", display: "block" }}>Mobile Preview</span>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={slide.mobileSrc} alt="" style={{ height: "80px", width: "auto", objectFit: "cover", borderRadius: "3px", border: "1px solid var(--sand)" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                                    </div>
+                                )}
+                            </div>
 
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
-                                <Field label="Image URL or /path" value={slide.src} onChange={(v) => { const h = [...content.hero]; h[i] = { ...h[i], src: v }; update("hero", h); }} />
-                                <Field label="Label (small text above heading)" value={slide.label ?? ""} onChange={(v) => { const h = [...content.hero]; h[i] = { ...h[i], label: v }; update("hero", h); }} />
+                                <ImageField label="Desktop Image URL or /path" value={slide.src} onChange={(v) => { const h = [...content.hero]; h[i] = { ...h[i], src: v }; update("hero", h); }} />
+                                <ImageField label="Mobile Image URL or /path" value={slide.mobileSrc ?? ""} onChange={(v) => { const h = [...content.hero]; h[i] = { ...h[i], mobileSrc: v }; update("hero", h); }} />
                             </div>
+                            <Field label="Label (small text above heading)" value={slide.label ?? ""} onChange={(v) => { const h = [...content.hero]; h[i] = { ...h[i], label: v }; update("hero", h); }} />
                             <Field label="Heading (use \\n for line break, e.g. Fresh\\nFits.)" value={slide.heading} onChange={(v) => { const h = [...content.hero]; h[i] = { ...h[i], heading: v }; update("hero", h); }} />
                             <Field label="Sub-text" value={slide.sub} onChange={(v) => { const h = [...content.hero]; h[i] = { ...h[i], sub: v }; update("hero", h); }} multiline />
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
@@ -206,7 +250,7 @@ export default function HomepageContentPage() {
                         </div>
                     ))}
                     <button
-                        onClick={() => update("hero", [...content.hero, { src: "", label: "", heading: "New\nSlide.", sub: "", cta: { label: "Shop Now", href: "/shop" }, cta2: { label: "View All", href: "/shop" } }])}
+                        onClick={() => update("hero", [...content.hero, { src: "", mobileSrc: "", label: "", heading: "New\nSlide.", sub: "", cta: { label: "Shop Now", href: "/shop" }, cta2: { label: "View All", href: "/shop" } }])}
                         style={{ padding: "7px 16px", background: "var(--paper)", border: "1px solid var(--sand-deep)", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
                     >
                         + Add Slide
@@ -224,7 +268,7 @@ export default function HomepageContentPage() {
                                 )}
                                 <div style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: "0 12px", alignItems: "end" }}>
                                     <Field label="Card title" value={card.title} onChange={(v) => { const c = [...content.styleRadar]; c[i] = { ...c[i], title: v }; update("styleRadar", c); }} />
-                                    <Field label="Image URL" value={card.img} onChange={(v) => { const c = [...content.styleRadar]; c[i] = { ...c[i], img: v }; update("styleRadar", c); }} />
+                                    <ImageField label="Image URL" value={card.img} onChange={(v) => { const c = [...content.styleRadar]; c[i] = { ...c[i], img: v }; update("styleRadar", c); }} />
                                     <Field label="Link href" value={card.href} onChange={(v) => { const c = [...content.styleRadar]; c[i] = { ...c[i], href: v }; update("styleRadar", c); }} />
                                     <button
                                         onClick={() => update("styleRadar", content.styleRadar.filter((_, j) => j !== i))}
@@ -239,6 +283,60 @@ export default function HomepageContentPage() {
                         style={{ padding: "7px 16px", background: "var(--paper)", border: "1px solid var(--sand-deep)", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
                     >
                         + Add Card
+                    </button>
+                </SectionBox>
+
+                {/* ── Category Images ── */}
+                <SectionBox title="Category Images (Shop By Category Section)">
+                    {/* Feature Category */}
+                    <div style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "16px", marginBottom: "16px", background: "var(--paper)" }}>
+                        <div style={{ marginBottom: "12px" }}>
+                            <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)" }}>Feature Category (Large Left Card)</span>
+                        </div>
+
+                        {/* Image preview */}
+                        {content.categories.feature.img && (
+                            <div style={{ marginBottom: "12px" }}>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={content.categories.feature.img} alt="" style={{ height: "100px", width: "auto", objectFit: "cover", borderRadius: "3px", border: "1px solid var(--sand)" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                            </div>
+                        )}
+
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0 16px" }}>
+                            <Field label="Label" value={content.categories.feature.label} onChange={(v) => update("categories", { ...content.categories, feature: { ...content.categories.feature, label: v } })} />
+                            <Field label="Link" value={content.categories.feature.href} onChange={(v) => update("categories", { ...content.categories, feature: { ...content.categories.feature, href: v } })} />
+                            <ImageField label="Image URL" value={content.categories.feature.img} onChange={(v) => update("categories", { ...content.categories, feature: { ...content.categories.feature, img: v } })} />
+                        </div>
+                    </div>
+
+                    {/* Grid Categories */}
+                    <div style={{ marginBottom: "12px" }}>
+                        <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)" }}>Grid Categories (4 Right Cards)</span>
+                    </div>
+                    {content.categories.grid.map((cat, i) => (
+                        <div key={i} style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "12px", marginBottom: "10px", background: "var(--paper)" }}>
+                            <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+                                {cat.img && (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img src={cat.img} alt="" style={{ width: "48px", height: "64px", objectFit: "cover", borderRadius: "3px", flexShrink: 0 }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                                )}
+                                <div style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: "0 12px", alignItems: "end" }}>
+                                    <Field label={`Category ${i + 1} Label`} value={cat.label} onChange={(v) => { const grid = [...content.categories.grid]; grid[i] = { ...grid[i], label: v }; update("categories", { ...content.categories, grid }); }} />
+                                    <Field label="Link" value={cat.href} onChange={(v) => { const grid = [...content.categories.grid]; grid[i] = { ...grid[i], href: v }; update("categories", { ...content.categories, grid }); }} />
+                                    <ImageField label="Image URL" value={cat.img} onChange={(v) => { const grid = [...content.categories.grid]; grid[i] = { ...grid[i], img: v }; update("categories", { ...content.categories, grid }); }} />
+                                    <button
+                                        onClick={() => update("categories", { ...content.categories, grid: content.categories.grid.filter((_, j) => j !== i) })}
+                                        style={{ padding: "7px 10px", background: "#fff", border: "1px solid var(--rust)", borderRadius: "3px", fontSize: "11px", color: "var(--rust)", cursor: "pointer", marginBottom: "12px", whiteSpace: "nowrap" }}
+                                    >✕ Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <button
+                        onClick={() => update("categories", { ...content.categories, grid: [...content.categories.grid, { label: "New Category", href: "/shop", img: "" }] })}
+                        style={{ padding: "7px 16px", background: "var(--paper)", border: "1px solid var(--sand-deep)", borderRadius: "3px", fontSize: "12px", cursor: "pointer" }}
+                    >
+                        + Add Category
                     </button>
                 </SectionBox>
 

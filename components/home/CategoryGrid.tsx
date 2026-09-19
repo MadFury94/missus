@@ -1,39 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getProductImageUrl, getCategoryImageUrl } from "@/lib/api-helpers";
 
 // 5 categories total — matches FashionNova's layout exactly
 // Desktop: 1 tall feature left (spans 2 rows) + 2×2 grid right
 // Mobile:  feature full-width top, then 2+2 in two rows below
-
-const FEATURE = {
-    label: "Dresses",
-    href: "/category/dresses",
-    img: getProductImageUrl("Product-Photos-Your-Story-8.png"),
-};
-
-const GRID = [
-    {
-        label: "Matching Sets",
-        href: "/category/matching-sets",
-        img: getProductImageUrl("Product-Photos-Your-Story-27.png"),
-    },
-    {
-        label: "Bottoms",
-        href: "/category/bottoms",
-        img: getProductImageUrl("Product-Photos-Your-Story-22.png"),
-    },
-    {
-        label: "Tops",
-        href: "/category/tops",
-        img: getProductImageUrl("Product-Photos-Your-Story-17.png"),
-    },
-    {
-        label: "Athleisure & Loungewear",
-        href: "/category/athleisure-loungewear",
-        img: getCategoryImageUrl("Product-Photos-88.jpeg"),
-    },
-];
 
 const overlay: React.CSSProperties = {
     position: "absolute", inset: 0,
@@ -69,7 +39,12 @@ function CatCard({ cat, className, sizes }: {
     );
 }
 
-export default function CategoryGrid() {
+export default function CategoryGrid({ categories }: {
+    categories: {
+        feature: { label: string; href: string; img: string };
+        grid: { label: string; href: string; img: string }[];
+    };
+}) {
     return (
         <section style={{ padding: "0 0 32px" }}>
             <div style={{ padding: "36px 20px 16px" }}>
@@ -85,10 +60,10 @@ export default function CategoryGrid() {
 
             <div className="shopcat-grid">
                 {/* Feature — tall left card */}
-                <CatCard cat={FEATURE} className="shopcat-feature" sizes="(max-width: 768px) 100vw, 38vw" />
+                <CatCard cat={categories.feature} className="shopcat-feature" sizes="(max-width: 768px) 100vw, 38vw" />
 
                 {/* 4 right-side cards */}
-                {GRID.map((cat, i) => (
+                {categories.grid.map((cat, i) => (
                     <CatCard key={cat.label} cat={cat} className={`shopcat-right shopcat-right-${i}`}
                         sizes="(max-width: 768px) 50vw, 31vw" />
                 ))}

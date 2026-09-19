@@ -10,7 +10,9 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "email and amount required" }, { status: 400 });
         }
         const shipping = metadata?.shipping;
-        if (!shipping || !Array.isArray(metadata.cart) || !metadata.cart.length || !metadata.selectedRate) {
+        const cart = metadata?.cart;
+        const virtualOnly = Array.isArray(cart) && cart.length > 0 && cart.every((item: { slug?: string; name?: string }) => item.slug === "gift-card" || /gift\s*(card|voucher|certificate)/i.test(item.name || ""));
+        if (!shipping || !Array.isArray(cart) || !cart.length || !metadata.selectedRate) {
             return NextResponse.json({ error: "Choose a shipping method before paying." }, { status: 400 });
         }
         try {
@@ -18,11 +20,13 @@ export async function POST(req: NextRequest) {
         } catch {
             return NextResponse.json({ error: "Your discount no longer applies to these items. Please reapply your code." }, { status: 409 });
         }
-        const rates = await getWooCommerceShippingRates({
+        const rates = virtualOnly ? [] : await getWooCommerceShippingRates({
             address_1: shipping.address, city: shipping.city, state: shipping.state,
             postcode: shipping.postalCode || "", country: shipping.country || "NG",
-        }, metadata.cart, metadata.giftCardCode ? "" : metadata.promoCode || "");
-        const rate = rates.find(rate => rate.rate_id === metadata.selectedRate.rate_id);
+        }, cart, metadata.giftCardCode ? "" : metadata.promoCode || "");
+        const rate = virtualOnly && metadata.selectedRate.rate_id === "virtual_no_shipping"
+            ? metadata.selectedRate
+            : rates.find(rate => rate.rate_id === metadata.selectedRate.rate_id);
         if (!rate || rate.amount !== metadata.selectedRate.amount) {
             return NextResponse.json({ error: "Shipping options have changed. Please select a current shipping method." }, { status: 409 });
         }

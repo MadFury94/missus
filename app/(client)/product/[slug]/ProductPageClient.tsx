@@ -14,6 +14,9 @@ import { useCurrency } from "@/lib/currency";
 import { normalizeStockStatus, stockStatusLabel } from "@/lib/stock-status";
 import { decodeHtmlEntities } from "@/lib/api-helpers";
 
+const GIFT_CARD_MIN = 10000;
+const GIFT_CARD_MAX = 150000;
+
 function AccordionItem({ title, content }: { title: string; content: string }) {
     const [open, setOpen] = useState(false);
     return (
@@ -91,6 +94,9 @@ export default function ProductPageClient({ params, product, related }: {
     const [isWished, setIsWished] = useState(false);
     const [wishlistError, setWishlistError] = useState("");
     const [stickyVisible, setStickyVisible] = useState(false);
+    const isGiftCard = product.slug === "gift-card" || product.type === "gift-card" || /gift\s*(card|voucher|certificate)/i.test(product.name);
+    const [giftAmount, setGiftAmount] = useState(25000);
+    const [giftAmountInput, setGiftAmountInput] = useState("");
     const addToBagRef = useRef<HTMLDivElement>(null);
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
@@ -148,14 +154,17 @@ export default function ProductPageClient({ params, product, related }: {
     const selectionStock = stockForSelection(currentStock, selectedSize, selectedColor);
     // Catalogue stock is available on first render; fresh inventory can supersede it.
     const productStatus = normalizeStockStatus(product.stock_status, product.is_in_stock);
-    const soldOut = selectionStock !== null ? !selectionStock.available : productStatus === "outofstock";
+    const soldOut = !isGiftCard && (selectionStock !== null ? !selectionStock.available : productStatus === "outofstock");
+    const selectedGiftAmount = giftAmountInput ? Number(giftAmountInput) : giftAmount;
+    const validGiftAmount = !isGiftCard || (Number.isInteger(selectedGiftAmount) && selectedGiftAmount >= GIFT_CARD_MIN && selectedGiftAmount <= GIFT_CARD_MAX);
     const handleAddToCart = async () => {
         if (soldOut) {
             document.getElementById("restock-signup")?.scrollIntoView({ behavior: "smooth", block: "center" });
             return;
         }
-        if (stockLoading) return;
+        if (stockLoading && !isGiftCard) return;
         if (adding) return;
+        if (!validGiftAmount) return;
         if (sizes.length > 0 && !selectedSize) {
             // Scroll to size section instead of alert
             document.getElementById("size-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -165,10 +174,10 @@ export default function ProductPageClient({ params, product, related }: {
         const item = {
             productId: product.id,
             variationId: stock?.variable ? selectionStock?.id : undefined,
-            name: product.name,
+            name: isGiftCard ? `${product.name} — ₦${selectedGiftAmount.toLocaleString("en-NG")}` : product.name,
             slug: product.slug,
-            price: toNaira(product.prices.price),
-            regularPrice: toNaira(product.prices.regular_price),
+            price: isGiftCard ? selectedGiftAmount : toNaira(product.prices.price),
+            regularPrice: isGiftCard ? selectedGiftAmount : toNaira(product.prices.regular_price),
             image: product.images[0]?.src || "",
             size: selectedSize || undefined,
             color: selectedColor || undefined,
@@ -359,7 +368,7 @@ export default function ProductPageClient({ params, product, related }: {
                     {/* Price */}
                     <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "16px", flexWrap: "wrap" }}>
                         <span style={{ fontSize: "22px", fontWeight: 700, color: isOnSale ? "#e8002d" : "#000", letterSpacing: "-.01em" }}>
-                            {convert(toNaira(product.prices.price))}
+                            {isGiftCard ? convert(selectedGiftAmount) : convert(toNaira(product.prices.price))}
                         </span>
                         {isOnSale && (
                             <span style={{ fontSize: "15px", fontWeight: 400, color: "#bbb", textDecoration: "line-through" }}>
@@ -367,6 +376,25 @@ export default function ProductPageClient({ params, product, related }: {
                             </span>
                         )}
                     </div>
+
+                    {isGiftCard && (
+                        <div style={{ marginBottom: "20px", padding: "16px", border: "1px solid #e8e8e8", borderRadius: "6px", background: "#fff" }}>
+                            <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: "10px" }}>Select amount</p>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "7px", marginBottom: "12px" }}>
+                                {[10000, 25000, 50000, 100000, 150000].map((value) => (
+                                    <button key={value} type="button" onClick={() => { setGiftAmount(value); setGiftAmountInput(""); }} style={{ padding: "9px 12px", border: `1px solid ${!giftAmountInput && giftAmount === value ? "#7F0E12" : "#ddd"}`, background: !giftAmountInput && giftAmount === value ? "#fff7f7" : "#fff", borderRadius: "4px", cursor: "pointer", fontSize: "12px", fontWeight: 600 }}>
+                                        ₦{value.toLocaleString("en-NG")}
+                                    </button>
+                                ))}
+                            </div>
+                            <label style={{ display: "block", fontSize: "11px", color: "#555", marginBottom: "5px" }}>Choose another amount</label>
+                            <div style={{ display: "flex", alignItems: "center", border: "1px solid #ddd", borderRadius: "4px" }}>
+                                <span style={{ paddingLeft: "10px", color: "#555" }}>₦</span>
+                                <input inputMode="numeric" value={giftAmountInput} onChange={(e) => setGiftAmountInput(e.target.value.replace(/[^0-9]/g, ""))} placeholder="10,000 – 150,000" style={{ width: "100%", border: 0, padding: "9px 7px", outline: "none", fontSize: "13px" }} />
+                            </div>
+                            {!validGiftAmount && <p role="alert" style={{ color: "#7F0E12", fontSize: "11px", margin: "6px 0 0" }}>Enter an amount between ₦10,000 and ₦150,000.</p>}
+                        </div>
+                    )}
 
                     {/* Stars */}
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
@@ -423,7 +451,7 @@ export default function ProductPageClient({ params, product, related }: {
                     )}
 
                     {soldOut && <p role="status" style={{ fontSize: "12px", marginBottom: "12px" }}>Out of stock</p>}
-                    {stockLoading && !soldOut && <p role="status" style={{ fontSize: "12px", marginBottom: "12px" }}>Checking availability...</p>}
+                    {stockLoading && !isGiftCard && !soldOut && <p role="status" style={{ fontSize: "12px", marginBottom: "12px" }}>Checking availability...</p>}
                     {stockError && !soldOut && <p role="alert" style={{ fontSize: "12px", marginBottom: "12px" }}>{stockError}</p>}
 
                     {/* Show inline restock signup when out of stock */}
@@ -499,7 +527,7 @@ export default function ProductPageClient({ params, product, related }: {
                         {/* Pill Add to Bag */}
                         <button
                             onClick={handleAddToCart}
-                            disabled={adding || (stockLoading && !soldOut)}
+                            disabled={adding || (stockLoading && !isGiftCard && !soldOut)}
                             style={{
                                 width: "100%",
                                 padding: "16px 24px",
@@ -511,12 +539,12 @@ export default function ProductPageClient({ params, product, related }: {
                                 fontWeight: 600,
                                 letterSpacing: ".08em",
                                 textTransform: "uppercase",
-                                cursor: adding || (stockLoading && !soldOut) ? "not-allowed" : "pointer",
+                                cursor: adding || (stockLoading && !isGiftCard && !soldOut) ? "not-allowed" : "pointer",
                                 transition: "background .3s",
                                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                             }}
                         >
-                            {soldOut ? "OUT OF STOCK - NOTIFY ME" : stockLoading ? "Checking availability..." : added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
+                            {soldOut ? "OUT OF STOCK - NOTIFY ME" : stockLoading && !isGiftCard ? "Checking availability..." : added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
                         </button>
                     </div>
 
@@ -681,7 +709,7 @@ export default function ProductPageClient({ params, product, related }: {
                         {decodeHtmlEntities(product.name)}
                     </p>
                     <p style={{ fontSize: "12px", color: "#888", marginTop: "2px" }}>
-                        {convert(toNaira(product.prices.price))}
+                        {isGiftCard ? convert(selectedGiftAmount) : convert(toNaira(product.prices.price))}
                         {selectedSize ? ` · ${selectedSize}` : ""}
                         {selectedColor ? ` · ${selectedColor}` : ""}
                     </p>
@@ -697,7 +725,7 @@ export default function ProductPageClient({ params, product, related }: {
                                 handleAddToCart();
                             }
                         }}
-                        disabled={adding || stockLoading}
+                        disabled={adding || (stockLoading && !isGiftCard)}
                         style={{
                             flexShrink: 0,
                             padding: "14px 22px",
@@ -717,7 +745,7 @@ export default function ProductPageClient({ params, product, related }: {
                             textAlign: "center",
                         }}
                     >
-                        {stockLoading ? "Checking availability..." : added ? "✓ Added" : adding ? "Adding…" : (sizes.length > 0 && !selectedSize) ? "Select Size" : "Add to Bag"}
+                        {stockLoading && !isGiftCard ? "Checking availability..." : added ? "✓ Added" : adding ? "Adding…" : (sizes.length > 0 && !selectedSize) ? "Select Size" : "Add to Bag"}
                     </button>
                 )}
             </div>

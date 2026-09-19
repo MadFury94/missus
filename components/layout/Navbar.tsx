@@ -380,13 +380,13 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                             aria-expanded={mobileOpen}
                             aria-controls="mobile-menu"
                         >
-                            <Menu size={22} color={iconColor} />
+                            <Menu size={24} color={iconColor} />
                         </button>
 
                         {/* Search Bar — desktop only */}
                         <div className="nav-search-desktop" style={{ display: "flex", alignItems: "center" }}>
                             <button className="nav-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Open search" aria-haspopup="dialog">
-                                <Search size={17} color={transparent ? "rgba(255,255,255,.6)" : "#999"} />
+                                <Search size={20} color={transparent ? "rgba(255,255,255,.6)" : "#999"} />
                                 <span>Search</span>
                             </button>
                         </div>
@@ -404,12 +404,12 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         {/* Account */}
                         {/* Account */}
                         <Link href="/account" className="nav-icon-link" style={{ color: iconColor, display: "flex", alignItems: "center", textDecoration: "none", transition: "color .3s" }}>
-                            <User size={17} />
+                            <User size={22} />
                         </Link>
 
                         {/* Wishlist */}
                         <Link href="/wishlist" className="nav-icon-link" style={{ color: iconColor, display: "flex", alignItems: "center", position: "relative", textDecoration: "none", transition: "color .3s" }} aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ""}`}>
-                            <Heart size={17} />
+                            <Heart size={22} />
                             {wishlistCount > 0 && (
                                 <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-6px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{wishlistCount}</span>
                             )}
@@ -417,7 +417,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
 
                         {/* Bag */}
                         <button onClick={onBagClick} className="nav-icon-link" aria-label={`Shopping bag${bagCount > 0 ? `, ${bagCount} items` : ""}`} style={{ display: "flex", alignItems: "center", position: "relative", background: "none", border: "none", cursor: "pointer", padding: 0, color: iconColor, transition: "color .3s" }}>
-                            <img src="/bag-svgrepo-com.svg" alt="" aria-hidden="true" width={18} height={18} style={{ display: "block", filter: transparent ? "brightness(0) invert(1)" : "none" }} />
+                            <img src="/bag-svgrepo-com.svg" alt="" aria-hidden="true" width={22} height={22} style={{ display: "block", filter: transparent ? "brightness(0) invert(1)" : "none" }} />
                             {bagCount > 0 && (
                                 <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-6px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{bagCount}</span>
                             )}

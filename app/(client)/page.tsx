@@ -48,7 +48,7 @@ export default async function HomePage() {
       <TrendReportCards cards={content.styleRadar} />
       <VideoSection />
       <GiftShopBanner />
-      <CategoryGrid />
+      <CategoryGrid categories={content.categories} />
       <WideBanner />
       <NewInSection />
       <ReviewsSection />

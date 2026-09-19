@@ -131,7 +131,7 @@ export default function Footer() {
                             <img
                                 src="/missus-logo.webp"
                                 alt="Missus"
-                                style={{ height: "39px", width: "auto", filter: "brightness(0) invert(1)" }}
+                                style={{ height: "56px", width: "auto", filter: "brightness(0) invert(1)" }}
                             />
                         </div>
                         <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>

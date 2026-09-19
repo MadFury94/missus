@@ -56,6 +56,7 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
         marquee: jsonField(acf.hp_marquee, HOMEPAGE_DEFAULTS.marquee),
         hero: jsonField(acf.hp_hero, HOMEPAGE_DEFAULTS.hero),
         styleRadar: jsonField(acf.hp_style_radar, HOMEPAGE_DEFAULTS.styleRadar),
+        categories: jsonField(acf.hp_categories, HOMEPAGE_DEFAULTS.categories),
         newsletter: {
             heading: text("hp_nl_heading", HOMEPAGE_DEFAULTS.newsletter.heading),
             sub: text("hp_nl_sub", HOMEPAGE_DEFAULTS.newsletter.sub),
@@ -76,6 +77,7 @@ export async function saveHomepageContent(content: HomepageContent): Promise<voi
         hp_marquee: JSON.stringify(content.marquee),
         hp_hero: JSON.stringify(content.hero),
         hp_style_radar: JSON.stringify(content.styleRadar),
+        hp_categories: JSON.stringify(content.categories),
         hp_nl_heading: content.newsletter.heading,
         hp_nl_sub: content.newsletter.sub,
     };

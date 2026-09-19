@@ -21,6 +21,8 @@ function shippingLabel(text: string) {
     return text.replace(/\b(?:business\s+)?days\b/gi, "Business Days");
 }
 
+const NO_SHIPPING_RATE: ShippingRate = { rate_id: "virtual_no_shipping", carrier_name: "No shipping required", amount: 0, currency: "NGN", delivery_time: "", method_id: "virtual", instance_id: 0 };
+
 function PaymentCardLogos() {
     return (
         <div
@@ -50,6 +52,7 @@ const STATES = [
 export default function CheckoutPage() {
     const { convert } = useCurrency();
     const [cart, setCart] = useState<Cart>({ items: [], subtotal: 0, total: 0 });
+    const isVirtualOnlyCart = cart.items.length > 0 && cart.items.every(item => item.slug === "gift-card" || /gift\s*(card|voucher|certificate)/i.test(item.name));
     const [stockChecking, setStockChecking] = useState(true);
     const [stockError, setStockError] = useState("");
     const [removedItems, setRemovedItems] = useState<CartItem[]>([]);
@@ -135,6 +138,12 @@ export default function CheckoutPage() {
         setRates([]);
         setSelectedRate(null);
         setRatesError("");
+        if (isVirtualOnlyCart) {
+            setRates([NO_SHIPPING_RATE]);
+            setSelectedRate(NO_SHIPPING_RATE);
+            setRatesLoading(false);
+            return;
+        }
         if (!form.city.trim() || !form.state.trim() || !cart.items.length) {
             setRatesLoading(false);
             return;
@@ -165,7 +174,7 @@ export default function CheckoutPage() {
             }
         }, 600);
         return () => { clearTimeout(timer); controller.abort(); };
-    }, [cart.items, form.city, form.state, form.address, form.postalCode, form.country, promoCode, promoType, ratesRetry]);
+    }, [cart.items, isVirtualOnlyCart, form.city, form.state, form.address, form.postalCode, form.country, promoCode, promoType, ratesRetry]);
 
     useEffect(() => {
         if (!promoCode) { setPromoLoading(false); return; }
@@ -371,7 +380,7 @@ export default function CheckoutPage() {
                         {/* Header with security indicator */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "8px 0" }}>
-                                <span style={{ position: "relative", display: "block", width: "100px", height: "32px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="100px" style={{ objectFit: "contain" }} /></span>
+                                <span style={{ position: "relative", display: "block", width: "130px", height: "42px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="130px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                                 {/* Security indicator */}
@@ -449,8 +458,8 @@ export default function CheckoutPage() {
                                                     {item.quantity}
                                                 </div>
                                                 <div style={{ flex: 1 }}>
-                                            <p style={{ fontSize: "14px", fontWeight: 500, color: "#000", marginBottom: "4px" }}>{item.name}</p>
-                                            {(item.isOnBackorder || item.stockStatus === "onbackorder") && <p style={{ fontSize: "11px", color: "#8a5a00", marginBottom: "4px" }}>Available on Backorder</p>}
+                                                    <p style={{ fontSize: "14px", fontWeight: 500, color: "#000", marginBottom: "4px" }}>{item.name}</p>
+                                                    {(item.isOnBackorder || item.stockStatus === "onbackorder") && <p style={{ fontSize: "11px", color: "#8a5a00", marginBottom: "4px" }}>Available on Backorder</p>}
                                                     {item.size && <p style={{ fontSize: "12px", color: "#666", marginBottom: "4px" }}>Size: {item.size}</p>}
                                                     <p style={{ fontSize: "14px", fontWeight: 600, color: "#000" }}>{convert(item.price * item.quantity)}</p>
                                                 </div>
@@ -519,7 +528,7 @@ export default function CheckoutPage() {
                         {/* Header row */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "12px 0" }}>
-                                <span style={{ position: "relative", display: "block", width: "120px", height: "40px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="120px" style={{ objectFit: "contain" }} /></span>
+                                <span style={{ position: "relative", display: "block", width: "150px", height: "48px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="150px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                                 {/* Security indicator */}
@@ -785,7 +794,7 @@ export default function CheckoutPage() {
                                             name="address"
                                             value={form.address}
                                             onChange={handleChange}
-                                            required
+                                            required={!isVirtualOnlyCart}
                                             style={{
                                                 width: "100%",
                                                 border: "2px solid #e5e5e5",
@@ -870,7 +879,7 @@ export default function CheckoutPage() {
                                             name="city"
                                             value={form.city}
                                             onChange={handleChange}
-                                            required
+                                            required={!isVirtualOnlyCart}
                                             style={{
                                                 width: "100%",
                                                 border: "2px solid #e5e5e5",
@@ -913,7 +922,7 @@ export default function CheckoutPage() {
                                                 name="state"
                                                 value={form.state}
                                                 onChange={handleChange}
-                                                required
+                                                required={!isVirtualOnlyCart}
                                                 style={{
                                                     width: "100%",
                                                     border: "2px solid #e5e5e5",
@@ -1037,7 +1046,7 @@ export default function CheckoutPage() {
                                 </div>
 
                                 {/* Shipping Method */}
-                                <div id="shipping-section" style={{ marginBottom: "24px" }}>
+                                {isVirtualOnlyCart ? <div style={{ marginBottom: "24px", padding: "16px", background: "#f7f7f7", borderRadius: "6px", color: "#555", fontSize: "14px" }}>This gift card is digital. No shipping is required.</div> : <div id="shipping-section" style={{ marginBottom: "24px" }}>
                                     <h2 style={{ fontSize: "18px", fontWeight: 600, color: "#000", marginBottom: "16px" }}>Shipping method</h2>
 
                                     {!form.city || !form.state ? (
@@ -1092,7 +1101,7 @@ export default function CheckoutPage() {
                                             })}
                                         </div>
                                     )}
-                                </div>
+                                </div>}
                                 {/* Payment */}
                                 <div style={{ marginBottom: "24px" }}>
                                     <h2 style={{ fontSize: "18px", fontWeight: 600, color: "#000", marginBottom: "16px" }}>Payment</h2>
@@ -1455,7 +1464,7 @@ export default function CheckoutPage() {
                                             name="address"
                                             value={form.address}
                                             onChange={handleChange}
-                                            required
+                                            required={!isVirtualOnlyCart}
                                             style={{
                                                 width: "100%",
                                                 border: "2px solid #e5e5e5",
@@ -1540,7 +1549,7 @@ export default function CheckoutPage() {
                                             name="city"
                                             value={form.city}
                                             onChange={handleChange}
-                                            required
+                                            required={!isVirtualOnlyCart}
                                             style={{
                                                 width: "100%",
                                                 border: "2px solid #e5e5e5",
@@ -1584,7 +1593,7 @@ export default function CheckoutPage() {
                                                 name="state"
                                                 value={form.state}
                                                 onChange={handleChange}
-                                                required
+                                                required={!isVirtualOnlyCart}
                                                 style={{
                                                     width: "100%",
                                                     border: "2px solid #e5e5e5",
@@ -1674,7 +1683,7 @@ export default function CheckoutPage() {
                                             type="tel"
                                             value={form.phone}
                                             onChange={handleChange}
-                                            required
+                                                required
                                             style={{
                                                 width: "100%",
                                                 border: "2px solid #e5e5e5",
@@ -1708,7 +1717,7 @@ export default function CheckoutPage() {
                                 </div>
 
                                 {/* Shipping Method */}
-                                <div id="shipping-section-desktop" style={{ marginBottom: "32px" }}>
+                                {isVirtualOnlyCart ? <div style={{ marginBottom: "32px", padding: "20px", background: "#f7f7f7", borderRadius: "8px", color: "#555", fontSize: "16px" }}>This gift card is digital. No shipping is required.</div> : <div id="shipping-section-desktop" style={{ marginBottom: "32px" }}>
                                     <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "20px" }}>Shipping method</h2>
 
                                     {!form.city || !form.state ? (
@@ -1764,7 +1773,7 @@ export default function CheckoutPage() {
                                             })}
                                         </div>
                                     )}
-                                </div>
+                                </div>}
 
                                 {/* Payment */}
                                 <div style={{ marginBottom: "32px" }}>

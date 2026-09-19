@@ -68,7 +68,7 @@ export default function UserLoginPage() {
 
                 <Link href="/" style={{ position: "relative", zIndex: 1, textDecoration: "none", display: "block" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/missus-logo.webp" alt="Missus" style={{ height: "39px", width: "auto", filter: "brightness(0) invert(1)" }} />
+                    <img src="/missus-logo.webp" alt="Missus" style={{ height: "56px", width: "auto", filter: "brightness(0) invert(1)" }} />
                 </Link>
 
                 <div style={{ position: "relative", zIndex: 1 }}>
@@ -102,7 +102,7 @@ export default function UserLoginPage() {
                     <div className="login-mobile-logo" style={{ marginBottom: "28px" }}>
                         <Link href="/" style={{ display: "inline-block", textDecoration: "none" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src="/missus-logo.webp" alt="Missus" style={{ height: "34px", width: "auto" }} />
+                            <img src="/missus-logo.webp" alt="Missus" style={{ height: "48px", width: "auto" }} />
                         </Link>
                     </div>
 

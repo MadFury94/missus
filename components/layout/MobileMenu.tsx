@@ -91,7 +91,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                 }}>
                     <Link href="/" onClick={onClose}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src="/missus-logo.webp" alt="Missus" style={{ height: "42px", width: "auto" }} />
+                        <img src="/missus-logo.webp" alt="Missus" style={{ height: "56px", width: "auto" }} />
                     </Link>
                     <button
                         onClick={onClose}
@@ -118,7 +118,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                                 background: "#f8f8f8", cursor: "text", textAlign: "left",
                             }}
                         >
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
                                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
                             </svg>
                             <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif" }}>

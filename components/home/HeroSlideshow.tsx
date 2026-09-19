@@ -5,6 +5,7 @@ import Link from "next/link";
 
 interface Slide {
     src: string;
+    mobileSrc?: string;
     alt?: string;
     label?: string;
     heading: string;
@@ -16,6 +17,7 @@ interface Slide {
 const SLIDES: Slide[] = [
     {
         src: "/Desktop view 1.jpg",
+        mobileSrc: "/Mobile View 1.WEBP",
         alt: "Missus Collection",
         label: "The Edit",
         heading: "Made for\nHer.",
@@ -25,6 +27,7 @@ const SLIDES: Slide[] = [
     },
     {
         src: "/Desktop view 3.WEBP",
+        mobileSrc: "/Mobile View 2.WEBP",
         alt: "New Collection",
         label: "New Drops",
         heading: "Dress Like\nHer.",
@@ -34,6 +37,7 @@ const SLIDES: Slide[] = [
     },
     {
         src: "/Desktop view 2.WEBP",
+        mobileSrc: "/Mobile View 3.WEBP",
         alt: "Sale Collection",
         label: "MissusDeals",
         heading: "Up to\n60% Off.",
@@ -51,7 +55,16 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
     const [sliding, setSliding] = useState(false);
     const [direction, setDirection] = useState<"left" | "right">("left");
     const [paused, setPaused] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Detect mobile screen size
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     const goTo = useCallback((idx: number, dir?: "left" | "right") => {
         if (sliding || idx === current) return;
@@ -128,6 +141,9 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                     if (isPrev) animName = direction === "left" ? "slideOutToLeft" : "slideOutToRight";
                 }
 
+                // Use mobile image if available and on mobile, otherwise use desktop image
+                const imageSrc = (isMobile && s.mobileSrc) ? s.mobileSrc : s.src;
+
                 return (
                     <div
                         key={i}
@@ -141,7 +157,7 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                         }}
                     >
                         <Image
-                            src={s.src}
+                            src={imageSrc}
                             alt={s.alt || ""}
                             fill
                             style={{ objectFit: "cover", objectPosition: "center top" }}

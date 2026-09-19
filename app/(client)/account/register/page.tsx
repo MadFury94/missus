@@ -61,7 +61,7 @@ export default function RegisterPage() {
             <div style={{ display: "none", width: "45%", background: "#000", flexDirection: "column", justifyContent: "space-between", padding: "48px" }} className="lg-panel">
                 <Link href="/" style={{ textDecoration: "none", display: "block" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/missus-logo.webp" alt="Missus" style={{ height: "39px", width: "auto", filter: "brightness(0) invert(1)" }} />
+                    <img src="/missus-logo.webp" alt="Missus" style={{ height: "56px", width: "auto", filter: "brightness(0) invert(1)" }} />
                 </Link>
                 <div>
                     <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#7F0E12", marginBottom: "16px" }}>Join the Club</p>
