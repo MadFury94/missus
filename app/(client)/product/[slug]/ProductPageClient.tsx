@@ -17,6 +17,36 @@ import { decodeHtmlEntities } from "@/lib/api-helpers";
 const GIFT_CARD_MIN = 10000;
 const GIFT_CARD_MAX = 150000;
 
+/** Convert catalogue colour names into reliable CSS swatches. WooCommerce
+ * often uses fashion names ("Coffee", "White Beige", "Mocha") that are not
+ * valid CSS colours, so passing the label directly produces an invisible or
+ * misleading swatch. */
+function getColorSwatch(label: string): { background: string; light: boolean } {
+    const key = label.trim().toLowerCase().replace(/\s+/g, " ");
+    const swatches: Record<string, string> = {
+        black: "#111111", white: "#ffffff", ivory: "#fffff0", cream: "#fffdd0",
+        beige: "#f5f5dc", "white beige": "linear-gradient(135deg, #ffffff 0 48%, #f5f5dc 52% 100%)",
+        coffee: "#6f4e37", mocha: "#967969", chocolate: "#7b3f00", camel: "#c19a6b",
+        tan: "#d2b48c", brown: "#964b00", nude: "#e3bc9a", cognac: "#9a463d",
+        burgundy: "#800020", wine: "#722f37", maroon: "#800000", red: "#e53935",
+        pink: "#ffc0cb", rose: "#e8a0a8", mauve: "#c08081", purple: "#800080",
+        lilac: "#c8a2c8", lavender: "#e6e6fa", blue: "#2563eb", navy: "#000080",
+        denim: "#3f5f8f", teal: "#008080", green: "#228b22", olive: "#808000",
+        sage: "#9caf88", khaki: "#c3b091", orange: "#f97316", rust: "#b7410e",
+        yellow: "#facc15", gold: "#d4af37", silver: "#c0c0c0", gray: "#808080",
+        grey: "#808080", charcoal: "#36454f",
+    };
+    const exact = swatches[key];
+    if (exact) return { background: exact, light: /white|ivory|cream|beige|tan|nude|yellow|silver|gold/.test(key) };
+
+    // For compound labels, use the most meaningful colour token.
+    const token = key.split(/[\s/&-]+/).find((part) => swatches[part]);
+    if (token) return { background: swatches[token], light: /white|ivory|cream|beige|tan|nude|yellow|silver|gold/.test(token) };
+
+    // A neutral fallback is preferable to an invalid CSS background value.
+    return { background: "#d4d0cc", light: true };
+}
+
 function AccordionItem({ title, content }: { title: string; content: string }) {
     const [open, setOpen] = useState(false);
     return (
@@ -321,7 +351,7 @@ export default function ProductPageClient({ params, product, related }: {
                                 src={images[selectedImageIndex].src}
                                 alt={images[selectedImageIndex].alt || product.name}
                                 fill
-                                style={{ objectFit: "cover", objectPosition: "center 20%" }}
+                                style={{ objectFit: "contain", objectPosition: "center" }}
                                 loading={selectedImageIndex === 0 ? "eager" : "lazy"}
                                 sizes="(max-width: 900px) 100vw, 55vw"
                                 priority={selectedImageIndex === 0}
@@ -473,29 +503,7 @@ export default function ProductPageClient({ params, product, related }: {
                             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                                 {colors.map((color) => {
                                     const isSelected = selectedColor === color;
-                                    // Map color names to proper CSS values
-                                    const colorMap: { [key: string]: string } = {
-                                        'burgundy': '#800020',
-                                        'wine': '#722F37',
-                                        'maroon': '#800000',
-                                        'red': '#FF0000',
-                                        'black': '#000000',
-                                        'white': '#FFFFFF',
-                                        'navy': '#000080',
-                                        'blue': '#0000FF',
-                                        'green': '#008000',
-                                        'pink': '#FFC0CB',
-                                        'purple': '#800080',
-                                        'orange': '#FFA500',
-                                        'yellow': '#FFFF00',
-                                        'brown': '#964B00',
-                                        'gray': '#808080',
-                                        'grey': '#808080',
-                                        'beige': '#F5F5DC',
-                                        'cream': '#FFFDD0',
-                                        'tan': '#D2B48C'
-                                    };
-                                    const colorValue = colorMap[color.toLowerCase()] || color.toLowerCase();
+                                    const swatch = getColorSwatch(color);
 
                                     return (
                                         <button
@@ -507,8 +515,8 @@ export default function ProductPageClient({ params, product, related }: {
                                             style={{
                                                 width: "32px", height: "32px",
                                                 borderRadius: "50%",
-                                                background: colorValue,
-                                                border: colorValue === '#FFFFFF' ? "1.5px solid #d0d0d0" : "none",
+                                                background: swatch.background,
+                                                border: swatch.light ? "1.5px solid #d0d0d0" : "none",
                                                 outline: isSelected ? "2px solid #000" : "1.5px solid #d0d0d0",
                                                 outlineOffset: isSelected ? "3px" : "2px",
                                                 cursor: "pointer",

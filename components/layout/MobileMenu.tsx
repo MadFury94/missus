@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
 import { SUB_NAV, SOCIAL_LINKS } from "@/lib/config";
 import { getCurrentUser, logoutUser, type User } from "@/lib/auth";
 import { getWishlistCount } from "@/lib/wishlist";
@@ -13,10 +12,9 @@ interface MobileMenuProps {
     isOpen: boolean;
     onClose: () => void;
     onBagClick?: () => void;
-    onSearchOpen?: () => void;
 }
 
-export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }: MobileMenuProps) {
+export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuProps) {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [wishlistCount, setWishlistCount] = useState(0);
@@ -105,27 +103,6 @@ export default function MobileMenu({ isOpen, onClose, onBagClick, onSearchOpen }
                 </div>
 
                 <div style={{ flex: 1, padding: "0 0 32px" }}>
-
-                    {/* -- Search — opens the same overlay as desktop -- */}
-                    <div style={{ padding: "16px 20px", borderBottom: "1px solid #f0f0f0" }}>
-                        <button
-                            onClick={() => { onClose(); setTimeout(() => onSearchOpen?.(), 50); }}
-                            aria-label="Open search"
-                            style={{
-                                display: "flex", alignItems: "center", gap: "10px",
-                                width: "100%", border: "1.5px solid #e0e0e0",
-                                borderRadius: "4px", padding: "10px 14px",
-                                background: "#f8f8f8", cursor: "text", textAlign: "left",
-                            }}
-                        >
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" aria-hidden="true" style={{ flexShrink: 0 }}>
-                                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                            </svg>
-                            <span style={{ fontSize: "13px", color: "#aaa", fontFamily: "'Barlow', sans-serif" }}>
-                                Search for dresses, tops, sets
-                            </span>
-                        </button>
-                    </div>
 
                     {/* -- Account row -- */}
                     <div style={{ padding: "12px 20px 0", borderBottom: "1px solid #f0f0f0" }}>

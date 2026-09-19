@@ -134,7 +134,51 @@ export async function getProducts(params: {
 
 export async function getProduct(slug: string): Promise<StoreProduct | null> {
     const data = await storeFetch<StoreProduct[]>(`/products?slug=${slug}`, 60);
-    return data?.[0] ?? null;
+    const product = data?.[0] ?? null;
+    if (!product) return null;
+
+    // Some WooCommerce products expose an empty `terms` value through the
+    // Store API even though their variation attributes are populated in the
+    // authenticated REST API. Enrich the product so selectors still show all
+    // available options (for example Black, Coffee and White Beige).
+    const hasMissingAttributeOptions = product.attributes?.some(
+        (attribute) => !Array.isArray(attribute.terms) || attribute.terms.length === 0
+    );
+    if (!hasMissingAttributeOptions) return product;
+
+    const key = process.env.WC_CONSUMER_KEY;
+    const secret = process.env.WC_CONSUMER_SECRET;
+    if (!key || !secret) return product;
+
+    try {
+        const auth = Buffer.from(`${key}:${secret}`).toString("base64");
+        const response = await fetch(`${API_ENDPOINTS.woocommerce.rest}/products/${product.id}`, {
+            headers: { Authorization: `Basic ${auth}` },
+            next: { revalidate: 60 },
+            signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
+        });
+        if (!response.ok) return product;
+
+        const restProduct = await response.json() as {
+            attributes?: { id: number; name: string; slug: string; variation: boolean; options: string[] }[];
+        };
+        if (!Array.isArray(restProduct.attributes)) return product;
+
+        const attributes = restProduct.attributes.map((attribute) => ({
+            id: attribute.id,
+            name: attribute.name,
+            taxonomy: attribute.slug,
+            has_variations: attribute.variation,
+            terms: (attribute.options ?? []).map((name, index) => ({
+                id: index,
+                name,
+                slug: name.toLowerCase().trim().replace(/\\s+/g, "-"),
+            })),
+        }));
+        return { ...product, attributes };
+    } catch {
+        return product;
+    }
 }
 
 export async function getNewArrivals(limit = 10): Promise<StoreProduct[]> {

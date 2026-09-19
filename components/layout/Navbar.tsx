@@ -368,7 +368,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         </button>
 
                         {/* Search Bar — desktop only */}
-                        <div className="nav-search-desktop" style={{ display: "flex", alignItems: "center" }}>
+                        <div className="nav-search-desktop">
                             <button className="nav-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Open search" aria-haspopup="dialog">
                                 <Search size={20} color={transparent ? "rgba(255,255,255,.6)" : "#999"} />
                                 <span>Search</span>
@@ -440,7 +440,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                 />
             )}
 
-            <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} onBagClick={onBagClick} onSearchOpen={() => setSearchOpen(true)} />
+            <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} onBagClick={onBagClick} />
             <SearchOverlay isOpen={searchOpen} inputValue={searchVal} onInputChange={setSearchVal} onClose={() => { setSearchOpen(false); setSearchVal(""); }} onSubmit={(q) => { setSearchOpen(false); setSearchVal(""); handleSearch(q); }} />
         </>
     );

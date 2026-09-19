@@ -48,10 +48,10 @@ export default function HeaderSearchBar() {
                 width: "100%",
                 background: transparent ? "transparent" : "#fff",
                 borderBottom: transparent ? "1px solid rgba(255,255,255,0.15)" : "1px solid #f0f0f0",
-                padding: "12px 20px",
+                padding: "12px 0",
                 transition: "background 0.3s, border-color 0.3s"
             }}>
-                <form onSubmit={handleSearch} style={{ position: "relative", width: "100%" }}>
+                <form onSubmit={handleSearch} style={{ position: "relative", width: "100%", margin: "0 auto" }}>
                     <div style={{
                         display: "flex",
                         alignItems: "center",
@@ -110,7 +110,8 @@ export default function HeaderSearchBar() {
                 
                 @media (max-width: 768px) {
                     .mobile-search-bar {
-                        display: block;
+                        display: flex;
+                        justify-content: center;
                     }
                 }
             `}</style>

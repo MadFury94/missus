@@ -114,11 +114,13 @@ export default function CategoryPageClient({
                 .category-filter-sidebar { position: sticky; top: 52px; }
                 .category-sidebar-desktop { display: block; }
                 .category-filter-bar { display: none; }
+                .category-filter-bar-desktop { display: flex; }
                 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
                 @media (max-width: 1024px) {
                     .category-layout { grid-template-columns: 1fr; padding: 0 0 60px; gap: 0; }
                     .category-sidebar-desktop { display: none; }
                     .category-filter-bar { display: flex; }
+                    .category-filter-bar-desktop { display: none !important; }
                     .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 1px; }
                     .category-products-wrap { padding-left: 0 !important; padding-right: 0 !important; }
                 }
@@ -207,7 +209,7 @@ export default function CategoryPageClient({
                         <select
                             value={activeSort}
                             onChange={(e) => handleSortChange(e.target.value)}
-                            style={{ flex: 1, fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "9px 8px", background: "#fff", cursor: "pointer", outline: "none" }}
+                            style={{ flex: 1, fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", borderRadius: "999px", padding: "9px 8px", background: "#fff", cursor: "pointer", outline: "none" }}
                         >
                             {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>Sort: {o.label}</option>)}
                         </select>
@@ -220,7 +222,7 @@ export default function CategoryPageClient({
                         </p>
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <label htmlFor="category-sort" style={{ fontSize: "11px", color: "#767676", textTransform: "uppercase", letterSpacing: ".06em" }}>Sort</label>
-                            <select id="category-sort" value={activeSort} onChange={(e) => handleSortChange(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
+                            <select id="category-sort" value={activeSort} onChange={(e) => handleSortChange(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", borderRadius: "999px", padding: "7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
                                 {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                             </select>
                         </div>
