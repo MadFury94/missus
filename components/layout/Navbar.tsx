@@ -312,6 +312,17 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
         return () => window.removeEventListener("scroll", onScroll);
     }, [isHome, annHeight]);
 
+    // The mobile search bar lives outside Navbar in the fixed header stack.
+    // Listen for its trigger so both desktop and mobile use the same overlay.
+    useEffect(() => {
+        const openSearch = () => {
+            setSearchVal("");
+            setSearchOpen(true);
+        };
+        window.addEventListener("open-search-modal", openSearch);
+        return () => window.removeEventListener("open-search-modal", openSearch);
+    }, []);
+
     // Lock body scroll when currency modal is open
     useEffect(() => {
         document.body.style.overflow = currencyOpen ? "hidden" : "";

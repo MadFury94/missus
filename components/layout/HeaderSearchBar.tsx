@@ -1,14 +1,8 @@
 "use client";
-import { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { Search } from "lucide-react";
+import { usePathname } from "next/navigation";
 
-export default function HeaderSearchBar() {
-    const router = useRouter();
+export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () => void }) {
     const pathname = usePathname();
-    const [searchValue, setSearchValue] = useState("");
-    const [isFocused, setIsFocused] = useState(false);
-
     const isProductPage = pathname?.includes("/product/");
 
     // Don't show search bar on product pages
@@ -16,16 +10,8 @@ export default function HeaderSearchBar() {
         return null;
     }
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (searchValue.trim()) {
-            router.push(`/search?q=${encodeURIComponent(searchValue.trim())}`);
-            setSearchValue("");
-        }
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.target.value);
+    const handleSearchClick = () => {
+        onSearchOpen?.();
     };
 
     return (
@@ -38,8 +24,9 @@ export default function HeaderSearchBar() {
                 padding: "16px 20px",
                 transition: "border-color 0.3s"
             }}>
-                <form onSubmit={handleSearch} style={{ position: "relative", width: "100%" }}>
-                    <div style={{
+                <button
+                    onClick={handleSearchClick}
+                    style={{
                         display: "flex",
                         alignItems: "center",
                         background: "transparent",
@@ -47,50 +34,41 @@ export default function HeaderSearchBar() {
                         borderRadius: "0",
                         padding: "12px 0 12px 4px", // Left padding to align with hamburger menu
                         transition: "border-color 0.2s ease",
-                        width: "100%"
-                    }}>
-                        {/* Search Icon on LEFT */}
-                        <Search
-                            size={16}
-                            color="rgba(255,255,255,0.7)"
-                            style={{ flexShrink: 0, marginRight: "12px", transition: "color 0.3s", cursor: "pointer" }}
-                            onClick={handleSearch}
-                        />
+                        width: "100%",
+                        cursor: "pointer"
+                    }}
+                >
+                    {/* Search Icon on LEFT */}
+                    <svg
+                        width={16}
+                        height={16}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.7)"
+                        strokeWidth="2"
+                        style={{ flexShrink: 0, marginRight: "12px", transition: "color 0.3s" }}
+                    >
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.35-4.35" />
+                    </svg>
 
-                        {/* Search Input */}
-                        <input
-                            type="text"
-                            value={searchValue}
-                            onChange={handleInputChange}
-                            onFocus={() => setIsFocused(true)}
-                            onBlur={() => setIsFocused(false)}
-                            placeholder="Try searching for... White Dress"
-                            style={{
-                                flex: 1,
-                                border: "none",
-                                background: "transparent",
-                                outline: "none",
-                                fontSize: "14px",
-                                fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                                color: "#fff",
-                                fontWeight: 400,
-                                transition: "color 0.3s",
-                                textAlign: "left"
-                            }}
-                        />
-                    </div>
-                </form>
+                    {/* Placeholder Text */}
+                    <span style={{
+                        flex: 1,
+                        fontSize: "14px",
+                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                        color: "rgba(255,255,255,0.5)",
+                        fontWeight: 300,
+                        textAlign: "left"
+                    }}>
+                        Try searching for... White Dress
+                    </span>
+                </button>
             </div>
 
             <style>{`
                 .mobile-search-bar {
                     display: none;
-                }
-                
-                .mobile-search-bar input::placeholder {
-                    color: rgba(255,255,255,0.5);
-                    font-weight: 300;
-                    transition: color 0.3s;
                 }
                 
                 @media (max-width: 768px) {

@@ -5,6 +5,7 @@ import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import Navbar from "@/components/layout/Navbar";
 import CategoryNav from "@/components/layout/CategoryNav";
 import HeaderSearchBar from "@/components/layout/HeaderSearchBar";
+import SearchOverlay from "@/components/layout/SearchOverlay";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import { CurrencyProvider } from "@/lib/currency";
@@ -23,6 +24,8 @@ export default function ClientShell({ children, announcement }: { children: Reac
 
     const [cartOpen, setCartOpen] = useState(false);
     const [annVisible, setAnnVisible] = useState(true);
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [searchVal, setSearchVal] = useState("");
 
     const openDrawer = useCallback(() => setCartOpen(true), []);
     useEffect(() => {
@@ -71,7 +74,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
                 <CategoryNav />
 
                 {/* 4. Full-width search bar */}
-                <HeaderSearchBar />
+                <HeaderSearchBar onSearchOpen={() => setSearchOpen(true)} />
             </div>
 
             {/*
@@ -95,6 +98,18 @@ export default function ClientShell({ children, announcement }: { children: Reac
             <Footer />
 
             <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+            <SearchOverlay
+                isOpen={searchOpen}
+                inputValue={searchVal}
+                onInputChange={setSearchVal}
+                onClose={() => { setSearchOpen(false); setSearchVal(""); }}
+                onSubmit={(q) => {
+                    setSearchOpen(false);
+                    setSearchVal("");
+                    // Handle search submission - could navigate to search results
+                    window.location.href = `/search?q=${encodeURIComponent(q)}`;
+                }}
+            />
         </CurrencyProvider>
     );
 }
