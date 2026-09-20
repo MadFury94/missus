@@ -437,6 +437,42 @@ export default function ProductPageClient({ params, product, related }: {
                         </Link>
                     </div>
 
+                    {/* Color selection */}
+                    {colors.length > 0 && (
+                        <div style={{ marginBottom: "20px" }}>
+                            <span style={{ display: "block", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: "10px" }}>
+                                Color {selectedColor && <span style={{ color: "#777", fontWeight: 400 }}>— {selectedColor}</span>}
+                            </span>
+                            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                                {colors.map((color) => {
+                                    const isSelected = selectedColor === color;
+                                    const swatch = getColorSwatch(color);
+
+                                    return (
+                                        <button
+                                            key={color}
+                                            onClick={() => setSelectedColor(color)}
+                                            title={color}
+                                            aria-label={color}
+                                            aria-pressed={isSelected}
+                                            style={{
+                                                width: "24px", height: "24px", // Reduced from 32px to 24px
+                                                borderRadius: "50%",
+                                                background: swatch.background,
+                                                border: swatch.light ? "1.5px solid #d0d0d0" : "none",
+                                                outline: isSelected ? "2px solid #000" : "1.5px solid #d0d0d0",
+                                                outlineOffset: isSelected ? "3px" : "2px",
+                                                cursor: "pointer",
+                                                transition: "outline .15s",
+                                                flexShrink: 0,
+                                            }}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
                     {/* Size selection */}
                     {sizes.length > 0 && (
                         <div id="size-section" style={{ marginBottom: "20px" }}>
@@ -459,12 +495,12 @@ export default function ProductPageClient({ params, product, related }: {
                                         style={{
                                             textDecoration: stockForSelection(stock, size, selectedColor)?.available === false ? "line-through" : "none",
                                             opacity: stockForSelection(stock, size, selectedColor)?.available === false ? 0.55 : 1,
-                                            minWidth: "52px", height: "44px",
-                                            padding: "0 14px",
+                                            minWidth: "32px", height: "28px", // Reduced from 52px x 44px to 32px x 28px
+                                            padding: "0 8px", // Reduced from 0 14px to 0 8px
                                             border: selectedSize === size ? "2px solid #000" : "1px solid #e0e0e0",
                                             background: selectedSize === size ? "#000" : "#fff",
                                             color: selectedSize === size ? "#fff" : "#333",
-                                            fontSize: "13px", fontWeight: 600,
+                                            fontSize: "11px", fontWeight: 600, // Reduced from 13px to 11px
                                             cursor: "pointer",
                                             transition: "all .15s",
                                             letterSpacing: ".04em",
@@ -494,42 +530,6 @@ export default function ProductPageClient({ params, product, related }: {
                             inline={true}
                         />
                     )}
-                    {/* Color selection */}
-                    {colors.length > 0 && (
-                        <div style={{ marginBottom: "20px" }}>
-                            <span style={{ display: "block", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: "10px" }}>
-                                Color {selectedColor && <span style={{ color: "#777", fontWeight: 400 }}>— {selectedColor}</span>}
-                            </span>
-                            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                                {colors.map((color) => {
-                                    const isSelected = selectedColor === color;
-                                    const swatch = getColorSwatch(color);
-
-                                    return (
-                                        <button
-                                            key={color}
-                                            onClick={() => setSelectedColor(color)}
-                                            title={color}
-                                            aria-label={color}
-                                            aria-pressed={isSelected}
-                                            style={{
-                                                width: "32px", height: "32px",
-                                                borderRadius: "50%",
-                                                background: swatch.background,
-                                                border: swatch.light ? "1.5px solid #d0d0d0" : "none",
-                                                outline: isSelected ? "2px solid #000" : "1.5px solid #d0d0d0",
-                                                outlineOffset: isSelected ? "3px" : "2px",
-                                                cursor: "pointer",
-                                                transition: "outline .15s",
-                                                flexShrink: 0,
-                                            }}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-
                     {/* Add to Bag */}
                     <div ref={addToBagRef}>
                         {/* Pill Add to Bag */}

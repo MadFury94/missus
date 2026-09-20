@@ -21,7 +21,7 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
                 width: "100%",
                 background: "transparent",
                 borderBottom: "1px solid rgba(255,255,255,0.2)",
-                padding: "16px 20px",
+                padding: "8px 20px 12px", // Reduced from 16px to 8px
                 transition: "border-color 0.3s"
             }}>
                 <button
@@ -32,7 +32,7 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
                         background: "transparent",
                         border: "none",
                         borderRadius: "0",
-                        padding: "12px 0 12px 4px", // Left padding to align with hamburger menu
+                        padding: "8px 0 8px 4px", // Reduced vertical padding from 12px to 8px
                         transition: "border-color 0.2s ease",
                         width: "100%",
                         cursor: "pointer"
