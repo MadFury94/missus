@@ -268,7 +268,7 @@ export default function ProductPageClient({ params, product, related }: {
                 @media (max-width: 900px) {
                     .pdp-wrap { 
                         grid-template-columns: 1fr; 
-                        margin-top: -41px; /* Pull up under category nav (41px height) */
+                        margin-top: -97px; /* Pull up under category nav (41px) + search bar (56px) */
                     }
                     .pdp-thumb-col { display: none; }
                     .pdp-info-col { padding: 20px 16px 40px; position: static; }
@@ -296,6 +296,14 @@ export default function ProductPageClient({ params, product, related }: {
                     .related-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1px !important; }
                     .related-section { padding: 32px 0 40px !important; }
                     .related-header { padding: 0 16px 20px !important; }
+                }
+
+                /* Sticky thumbnail - larger on desktop */
+                @media (min-width: 769px) {
+                    .sticky-thumbnail {
+                        width: 72px !important;
+                        height: 72px !important;
+                    }
                 }
             `}</style>
 
@@ -690,7 +698,7 @@ export default function ProductPageClient({ params, product, related }: {
                 }}
             >
                 {/* Product thumbnail */}
-                <div style={{
+                <div className="sticky-thumbnail" style={{
                     width: "48px",
                     height: "48px",
                     borderRadius: "8px",

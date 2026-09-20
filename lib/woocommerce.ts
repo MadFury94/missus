@@ -244,7 +244,7 @@ export async function getRelatedProducts(productId: number, limit = 5): Promise<
 // ── Categories ────────────────────────────────────────────────────────────
 
 export async function getCategories(): Promise<StoreCategory[]> {
-    const data = await storeFetch<StoreCategory[]>("/products/categories?per_page=50", 300);
+    const data = await storeFetch<StoreCategory[]>("/products/categories?per_page=50", 60);
     return (data ?? []).filter((c) => c.slug !== "uncategorized" && c.count > 0);
 }
 

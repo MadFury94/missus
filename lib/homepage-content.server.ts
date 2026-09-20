@@ -3,6 +3,7 @@ import { cache } from "react";
 import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 import { API_ENDPOINTS, WP_HEADERS } from "./config";
+import { getCategories } from "./woocommerce";
 
 function wpHeaders(write = false): Record<string, string> {
     // Published homepage fields are public. Do not make storefront reads depend
@@ -66,7 +67,34 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
 
 // Surface read errors in the editor so defaults cannot silently overwrite saved content.
 export async function readHomepageContent(): Promise<HomepageContent> {
-    return decodeContent((await getHomepagePost()).acf);
+    const content = decodeContent((await getHomepagePost()).acf);
+
+    // Homepage cards historically stored their own ACF image URLs, while the
+    // search overlay reads the live WooCommerce category image. Prefer the
+    // live category image when one exists so a WordPress category-image edit
+    // updates both surfaces without requiring a second homepage edit.
+    try {
+        const categories = await getCategories();
+        const bySlug = new Map(categories.map((category) => [category.slug, category.image?.src]));
+        const imageFor = (href: string, fallback: string) => {
+            const slug = href.match(/\/category\/([^/?#]+)/)?.[1];
+            return (slug && bySlug.get(slug)) || fallback;
+        };
+        return {
+            ...content,
+            categories: {
+                feature: { ...content.categories.feature, img: imageFor(content.categories.feature.href, content.categories.feature.img) },
+                grid: content.categories.grid.map((category) => ({
+                    ...category,
+                    img: imageFor(category.href, category.img),
+                })),
+            },
+        };
+    } catch {
+        // Keep the saved homepage images as a resilient fallback if WooCommerce
+        // is temporarily unavailable.
+        return content;
+    }
 }
 
 export async function saveHomepageContent(content: HomepageContent): Promise<void> {

@@ -256,7 +256,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                     )}
 
                     {badgeLabel && (
-                        <span style={{ position: "absolute", top: "8px", left: "8px", background: badgeBg, color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", padding: "3px 8px", zIndex: 2, borderRadius: "999px" }}>
+                        <span style={{ position: "absolute", top: "6px", left: "6px", background: badgeBg, color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 600, letterSpacing: ".05em", textTransform: "uppercase", padding: "2px 6px", zIndex: 2, borderRadius: "999px" }}>
                             {badgeLabel}
                         </span>
                     )}
