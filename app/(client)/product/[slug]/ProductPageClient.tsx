@@ -273,7 +273,7 @@ export default function ProductPageClient({ params, product, related }: {
                     .pdp-thumb-col { display: none; }
                     .pdp-info-col { padding: 20px 16px 40px; position: static; }
                     .pdp-breadcrumb { display: none !important; }
-                    .pdp-main-img { min-height: 420px !important; }
+                    .pdp-main-img { min-height: 500px !important; aspect-ratio: 3/5 !important; }
                     .pdp-mobile-dots { display: flex; }
                 }
 
@@ -344,14 +344,14 @@ export default function ProductPageClient({ params, product, related }: {
                     onTouchStart={onTouchStart}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="pdp-main-img" style={{ position: "relative", width: "100%", aspectRatio: "3/4", maxHeight: "600px" }}>
+                    <div className="pdp-main-img" style={{ position: "relative", width: "100%", aspectRatio: "3/4.5", maxHeight: "680px" }}>
                         {images[selectedImageIndex] && (
                             <Image
                                 key={selectedImageIndex}
                                 src={images[selectedImageIndex].src}
                                 alt={images[selectedImageIndex].alt || product.name}
                                 fill
-                                style={{ objectFit: "contain", objectPosition: "center" }}
+                                style={{ objectFit: "cover", objectPosition: "center top" }}
                                 loading={selectedImageIndex === 0 ? "eager" : "lazy"}
                                 sizes="(max-width: 900px) 100vw, 55vw"
                                 priority={selectedImageIndex === 0}

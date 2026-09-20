@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 
@@ -8,23 +8,13 @@ export default function HeaderSearchBar() {
     const pathname = usePathname();
     const [searchValue, setSearchValue] = useState("");
     const [isFocused, setIsFocused] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
 
-    const isHome = pathname === "/";
+    const isProductPage = pathname?.includes("/product/");
 
-    // Track scroll for transparency on homepage
-    useEffect(() => {
-        if (!isHome) {
-            setScrolled(true);
-            return;
-        }
-
-        const checkScroll = () => setScrolled(window.scrollY > 100);
-        checkScroll();
-
-        window.addEventListener("scroll", checkScroll, { passive: true });
-        return () => window.removeEventListener("scroll", checkScroll);
-    }, [isHome]);
+    // Don't show search bar on product pages
+    if (isProductPage) {
+        return null;
+    }
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -38,39 +28,33 @@ export default function HeaderSearchBar() {
         setSearchValue(e.target.value);
     };
 
-    // Determine if background should be transparent
-    const transparent = isHome && !scrolled;
-
     return (
         <>
             {/* Mobile-only search bar */}
             <div className="mobile-search-bar" style={{
                 width: "100%",
-                background: transparent ? "transparent" : "#fff",
-                borderBottom: transparent ? "1px solid rgba(255,255,255,0.15)" : "1px solid #f0f0f0",
-                padding: "12px 0",
-                transition: "background 0.3s, border-color 0.3s"
+                background: "transparent",
+                borderBottom: "1px solid rgba(255,255,255,0.2)",
+                padding: "16px 20px",
+                transition: "border-color 0.3s"
             }}>
-                <form onSubmit={handleSearch} style={{ position: "relative", width: "100%", margin: "0 auto" }}>
+                <form onSubmit={handleSearch} style={{ position: "relative", width: "100%" }}>
                     <div style={{
                         display: "flex",
                         alignItems: "center",
-                        background: transparent ? "rgba(255,255,255,0.1)" : "#f8f8f8",
-                        border: `2px solid ${isFocused
-                            ? (transparent ? "rgba(255,255,255,0.4)" : "#000")
-                            : (transparent ? "rgba(255,255,255,0.2)" : "#e0e0e0")
-                            }`,
-                        borderRadius: "8px",
-                        padding: "12px 16px",
-                        transition: "border-color 0.2s ease, background 0.3s",
-                        width: "100%",
-                        backdropFilter: transparent ? "blur(4px)" : "none"
+                        background: "transparent",
+                        border: "none",
+                        borderRadius: "0",
+                        padding: "12px 0 12px 4px", // Left padding to align with hamburger menu
+                        transition: "border-color 0.2s ease",
+                        width: "100%"
                     }}>
                         {/* Search Icon on LEFT */}
                         <Search
-                            size={20}
-                            color={transparent ? "rgba(255,255,255,0.8)" : "#999"}
-                            style={{ flexShrink: 0, marginRight: "12px", transition: "color 0.3s" }}
+                            size={16}
+                            color="rgba(255,255,255,0.7)"
+                            style={{ flexShrink: 0, marginRight: "12px", transition: "color 0.3s", cursor: "pointer" }}
+                            onClick={handleSearch}
                         />
 
                         {/* Search Input */}
@@ -80,17 +64,18 @@ export default function HeaderSearchBar() {
                             onChange={handleInputChange}
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
-                            placeholder="Try searching for... Dresses, Tops, Sets"
+                            placeholder="Try searching for... White Dress"
                             style={{
                                 flex: 1,
                                 border: "none",
                                 background: "transparent",
                                 outline: "none",
-                                fontSize: "15px",
+                                fontSize: "14px",
                                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                                color: transparent ? "#fff" : "#333",
+                                color: "#fff",
                                 fontWeight: 400,
-                                transition: "color 0.3s"
+                                transition: "color 0.3s",
+                                textAlign: "left"
                             }}
                         />
                     </div>
@@ -103,15 +88,14 @@ export default function HeaderSearchBar() {
                 }
                 
                 .mobile-search-bar input::placeholder {
-                    color: ${transparent ? "rgba(255,255,255,0.6)" : "#aaa"};
+                    color: rgba(255,255,255,0.5);
                     font-weight: 300;
                     transition: color 0.3s;
                 }
                 
                 @media (max-width: 768px) {
                     .mobile-search-bar {
-                        display: flex;
-                        justify-content: center;
+                        display: block;
                     }
                 }
             `}</style>
