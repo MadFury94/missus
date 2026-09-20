@@ -7,6 +7,7 @@ import { getCurrentUser, logoutUser, type User } from "@/lib/auth";
 import { getWishlistCount } from "@/lib/wishlist";
 import { cartCount, getCart } from "@/lib/cart";
 import { useCurrency, CURRENCIES } from "@/lib/currency";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 interface MobileMenuProps {
     isOpen: boolean;
@@ -89,7 +90,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
                 }}>
                     <Link href="/" onClick={onClose}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src="/missus-logo.webp" alt="Missus" style={{ height: "56px", width: "auto" }} />
+                        <img src={BRAND_CONFIG.logo} alt={BRAND_CONFIG.logoAlt} style={{ height: "56px", width: "auto" }} />
                     </Link>
                     <button
                         onClick={onClose}
@@ -264,7 +265,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
                         <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#aaa", marginBottom: "10px" }}>Help</p>
                         {[
                             { label: "Contact Us", href: "/contact" },
-                            { label: "Track My Order", href: "/account" },
+                            { label: "Track My Order", href: "/track" },
                             { label: "Returns", href: "/returns" },
                             { label: "Size Guide", href: "/size-guide" },
                             { label: "FAQ", href: "/faq" },

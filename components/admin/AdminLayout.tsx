@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { logoutUser } from "@/lib/auth";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 interface AdminLayoutProps { children: React.ReactNode; }
 
@@ -39,7 +40,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* Wordmark */}
             <div style={{ padding: "28px 20px 22px", borderBottom: "1px solid rgba(255,255,255,.06)" }}>
                 <Link href="/admin" onClick={() => setOpen(false)} style={{ textDecoration: "none", display: "block" }}>
-                    <div style={{ fontFamily: T.serif, fontSize: 20, fontWeight: 700, color: "var(--sidebar-text)", letterSpacing: ".04em" }}>MISSUS</div>
+                    <div style={{ fontFamily: T.serif, fontSize: 20, fontWeight: 700, color: "var(--sidebar-text)", letterSpacing: ".04em" }}>{BRAND_CONFIG.name.toUpperCase()}</div>
                     <div style={{ fontFamily: T.sans, fontSize: 11, color: "var(--sidebar-text-dim)", marginTop: 2, letterSpacing: ".06em" }}>Admin</div>
                 </Link>
                 <button className="a-sb-close" onClick={() => setOpen(false)} style={{ display: "none", position: "absolute", top: 20, right: 16, background: "none", border: "none", color: "var(--sidebar-text-dim)", cursor: "pointer", fontSize: 20, lineHeight: 1 }}>X</button>
@@ -143,7 +144,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             <button className="a-ham" onClick={() => setOpen(true)} style={{ background: "none", border: "none", cursor: "pointer", display: "none", alignItems: "center" }}>
                                 <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth={2}><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
                             </button>
-                            <span style={{ fontFamily: T.sans, fontSize: 12, color: "var(--stone)" }}>Missus Admin</span>
+                            <span style={{ fontFamily: T.sans, fontSize: 12, color: "var(--stone)" }}>{BRAND_CONFIG.name} Admin</span>
                         </div>
                         <Link href="/" target="_blank" style={{ fontFamily: T.sans, fontSize: 12, color: "var(--stone)", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, transition: "color .12s" }}
                             onMouseEnter={e => (e.currentTarget.style.color = "var(--ink)")}

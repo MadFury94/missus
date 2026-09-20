@@ -1,4 +1,6 @@
-export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "Missus";
+import { BRAND_CONFIG } from "./brand-config";
+
+export const SITE_NAME = BRAND_CONFIG.name;
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 export const CURRENCY_SYMBOL = "₦";
 export const FREE_SHIPPING_THRESHOLD = 150000;
@@ -53,13 +55,13 @@ export const WP_HEADERS = {
 export const WP_FETCH_TIMEOUT = process.env.NODE_ENV === "development" ? 4000 : 12000;
 
 export const SOCIAL_LINKS = {
-    instagram: "https://instagram.com/missusoutfits",
-    tiktok: "https://tiktok.com/@missusoutfits",
-    snapchat: "https://snapchat.com/add/missusoutfits",
-    facebook: "https://facebook.com/missusoutfits",
-    youtube: "https://youtube.com/@missusoutfits",
+    instagram: BRAND_CONFIG.social.instagram,
+    tiktok: BRAND_CONFIG.social.tiktok,
+    snapchat: BRAND_CONFIG.social.snapchat,
+    facebook: BRAND_CONFIG.social.facebook,
+    youtube: BRAND_CONFIG.social.youtube,
     // TODO: replace with the real business WhatsApp number e.g. "https://wa.me/2348012345678"
-    whatsapp: "https://wa.me/2348012345678",
+    whatsapp: BRAND_CONFIG.social.whatsapp,
 };
 
 export const ANNOUNCEMENT = "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVALS EVERY WEEK  |  PAY ON DELIVERY AVAILABLE";

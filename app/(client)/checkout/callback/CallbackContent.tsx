@@ -293,10 +293,10 @@ export default function CallbackContent() {
                         {/* CTAs */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                             <Link
-                                href={orderId ? `/account/orders/${orderId}?email=${encodeURIComponent((order?.billing?.email || emailParam).toLowerCase())}` : "/account"}
+                                href="/track"
                                 style={{ display: "block", textAlign: "center", background: "#000", color: "#fff", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", padding: "15px", textDecoration: "none", borderRadius: "999px" }}
                             >
-                                {orderId ? "Track My Order" : "View My Orders"}
+                                Track My Order
                             </Link>
                             <Link
                                 href="/shop"

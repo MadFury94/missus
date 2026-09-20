@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 export default function NewsletterForm() {
     const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function NewsletterForm() {
     return (
         <section className="bg-muted py-16 px-4">
             <div className="max-w-xl mx-auto text-center">
-                <h2 className="font-display text-2xl font-bold text-secondary mb-1">Join Missus Girls Club</h2>
+                <h2 className="font-display text-2xl font-bold text-secondary mb-1">Join {BRAND_CONFIG.name} Girls Club</h2>
                 <p className="text-sm text-[#666] mb-6">
                     Get early drops, exclusive deals & style inspo — straight to your inbox.
                 </p>

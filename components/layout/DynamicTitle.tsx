@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 // Dynamic title messages that will rotate
 const TITLE_MESSAGES = [
-    "MISSUS",
+    BRAND_CONFIG.name.toUpperCase(),
     "🔥 Hurry, sizes are selling fast!",
     "✨ New arrivals just dropped",
     "⚡ Free shipping nationwide",
@@ -36,7 +37,7 @@ export default function DynamicTitle({
     useEffect(() => {
         if (!enabled) {
             // Set static title if dynamic titles are disabled
-            document.title = `${prefix}MISSUS`;
+            document.title = `${prefix}${BRAND_CONFIG.name}`;
             return;
         }
 

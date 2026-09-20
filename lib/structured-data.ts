@@ -1,5 +1,5 @@
 import { SITE_URL } from "@/lib/config";
-import { BRAND_CONFIG } from "@/lib/seo-config";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import type { StoreProduct, StoreCategory } from "@/lib/woocommerce";
 import { cleanCategoryName, decodeHtmlEntities } from "./api-helpers";
 
@@ -13,12 +13,7 @@ export function getOrganizationSchema() {
         url: SITE_URL,
         logo: `${SITE_URL}/logo.png`,
         image: `${SITE_URL}/og-image.jpg`,
-        sameAs: [
-            `https://instagram.com/${BRAND_CONFIG.social.instagram.replace('@', '')}`,
-            `https://twitter.com/${BRAND_CONFIG.social.twitter.replace('@', '')}`,
-            `https://facebook.com/${BRAND_CONFIG.social.facebook}`,
-            `https://tiktok.com/${BRAND_CONFIG.social.tiktok.replace('@', '')}`
-        ],
+        sameAs: [BRAND_CONFIG.social.instagram, BRAND_CONFIG.social.twitter, BRAND_CONFIG.social.facebook, BRAND_CONFIG.social.tiktok],
         address: {
             "@type": "PostalAddress",
             addressCountry: "NG",
@@ -27,7 +22,7 @@ export function getOrganizationSchema() {
         contactPoint: {
             "@type": "ContactPoint",
             contactType: "Customer Service",
-            email: "hello@missusoutfits.com",
+            email: BRAND_CONFIG.contactEmail,
             availableLanguage: "English"
         }
     };
@@ -191,10 +186,6 @@ export function getLocalBusinessSchema() {
             opens: "00:00",
             closes: "23:59"
         },
-        sameAs: [
-            `https://instagram.com/${BRAND_CONFIG.social.instagram.replace('@', '')}`,
-            `https://twitter.com/${BRAND_CONFIG.social.twitter.replace('@', '')}`,
-            `https://facebook.com/${BRAND_CONFIG.social.facebook}`
-        ]
+        sameAs: [BRAND_CONFIG.social.instagram, BRAND_CONFIG.social.twitter, BRAND_CONFIG.social.facebook]
     };
 }

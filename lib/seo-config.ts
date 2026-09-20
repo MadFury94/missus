@@ -1,32 +1,6 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/config";
-
-// Brand configuration
-export const BRAND_CONFIG = {
-    name: "Missus",
-    tagline: "Premium Women's Fashion & Contemporary Style",
-    description: "Discover premium women's fashion at Missus. Shop curated collections of dresses, sets, tops, and contemporary styles. Free shipping on orders over ₦50,000. Nigeria's leading fashion destination.",
-    keywords: [
-        "women's fashion Nigeria",
-        "premium dresses Lagos",
-        "contemporary women's clothing",
-        "designer fashion Nigeria",
-        "online fashion store",
-        "luxury women's wear",
-        "trendy outfits Nigeria",
-        "fashion boutique online",
-        "women's designer clothing",
-        "premium fashion brand",
-        "stylish women's clothes",
-        "fashion forward clothing"
-    ],
-    social: {
-        instagram: "@missusoutfits",
-        twitter: "@missusoutfits",
-        facebook: "missusoutfits",
-        tiktok: "@missusoutfits"
-    }
-};
+import { BRAND_CONFIG, BRAND_KEYWORDS } from "@/lib/brand-config";
 
 // Default metadata template
 export const DEFAULT_METADATA: Metadata = {
@@ -36,7 +10,7 @@ export const DEFAULT_METADATA: Metadata = {
         default: `${BRAND_CONFIG.name} - ${BRAND_CONFIG.tagline}`
     },
     description: BRAND_CONFIG.description,
-    keywords: BRAND_CONFIG.keywords,
+    keywords: BRAND_KEYWORDS,
     authors: [{ name: BRAND_CONFIG.name }],
     creator: BRAND_CONFIG.name,
     publisher: BRAND_CONFIG.name,
@@ -102,7 +76,7 @@ export function generatePageMetadata({
     noindex?: boolean;
 }): Metadata {
     const url = `${SITE_URL.replace(/\/$/, "")}${path}`;
-    const combinedKeywords = [...BRAND_CONFIG.keywords, ...keywords];
+    const combinedKeywords = [...BRAND_KEYWORDS, ...keywords];
 
     return {
         title,
@@ -130,3 +104,4 @@ export function generatePageMetadata({
         }
     };
 }
+

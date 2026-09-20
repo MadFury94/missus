@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useCurrency, CURRENCIES } from "@/lib/currency";
 import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/config";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 const SOCIALS = [
     {
@@ -129,13 +130,13 @@ export default function Footer() {
                         <div style={{ marginBottom: "12px" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src="/missus-logo.webp"
-                                alt="Missus"
+                                src={BRAND_CONFIG.logo}
+                                alt={BRAND_CONFIG.logoAlt}
                                 style={{ height: "56px", width: "auto", filter: "brightness(0) invert(1)" }}
                             />
                         </div>
                         <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
-                            Trendy, affordable women&apos;s fashion built for the modern Nigerian woman. Delivering style from Lagos to Abuja and beyond.
+                            {BRAND_CONFIG.shortDescription}
                         </p>
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                             {SOCIALS.map((s) => (
@@ -170,15 +171,15 @@ export default function Footer() {
                         heading="QUICK LINKS"
                         links={[
                             { label: "Order History", href: "/account" },
-                            { label: "Track My Order", href: "/account/orders" },
+                            { label: "Track My Order", href: "/track" },
                             { label: "Gift Cards", href: "/gift-cards" },
                             { label: "Check Gift Card Balance", href: "/gift-card-balance" }
                         ]}
                     />
 
-                    {/* Column 3: MISSUS HQ */}
+                    {/* Column 3: brand HQ */}
                     <AccordionSection
-                        heading="MISSUS HQ"
+                        heading={BRAND_CONFIG.hqLabel.toUpperCase()}
                         links={[
                             { label: "About Missus", href: "/about" },
                             { label: "Careers", href: "/careers" },
