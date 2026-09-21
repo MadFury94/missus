@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Search, X, Menu, User, Heart } from "lucide-react";
+import { X, Menu, User } from "lucide-react";
 import { getCart, cartCount } from "@/lib/cart";
 import { getWishlistCount } from "@/lib/wishlist";
 import MobileMenu from "@/components/layout/MobileMenu";
@@ -213,7 +213,7 @@ function CurrencyModal({
 
                         {/* Search */}
                         <div className="cur-search-wrap">
-                            <Search size={14} color="#aaa" />
+                            <img src="/search.svg" alt="" width={14} height={14} style={{ opacity: 0.6 }} />
                             <input
                                 ref={searchRef}
                                 className="cur-search-input"
@@ -382,7 +382,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         {/* Search Bar — desktop only */}
                         <div className="nav-search-desktop">
                             <button className="nav-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Open search" aria-haspopup="dialog">
-                                <Search size={20} color={transparent ? "rgba(255,255,255,.6)" : "#999"} />
+                                <img src="/search.svg" alt="" width={20} height={20} style={{ opacity: transparent ? 0.6 : 0.6, filter: transparent ? "brightness(0) invert(1)" : "none" }} />
                                 <span>Search</span>
                             </button>
                         </div>
@@ -405,7 +405,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
 
                         {/* Wishlist */}
                         <Link href="/wishlist" className="nav-icon-link" style={{ color: iconColor, display: "flex", alignItems: "center", position: "relative", textDecoration: "none", transition: "color .3s" }} aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} items` : ""}`}>
-                            <Heart size={22} />
+                            <img src="/wishlist.svg" alt="" width={22} height={22} style={{ filter: transparent ? "brightness(0) invert(1)" : "none" }} />
                             {wishlistCount > 0 && (
                                 <span aria-hidden="true" style={{ position: "absolute", top: "-6px", right: "-6px", background: "#e8002d", color: "#fff", fontSize: "9px", fontWeight: 700, width: "16px", height: "16px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{wishlistCount}</span>
                             )}

@@ -53,18 +53,17 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
                     </span>
 
                     {/* Search Icon on RIGHT */}
-                    <svg
+                    <img
+                        src="/search.svg"
+                        alt=""
                         width={16}
                         height={16}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke={isProductPage ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.7)"}
-                        strokeWidth="2"
-                        style={{ flexShrink: 0, marginLeft: "12px" }}
-                    >
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg>
+                        style={{
+                            flexShrink: 0,
+                            marginLeft: "12px",
+                            filter: isProductPage ? "none" : "brightness(0) invert(1)"
+                        }}
+                    />
                 </button>
             </div>
 
