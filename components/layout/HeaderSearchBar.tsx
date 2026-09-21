@@ -4,6 +4,15 @@ import { usePathname } from "next/navigation";
 export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () => void }) {
     const pathname = usePathname();
     const isProductPage = pathname?.includes("/product/");
+    const isHome = pathname === "/";
+
+    // Only show search bar on homepage and product pages
+    if (!isHome && !isProductPage) {
+        return null;
+    }
+    const showMobileSearch = pathname === "/" || isProductPage;
+
+    if (!showMobileSearch) return null;
 
     const handleSearchClick = () => {
         onSearchOpen?.();
@@ -26,7 +35,7 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
                         background: "transparent",
                         border: "none",
                         borderRadius: "0",
-                        padding: "12px 20px",
+                        padding: isProductPage ? "8px 20px" : "12px 20px",
                         width: "100%",
                         cursor: "pointer"
                     }}

@@ -268,12 +268,11 @@ export default function ProductPageClient({ params, product, related }: {
                 @media (max-width: 900px) {
                     .pdp-wrap { 
                         grid-template-columns: 1fr; 
-                        margin-top: -97px; /* Pull up under category nav (41px) + search bar (56px) */
                     }
                     .pdp-thumb-col { display: none; }
                     .pdp-info-col { padding: 20px 16px 40px; position: static; }
                     .pdp-breadcrumb { display: none !important; }
-                    .pdp-main-img { min-height: 500px !important; aspect-ratio: 3/5 !important; }
+                    .pdp-main-img { min-height: 500px !important; aspect-ratio: 2/3 !important; }
                     .pdp-mobile-dots { display: flex; }
                 }
 
@@ -352,7 +351,7 @@ export default function ProductPageClient({ params, product, related }: {
                     onTouchStart={onTouchStart}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className="pdp-main-img" style={{ position: "relative", width: "100%", aspectRatio: "3/4.5", maxHeight: "680px" }}>
+                    <div className="pdp-main-img" style={{ position: "relative", width: "100%", aspectRatio: "2/3", maxHeight: "680px" }}>
                         {images[selectedImageIndex] && (
                             <Image
                                 key={selectedImageIndex}

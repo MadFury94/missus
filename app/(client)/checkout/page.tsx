@@ -224,6 +224,7 @@ export default function CheckoutPage() {
     const shippingDisplay = shippingCost === null ? null : shippingCost === 0 ? "FREE" : convert(shippingCost / 100);
     const shippingCostInNaira = shippingCost ? shippingCost / 100 : 0; // Convert kobo to naira
     const total = cart.total + shippingCostInNaira - promoDiscount;
+    const discountedSubtotal = Math.max(0, cart.subtotal - promoDiscount);
 
     async function handlePaystackCheckout() {
         if (!selectedRate || ratesLoading) {
@@ -498,13 +499,19 @@ export default function CheckoutPage() {
                                     {/* Totals */}
                                     <div>
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
-                                            <span style={{ color: "#666" }}>Subtotal</span>
-                                            <span>{convert(cart.subtotal)}</span>
+                                            <span style={{ color: "#666" }}>{promoDiscount > 0 ? "Original subtotal" : "Subtotal"}</span>
+                                            <span style={{ textDecoration: promoDiscount > 0 ? "line-through" : "none", color: promoDiscount > 0 ? "#888" : "inherit" }}>{convert(cart.subtotal)}</span>
                                         </div>
                                         {promoDiscount > 0 && (
                                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
                                                 <span style={{ color: "#000" }}>Discount</span>
                                                 <span style={{ color: "#000" }}>-{convert(promoDiscount)}</span>
+                                            </div>
+                                        )}
+                                        {promoDiscount > 0 && (
+                                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                                                <span style={{ color: "#000" }}>Discounted subtotal</span>
+                                                <span style={{ color: "#000" }}>{convert(discountedSubtotal)}</span>
                                             </div>
                                         )}
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "14px" }}>
@@ -1938,15 +1945,21 @@ export default function CheckoutPage() {
                                 {/* Totals */}
                                 <div>
                                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "16px" }}>
-                                        <span style={{ color: "#666" }}>Subtotal</span>
-                                        <span>{convert(cart.subtotal)}</span>
+                                            <span style={{ color: "#666" }}>{promoDiscount > 0 ? "Original subtotal" : "Subtotal"}</span>
+                                            <span style={{ textDecoration: promoDiscount > 0 ? "line-through" : "none", color: promoDiscount > 0 ? "#888" : "inherit" }}>{convert(cart.subtotal)}</span>
                                     </div>
                                     {promoDiscount > 0 && (
                                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "16px" }}>
-                                            <span style={{ color: "#000" }}>Discount</span>
-                                            <span style={{ color: "#000" }}>-{convert(promoDiscount)}</span>
-                                        </div>
-                                    )}
+                                                <span style={{ color: "#000" }}>Discount</span>
+                                                <span style={{ color: "#000" }}>-{convert(promoDiscount)}</span>
+                                            </div>
+                                        )}
+                                        {promoDiscount > 0 && (
+                                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "16px", fontWeight: 600 }}>
+                                                <span style={{ color: "#000" }}>Discounted subtotal</span>
+                                                <span style={{ color: "#000" }}>{convert(discountedSubtotal)}</span>
+                                            </div>
+                                        )}
                                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", fontSize: "16px" }}>
                                         <span style={{ color: "#666" }}>Shipping</span>
                                         <span>{shippingDisplay ?? "Calculated at next step"}</span>

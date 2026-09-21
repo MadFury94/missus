@@ -220,12 +220,6 @@ export default function CategoryPageClient({
                         <p style={{ fontSize: "13px", color: "#888" }}>
                             {products.length} product{products.length !== 1 ? "s" : ""}
                         </p>
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                            <label htmlFor="category-sort" style={{ fontSize: "11px", color: "#767676", textTransform: "uppercase", letterSpacing: ".06em" }}>Sort</label>
-                            <select id="category-sort" value={activeSort} onChange={(e) => handleSortChange(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", borderRadius: "999px", padding: "7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
-                                {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                            </select>
-                        </div>
                     </div>
 
                     {/* Active filter chips */}

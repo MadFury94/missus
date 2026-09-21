@@ -236,12 +236,6 @@ export default function SaleClient({ initialProducts }: { initialProducts: Store
                         >
                             {SALE_TABS[activeTab].label}
                         </h2>
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                            <label htmlFor="sale-sort" style={{ fontSize: "11px", color: "#767676", textTransform: "uppercase", letterSpacing: ".06em" }}>Sort</label>
-                            <select id="sale-sort" value={activeSort} onChange={(e) => handleSortChange(e.target.value)} style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", border: "1px solid #e0e0e0", padding: "7px 10px", background: "#fff", cursor: "pointer", outline: "none" }}>
-                                {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                            </select>
-                        </div>
                     </div>
 
                     {/* Active filter chips */}
