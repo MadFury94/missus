@@ -25,7 +25,8 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
                 width: "100%",
                 background: isProductPage ? "#f5f5f5" : "transparent",
                 padding: "0",
-                margin: "0"
+                margin: "0",
+                borderBottom: isProductPage ? "1px solid #dedede" : "1px solid rgba(255,255,255,0.45)"
             }}>
                 <button
                     onClick={handleSearchClick}
