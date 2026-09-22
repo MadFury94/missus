@@ -276,6 +276,15 @@ export default function ProductPageClient({ params, product, related }: {
                     .pdp-mobile-dots { display: flex; }
                 }
 
+                /* Tablet Portrait - Better aspect ratio */
+                @media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
+                    .pdp-main-img { 
+                        aspect-ratio: 3/4 !important; 
+                        max-height: 600px !important;
+                        min-height: 450px !important; 
+                    }
+                }
+
                 /* Size button focus ring */
                 .size-btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
                 .pdp-wishlist {
@@ -358,7 +367,10 @@ export default function ProductPageClient({ params, product, related }: {
                                 src={images[selectedImageIndex].src}
                                 alt={images[selectedImageIndex].alt || product.name}
                                 fill
-                                style={{ objectFit: "cover", objectPosition: "center top" }}
+                                // Product photos come from WordPress with mixed aspect ratios.
+                                // Contain keeps the complete garment visible instead of cropping
+                                // the sides or hem to fit the responsive gallery frame.
+                                style={{ objectFit: "contain", objectPosition: "center center" }}
                                 loading={selectedImageIndex === 0 ? "eager" : "lazy"}
                                 sizes="(max-width: 900px) 100vw, 55vw"
                                 priority={selectedImageIndex === 0}
