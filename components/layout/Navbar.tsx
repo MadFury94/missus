@@ -400,7 +400,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         {/* Account */}
                         {/* Account */}
                         <Link href="/account" className="nav-icon-link" style={{ color: iconColor, display: "flex", alignItems: "center", textDecoration: "none", transition: "color .3s" }}>
-                            <User size={22} />
+                            <User size={22} strokeWidth={1.5} />
                         </Link>
 
                         {/* Wishlist */}
