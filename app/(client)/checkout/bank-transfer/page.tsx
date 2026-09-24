@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check, CheckCircle, Copy, Landmark, MapPin, ShieldCheck } from "lucide-react";
 import styles from "./transfer.module.css";
+import { STORE_CONFIG, BANK_TRANSFER_ENABLED, IS_DEMO_STORE } from "@/lib/store-config";
 
 interface PendingOrder {
     cart: Array<{ productId: number; name: string; price: number; quantity: number; size?: string; color?: string; image: string }>;
@@ -15,7 +16,7 @@ interface PendingOrder {
     total: number;
 }
 
-const BANK_DETAILS = { bankName: "Moniepoint MFB", accountName: "Missus Outfits Enterprises", accountNumber: "6683202967" };
+const BANK_DETAILS = STORE_CONFIG.bankTransfer;
 // Checkout totals are in naira; shipping rates are in kobo.
 const money = (naira: number) => new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 2 }).format(naira);
 
@@ -30,10 +31,10 @@ export default function BankTransferPage() {
 
     useEffect(() => {
         try {
-            const pending = localStorage.getItem("pending_bank_order");
+            const pending = localStorage.getItem("wearlux_pending_bank_order");
             if (pending) setOrder(JSON.parse(pending));
             else {
-                const saved = sessionStorage.getItem("bank_transfer_receipt");
+                const saved = sessionStorage.getItem("wearlux_bank_transfer_receipt");
                 if (saved) { const data = JSON.parse(saved); setOrder(data.order); setReceipt(data.receipt); }
             }
         } catch { setError("Your checkout details could not be loaded. Please return to checkout."); }
@@ -49,7 +50,7 @@ export default function BankTransferPage() {
     }
 
     async function confirmPayment() {
-        if (!order || submitting.current || receipt) return;
+        if (!order || submitting.current || receipt || IS_DEMO_STORE || !BANK_TRANSFER_ENABLED) return;
         submitting.current = true;
         setConfirming(true);
         setError("");
@@ -64,8 +65,8 @@ export default function BankTransferPage() {
             setReceipt(savedReceipt);
             // Notification failures must not invite a second order submission.
             try {
-                sessionStorage.setItem("bank_transfer_receipt", JSON.stringify({ order, receipt: savedReceipt }));
-                localStorage.removeItem("pending_bank_order");
+                sessionStorage.setItem("wearlux_bank_transfer_receipt", JSON.stringify({ order, receipt: savedReceipt }));
+                localStorage.removeItem("wearlux_pending_bank_order");
             } catch { /* The receipt remains visible in this tab. */ }
             try {
                 await fetch("/api/admin/notifications", {
@@ -80,6 +81,10 @@ export default function BankTransferPage() {
         } catch (err) { setError(err instanceof Error ? err.message : "Please try again or contact support."); }
         finally { setConfirming(false); submitting.current = false; }
     }
+
+    if (IS_DEMO_STORE || !BANK_TRANSFER_ENABLED) return <main className={styles.empty}>
+        <h1>Bank transfer is not available yet</h1><Link href="/checkout">Back to checkout</Link>
+    </main>;
 
     if (!loaded || !order) return <main className={styles.empty}>
         <Landmark size={28} /><h1>{loaded ? "No pending transfer" : "Loading your checkout…"}</h1>

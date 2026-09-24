@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Mail, ArrowRight } from "lucide-react";
+import { IS_DEMO_STORE } from "@/lib/store-config";
+import { WP_BASE_URL } from "@/lib/config";
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState("");
@@ -11,11 +13,12 @@ export default function ForgotPasswordPage() {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+        if (IS_DEMO_STORE) { setError("Password resets will be available when the new store is connected."); return; }
         setError("");
         setLoading(true);
         try {
             // WordPress lost password endpoint
-            const res = await fetch("https://missusoutfits.com/wp-login.php?action=lostpassword", {
+            const res = await fetch(`${WP_BASE_URL}/wp-login.php?action=lostpassword`, {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams({ user_login: email, redirect_to: "", wp_submit: "Get New Password" }),

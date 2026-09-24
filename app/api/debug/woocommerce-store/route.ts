@@ -1,6 +1,7 @@
+import { API_ENDPOINTS, WP_BASE_URL } from "@/lib/config";
 import { NextResponse } from "next/server";
 
-const STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
+const STORE_API = API_ENDPOINTS.woocommerce.store;
 
 export async function GET() {
     try {
@@ -11,8 +12,8 @@ export async function GET() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Referer": "https://missusoutfits.com",
-                "Origin": "https://missusoutfits.com",
+                "Referer": WP_BASE_URL,
+                "Origin": WP_BASE_URL,
             },
             credentials: "include",
         });
@@ -40,8 +41,8 @@ export async function GET() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Referer": "https://missusoutfits.com",
-                    "Origin": "https://missusoutfits.com",
+                    "Referer": WP_BASE_URL,
+                    "Origin": WP_BASE_URL,
                 },
                 credentials: "include",
                 body: JSON.stringify({
@@ -67,8 +68,8 @@ export async function GET() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Referer": "https://missusoutfits.com",
-                    "Origin": "https://missusoutfits.com",
+                    "Referer": WP_BASE_URL,
+                    "Origin": WP_BASE_URL,
                 },
                 credentials: "include",
                 body: JSON.stringify({

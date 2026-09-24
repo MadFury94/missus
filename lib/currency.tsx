@@ -32,7 +32,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
     // Load saved preference
     useEffect(() => {
-        const saved = localStorage.getItem("missus_currency");
+        const saved = localStorage.getItem("wearlux_currency");
         if (saved && CURRENCIES.find((c) => c.code === saved)) {
             setCurrencyState(saved);
         }
@@ -49,7 +49,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
     const setCurrency = useCallback((code: string) => {
         setCurrencyState(code);
-        localStorage.setItem("missus_currency", code);
+        localStorage.setItem("wearlux_currency", code);
         // Notify all components that currency changed
         window.dispatchEvent(new CustomEvent("currency-changed", { detail: code }));
     }, []);

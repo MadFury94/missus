@@ -6,7 +6,8 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import type { Cart, CartItem } from "@/types";
 import { checkCheckoutStock } from "@/lib/checkout-stock";
 import StockNotice from "@/components/cart/StockNotice";
-import { getCart } from "@/lib/cart";
+import { getCart, clearCart } from "@/lib/cart";
+import { IS_DEMO_STORE, BANK_TRANSFER_ENABLED } from "@/lib/store-config";
 import { useCurrency } from "@/lib/currency";
 import type { ShippingRate } from "@/lib/woocommerce-shipping";
 import DynamicTitle from "@/components/layout/DynamicTitle";
@@ -301,6 +302,7 @@ export default function CheckoutPage() {
     }
 
     async function handleBankTransferCheckout() {
+        if (!BANK_TRANSFER_ENABLED) return;
         if (!selectedRate || ratesLoading) return;
 
         // Validate cart contents and amounts (same as Paystack)
@@ -327,7 +329,7 @@ export default function CheckoutPage() {
             selectedRate,
             total: expectedTotal, // Use calculated total
         };
-        localStorage.setItem("pending_bank_order", JSON.stringify(orderData));
+        localStorage.setItem("wearlux_pending_bank_order", JSON.stringify(orderData));
         window.location.href = "/checkout/bank-transfer";
         setLoading(false);
     }
@@ -336,6 +338,25 @@ export default function CheckoutPage() {
         e.preventDefault();
         if (promoLoading) return;
         if (stockChecking || removedItems.length || !(await checkStock())) return;
+        if (IS_DEMO_STORE) {
+            if (!selectedRate || ratesLoading || loading) return;
+            setLoading(true);
+            try {
+                const response = await fetch("/api/orders", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart: getCart().items, shipping: form, promoCode, selectedRate }),
+                });
+                const result = await response.json();
+                if (!response.ok || !result.demo || !result.order) throw new Error(result.error || "Could not complete demo checkout.");
+                sessionStorage.setItem("wearlux_demo_receipt", JSON.stringify(result.order));
+                clearCart();
+                window.dispatchEvent(new Event("cart-updated"));
+                window.location.assign("/checkout/demo-success");
+            } catch (error) {
+                setRatesError(error instanceof Error ? error.message : "Could not complete demo checkout. Please retry.");
+            } finally { setLoading(false); }
+            return;
+        }
         if (paymentMethod === "card") {
             await handlePaystackCheckout();
         } else {
@@ -345,6 +366,9 @@ export default function CheckoutPage() {
     return (
         <>
             <StockNotice items={removedItems} empty={cart.items.length === 0} onClose={() => setRemovedItems([])} />
+            {IS_DEMO_STORE && <div role="status" style={{ padding: "16px 24px", background: "#f2ede3", color: "#111", textAlign: "center" }}>
+                <strong>Wearlux demo checkout.</strong> No payment is taken and no real order is placed. Try WEARLUX10 for 10% off.
+            </div>}
             {(stockChecking || stockError) && <div role={stockError ? "alert" : "status"} style={{ padding: "16px 24px", background: "#fff5f5", color: "#111", textAlign: "center" }}>
                 {stockChecking ? "Checking availability of the items in your bag…" : stockError}
                 {stockError && !stockChecking && <button type="button" onClick={() => void checkStock()} style={{ marginLeft: "12px", textDecoration: "underline", cursor: "pointer" }}>Retry stock check</button>}
@@ -381,7 +405,7 @@ export default function CheckoutPage() {
                         {/* Header with security indicator */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "8px 0" }}>
-                                <span style={{ position: "relative", display: "block", width: "130px", height: "42px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="130px" style={{ objectFit: "contain" }} /></span>
+                                <span style={{ position: "relative", display: "block", width: "130px", height: "42px" }}><Image src="/wearlux-logo.svg" alt="Wearlux" fill sizes="130px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                                 {/* Security indicator */}
@@ -481,7 +505,7 @@ export default function CheckoutPage() {
                                                     type="text"
                                                     value={promoInput}
                                                     onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(""); }}
-                                                    placeholder="Discount code or gift card"
+                                                    placeholder={IS_DEMO_STORE ? "Try WEARLUX10" : "Discount code or gift card"}
                                                     style={{ flex: 1, border: "1px solid #d9d9d9", borderRadius: "6px", padding: "12px 14px", fontSize: "14px", outline: "none" }}
                                                 />
                                                 <button
@@ -535,7 +559,7 @@ export default function CheckoutPage() {
                         {/* Header row */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "12px 0" }}>
-                                <span style={{ position: "relative", display: "block", width: "150px", height: "48px" }}><Image src="/missus-logo.webp" alt="MISSUS" fill sizes="150px" style={{ objectFit: "contain" }} /></span>
+                                <span style={{ position: "relative", display: "block", width: "150px", height: "48px" }}><Image src="/wearlux-logo.svg" alt="Wearlux" fill sizes="150px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                                 {/* Security indicator */}
@@ -1110,7 +1134,7 @@ export default function CheckoutPage() {
                                     )}
                                 </div>}
                                 {/* Payment */}
-                                <div style={{ marginBottom: "24px" }}>
+                                <div style={{ display: IS_DEMO_STORE ? "none" : undefined, marginBottom: "24px" }}>
                                     <h2 style={{ fontSize: "18px", fontWeight: 600, color: "#000", marginBottom: "16px" }}>Payment</h2>
                                     <p style={{ fontSize: "14px", color: "#666", marginBottom: "16px" }}>All transactions are secure and encrypted.</p>
 
@@ -1148,11 +1172,12 @@ export default function CheckoutPage() {
                                             <input
                                                 type="radio"
                                                 name="payment"
+                                                disabled={!BANK_TRANSFER_ENABLED}
                                                 checked={paymentMethod === "bank_transfer"}
                                                 onChange={() => setPaymentMethod("bank_transfer")}
                                                 style={{ marginRight: "12px" }}
                                             />
-                                            <span style={{ fontSize: "14px", fontWeight: 500 }}>Bank transfer</span>
+                                            <span style={{ fontSize: "14px", fontWeight: 500 }}>{BANK_TRANSFER_ENABLED ? "Bank transfer" : "Bank transfer (not available yet)"}</span>
                                         </label>
                                     </div>
 
@@ -1183,7 +1208,7 @@ export default function CheckoutPage() {
                                         marginBottom: "16px"
                                     }}
                                 >
-                                    {loading ? "Processing..." : paymentMethod === "card" ? "Pay now" : "Complete order"}
+                                    {loading ? "Processing..." : IS_DEMO_STORE ? "Complete demo order" : paymentMethod === "card" ? "Pay now" : "Complete order"}
                                 </button>
                             </form>
                         </div>
@@ -1783,7 +1808,7 @@ export default function CheckoutPage() {
                                 </div>}
 
                                 {/* Payment */}
-                                <div style={{ marginBottom: "32px" }}>
+                                <div style={{ display: IS_DEMO_STORE ? "none" : undefined, marginBottom: "32px" }}>
                                     <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#000", marginBottom: "20px" }}>Payment method</h2>
                                     <p style={{ fontSize: "14px", color: "#666", marginBottom: "20px" }}>All transactions are secure and encrypted.</p>
 
@@ -1823,11 +1848,12 @@ export default function CheckoutPage() {
                                             <input
                                                 type="radio"
                                                 name="payment"
+                                                disabled={!BANK_TRANSFER_ENABLED}
                                                 checked={paymentMethod === "bank_transfer"}
                                                 onChange={() => setPaymentMethod("bank_transfer")}
                                                 style={{ marginRight: "16px", width: "18px", height: "18px" }}
                                             />
-                                            <span style={{ fontSize: "16px", fontWeight: 500 }}>Bank transfer</span>
+                                            <span style={{ fontSize: "16px", fontWeight: 500 }}>{BANK_TRANSFER_ENABLED ? "Bank transfer" : "Bank transfer (not available yet)"}</span>
                                         </label>
                                     </div>
 
@@ -1858,7 +1884,7 @@ export default function CheckoutPage() {
                                         transition: "all 0.2s"
                                     }}
                                 >
-                                    {loading ? "Processing..." : paymentMethod === "card" ? "Pay now" : "Complete order"}
+                                    {loading ? "Processing..." : IS_DEMO_STORE ? "Complete demo order" : paymentMethod === "card" ? "Pay now" : "Complete order"}
                                 </button>
                             </form>
                         </div>
@@ -1926,7 +1952,7 @@ export default function CheckoutPage() {
                                                 type="text"
                                                 value={promoInput}
                                                 onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(""); }}
-                                                placeholder="Discount code or gift card"
+                                                placeholder={IS_DEMO_STORE ? "Try WEARLUX10" : "Discount code or gift card"}
                                                 style={{ flex: 1, border: "1px solid #d9d9d9", borderRadius: "8px", padding: "16px", fontSize: "16px", outline: "none" }}
                                             />
                                             <button

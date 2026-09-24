@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { STORE_CONFIG } from "./lib/store-config";
 
 const nextConfig: NextConfig = {
   typescript: {
@@ -15,6 +16,8 @@ const nextConfig: NextConfig = {
     // Remove this in production — next/image optimisation should work on the server.
     unoptimized: process.env.NEXT_PUBLIC_UNOPTIMIZED_IMAGES === "true",
     remotePatterns: [
+      { protocol: "https", hostname: new URL(STORE_CONFIG.wordpressUrl).hostname },
+      ...(STORE_CONFIG.endpoints.media ? [{ protocol: "https" as const, hostname: new URL(STORE_CONFIG.endpoints.media).hostname }] : []),
       { protocol: "https", hostname: "missusoutfits.com" },
       { protocol: "https", hostname: "**.missusoutfits.com" },
       { protocol: "https", hostname: "secure.gravatar.com" },

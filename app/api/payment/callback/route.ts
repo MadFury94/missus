@@ -1,9 +1,10 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { verifyPayment } from "@/lib/paystack";
 import { ensurePaidOrder } from "@/lib/paid-order";
 import { findOrderByReference } from "@/lib/order-reference";
 
-const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
+const WC_API_URL = API_ENDPOINTS.woocommerce.rest;
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
 const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
 

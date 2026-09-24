@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { validateTryOnImage } from "@/lib/virtual-tryon";
 import { API_ENDPOINTS } from "@/lib/config";
+import { IS_DEMO_STORE } from "@/lib/store-config";
 
 interface Props {
     productImage: string;
@@ -55,6 +56,7 @@ export default function VirtualTryOn({ productImage, productName, category }: Pr
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     async function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+        if (IS_DEMO_STORE) { setError("Virtual try-on will be available when the new store is connected."); return; }
         const file = e.target.files?.[0];
         if (!file) return;
 

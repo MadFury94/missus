@@ -18,13 +18,13 @@ const dress = { productId: 1, variationId: 11, name: 'FIORELLA mini dress', slug
 const other = { ...dress, variationId: 12, color: 'Red' };
 
 function client({ unavailable = [dress], fail = false, storageFail = false, stale = false, wishlist = [] } = {}) {
-    const storage = new Map([['missus_cart', JSON.stringify([dress, other])], ['missus_wishlist', JSON.stringify(wishlist)]]);
+    const storage = new Map([['wearlux_cart', JSON.stringify([dress, other])], ['wearlux_wishlist', JSON.stringify(wishlist)]]);
     const events = [];
     const globals = {
         Event: class { constructor(type) { this.type = type; } },
         window: { dispatchEvent: event => events.push(event.type) },
         localStorage: { getItem: key => storage.get(key), setItem: (key, value) => {
-            if (storageFail && key === 'missus_wishlist') throw new Error('Storage unavailable');
+            if (storageFail && key === 'wearlux_wishlist') throw new Error('Storage unavailable');
             storage.set(key, value);
         } },
         console: { error() {} },
@@ -33,11 +33,11 @@ function client({ unavailable = [dress], fail = false, storageFail = false, stal
     const saved = load('lib/wishlist.ts', {}, globals);
     const service = load('lib/checkout-stock.ts', { './cart': cart, './wishlist': saved }, {
         ...globals, fetch: async () => {
-            if (stale) storage.set('missus_cart', JSON.stringify([other]));
+            if (stale) storage.set('wearlux_cart', JSON.stringify([other]));
             return { ok: !fail, json: async () => fail ? { error: 'Stock service offline' } : { unavailable } };
         },
     });
-    return { run: service.checkCheckoutStock, cart: () => JSON.parse(storage.get('missus_cart')), wishlist: () => JSON.parse(storage.get('missus_wishlist')), events };
+    return { run: service.checkCheckoutStock, cart: () => JSON.parse(storage.get('wearlux_cart')), wishlist: () => JSON.parse(storage.get('wearlux_wishlist')), events };
 }
 
 test('moves only the unavailable selection to the wishlist and updates totals', async () => {

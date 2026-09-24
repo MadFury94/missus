@@ -1,7 +1,8 @@
 import { BRAND_CONFIG } from "./brand-config";
+import { STORE_CONFIG } from "./store-config";
 
 export const SITE_NAME = BRAND_CONFIG.name;
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+export const SITE_URL = STORE_CONFIG.siteUrl;
 export const CURRENCY_SYMBOL = "₦";
 export const FREE_SHIPPING_THRESHOLD = 150000;
 
@@ -11,27 +12,27 @@ export const FREE_SHIPPING_THRESHOLD = 150000;
 // ──────────────────────────────────────────────────────────────────────────
 
 // WordPress/WooCommerce Base URLs - MODIFY THESE FOR MIGRATION
-export const WP_BASE_URL = process.env.WP_BASE_URL ?? "https://missusoutfits.com";
-export const WP_MEDIA_BASE = process.env.WP_MEDIA_BASE ?? `${WP_BASE_URL}/wp-content/uploads`;
+export const WP_BASE_URL = STORE_CONFIG.wordpressUrl.replace(/\/$/, "");
+export const WP_MEDIA_BASE = STORE_CONFIG.endpoints.media || `${WP_BASE_URL}/wp-content/uploads`;
 
 // Derived API endpoints (automatically update when base URLs change)
 export const API_ENDPOINTS = {
     // WooCommerce Store API (public, no auth)
     woocommerce: {
-        store: `${WP_BASE_URL}/wp-json/wc/store/v1`,
-        rest: process.env.WC_API_URL || `${WP_BASE_URL}/wp-json/wc/v3`,
+        store: STORE_CONFIG.endpoints.store || `${WP_BASE_URL}/wp-json/wc/store/v1`,
+        rest: STORE_CONFIG.endpoints.rest || `${WP_BASE_URL}/wp-json/wc/v3`,
     },
 
     // WordPress Core API
     wordpress: {
-        core: process.env.WP_API_URL || `${WP_BASE_URL}/wp-json`,
+        core: STORE_CONFIG.endpoints.core || `${WP_BASE_URL}/wp-json`,
         settings: `${WP_BASE_URL}/wp-json/wp/v2/settings`,
         media: `${WP_BASE_URL}/wp-json/wp/v2/media`,
     },
 
     // Custom APIs
     custom: {
-        giftCards: process.env.WP_API_BASE || `${WP_BASE_URL}/wp-json/missus/v1`,
+        giftCards: STORE_CONFIG.endpoints.custom || `${WP_BASE_URL}/wp-json/missus/v1`,
         homepage: `${WP_BASE_URL}/wp-json/wp/v2/homepage_settings`,
     },
 

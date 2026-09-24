@@ -1,7 +1,8 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminAuth } from "@/lib/admin-auth";
 
-const WP_API_URL = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
+const WP_API_URL = API_ENDPOINTS.wordpress.core;
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const authError = await requireAdminAuth(request);

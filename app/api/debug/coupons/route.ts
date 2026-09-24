@@ -1,10 +1,11 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
     try {
         const consumerKey = process.env.WC_CONSUMER_KEY;
         const consumerSecret = process.env.WC_CONSUMER_SECRET;
-        const apiUrl = process.env.WC_API_URL;
+        const apiUrl = API_ENDPOINTS.woocommerce.rest;
 
         if (!consumerKey || !consumerSecret || !apiUrl) {
             return NextResponse.json({

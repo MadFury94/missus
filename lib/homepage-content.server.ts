@@ -1,5 +1,7 @@
 ﻿import "server-only";
 import { cache } from "react";
+import { IS_DEMO_STORE } from "./store-config";
+import { DEMO_CATEGORIES } from "./demo-store";
 import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 import { API_ENDPOINTS, WP_HEADERS } from "./config";
@@ -67,6 +69,16 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
 
 // Surface read errors in the editor so defaults cannot silently overwrite saved content.
 export async function readHomepageContent(): Promise<HomepageContent> {
+    if (IS_DEMO_STORE) return {
+        ...HOMEPAGE_DEFAULTS,
+        announcement: "WEARLUX DEMO STORE · SAMPLE PRODUCTS · NO PAYMENTS TAKEN",
+        marquee: ["The Wearlux Edit", "Find Your Everyday Style", "Explore the Collection"],
+        categories: {
+            feature: { label: "Dresses", href: "/category/dresses", img: DEMO_CATEGORIES[0].image!.src },
+            grid: DEMO_CATEGORIES.slice(1, 5).map(c => ({ label: c.name, href: `/category/${c.slug}`, img: c.image!.src })),
+        },
+        newsletter: { heading: "Discover Wearlux", sub: "Explore our sample collection." },
+    };
     const content = decodeContent((await getHomepagePost()).acf);
 
     // Homepage cards historically stored their own ACF image URLs, while the
@@ -98,6 +110,7 @@ export async function readHomepageContent(): Promise<HomepageContent> {
 }
 
 export async function saveHomepageContent(content: HomepageContent): Promise<void> {
+    if (IS_DEMO_STORE) throw new Error("Homepage publishing requires the new store's API connection.");
     const headers = wpHeaders(true);
     const post = await getHomepagePost();
     const acf = {

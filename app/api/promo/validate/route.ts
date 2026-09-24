@@ -1,3 +1,4 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { checkGiftCard, giftCardDiscountFor } from "@/lib/giftCards";
 import { eligiblePromoSubtotal } from "@/lib/promo-items";
@@ -22,7 +23,7 @@ async function validateWooCommerceCoupon(code: string, subtotal: number) {
     try {
         const consumerKey = process.env.WC_CONSUMER_KEY;
         const consumerSecret = process.env.WC_CONSUMER_SECRET;
-        const apiUrl = process.env.WC_API_URL;
+        const apiUrl = API_ENDPOINTS.woocommerce.rest;
 
         if (!consumerKey || !consumerSecret || !apiUrl) {
             console.log("[promo] WooCommerce credentials not found, using fallback codes");

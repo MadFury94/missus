@@ -7,7 +7,7 @@ function service(fetch) {
     const exports = {};
     vm.runInNewContext(ts.transpileModule(fs.readFileSync('lib/wp-fetch.ts', 'utf8'), {
         compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
-    }).outputText, { exports, fetch, AbortSignal, process: { env: {} }, console: { warn() {} } });
+    }).outputText, { exports, fetch, AbortSignal, require: name => { if (name === './config') return { API_ENDPOINTS: { woocommerce: { store: 'https://wearlux.test/wp-json/wc/store/v1' } }, WP_HEADERS: { Origin: 'https://wearlux.test' }, WP_FETCH_TIMEOUT: 4000 }; if (name === './store-config') return { IS_DEMO_STORE: false }; if (name === './demo-store') return {}; throw new Error(name); }, process: { env: {} }, console: { warn() {} } });
     return exports;
 }
 test('Store API returns parsed products', async () => {

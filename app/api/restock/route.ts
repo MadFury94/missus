@@ -1,3 +1,4 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
         const credentials = process.env.WP_APP_PASSWORD;
         if (!credentials) throw new Error("WordPress connection unavailable");
 
-        const base = (process.env.WP_API_URL || "https://missusoutfits.com/wp-json").replace(/\/$/, "");
+        const base = (API_ENDPOINTS.wordpress.core).replace(/\/$/, "");
 
         // 1. Save restock notification 
         const restockResponse = await fetch(`${base}/missus/v1/restock`, {

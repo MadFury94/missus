@@ -13,9 +13,12 @@ export function ensurePaidOrder(reference: string) {
     return task;
 }
 
-import { wcApiFetch } from "./api-helpers";
+import { API_ENDPOINTS } from "./config";
+import { IS_DEMO_STORE } from "./store-config";
 
 async function persist(reference: string) {
+    if (IS_DEMO_STORE) throw new Error("Live payment verification is disabled in demo mode.");
+    const api = API_ENDPOINTS.woocommerce.rest;
     const headers = {
         Authorization: `Basic ${Buffer.from(`${process.env.WC_CONSUMER_KEY}:${process.env.WC_CONSUMER_SECRET}`).toString("base64")}`,
         "Content-Type": "application/json",

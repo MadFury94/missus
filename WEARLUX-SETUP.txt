@@ -1,0 +1,54 @@
+WEARLUX DEMO STORE
+
+Run npm run dev, then open http://localhost:3002.
+
+The Wearlux-app branch uses local sample products by default. Browse, search,
+filter, select sizes/colours, save favourites, add to bag, select delivery and
+complete checkout without WordPress, WooCommerce or Paystack.
+
+Sample products: lib/demo-store.ts (12 products using existing local photos).
+Sample coupon: WEARLUX10 (10% off).
+Shipping: Lagos N3,500; other states N6,500; express adds N3,000.
+Standard shipping is free above N150,000 after discounts.
+Stock: 10 units per size/colour selection, reset for each demo order.
+Currencies use fixed illustrative rates.
+
+Orders are simulations: no money is charged, no real order is sent, stock is
+not permanently deducted, and nothing is emailed or shipped. A receipt is
+stored in sessionStorage for the current browser tab. Customer contact and
+address details are validated but are not persisted by the demo API.
+
+Demo mode redirects ALL /api requests through a local adapter. Payment,
+admin, accounts, gift-card issuance, tracking, email and other external
+integrations return an explicit unavailable message until connected.
+The site retains existing layouts/content; the photos are illustrative.
+
+CONNECTING THE NEW WORDPRESS STORE
+
+One code configuration file: lib/store-config.ts.
+
+1. Set wordpressUrl to the new WordPress origin and siteUrl to the new
+   storefront origin. Standard Store API, REST API and media URLs are derived
+   automatically. Fill endpoints overrides only for nonstandard URLs.
+2. Use a separate Wearlux environment/deployment with the NEW WooCommerce,
+   WordPress and payment credentials. Never copy Missus production keys into
+   a Wearlux deployment. Secrets stay in environment variables, not source.
+   The current ignored .env.local has been left untouched and still contains
+   the old site's configuration. Do not enable live mode with those keys.
+3. Change mode from "demo" to "wordpress" in the same configuration file.
+   Optional: enter the new store's public bank-transfer details in bankTransfer
+   in the same file. Bank transfer stays disabled while these fields are blank.
+4. Restart/rebuild the app. The demo route is disabled; existing WordPress
+   catalog, stock, shipping, coupon, order and payment integrations resume.
+5. Test the new endpoints and payment gateway in their test environment first.
+   Custom gift-card/account/homepage integrations still require their matching
+   WordPress plugins/routes, as described in NEW-WOOCOMMERCE-STORE-SETUP.md.
+
+Legacy WP_BASE_URL/WC_API_URL/WP_API_URL/WP_API_BASE environment URL values
+are intentionally ignored. This prevents old URLs overriding the central
+configuration. New media hosts are also picked up by next.config.ts.
+
+Missus/master branches and their production settings have not been modified.
+Wearlux has its own browser cart, wishlist and currency storage keys.
+
+Checks: node --test tests/wearlux-demo.test.cjs

@@ -1,8 +1,9 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const baseUrl = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
+        const baseUrl = API_ENDPOINTS.wordpress.core;
         const storeUrl = `${baseUrl.replace(/\/$/, "")}/wc/store/v1`;
 
         console.log("[shipping-debug] Testing connection to:", storeUrl);

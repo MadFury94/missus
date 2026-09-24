@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { findOrderByReference } from "@/lib/order-reference";
 import { ensurePaidOrder } from "@/lib/paid-order";
-import { wcApiFetch, getWooCommerceAuth } from "@/lib/api-helpers";
+import { getWooCommerceAuth } from "@/lib/api-helpers";
+import { API_ENDPOINTS } from "@/lib/config";
 
 export async function POST(req: NextRequest) {
     const ref = req.nextUrl.searchParams.get("ref");
@@ -19,8 +20,7 @@ export async function POST(req: NextRequest) {
 // Used by the confirmation page to show order details without requiring login.
 
 function getWCAuth() {
-    return getWooCommerceAuth();
-    return { Authorization: `Basic ${auth}`, "Content-Type": "application/json" };
+    return { Authorization: getWooCommerceAuth().authorization, "Content-Type": "application/json" };
 }
 
 export async function GET(req: NextRequest) {
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
     if (!ref) return NextResponse.json({ error: "ref required" }, { status: 400 });
 
     try {
-        const o = await findOrderByReference(ref, "", getWCAuth());
+        const o = await findOrderByReference(ref, API_ENDPOINTS.woocommerce.rest, getWCAuth());
         if (!o) {
             return NextResponse.json({ error: "Order not found" }, { status: 404 });
         }
