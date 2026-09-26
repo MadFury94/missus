@@ -288,13 +288,15 @@ h6 {
   .wearlux-hero-copy {
     left: 24px;
     right: 24px;
-    top: auto;
-    bottom: 120px;
-    transform: none;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
   }
 
   .wearlux-hero:not(.transparent-header) .wearlux-hero-copy {
-    bottom: 140px;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
   }
 
   .wearlux-hero-copy h1 {
