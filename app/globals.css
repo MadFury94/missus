@@ -120,6 +120,9 @@ h6 {
 .wearlux-footer h3,
 .wearlux-footer button { color: var(--ink) !important; }
 .wearlux-footer { border-top: 1px solid rgba(18,24,31,.14); }
+.wearlux-footer a { border-radius: 0 !important; }
+.wearlux-footer svg { stroke: var(--ink) !important; fill: none; }
+.wearlux-footer svg path[fill] { fill: var(--ink) !important; }
 .wearlux-hero {
   position: relative;
   min-height: min(660px, calc(100vh - 150px));
