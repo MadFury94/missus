@@ -141,7 +141,7 @@ h6 {
 }
 
 .wearlux-hero-slide img {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   background: var(--ink);
 }

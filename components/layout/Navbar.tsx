@@ -342,15 +342,15 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                 .nav-search-desktop { display: flex; align-items: center; }
                 .nav-search-trigger {
                     display: flex; align-items: center; gap: 8px;
-                    border: none; border-bottom: 1px solid ${transparent ? "rgba(255,255,255,.4)" : "#ccc"};
+                    border: none; border-bottom: 1px solid ${transparent ? "rgba(255,255,255,.72)" : IS_DEMO_STORE ? "rgba(18,24,31,.62)" : "#999"};
                     background: none; padding: 4px 0; cursor: pointer;
                     width: 200px; max-width: 200px; transition: border-color .2s;
                 }
-                .nav-search-trigger:hover { border-bottom-color: ${transparent ? "#fff" : "#000"}; outline: none; }
+                .nav-search-trigger:hover { border-bottom-color: ${transparent ? "#fff" : "var(--ink)"}; outline: none; }
                 .nav-search-trigger span {
                     font-family: var(--font-body, 'DM Sans', sans-serif);
                     font-size: 12px; font-weight: 300; letter-spacing: .04em;
-                    color: ${transparent ? "rgba(255,255,255,.6)" : "#aaa"}; flex: 1; text-align: left;
+                    color: ${transparent ? "#fff" : "var(--ink)"}; flex: 1; text-align: left;
                 }
                 .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
                 .nav-hamburger:focus-visible { outline: 2px solid ${iconColor}; outline-offset: 2px; }
@@ -383,7 +383,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         {/* Search Bar — desktop only */}
                         <div className="nav-search-desktop">
                             <button className="nav-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Open search" aria-haspopup="dialog">
-                                <img src="/search.svg" alt="" width={20} height={20} style={{ opacity: transparent ? 0.6 : 0.6, filter: transparent ? "brightness(0) invert(1)" : "none" }} />
+                                <img src="/search.svg" alt="" width={20} height={20} style={{ opacity: 1, filter: transparent ? "brightness(0) invert(1)" : "none" }} />
                                 <span>Search</span>
                             </button>
                         </div>
