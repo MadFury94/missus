@@ -114,6 +114,12 @@ h6 {
 }
 
 /* Wearlux editorial presentation */
+.wearlux-footer,
+.wearlux-footer a,
+.wearlux-footer p,
+.wearlux-footer h3,
+.wearlux-footer button { color: var(--ink) !important; }
+.wearlux-footer { border-top: 1px solid rgba(18,24,31,.14); }
 .wearlux-hero {
   position: relative;
   min-height: min(660px, calc(100vh - 150px));
@@ -147,7 +153,9 @@ h6 {
 }
 
 /* Adjust image position when header is not transparent to show full content */
-.wearlux-hero:not(.transparent-header) .wearlux-hero-slide img { object-position: center top; }
+.wearlux-hero:not(.transparent-header) .wearlux-hero-slide img {
+  object-position: center top;
+}
 
 .wearlux-hero-overlay {
   position: absolute;
@@ -269,39 +277,63 @@ h6 {
 
 @media (max-width: 780px) {
   .wearlux-hero {
-    height: 620px;
-    min-height: 620px;
+    height: calc(100vh - 120px);
+    min-height: calc(100vh - 120px);
+    max-height: 620px;
   }
 
   .wearlux-hero-copy {
     left: 24px;
     right: 24px;
     top: auto;
-    bottom: 72px;
+    bottom: 120px;
     transform: none;
   }
 
   .wearlux-hero:not(.transparent-header) .wearlux-hero-copy {
-    bottom: 115px;
+    bottom: 140px;
   }
 
   .wearlux-hero-copy h1 {
     font-size: clamp(40px, 12vw, 64px);
   }
 
-  .wearlux-hero-sub { max-width: 250px; margin-bottom: 20px; font-size: 13px; }
-  .wearlux-hero-actions a { min-height: 40px; padding: 0 15px; font-size: 10px; }
-  .wearlux-hero-dots { display: none; }
+  .wearlux-hero-sub {
+    max-width: 250px;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .wearlux-hero-actions a {
+    min-height: 40px;
+    padding: 0 15px;
+    font-size: 10px;
+  }
+
+  .wearlux-hero-dots {
+    display: none;
+  }
 
   .wearlux-hero-slide img {
     object-fit: cover;
     object-position: center top;
   }
 
-  .wearlux-hero-slide:nth-child(1) img { object-position: 68% top; }
-  .wearlux-hero-slide:nth-child(2) img { object-position: 70% top; }
-  .wearlux-hero-slide:nth-child(3) img { object-position: 48% top; }
-  .wearlux-hero-slide:nth-child(4) img { object-position: 70% top; }
+  .wearlux-hero-slide:nth-child(1) img {
+    object-position: 68% top;
+  }
+
+  .wearlux-hero-slide:nth-child(2) img {
+    object-position: 70% top;
+  }
+
+  .wearlux-hero-slide:nth-child(3) img {
+    object-position: 48% top;
+  }
+
+  .wearlux-hero-slide:nth-child(4) img {
+    object-position: 70% top;
+  }
 
   .wearlux-hero-arrow {
     width: 34px;
@@ -1067,4 +1099,8 @@ html body *::after {
   font-family: var(--font-dm-sans), sans-serif !important;
 }
 
-.wearlux-hero-slide picture { position: absolute; inset: 0; display: block; }
+.wearlux-hero-slide picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}

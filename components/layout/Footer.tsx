@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useCurrency, CURRENCIES } from "@/lib/currency";
 import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/config";
 import { BRAND_CONFIG } from "@/lib/brand-config";
+import { IS_DEMO_STORE } from "@/lib/store-config";
 
 const SOCIALS = [
     {
@@ -123,7 +124,7 @@ export default function Footer() {
                 }
             `}</style>
 
-            <footer style={{ background: "#1a1a1a", color: "#fff", padding: "40px 20px 20px" }}>
+            <footer className={IS_DEMO_STORE ? "wearlux-footer" : undefined} style={{ background: IS_DEMO_STORE ? "var(--sky)" : "#1a1a1a", color: IS_DEMO_STORE ? "var(--ink)" : "#fff", padding: "40px 20px 20px" }}>
                 <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: "32px", maxWidth: "1200px", margin: "0 auto" }}>
                     {/* Brand */}
                     <div className="footer-brand">
@@ -132,7 +133,7 @@ export default function Footer() {
                             <img
                                 src={BRAND_CONFIG.logo}
                                 alt={BRAND_CONFIG.logoAlt}
-                                style={{ height: "90px", width: "auto", filter: "brightness(0) invert(1)" }}
+                                style={{ height: "90px", width: "auto", filter: IS_DEMO_STORE ? "none" : "brightness(0) invert(1)" }}
                             />
                         </div>
                         <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>

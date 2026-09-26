@@ -252,6 +252,9 @@ export default function ProductPageClient({ params, product, related }: {
         <>
             <style>{`
                 /* ── PDP layout ─────────────────────────────── */
+                .wearlux-pdp { background: var(--paper); }
+                .wearlux-pdp button { border-radius: 0 !important; }
+                .wearlux-pdp .pdp-main-img { background: var(--paper) !important; }
                 .pdp-wrap {
                     display: grid;
                     grid-template-columns: 80px 480px 1fr;
@@ -332,7 +335,7 @@ export default function ProductPageClient({ params, product, related }: {
                 </div>
             </div>
 
-            <div className="pdp-wrap">
+            <div className="pdp-wrap wearlux-pdp">
                 {/* ── Thumbnail strip — desktop only ── */}
                 <div className="pdp-thumb-col">
                     {images.map((img: any, i: number) => (

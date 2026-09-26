@@ -359,6 +359,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                     .nav-hamburger { display: flex; align-items: center; justify-content: center; }
                     .currency-btn-desktop { display: none !important; }
                     .navbar-container { padding: 0 12px !important; }
+                    .wearlux-nav-logo { padding: 7px 0; }
                 }
             `}</style>
 
@@ -390,7 +391,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                     </div>
 
                     {/* CENTER: Logo */}
-                    <Link href="/" aria-label={`${BRAND_CONFIG.name} — go to homepage`} style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", textDecoration: "none", userSelect: "none" }}>
+                    <Link href="/" className="wearlux-nav-logo" aria-label={`${BRAND_CONFIG.name} — go to homepage`} style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", textDecoration: "none", userSelect: "none" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={BRAND_CONFIG.logo} alt={BRAND_CONFIG.logoAlt} style={{ height: IS_DEMO_STORE ? "115px" : "101px", width: "auto", display: "block", filter: transparent ? "brightness(0) invert(1)" : "none", transition: "filter .3s" }} />
                     </Link>

@@ -11,13 +11,13 @@ export const BRAND_CONFIG = {
     logoAlt: process.env.NEXT_PUBLIC_BRAND_LOGO_ALT || brandName,
     contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || process.env.CONTACT_EMAIL || "hello@missusoutfits.com",
     social: {
-        instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "https://instagram.com/missusoutfits",
-        twitter: process.env.NEXT_PUBLIC_SOCIAL_TWITTER || "https://twitter.com/missusoutfits",
-        facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || "https://facebook.com/missusoutfits",
-        tiktok: process.env.NEXT_PUBLIC_SOCIAL_TIKTOK || "https://tiktok.com/@missusoutfits",
-        youtube: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE || "https://youtube.com/missusoutfits",
-        snapchat: process.env.NEXT_PUBLIC_SOCIAL_SNAPCHAT || "https://snapchat.com/add/missusoutfits",
-        whatsapp: process.env.NEXT_PUBLIC_SOCIAL_WHATSAPP || "https://wa.me/2348012345678",
+        instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "https://instagram.com/b_and_l_wearlux",
+        twitter: process.env.NEXT_PUBLIC_SOCIAL_TWITTER || "https://twitter.com/BandLWEARLUX",
+        facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || "https://facebook.com/Wear-Lux",
+        tiktok: process.env.NEXT_PUBLIC_SOCIAL_TIKTOK || "https://tiktok.com/@b_and_l_wearlux",
+        youtube: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE || "https://youtube.com/@b_and_l_wearlux",
+        snapchat: process.env.NEXT_PUBLIC_SOCIAL_SNAPCHAT || "https://snapchat.com/add/wearlux_12",
+        whatsapp: process.env.NEXT_PUBLIC_SOCIAL_WHATSAPP || "https://wa.me/2348140172705",
     },
 } as const;
 
