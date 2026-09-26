@@ -274,6 +274,26 @@ export default function ProductPageClient({ params, product, related }: {
                 .wearlux-quantity span { min-width: 34px; text-align: center; font: 600 12px var(--font-body), sans-serif; }
                 .wearlux-buy-now { width: 100%; min-height: 48px; margin-top: 10px; padding: 13px 20px; border: 1px solid var(--ink); background: transparent; color: var(--ink); font: 700 12px var(--font-body), sans-serif; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
                 .wearlux-pdp .pdp-wishlist { border-radius: 0; }
+                .wearlux-pdp {
+                    grid-template-columns: 76px minmax(0, 1fr) minmax(380px, 460px);
+                    gap: 18px;
+                    max-width: 1380px;
+                    padding: 34px clamp(18px, 4vw, 64px) 70px;
+                    background: var(--paper);
+                }
+                .wearlux-pdp .pdp-thumb-col { width: 76px; padding: 0; gap: 10px; }
+                .wearlux-pdp .pdp-thumb-col button { width: 76px !important; height: 96px !important; border-color: #d8d4ce !important; }
+                .wearlux-pdp .pdp-thumb-col button[style*="2px solid"] { border-color: var(--ink) !important; }
+                .wearlux-pdp .pdp-main-img { aspect-ratio: 4 / 5 !important; max-height: none !important; min-height: 0 !important; background: #ebe7df !important; }
+                .wearlux-pdp .pdp-info-col { align-self: stretch; margin-left: 10px; padding: 38px 38px 42px; background: #fff; border-left: 1px solid #e5e0d8; }
+                .wearlux-pdp .wearlux-pdp-brand { margin-bottom: 14px; color: var(--text-muted); font-size: 10px; letter-spacing: .32em; }
+                .wearlux-pdp .pdp-info-col h1 { font-size: clamp(30px, 3.2vw, 48px) !important; line-height: 1.02 !important; letter-spacing: -.035em !important; margin-bottom: 18px !important; }
+                .wearlux-pdp .pdp-info-col button[style*="border-radius: 999px"] { border-radius: 0 !important; background: var(--ink) !important; min-height: 54px; letter-spacing: .14em; }
+                .wearlux-pdp .wearlux-buy-now { min-height: 54px; margin-top: 8px; letter-spacing: .14em; }
+                .wearlux-pdp .wearlux-quantity { margin-top: 20px; margin-bottom: 0; }
+                .wearlux-pdp .pdp-wishlist { margin-top: 8px; border-color: #d8d4ce; }
+                .wearlux-pdp .pdp-info-col > div[style*="border: 1px solid #ebebeb"] { border: 0 !important; border-top: 1px solid #e5e0d8 !important; border-radius: 0 !important; margin-top: 28px; }
+                .wearlux-pdp .pdp-info-col > div[style*="border-top: 1px solid #f0f0f0"] { border-color: #e5e0d8 !important; }
                 .pdp-thumb-col { display: flex; flex-direction: column; gap: 6px; padding: 12px 8px 12px 12px; width: 80px; }
                 .pdp-info-col { padding: 24px 32px 48px; position: sticky; top: 52px; }
                 .pdp-breadcrumb { display: block; }
@@ -287,6 +307,10 @@ export default function ProductPageClient({ params, product, related }: {
                     .pdp-info-col { padding: 20px 16px 40px; position: static; }
                     .wearlux-pdp { padding: 0 0 36px; }
                     .wearlux-pdp .pdp-info-col { padding: 24px 20px 40px; }
+                    .wearlux-pdp { display: block; padding: 0 0 36px; }
+                    .wearlux-pdp .pdp-info-col { margin: 0; border-left: 0; padding: 30px 20px 42px; }
+                    .wearlux-pdp .pdp-main-img { aspect-ratio: 4 / 5 !important; }
+                    .wearlux-pdp .pdp-info-col h1 { font-size: clamp(30px, 10vw, 42px) !important; }
                     .pdp-breadcrumb { display: none !important; }
                     .pdp-main-img { min-height: 500px !important; aspect-ratio: 2/3 !important; }
                     .pdp-mobile-dots { display: flex; }
