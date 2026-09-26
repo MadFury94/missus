@@ -111,12 +111,14 @@ export default function CategoryPageClient({
         <>
             <style>{`
                 .category-layout { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 24px 20px 60px; align-items: start; }
+                .category-page-header { padding: 40px 20px 20px; }
                 .category-filter-sidebar { position: sticky; top: 52px; }
                 .category-sidebar-desktop { display: block; }
                 .category-filter-bar { display: none; }
                 .category-filter-bar-desktop { display: flex; }
                 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
                 @media (max-width: 1024px) {
+                    .category-page-header { padding: 0 20px 20px !important; }
                     .category-layout { grid-template-columns: 1fr; padding: 0 0 60px; gap: 0; }
                     .category-sidebar-desktop { display: none; }
                     .category-filter-bar { display: flex; }
@@ -144,7 +146,7 @@ export default function CategoryPageClient({
             `}</style>
 
             {/* Header */}
-            <div style={{ padding: "40px 20px 20px", textAlign: "center", background: "#fff" }}>
+            <div className="category-page-header" style={{ textAlign: "center", background: "#fff" }}>
                 <div style={{
                     display: "inline-block",
                     padding: "8px 20px",
