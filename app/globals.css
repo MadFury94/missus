@@ -114,33 +114,199 @@ h6 {
 }
 
 /* Wearlux editorial presentation */
-.wearlux-hero { position: relative; min-height: min(660px, calc(100vh - 150px)); height: 660px; overflow: hidden; background: var(--ink); color: #fff; }
-.wearlux-hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .55s ease; }
-.wearlux-hero-slide.is-active { opacity: 1; z-index: 1; }
-.wearlux-hero-slide img { object-fit: cover; object-position: 62% center; }
-.wearlux-hero-overlay { position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgba(18,24,31,.72) 0%, rgba(18,24,31,.2) 48%, rgba(18,24,31,.08) 100%); }
-.wearlux-hero-copy { position: absolute; z-index: 3; left: clamp(28px, 8vw, 120px); top: 50%; transform: translateY(-50%); max-width: 500px; }
-.wearlux-eyebrow { margin-bottom: 18px; font: 600 11px/1 var(--font-body), sans-serif; letter-spacing: .28em; }
-.wearlux-hero-copy h1 { margin: 0 0 20px; font: 500 clamp(54px, 7vw, 104px)/.92 Georgia, 'Times New Roman', serif; letter-spacing: -.035em; }
-.wearlux-hero-copy h1 span { display: block; }
-.wearlux-hero-sub { max-width: 300px; margin-bottom: 30px; color: rgba(255,255,255,.82); font: 400 15px/1.5 var(--font-body), sans-serif; }
-.wearlux-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-.wearlux-hero-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border: 1px solid var(--sky); color: var(--ink); background: var(--sky); font: 700 11px/1 var(--font-body), sans-serif; letter-spacing: .13em; text-transform: uppercase; }
-.wearlux-hero-actions a + a { color: #fff; background: transparent; border-color: rgba(255,255,255,.8); }
-.wearlux-hero-arrow { position: absolute; top: 50%; z-index: 4; width: 42px; height: 42px; transform: translateY(-50%); border: 1px solid rgba(255,255,255,.5); background: transparent; color: #fff; font-size: 30px; line-height: 1; cursor: pointer; }
-.wearlux-hero-arrow.left { left: 24px; } .wearlux-hero-arrow.right { right: 24px; }
-.wearlux-hero-arrow:focus-visible, .wearlux-hero-dots button:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; }
-.wearlux-hero-dots { position: absolute; z-index: 4; bottom: 26px; left: 50%; display: flex; gap: 8px; transform: translateX(-50%); }
-.wearlux-hero-dots button { width: 8px; height: 8px; padding: 0; border: 1px solid #fff; background: transparent; cursor: pointer; }
-.wearlux-hero-dots button.is-active { background: var(--sky); border-color: var(--sky); }
+.wearlux-hero {
+  position: relative;
+  min-height: min(660px, calc(100vh - 150px));
+  height: 660px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #fff;
+}
+
+/* Adjust content positioning when header is not transparent */
+.wearlux-hero:not(.transparent-header) .wearlux-hero-copy {
+  top: calc(50% + 43px);
+}
+
+.wearlux-hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .55s ease;
+}
+
+.wearlux-hero-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.wearlux-hero-slide img {
+  object-fit: contain;
+  object-position: center;
+  background: var(--ink);
+}
+
+/* Adjust image position when header is not transparent to show full content */
+.wearlux-hero:not(.transparent-header) .wearlux-hero-slide img { object-position: center; }
+
+.wearlux-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, rgba(18, 24, 31, .72) 0%, rgba(18, 24, 31, .2) 48%, rgba(18, 24, 31, .08) 100%);
+}
+
+.wearlux-hero-copy {
+  position: absolute;
+  z-index: 3;
+  left: clamp(28px, 8vw, 120px);
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 500px;
+}
+
+.wearlux-eyebrow {
+  margin-bottom: 18px;
+  font: 600 11px/1 var(--font-body), sans-serif;
+  letter-spacing: .28em;
+}
+
+.wearlux-hero-copy h1 {
+  margin: 0 0 20px;
+  font: 500 clamp(54px, 7vw, 104px)/.92 Georgia, 'Times New Roman', serif;
+  letter-spacing: -.035em;
+}
+
+.wearlux-hero-copy h1 span {
+  display: block;
+}
+
+.wearlux-hero-sub {
+  max-width: 300px;
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, .82);
+  font: 400 15px/1.5 var(--font-body), sans-serif;
+}
+
+.wearlux-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wearlux-hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--sky);
+  color: var(--ink);
+  background: var(--sky);
+  font: 700 11px/1 var(--font-body), sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.wearlux-hero-actions a+a {
+  color: #fff;
+  background: transparent;
+  border-color: rgba(255, 255, 255, .8);
+}
+
+.wearlux-hero-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 42px;
+  height: 42px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, .5);
+  background: transparent;
+  color: #fff;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.wearlux-hero-arrow.left {
+  left: 24px;
+}
+
+.wearlux-hero-arrow.right {
+  right: 24px;
+}
+
+.wearlux-hero-arrow:focus-visible,
+.wearlux-hero-dots button:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 3px;
+}
+
+.wearlux-hero-dots {
+  position: absolute;
+  z-index: 4;
+  bottom: 26px;
+  left: 50%;
+  display: flex;
+  gap: 8px;
+  transform: translateX(-50%);
+}
+
+.wearlux-hero-dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 1px solid #fff;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wearlux-hero-dots button.is-active {
+  background: var(--sky);
+  border-color: var(--sky);
+}
 
 @media (max-width: 780px) {
-  .wearlux-hero { height: 620px; min-height: 620px; }
-  .wearlux-hero-copy { left: 24px; right: 24px; top: auto; bottom: 72px; transform: none; }
-  .wearlux-hero-copy h1 { font-size: clamp(48px, 14vw, 76px); }
-  .wearlux-hero-slide img { object-position: 63% center; }
-  .wearlux-hero-arrow { width: 34px; height: 34px; font-size: 25px; }
-  .wearlux-hero-arrow.left { left: 12px; } .wearlux-hero-arrow.right { right: 12px; }
+  .wearlux-hero {
+    height: 620px;
+    min-height: 620px;
+  }
+
+  .wearlux-hero-copy {
+    left: 24px;
+    right: 24px;
+    top: auto;
+    bottom: 72px;
+    transform: none;
+  }
+
+  .wearlux-hero:not(.transparent-header) .wearlux-hero-copy {
+    bottom: 115px;
+  }
+
+  .wearlux-hero-copy h1 {
+    font-size: clamp(48px, 14vw, 76px);
+  }
+
+  .wearlux-hero-slide img {
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .wearlux-hero-arrow {
+    width: 34px;
+    height: 34px;
+    font-size: 25px;
+  }
+
+  .wearlux-hero-arrow.left {
+    left: 12px;
+  }
+
+  .wearlux-hero-arrow.right {
+    right: 12px;
+  }
 }
 
 /* Override legacy font tracking and nested labels on every subheading. */

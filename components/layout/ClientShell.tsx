@@ -15,7 +15,7 @@ import { IS_DEMO_STORE } from "@/lib/store-config";
 const ANN_H = 34;   // AnnouncementBar
 const NAV_H = 52;   // Navbar
 const CAT_H = 40;   // CategoryNav: link padding plus text and border
-const MOBILE_SEARCH_H = 42; // HeaderSearchBar (mobile only)
+const SEARCH_H = 42; // HeaderSearchBar
 
 export default function ClientShell({ children, announcement }: { children: React.ReactNode; announcement?: string }) {
     const pathname = usePathname();
@@ -87,16 +87,16 @@ export default function ClientShell({ children, announcement }: { children: Reac
                 - Mobile gets additional space for search bar
             */}
             {!isHome && !isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="page-spacer" />}
-            {isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="product-page-spacer" />}
-            {isHome && <div style={{ height: `${solidHeaderH}px` }} />}
+            {isProductPage && <div style={{ height: `${solidHeaderH + SEARCH_H}px` }} className="product-page-spacer" />}
+            {isHome && <div style={{ height: `${solidHeaderH + SEARCH_H}px` }} />}
 
             <style>{`
                 @media (max-width: 768px) {
                     .page-spacer {
-                        height: ${solidHeaderH + (hasMobileSearch ? MOBILE_SEARCH_H : 0)}px !important;
+                        height: ${solidHeaderH + (hasMobileSearch ? SEARCH_H : 0)}px !important;
                     }
                     .product-page-spacer {
-                        height: ${solidHeaderH + MOBILE_SEARCH_H}px !important;
+                        height: ${solidHeaderH + SEARCH_H}px !important;
                     }
                 }
             `}</style>
