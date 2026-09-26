@@ -405,7 +405,7 @@ export default function CheckoutPage() {
                         {/* Header with security indicator */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "8px 0" }}>
-                                <span style={{ position: "relative", display: "block", width: "130px", height: "42px" }}><Image src="/wearlux-logo.svg" alt="Wearlux" fill sizes="130px" style={{ objectFit: "contain" }} /></span>
+                                <span style={{ position: "relative", display: "block", width: "130px", height: "42px" }}><Image src="/wearlux/wearlux-logo.png" alt="Wearlux" fill sizes="130px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                                 {/* Security indicator */}
@@ -559,7 +559,7 @@ export default function CheckoutPage() {
                         {/* Header row */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
                             <Link href="/" style={{ display: "flex", alignItems: "center", padding: "12px 0" }}>
-                                <span style={{ position: "relative", display: "block", width: "150px", height: "48px" }}><Image src="/wearlux-logo.svg" alt="Wearlux" fill sizes="150px" style={{ objectFit: "contain" }} /></span>
+                                <span style={{ position: "relative", display: "block", width: "150px", height: "48px" }}><Image src="/wearlux/wearlux-logo.png" alt="Wearlux" fill sizes="150px" style={{ objectFit: "contain" }} /></span>
                             </Link>
                             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                                 {/* Security indicator */}

@@ -7,7 +7,7 @@ export const BRAND_CONFIG = {
     description: process.env.NEXT_PUBLIC_BRAND_DESCRIPTION || "Discover premium women's fashion at Wearlux. Shop curated collections of dresses, sets, tops, and contemporary styles. Free shipping on orders over ₦50,000. Nigeria's leading fashion destination.",
     shortDescription: process.env.NEXT_PUBLIC_BRAND_SHORT_DESCRIPTION || "Trendy, affordable women's fashion built for the modern Nigerian woman. Delivering style from Lagos to Abuja and beyond.",
     hqLabel: process.env.NEXT_PUBLIC_BRAND_HQ_LABEL || "Wearlux",
-    logo: process.env.NEXT_PUBLIC_BRAND_LOGO || "/wearlux-logo.svg",
+    logo: process.env.NEXT_PUBLIC_BRAND_LOGO || "/wearlux/wearlux-logo.png",
     logoAlt: process.env.NEXT_PUBLIC_BRAND_LOGO_ALT || brandName,
     contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || process.env.CONTACT_EMAIL || "hello@missusoutfits.com",
     social: {
