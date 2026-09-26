@@ -392,7 +392,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                     {/* CENTER: Logo */}
                     <Link href="/" aria-label={`${BRAND_CONFIG.name} — go to homepage`} style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", textDecoration: "none", userSelect: "none" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={BRAND_CONFIG.logo} alt={BRAND_CONFIG.logoAlt} style={{ height: IS_DEMO_STORE ? "82px" : "72px", width: "auto", display: "block", filter: transparent ? "brightness(0) invert(1)" : "none", transition: "filter .3s" }} />
+                        <img src={BRAND_CONFIG.logo} alt={BRAND_CONFIG.logoAlt} style={{ height: IS_DEMO_STORE ? "115px" : "101px", width: "auto", display: "block", filter: transparent ? "brightness(0) invert(1)" : "none", transition: "filter .3s" }} />
                     </Link>
 
                     {/* RIGHT: icons + currency */}
