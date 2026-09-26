@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const slides = [
-    { image: "/wearlux/hero-editorial-photo.png", title: "STYLE,\nREDEFINED.", sub: "Contemporary menswear designed for the modern man." },
+    { image: "/wearlux/wearlux-hero-4.png", title: "STYLE,\nREDEFINED.", sub: "Contemporary menswear designed for the modern man." },
     { image: "/wearlux/hero.png", title: "RESORT\nESSENTIALS.", sub: "Lightweight knitwear made for sunlit days and slow evenings." },
     { image: "/wearlux/hero2.png", title: "LIGHT\nLAYERS.", sub: "Relaxed tailoring for every sunlit occasion." },
     { image: "/wearlux/hero3-wearlux.png", title: "THE\nWEARLUX EDIT.", sub: "Statement pieces with an effortless point of view." },
