@@ -23,7 +23,8 @@ export default function ClientShell({ children, announcement }: { children: Reac
     const isCheckoutRoute = pathname?.startsWith("/checkout");
     const isHome = pathname === "/";
     const isProductPage = pathname?.includes("/product/");
-    const hasMobileSearch = isHome || isProductPage;
+    const isShopPage = pathname?.startsWith("/shop") || pathname?.startsWith("/new-in") || pathname?.startsWith("/category/") || pathname?.startsWith("/sale") || pathname?.startsWith("/search") || pathname?.startsWith("/product-tag/");
+    const hasMobileSearch = isHome || isProductPage || isShopPage;
 
     const [cartOpen, setCartOpen] = useState(false);
     const [annVisible, setAnnVisible] = useState(true);

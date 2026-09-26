@@ -5,14 +5,12 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
     const pathname = usePathname();
     const isProductPage = pathname?.includes("/product/");
     const isHome = pathname === "/";
+    const isShopPage = pathname?.startsWith("/shop") || pathname?.startsWith("/new-in") || pathname?.startsWith("/category/") || pathname?.startsWith("/sale") || pathname?.startsWith("/search") || pathname?.startsWith("/product-tag/");
 
-    // Only show search bar on homepage and product pages
-    if (!isHome && !isProductPage) {
+    // Show the mobile search row on homepage and catalog browsing pages only.
+    if (!isHome && !isProductPage && !isShopPage) {
         return null;
     }
-    const showMobileSearch = pathname === "/" || isProductPage;
-
-    if (!showMobileSearch) return null;
 
     const handleSearchClick = () => {
         onSearchOpen?.();
