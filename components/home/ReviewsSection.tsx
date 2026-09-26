@@ -1,10 +1,11 @@
 import { STATIC_REVIEWS } from "@/lib/config";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 export default function ReviewsSection() {
     return (
         <div style={{ background: "#f5f5f5", padding: "40px 20px" }}>
             <div style={{ marginBottom: "24px" }}>
-                <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase", color: "#000", whiteSpace: "nowrap" }}>THE GIRLS LOVE MISSUS</h2>
+                <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 800, letterSpacing: ".04em", textTransform: "uppercase", color: "#000", whiteSpace: "nowrap" }}>THE GIRLS LOVE {BRAND_CONFIG.name.toUpperCase()}</h2>
                 <p style={{ fontSize: "12px", color: "#767676", marginTop: "2px" }}>Real reviews from real customers</p>
             </div>
             <div className="reviews-grid">

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plane, Shield, MessageCircle, Tag } from "lucide-react";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 const TRUST_ITEMS = [
     {
@@ -27,7 +28,7 @@ const TRUST_ITEMS = [
 ];
 
 export default function NewsletterBar({
-    heading = "Join Missus Girls Club",
+    heading = `Join ${BRAND_CONFIG.name} Girls Club`,
     sub = "Early drops, exclusive deals & style inspo — straight to your inbox.",
 }: {
     heading?: string;
@@ -93,7 +94,7 @@ export default function NewsletterBar({
                 <div className="newsletter-left">
                     <div>
                         <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".3em", textTransform: "uppercase", color: "#999", marginBottom: "6px" }}>
-                            The Missus Inner Circle
+                            The {BRAND_CONFIG.name} Inner Circle
                         </p>
                         <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "28px", fontWeight: 900, letterSpacing: ".04em", textTransform: "uppercase", lineHeight: 1, marginBottom: "6px" }}>
                             {heading}

@@ -17,12 +17,13 @@ import { getLocalBusinessSchema } from "@/lib/structured-data";
 import DynamicTitle from "@/components/layout/DynamicTitle";
 import type { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo-config";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Missus - Premium Women's Fashion & Contemporary Style",
-  description: "Discover premium women's fashion at Missus Nigeria. Shop curated collections of dresses, matching sets, tops, and contemporary styles. Free shipping on orders over ₦50,000. Your destination for trendy, affordable fashion.",
+  title: `${BRAND_CONFIG.name} - Premium Fashion & Contemporary Style`,
+  description: `Discover premium fashion at ${BRAND_CONFIG.name} Nigeria. Shop curated collections and contemporary styles. Free shipping on orders over ₦50,000.`,
   keywords: [
     "women's fashion Nigeria",
     "premium dresses Lagos",

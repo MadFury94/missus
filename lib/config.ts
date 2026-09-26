@@ -98,7 +98,7 @@ export const FOOTER_LINKS = {
         { label: "Contact Us", href: "/contact" },
     ],
     Company: [
-        { label: "About Missus", href: "/about" },
+        { label: `About ${BRAND_CONFIG.name}`, href: "/about" },
         { label: "Careers", href: "/careers" },
         { label: "Want to Collab?", href: "/contact#collab" },
     ],
@@ -109,7 +109,7 @@ export const FOOTER_LINKS = {
 };
 
 export const MARQUEE_ITEMS = [
-    "Miss Us With The Ugly Clothes",
+    `Style With ${BRAND_CONFIG.name}`,
     "New Drops Weekly",
     "It-Girl Approved",
     "Shop Dresses · Tops · Sets",
@@ -123,10 +123,10 @@ export const TRUST_ITEMS = [
 ];
 
 export const STATIC_REVIEWS = [
-    { stars: 5, text: "Got my last Club fit from Missus and they delivered literally 1hr after I ordered. Never going back to anyone else!", name: "Sarah O.", meta: "Verified Buyer · Lagos" },
-    { stars: 5, text: "Stopped shopping on Fashionnova after I found Missus. Missus is really for the IT girls. Period.", name: "Jess A.", meta: "Verified Buyer · Abuja" },
-    { stars: 5, text: "I bought the Girls Night Out dress and it was absolutely perfect. The fit, the quality, everything. Missus can have all my money.", name: "Audrey M.", meta: "Verified Buyer · Port Harcourt" },
-    { stars: 5, text: "Can't wait for the Lagos girlies to find out about Missus. The prices are unreal for the quality. Missus literally saves the day, everytime.", name: "Lota N.", meta: "Verified Buyer · Lagos" },
+    { stars: 5, text: `Got my last Club fit from ${BRAND_CONFIG.name} and they delivered literally 1hr after I ordered. Never going back to anyone else!`, name: "Sarah O.", meta: "Verified Buyer · Lagos" },
+    { stars: 5, text: `Stopped shopping on Fashionnova after I found ${BRAND_CONFIG.name}. ${BRAND_CONFIG.name} is really for the IT girls. Period.`, name: "Jess A.", meta: "Verified Buyer · Abuja" },
+    { stars: 5, text: `I bought the Girls Night Out dress and it was absolutely perfect. The fit, the quality, everything. ${BRAND_CONFIG.name} can have all my money.`, name: "Audrey M.", meta: "Verified Buyer · Port Harcourt" },
+    { stars: 5, text: `Can't wait for the Lagos girlies to find out about ${BRAND_CONFIG.name}. The prices are unreal for the quality. ${BRAND_CONFIG.name} literally saves the day, everytime.`, name: "Lota N.", meta: "Verified Buyer · Lagos" },
 ];
 
 export const TREND_CARDS = [

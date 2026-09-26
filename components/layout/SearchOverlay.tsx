@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import { toNaira, formatPrice } from "@/lib/woocommerce";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 // -- Static ----------------------------------------------------------------
 
@@ -343,7 +344,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                             <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={`/category/${cat.slug}`} />
                                         ))}
                                         <AccentRow rank={colA.length + 1} label="New Drops" href="/new-in" bg="#111" accent="#fff" />
-                                        <AccentRow rank={colA.length + 2} label="MissusDeals" href="/sale" bg="#7F0E12" accent="#fff" />
+                                        <AccentRow rank={colA.length + 2} label={`${BRAND_CONFIG.name} Deals`} href="/sale" bg="#7F0E12" accent="#fff" />
                                     </div>
                                 </div>
 

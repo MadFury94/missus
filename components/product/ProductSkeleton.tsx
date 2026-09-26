@@ -1,3 +1,5 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
+
 export default function ProductSkeleton() {
     return (
         <div style={{ position: "relative", background: "#fff" }}>
@@ -30,7 +32,7 @@ export default function ProductSkeleton() {
                         whiteSpace: "nowrap",
                     }}
                 >
-                    MISSUS
+                    {BRAND_CONFIG.name.toUpperCase()}
                 </span>
             </div>
 

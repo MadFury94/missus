@@ -181,7 +181,7 @@ export default function Footer() {
                     <AccordionSection
                         heading={BRAND_CONFIG.hqLabel.toUpperCase()}
                         links={[
-                            { label: "About Missus", href: "/about" },
+                            { label: `About ${BRAND_CONFIG.name}`, href: "/about" },
                             { label: "Careers", href: "/careers" },
                             { label: "Want to Collab?", href: "/contact#collab" }
                         ]}
@@ -222,7 +222,7 @@ export default function Footer() {
 
                 {/* Copyright */}
                 <div style={{ textAlign: "center", borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-                    <p style={{ fontSize: "11px", color: "rgba(255,255,255,.3)" }}>© {new Date().getFullYear()} Missus Outfits. All rights reserved.</p>
+                    <p style={{ fontSize: "11px", color: "rgba(255,255,255,.3)" }}>© {new Date().getFullYear()} {BRAND_CONFIG.name}. All rights reserved.</p>
                 </div>
             </footer>
         </>
