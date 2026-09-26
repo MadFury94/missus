@@ -87,8 +87,8 @@ export default function ClientShell({ children, announcement }: { children: Reac
                 - Mobile gets additional space for search bar
             */}
             {!isHome && !isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="page-spacer" />}
-            {isProductPage && <div style={{ height: `${solidHeaderH + SEARCH_H}px` }} className="product-page-spacer" />}
-            {isHome && <div style={{ height: `${solidHeaderH + SEARCH_H}px` }} />}
+            {isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="product-page-spacer" />}
+            {isHome && <div style={{ height: `${solidHeaderH}px` }} />}
 
             <style>{`
                 @media (max-width: 768px) {

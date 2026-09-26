@@ -69,7 +69,10 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
             </div>
 
             <style>{`
-                .mobile-search-bar { display: block; }
+                .mobile-search-bar { display: none; }
+                @media (max-width: 768px) {
+                    .mobile-search-bar { display: block; }
+                }
             `}</style>
         </>
     );
