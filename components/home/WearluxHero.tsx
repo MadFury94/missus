@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { IS_DEMO_STORE } from "@/lib/store-config";
 
 const slides = [
     { image: "/wearlux/wearlux-hero-4.png", title: "STYLE,\nREDEFINED.", sub: "Contemporary menswear designed for the modern man." },
@@ -14,10 +16,39 @@ const slides = [
 export default function WearluxHero() {
     const [active, setActive] = useState(0);
     const [paused, setPaused] = useState(false);
-    const next = useCallback(() => setActive(value => (value + 1) % slides.length), []);
-    useEffect(() => { if (paused) return; const timer = window.setInterval(next, 5000); return () => window.clearInterval(timer); }, [next, paused]);
+    const [scrolled, setScrolled] = useState(false);
+    const pathname = usePathname();
+    const isHome = pathname === "/";
 
-    return <section className="wearlux-hero" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} aria-label="Wearlux featured collection">
+    const next = useCallback(() => setActive(value => (value + 1) % slides.length), []);
+
+    useEffect(() => {
+        if (paused) return;
+        const timer = window.setInterval(next, 5000);
+        return () => window.clearInterval(timer);
+    }, [next, paused]);
+
+    // Track scroll position to determine if header should be transparent
+    useEffect(() => {
+        if (!isHome) { setScrolled(true); return; }
+        const annHeight = 34; // Default announcement banner height
+        setScrolled(window.scrollY > annHeight + 10);
+        const onScroll = () => setScrolled(window.scrollY > annHeight + 10);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [isHome]);
+
+    // Determine if header should be transparent
+    // On demo store (wearlux), header is never transparent
+    // On regular store, header is transparent on home page when not scrolled
+    const transparent = !IS_DEMO_STORE && isHome && !scrolled;
+
+    return <section
+        className={`wearlux-hero${transparent ? " transparent-header" : ""}`}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        aria-label="Wearlux featured collection"
+    >
         {slides.map((slide, index) => <div key={slide.image} className={`wearlux-hero-slide${index === active ? " is-active" : ""}`} aria-hidden={index !== active}>
             <Image src={slide.image} alt="Wearlux menswear editorial" fill priority={index === 0} sizes="100vw" />
         </div>)}
