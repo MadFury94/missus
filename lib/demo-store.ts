@@ -5,6 +5,7 @@ import type { ShippingRate } from "./woocommerce-shipping";
 
 // Local photographs already in the project; no WordPress or image API is needed.
 const photos = ["/wearlux/signature-linen-set.png", "/wearlux/hero-editorial-photo.png", "/style%20radar/Table%20for%20two.jpeg", "/style%20radar/Resort%20Ready.JPEG", "/style%20radar/Birthday%20behavior.jpeg"];
+const productPhotos = ["/wearlux/product1.png", "/wearlux/product1.1.png", ...photos.slice(0, 3)];
 const categoryNames = ["Dresses", "Matching Sets", "Tops", "Bottoms", "Athleisure Loungewear", "Gift Shop", "Whats New", "Curve", "Beauty", "Formal", "Vacation", "Night Out", "Discount Sale"];
 const categories = categoryNames.map((name, index) => ({ id: index + 1, name, slug: name.toLowerCase().replaceAll(" ", "-") }));
 const samples: [string, number, number, string[]][] = [
@@ -28,6 +29,7 @@ export const DEMO_PRODUCTS: StoreProduct[] = samples.map(([name, price, regular,
     const sizes = index >= 10 ? ["One Size"] : ["S", "M", "L", "XL"];
     const color = ["Black", "Cream", "Rose", "Coffee"][index % 4];
     const onSale = price < regular;
+    const imageSet = index < Math.ceil(samples.length / 3) ? productPhotos : photos;
     return {
         id, name, slug, permalink: `/product/${slug}`, type: "variable",
         short_description: `<p>A Wearlux sample piece for exploring your new store.</p>`,
@@ -35,7 +37,7 @@ export const DEMO_PRODUCTS: StoreProduct[] = samples.map(([name, price, regular,
         on_sale: onSale,
         prices: { price: String(price * 100), regular_price: String(regular * 100), sale_price: onSale ? String(price * 100) : "", currency_symbol: "₦", currency_minor_unit: 2 },
         price_html: `₦${price.toLocaleString("en-NG")}`, average_rating: "0", review_count: 0,
-        images: photos.slice(0, 5).map((src, imageIndex) => ({ id: id * 10 + imageIndex, src, thumbnail: src, alt: `${name} — illustrative editorial photograph ${imageIndex + 1}` })),
+        images: imageSet.slice(0, 5).map((src, imageIndex) => ({ id: id * 10 + imageIndex, src, thumbnail: src, alt: `${name} — illustrative editorial photograph ${imageIndex + 1}` })),
         categories: categories.filter(c => [...slugs, "whats-new", ...(onSale ? ["discount-sale"] : [])].includes(c.slug)),
         tags: [],
         attributes: [
