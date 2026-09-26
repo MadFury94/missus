@@ -60,6 +60,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
     // Desktop: no mobile search bar height
     // Mobile: add mobile search bar height (handled by CSS)
     const solidHeaderH = annH + NAV_H + CAT_H;
+    const mobileHeaderH = annH + NAV_H;
 
     return (
         <CurrencyProvider>
@@ -94,10 +95,10 @@ export default function ClientShell({ children, announcement }: { children: Reac
             <style>{`
                 @media (max-width: 768px) {
                     .page-spacer {
-                        height: ${solidHeaderH + (hasMobileSearch ? SEARCH_H : 0)}px !important;
+                        height: ${mobileHeaderH + (hasMobileSearch ? SEARCH_H : 0)}px !important;
                     }
                     .product-page-spacer {
-                        height: ${solidHeaderH + SEARCH_H}px !important;
+                        height: ${mobileHeaderH + SEARCH_H}px !important;
                     }
                 }
             `}</style>
