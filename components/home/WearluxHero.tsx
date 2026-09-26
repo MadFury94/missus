@@ -7,10 +7,10 @@ import { usePathname } from "next/navigation";
 import { IS_DEMO_STORE } from "@/lib/store-config";
 
 const slides = [
-    { image: "/wearlux/wearlux-hero-4.png", title: "STYLE,\nREDEFINED.", sub: "Contemporary menswear designed for the modern man." },
-    { image: "/wearlux/hero.png", title: "RESORT\nESSENTIALS.", sub: "Lightweight knitwear made for sunlit days and slow evenings." },
-    { image: "/wearlux/hero2.png", title: "LIGHT\nLAYERS.", sub: "Relaxed tailoring for every sunlit occasion." },
-    { image: "/wearlux/hero3-wearlux.png", title: "THE\nWEARLUX EDIT.", sub: "Statement pieces with an effortless point of view." },
+    { image: "/wearlux/wearlux-hero-4.png", mobileImage: "/wearlux/hero-mobile1.png", title: "STYLE,\nREDEFINED.", sub: "Contemporary menswear designed for the modern man." },
+    { image: "/wearlux/hero.png", mobileImage: "/wearlux/hero-mobile.png", title: "RESORT\nESSENTIALS.", sub: "Lightweight knitwear made for sunlit days and slow evenings." },
+    { image: "/wearlux/hero2.png", mobileImage: "/wearlux/hero2-mobile.png", title: "LIGHT\nLAYERS.", sub: "Relaxed tailoring for every sunlit occasion." },
+    { image: "/wearlux/hero3-wearlux.png", mobileImage: "/wearlux/hero3-wearlux-mobile.png", title: "THE\nWEARLUX EDIT.", sub: "Statement pieces with an effortless point of view." },
 ];
 
 export default function WearluxHero() {
@@ -50,7 +50,10 @@ export default function WearluxHero() {
         aria-label="Wearlux featured collection"
     >
         {slides.map((slide, index) => <div key={slide.image} className={`wearlux-hero-slide${index === active ? " is-active" : ""}`} aria-hidden={index !== active}>
-            <Image src={slide.image} alt="Wearlux menswear editorial" fill priority={index === 0} sizes="100vw" />
+            <picture>
+                <source media="(max-width: 780px)" srcSet={slide.mobileImage} />
+                <Image src={slide.image} alt="Wearlux menswear editorial" fill priority={index === 0} sizes="100vw" />
+            </picture>
         </div>)}
         <div className="wearlux-hero-overlay" />
         <div className="wearlux-hero-copy">

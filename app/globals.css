@@ -1066,3 +1066,5 @@ html body *::before,
 html body *::after {
   font-family: var(--font-dm-sans), sans-serif !important;
 }
+
+.wearlux-hero-slide picture { position: absolute; inset: 0; display: block; }
