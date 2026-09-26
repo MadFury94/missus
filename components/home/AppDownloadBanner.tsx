@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 const APP_IMGS = [
     "/missus_circle.WEBP",
@@ -34,10 +35,10 @@ export default function AppDownloadBanner() {
                     </p>
                     <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                         <a
-                            href="https://instagram.com/missusoutfits"
+                            href={BRAND_CONFIG.social.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: "999px", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
+                            style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: 0, padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
                             onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.8)")}
                             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.3)")}
                         >
@@ -47,10 +48,10 @@ export default function AppDownloadBanner() {
                             </div>
                         </a>
                         <a
-                            href="https://tiktok.com/@missusoutfits"
+                            href={BRAND_CONFIG.social.tiktok}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: "999px", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
+                            style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: 0, padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
                             onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.8)")}
                             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,.3)")}
                         >
@@ -66,7 +67,7 @@ export default function AppDownloadBanner() {
                 <div className="app-phones">
                     {APP_IMGS.map((src, i) => (
                         <div key={i} style={{ aspectRatio: "9/16", position: "relative", overflow: "hidden", border: "1px solid #333", borderRadius: "12px", marginTop: i === 1 ? "24px" : 0 }}>
-                            <Image src={src} alt="Missus" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 45vw, 20vw" />
+                        <Image src={src} alt={BRAND_CONFIG.name} fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 45vw, 20vw" />
                             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 70%, rgba(0,0,0,.6) 100%)" }} />
                         </div>
                     ))}
