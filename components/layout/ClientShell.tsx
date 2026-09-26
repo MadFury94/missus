@@ -9,6 +9,7 @@ import SearchOverlay from "@/components/layout/SearchOverlay";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import { CurrencyProvider } from "@/lib/currency";
+import { IS_DEMO_STORE } from "@/lib/store-config";
 
 // Heights of fixed layers — keep in sync with actual component heights
 const ANN_H = 34;   // AnnouncementBar
@@ -87,7 +88,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
             */}
             {!isHome && !isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="page-spacer" />}
             {isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="product-page-spacer" />}
-            {isHome && <div style={{ height: `${annH}px` }} />}
+            {isHome && <div style={{ height: `${IS_DEMO_STORE ? solidHeaderH : annH}px` }} />}
 
             <style>{`
                 @media (max-width: 768px) {

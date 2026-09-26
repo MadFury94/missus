@@ -68,23 +68,25 @@ export const SOCIAL_LINKS = {
 export const ANNOUNCEMENT = "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVALS EVERY WEEK  |  PAY ON DELIVERY AVAILABLE";
 
 export const TOP_NAV = [
-    { label: "WOMEN", href: "/shop" },
-    { label: "CURVE+", href: "/category/curve" },
-    { label: "NEW DROPS", href: "/new-in", isNew: true },
-    { label: "GIFT SHOP", href: "/category/gift-shop" },
-    { label: "BEAUTY", href: "/category/beauty" },
+    { label: "NEW ARRIVALS", href: "/new-in", isNew: true },
+    { label: "SHIRTS", href: "/category/shirts" },
+    { label: "TROUSERS", href: "/category/trousers" },
+    { label: "SUITS", href: "/category/suits" },
+    { label: "TWO-PIECE", href: "/category/two-piece" },
+    { label: "SHOES", href: "/category/shoes" },
+    { label: "ACCESSORIES", href: "/category/accessories" },
+    { label: "SALE", href: "/sale" },
 ];
 
 export const SUB_NAV = [
-    { label: "What's New", href: "/category/whats-new", hot: true },
-    { label: "Shop All", href: "/shop" },
-    { label: "Dresses", href: "/category/dresses" },
-    { label: "Matching Sets", href: "/category/matching-sets" },
-    { label: "Tops", href: "/category/tops" },
-    { label: "Bottoms", href: "/category/bottoms" },
-    { label: "Athleisure", href: "/category/athleisure-loungewear" },
-    { label: "Gift Shop", href: "/category/gift-shop" },
-    { label: "Sale", href: "/sale", sale: true },
+    { label: "NEW ARRIVALS", href: "/new-in", hot: true },
+    { label: "SHIRTS", href: "/category/shirts" },
+    { label: "TROUSERS", href: "/category/trousers" },
+    { label: "SUITS", href: "/category/suits" },
+    { label: "TWO-PIECE", href: "/category/two-piece" },
+    { label: "SHOES", href: "/category/shoes" },
+    { label: "ACCESSORIES", href: "/category/accessories" },
+    { label: "SALE", href: "/sale", sale: true },
 ];
 
 export const FOOTER_LINKS = {

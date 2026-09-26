@@ -1,5 +1,7 @@
 import { getHomepageContent } from "@/lib/homepage-content.server";
 import HeroSlideshow from "@/components/home/HeroSlideshow";
+import WearluxHero from "@/components/home/WearluxHero";
+import { IS_DEMO_STORE } from "@/lib/store-config";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReportCards from "@/components/home/TrendReportCards";
 import VideoSection from "@/components/home/VideoSection";
@@ -43,7 +45,7 @@ export default async function HomePage() {
     <>
       <DynamicTitle enabled={true} />
       <StructuredData schema={getLocalBusinessSchema()} />
-      <HeroSlideshow slides={content.hero} />
+      {IS_DEMO_STORE ? <WearluxHero /> : <HeroSlideshow slides={content.hero} />}
       <MarqueeStrip items={content.marquee} />
       <TrendReportCards cards={content.styleRadar} />
       <VideoSection />

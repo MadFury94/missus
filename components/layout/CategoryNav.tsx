@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SUB_NAV } from "@/lib/config";
+import { IS_DEMO_STORE } from "@/lib/store-config";
 
 const SALE_COLOR = "#7F0E12"; // burgundy
 
@@ -19,9 +20,9 @@ export default function CategoryNav() {
         return () => window.removeEventListener("scroll", onScroll);
     }, [isHome]);
 
-    const transparent = isHome && !scrolled;
-    const bg = transparent ? "transparent" : "#fff";
-    const border = transparent ? "rgba(255,255,255,.12)" : "#e8e8e8";
+    const transparent = !IS_DEMO_STORE && isHome && !scrolled;
+    const bg = transparent ? "transparent" : IS_DEMO_STORE ? "var(--sky)" : "#fff";
+    const border = transparent ? "rgba(255,255,255,.12)" : "rgba(18,24,31,.15)";
 
     return (
         <>
@@ -54,7 +55,7 @@ export default function CategoryNav() {
                             ? SALE_COLOR
                             : transparent
                                 ? "rgba(255,255,255,.85)"
-                                : link.hot ? "#000" : "#333";
+                                : link.hot ? "var(--ink)" : IS_DEMO_STORE ? "var(--ink)" : "#333";
 
                         return (
                             <Link

@@ -4,7 +4,7 @@ import type { ProductStock } from "./product-stock";
 import type { ShippingRate } from "./woocommerce-shipping";
 
 // Local photographs already in the project; no WordPress or image API is needed.
-const photos = ["/style%20radar/Table%20for%20two.jpeg", "/style%20radar/Resort%20Ready.JPEG", "/style%20radar/Birthday%20behavior.jpeg", "/style%20radar/Flights%20Sans%20feelings.JPEG"];
+const photos = ["/wearlux/signature-linen-set.png", "/wearlux/hero-editorial-photo.png", "/style%20radar/Table%20for%20two.jpeg", "/style%20radar/Resort%20Ready.JPEG", "/style%20radar/Birthday%20behavior.jpeg"];
 const categoryNames = ["Dresses", "Matching Sets", "Tops", "Bottoms", "Athleisure Loungewear", "Gift Shop", "Whats New", "Curve", "Beauty", "Formal", "Vacation", "Night Out", "Discount Sale"];
 const categories = categoryNames.map((name, index) => ({ id: index + 1, name, slug: name.toLowerCase().replaceAll(" ", "-") }));
 const samples: [string, number, number, string[]][] = [
@@ -35,7 +35,7 @@ export const DEMO_PRODUCTS: StoreProduct[] = samples.map(([name, price, regular,
         on_sale: onSale,
         prices: { price: String(price * 100), regular_price: String(regular * 100), sale_price: onSale ? String(price * 100) : "", currency_symbol: "₦", currency_minor_unit: 2 },
         price_html: `₦${price.toLocaleString("en-NG")}`, average_rating: "0", review_count: 0,
-        images: [{ id, src: photos[index % photos.length], thumbnail: photos[index % photos.length], alt: `${name} — illustrative sample photograph` }],
+        images: photos.slice(0, 5).map((src, imageIndex) => ({ id: id * 10 + imageIndex, src, thumbnail: src, alt: `${name} — illustrative editorial photograph ${imageIndex + 1}` })),
         categories: categories.filter(c => [...slugs, "whats-new", ...(onSale ? ["discount-sale"] : [])].includes(c.slug)),
         tags: [],
         attributes: [

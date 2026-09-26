@@ -71,8 +71,17 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
 export async function readHomepageContent(): Promise<HomepageContent> {
     if (IS_DEMO_STORE) return {
         ...HOMEPAGE_DEFAULTS,
-        announcement: "WEARLUX DEMO STORE · SAMPLE PRODUCTS · NO PAYMENTS TAKEN",
+        announcement: "FREE SHIPPING ON ORDERS ₦150,000+ | PAY ON DELIVERY AVAILABLE | QUALITY. STYLE. YOU.",
         marquee: ["The Wearlux Edit", "Find Your Everyday Style", "Explore the Collection"],
+        hero: [{
+            src: "/wearlux/hero-editorial-photo.png",
+            mobileSrc: "/wearlux/hero-editorial-photo.png",
+            label: "WEARLUX",
+            heading: "STYLE,\nREDEFINED.",
+            sub: "Contemporary menswear designed for the modern man.",
+            cta: { label: "Shop New Arrivals", href: "/new-in" },
+            cta2: { label: "Explore Collection", href: "/shop" },
+        }],
         categories: {
             feature: { label: "Dresses", href: "/category/dresses", img: DEMO_CATEGORIES[0].image!.src },
             grid: DEMO_CATEGORIES.slice(1, 5).map(c => ({ label: c.name, href: `/category/${c.slug}`, img: c.image!.src })),

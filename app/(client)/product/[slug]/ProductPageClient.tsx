@@ -119,6 +119,7 @@ export default function ProductPageClient({ params, product, related }: {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedColor, setSelectedColor] = useState("");
+    const [quantity, setQuantity] = useState(1);
     const [adding, setAdding] = useState(false);
     const [added, setAdded] = useState(false);
     const [isWished, setIsWished] = useState(false);
@@ -211,7 +212,7 @@ export default function ProductPageClient({ params, product, related }: {
             image: product.images[0]?.src || "",
             size: selectedSize || undefined,
             color: selectedColor || undefined,
-            quantity: 1,
+            quantity,
             stockStatus: productStatus,
             backordersAllowed: product.backorders_allowed,
             isOnBackorder: product.is_on_backorder,
@@ -221,7 +222,7 @@ export default function ProductPageClient({ params, product, related }: {
                 .reduce((sum, existing) => sum + existing.quantity, 0);
             const response = await fetch("/api/cart/validate", {
                 method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ item: { ...item, quantity: existingQuantity + 1 } }),
+                body: JSON.stringify({ item: { ...item, quantity: existingQuantity + quantity } }),
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.error || "This item is unavailable.");
@@ -252,7 +253,7 @@ export default function ProductPageClient({ params, product, related }: {
         <>
             <style>{`
                 /* ── PDP layout ─────────────────────────────── */
-                .pdp-wrap {
+                .pdp-wrap.wearlux-pdp {
                     display: grid;
                     grid-template-columns: 80px 480px 1fr;
                     gap: 0;
@@ -260,6 +261,19 @@ export default function ProductPageClient({ params, product, related }: {
                     margin: 0 auto;
                     align-items: start;
                 }
+                .wearlux-pdp { background: var(--paper); max-width: 1240px; padding: 28px 20px 48px; }
+                .wearlux-pdp .pdp-info-col { padding: 14px 44px 48px; }
+                .wearlux-pdp .pdp-thumb-col { padding-top: 0; }
+                .wearlux-pdp .pdp-main-img { background: #ebe9e4 !important; }
+                .wearlux-pdp .pdp-info-col h1, .wearlux-pdp .pdp-info-col .wearlux-pdp-title { font-family: Georgia, 'Times New Roman', serif !important; font-weight: 500 !important; color: var(--ink) !important; }
+                .wearlux-pdp-brand { color: var(--ink); font: 700 11px/1 var(--font-body), sans-serif; letter-spacing: .28em; margin: 2px 0 16px; }
+                .wearlux-pdp .size-btn { border-radius: 2px !important; min-width: 42px !important; height: 34px !important; background: #fff !important; color: var(--ink) !important; }
+                .wearlux-pdp .size-btn[style*="2px solid"] { background: var(--sky) !important; border-color: var(--ink) !important; }
+                .wearlux-quantity { display: flex; align-items: center; width: max-content; margin: 0 0 18px; border: 1px solid #c7cdd1; }
+                .wearlux-quantity button { width: 32px; height: 30px; border: 0; background: transparent; color: var(--ink); cursor: pointer; }
+                .wearlux-quantity span { min-width: 34px; text-align: center; font: 600 12px var(--font-body), sans-serif; }
+                .wearlux-buy-now { width: 100%; min-height: 48px; margin-top: 10px; padding: 13px 20px; border: 1px solid var(--ink); background: transparent; color: var(--ink); font: 700 12px var(--font-body), sans-serif; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+                .wearlux-pdp .pdp-wishlist { border-radius: 0; }
                 .pdp-thumb-col { display: flex; flex-direction: column; gap: 6px; padding: 12px 8px 12px 12px; width: 80px; }
                 .pdp-info-col { padding: 24px 32px 48px; position: sticky; top: 52px; }
                 .pdp-breadcrumb { display: block; }
@@ -271,6 +285,8 @@ export default function ProductPageClient({ params, product, related }: {
                     }
                     .pdp-thumb-col { display: none; }
                     .pdp-info-col { padding: 20px 16px 40px; position: static; }
+                    .wearlux-pdp { padding: 0 0 36px; }
+                    .wearlux-pdp .pdp-info-col { padding: 24px 20px 40px; }
                     .pdp-breadcrumb { display: none !important; }
                     .pdp-main-img { min-height: 500px !important; aspect-ratio: 2/3 !important; }
                     .pdp-mobile-dots { display: flex; }
@@ -332,7 +348,7 @@ export default function ProductPageClient({ params, product, related }: {
                 </div>
             </div>
 
-            <div className="pdp-wrap">
+            <div className="pdp-wrap wearlux-pdp">
                 {/* ── Thumbnail strip — desktop only ── */}
                 <div className="pdp-thumb-col">
                     {images.map((img: any, i: number) => (
@@ -409,6 +425,7 @@ export default function ProductPageClient({ params, product, related }: {
                 {/* ── Product info panel ── */}
                 <div className="pdp-info-col">
 
+                    <p className="wearlux-pdp-brand">WEARLUX</p>
                     {/* Name */}
                     <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 600, lineHeight: 1.2, marginBottom: "12px", color: "#000", letterSpacing: "-.01em" }}>
                         {decodeHtmlEntities(product.name)}
@@ -574,6 +591,13 @@ export default function ProductPageClient({ params, product, related }: {
                             {soldOut ? "OUT OF STOCK - NOTIFY ME" : stockLoading && !isGiftCard ? "Checking availability..." : added ? "✓ Added to Bag" : adding ? "Adding…" : "Add to Bag"}
                         </button>
                     </div>
+
+                    <div className="wearlux-quantity" aria-label="Quantity">
+                        <button type="button" onClick={() => setQuantity(value => Math.max(1, value - 1))} aria-label="Decrease quantity">−</button>
+                        <span>{quantity}</span>
+                        <button type="button" onClick={() => setQuantity(value => Math.min(10, value + 1))} aria-label="Increase quantity">+</button>
+                    </div>
+                    <button type="button" className="wearlux-buy-now" onClick={handleAddToCart} disabled={adding || soldOut}>Buy Now</button>
 
                     <div style={{ marginBottom: "18px" }}>
                         <button type="button" className="pdp-wishlist" onClick={handleWishlist}
