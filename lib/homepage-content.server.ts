@@ -1,7 +1,7 @@
 ﻿import "server-only";
 import { cache } from "react";
 import { IS_DEMO_STORE } from "./store-config";
-import { DEMO_CATEGORIES } from "./demo-store";
+import { DEMO_PRODUCTS } from "./demo-store";
 import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 import { API_ENDPOINTS, WP_HEADERS } from "./config";
@@ -83,8 +83,8 @@ export async function readHomepageContent(): Promise<HomepageContent> {
             cta2: { label: "Explore Collection", href: "/shop" },
         }],
         categories: {
-            feature: { label: "Dresses", href: "/category/dresses", img: DEMO_CATEGORIES[0].image!.src },
-            grid: DEMO_CATEGORIES.slice(1, 5).map(c => ({ label: c.name, href: `/category/${c.slug}`, img: c.image!.src })),
+            feature: { label: DEMO_PRODUCTS[0].name, href: `/product/${DEMO_PRODUCTS[0].slug}`, img: DEMO_PRODUCTS[0].images[0].src },
+            grid: DEMO_PRODUCTS.slice(1, 5).map(product => ({ label: product.name, href: `/product/${product.slug}`, img: product.images[0].src })),
         },
         newsletter: { heading: "Discover Wearlux", sub: "Explore our sample collection." },
     };
