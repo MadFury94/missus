@@ -286,13 +286,22 @@ h6 {
   }
 
   .wearlux-hero-copy h1 {
-    font-size: clamp(48px, 14vw, 76px);
+    font-size: clamp(40px, 12vw, 64px);
   }
+
+  .wearlux-hero-sub { max-width: 250px; margin-bottom: 20px; font-size: 13px; }
+  .wearlux-hero-actions a { min-height: 40px; padding: 0 15px; font-size: 10px; }
+  .wearlux-hero-dots { display: none; }
 
   .wearlux-hero-slide img {
     object-fit: cover;
     object-position: center top;
   }
+
+  .wearlux-hero-slide:nth-child(1) img { object-position: 68% top; }
+  .wearlux-hero-slide:nth-child(2) img { object-position: 70% top; }
+  .wearlux-hero-slide:nth-child(3) img { object-position: 48% top; }
+  .wearlux-hero-slide:nth-child(4) img { object-position: 70% top; }
 
   .wearlux-hero-arrow {
     width: 34px;

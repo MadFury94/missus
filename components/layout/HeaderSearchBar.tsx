@@ -23,10 +23,12 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
             {/* Mobile-only search bar */}
             <div className="mobile-search-bar" style={{
                 width: "100%",
-                background: isProductPage ? "#f5f5f5" : "transparent",
+                backgroundImage: "linear-gradient(90deg, rgba(18,24,31,.72), rgba(18,24,31,.28)), url('/wearlux/wearlux-hero-4.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center 32%",
                 padding: "0",
                 margin: "0",
-                borderBottom: isProductPage ? "1px solid #dedede" : "1px solid rgba(255,255,255,0.45)"
+                borderBottom: "1px solid rgba(255,255,255,.45)"
             }}>
                 <button
                     onClick={handleSearchClick}
@@ -46,7 +48,7 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
                         flex: 1,
                         fontSize: "14px",
                         fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                        color: isProductPage ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.7)",
+                        color: "rgba(255,255,255,.92)",
                         fontWeight: 400,
                         textAlign: "left"
                     }}>
@@ -62,7 +64,7 @@ export default function HeaderSearchBar({ onSearchOpen }: { onSearchOpen?: () =>
                         style={{
                             flexShrink: 0,
                             marginLeft: "12px",
-                            filter: isProductPage ? "none" : "brightness(0) invert(1)"
+                            filter: "brightness(0) invert(1)"
                         }}
                     />
                 </button>
