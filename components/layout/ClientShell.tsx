@@ -14,8 +14,8 @@ import { IS_DEMO_STORE } from "@/lib/store-config";
 // Heights of fixed layers — keep in sync with actual component heights
 const ANN_H = 34;   // AnnouncementBar
 const NAV_H = 52;   // Navbar
-const CAT_H = 4;    // CategoryNav (adjusted to match actual rendered height: total should be 90px)
-const MOBILE_SEARCH_H = 30; // HeaderSearchBar (mobile only) - reduced to achieve 120px total
+const CAT_H = 40;   // CategoryNav: link padding plus text and border
+const MOBILE_SEARCH_H = 42; // HeaderSearchBar (mobile only)
 
 export default function ClientShell({ children, announcement }: { children: React.ReactNode; announcement?: string }) {
     const pathname = usePathname();
@@ -88,7 +88,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
             */}
             {!isHome && !isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="page-spacer" />}
             {isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="product-page-spacer" />}
-            {isHome && <div style={{ height: `${IS_DEMO_STORE ? solidHeaderH : annH}px` }} />}
+            {isHome && <div style={{ height: `${solidHeaderH}px` }} />}
 
             <style>{`
                 @media (max-width: 768px) {
@@ -96,7 +96,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
                         height: ${solidHeaderH + (hasMobileSearch ? MOBILE_SEARCH_H : 0)}px !important;
                     }
                     .product-page-spacer {
-                        height: 120px !important;
+                        height: ${solidHeaderH + MOBILE_SEARCH_H}px !important;
                     }
                 }
             `}</style>
