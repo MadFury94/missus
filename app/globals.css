@@ -123,6 +123,11 @@ h6 {
 .wearlux-footer a { border-radius: 0 !important; }
 .wearlux-footer svg { stroke: var(--ink) !important; fill: none; }
 .wearlux-footer svg path[fill] { fill: var(--ink) !important; }
+.wearlux-footer .footer-currency-row > div:last-child > span {
+  background: #fff !important;
+  border-color: rgba(18,24,31,.35) !important;
+  box-shadow: 0 1px 3px rgba(18,24,31,.16);
+}
 .wearlux-hero {
   position: relative;
   min-height: min(660px, calc(100vh - 150px));
