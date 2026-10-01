@@ -1,6 +1,5 @@
 "use client";
 import { useRef, useEffect } from "react";
-import { getCategoryImageUrl } from "@/lib/api-helpers";
 
 export default function VideoSection() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -31,19 +30,23 @@ export default function VideoSection() {
                 muted
                 loop
                 playsInline
-                preload="none"
-                poster={getCategoryImageUrl("Product-Photos-93.jpeg")}
+                preload="metadata"
+                width={1280}
+                height={720}
+                aria-label="Missus collection video"
                 style={{
                     display: "block",
                     width: "100%",
-                    maxHeight: "600px",
-                    objectFit: "cover",
+                    height: "auto",
+                    aspectRatio: "16 / 9",
+                    objectFit: "contain",
                 }}
             >
                 <source
-                    src="https://res.cloudinary.com/dqwfjxn8g/video/upload/q_auto/f_auto/v1775315538/dc9bd786acf346d0a6447d038c87492e_fhimrw.mp4"
+                    src="/missus-video.MP4"
                     type="video/mp4"
                 />
+                Your browser does not support video playback.
             </video>
         </div>
     );
