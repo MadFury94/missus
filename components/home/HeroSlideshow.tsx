@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { IS_DEMO_STORE } from "@/lib/store-config";
 
 interface Slide {
     src: string;
@@ -90,13 +91,22 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
     }, [current, paused, next]);
 
     return (
-        <div
-            className="hero-slideshow"
-            style={{ position: "relative", width: "100%", height: "100svh", overflow: "hidden", background: "#111" }}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
+        <Link
+            href={IS_DEMO_STORE ? "#" : "/shop"}
+            className={IS_DEMO_STORE ? "" : "hero-link"}
+            style={{
+                display: "block",
+                textDecoration: "none",
+                cursor: IS_DEMO_STORE ? "default" : "pointer"
+            }}
         >
-            <style>{`
+            <div
+                className="hero-slideshow"
+                style={{ position: "relative", width: "100%", height: "100svh", overflow: "hidden", background: "#111" }}
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+            >
+                <style>{`
                 .hero-slideshow {
                     height: 100svh;
                     height: 100dvh;
@@ -129,103 +139,104 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                 }
             `}</style>
 
-            {/* ── Background images only — these slide ── */}
-            {slides.map((s, i) => {
-                const isCurrent = i === current;
-                const isPrev = i === prev;
-                if (!isCurrent && !isPrev) return null;
+                {/* ── Background images only — these slide ── */}
+                {slides.map((s, i) => {
+                    const isCurrent = i === current;
+                    const isPrev = i === prev;
+                    if (!isCurrent && !isPrev) return null;
 
-                let animName = "none";
-                if (sliding) {
-                    if (isCurrent) animName = direction === "left" ? "slideInFromRight" : "slideInFromLeft";
-                    if (isPrev) animName = direction === "left" ? "slideOutToLeft" : "slideOutToRight";
-                }
+                    let animName = "none";
+                    if (sliding) {
+                        if (isCurrent) animName = direction === "left" ? "slideInFromRight" : "slideInFromLeft";
+                        if (isPrev) animName = direction === "left" ? "slideOutToLeft" : "slideOutToRight";
+                    }
 
-                // Use mobile image if available and on mobile, otherwise use desktop image
-                const imageSrc = (isMobile && s.mobileSrc) ? s.mobileSrc : s.src;
+                    // Use mobile image if available and on mobile, otherwise use desktop image
+                    const imageSrc = (isMobile && s.mobileSrc) ? s.mobileSrc : s.src;
 
-                return (
-                    <div
-                        key={i}
-                        style={{
-                            position: "absolute",
-                            inset: 0,
-                            zIndex: isCurrent ? 1 : 0,
-                            animation: animName !== "none"
-                                ? `${animName} 0.6s cubic-bezier(0.77,0,0.18,1) forwards`
-                                : "none",
-                        }}
-                    >
-                        <Image
-                            src={imageSrc}
-                            alt={s.alt || ""}
-                            fill
-                            style={{ objectFit: "cover", objectPosition: "center top" }}
-                            sizes="(max-width: 768px) 100vw, 100vw"
-                            loading={i === 0 ? "eager" : "lazy"}
-                            priority={i === 0}
-                        />
-                    </div>
-                );
-            })}
+                    return (
+                        <div
+                            key={i}
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                zIndex: isCurrent ? 1 : 0,
+                                animation: animName !== "none"
+                                    ? `${animName} 0.6s cubic-bezier(0.77,0,0.18,1) forwards`
+                                    : "none",
+                            }}
+                        >
+                            <Image
+                                src={imageSrc}
+                                alt={s.alt || ""}
+                                fill
+                                style={{ objectFit: "cover", objectPosition: "center top" }}
+                                sizes="(max-width: 768px) 100vw, 100vw"
+                                loading={i === 0 ? "eager" : "lazy"}
+                                priority={i === 0}
+                            />
+                        </div>
+                    );
+                })}
 
-            {/* ── Gradient — even scrim so centered text always reads ── */}
-            <div style={{
-                position: "absolute", inset: 0,
-                background: "rgba(0,0,0,0.42)",
-                zIndex: 2, pointerEvents: "none",
-            }} />
+                {/* ── Gradient — even scrim so centered text always reads (only on non-demo store) ── */}
+                {!IS_DEMO_STORE && <div style={{
+                    position: "absolute", inset: 0,
+                    background: "rgba(0,0,0,0.42)",
+                    zIndex: 2, pointerEvents: "none",
+                }} />}
 
-            {/* ── Text content — centered ── */}
-            <div
-                key={current}
-                className="hero-content"
-                style={{
-                    position: "absolute", inset: 0, zIndex: 3,
-                    display: "flex", flexDirection: "column",
-                    alignItems: "center", justifyContent: "center",
-                    textAlign: "center",
-                    padding: "clamp(20px, 5vw, 60px)",
-                }}
-            >
-                {slides[current].label && (
-                    <p style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "12px", fontWeight: 500, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: "14px" }}>
-                        {slides[current].label}
+                {/* ── Text content — centered ── */}
+                <div
+                    key={current}
+                    className="hero-content"
+                    style={{
+                        position: "absolute", inset: 0, zIndex: 3,
+                        display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center",
+                        textAlign: "center",
+                        padding: "clamp(20px, 5vw, 60px)",
+                    }}
+                >
+                    {slides[current].label && (
+                        <p style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "12px", fontWeight: 500, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: "14px" }}>
+                            {slides[current].label}
+                        </p>
+                    )}
+                    <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(56px,9vw,120px)", fontWeight: 700, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.88, marginBottom: "20px", whiteSpace: "pre-line" }}>
+                        {slides[current].heading.split("\n").map((line, i) => (
+                            <span key={i} style={{ display: "block" }}>{line}</span>
+                        ))}
+                    </h1>
+                    <p style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 300, marginBottom: "32px", maxWidth: "480px", lineHeight: 1.65 }}>
+                        {slides[current].sub}
                     </p>
-                )}
-                <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(56px,9vw,120px)", fontWeight: 700, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.88, marginBottom: "20px", whiteSpace: "pre-line" }}>
-                    {slides[current].heading.split("\n").map((line, i) => (
-                        <span key={i} style={{ display: "block" }}>{line}</span>
+                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+                        {slides[current].cta.label && (
+                            <Link href={slides[current].cta.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "12px", textDecoration: "none", borderRadius: "999px" }}>
+                                {slides[current].cta.label}
+                            </Link>
+                        )}
+                        {slides[current].cta2?.label && (
+                            <Link href={slides[current].cta2!.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "rgba(255,255,255,.12)", color: "#fff", padding: "13px 28px", fontSize: "12px", border: "1.5px solid rgba(255,255,255,.5)", textDecoration: "none", backdropFilter: "blur(4px)", borderRadius: "999px" }}>
+                                {slides[current].cta2!.label}
+                            </Link>
+                        )}
+                    </div>
+                </div>
+
+                {/* ── Dot indicators ── */}
+                <div style={{ position: "absolute", bottom: "24px", right: "clamp(20px,5vw,60px)", zIndex: 4, display: "flex", gap: "8px", alignItems: "center" }}>
+                    {slides.map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => goTo(i, i > current ? "left" : "right")}
+                            aria-label={`Go to slide ${i + 1}`}
+                            style={{ width: i === current ? "28px" : "8px", height: "8px", borderRadius: "4px", background: i === current ? "#fff" : "rgba(255,255,255,.4)", border: "none", cursor: "pointer", padding: 0, transition: "all .3s ease" }}
+                        />
                     ))}
-                </h1>
-                <p style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 300, marginBottom: "32px", maxWidth: "480px", lineHeight: 1.65 }}>
-                    {slides[current].sub}
-                </p>
-                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
-                    {slides[current].cta.label && (
-                        <Link href={slides[current].cta.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "12px", textDecoration: "none", borderRadius: "999px" }}>
-                            {slides[current].cta.label}
-                        </Link>
-                    )}
-                    {slides[current].cta2?.label && (
-                        <Link href={slides[current].cta2!.href} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", background: "rgba(255,255,255,.12)", color: "#fff", padding: "13px 28px", fontSize: "12px", border: "1.5px solid rgba(255,255,255,.5)", textDecoration: "none", backdropFilter: "blur(4px)", borderRadius: "999px" }}>
-                            {slides[current].cta2!.label}
-                        </Link>
-                    )}
                 </div>
             </div>
-
-            {/* ── Dot indicators ── */}
-            <div style={{ position: "absolute", bottom: "24px", right: "clamp(20px,5vw,60px)", zIndex: 4, display: "flex", gap: "8px", alignItems: "center" }}>
-                {slides.map((_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => goTo(i, i > current ? "left" : "right")}
-                        aria-label={`Go to slide ${i + 1}`}
-                        style={{ width: i === current ? "28px" : "8px", height: "8px", borderRadius: "4px", background: i === current ? "#fff" : "rgba(255,255,255,.4)", border: "none", cursor: "pointer", padding: 0, transition: "all .3s ease" }}
-                    />
-                ))}
-            </div>
-        </div>
+        </Link>
     );
 }
