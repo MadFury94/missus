@@ -92,12 +92,11 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
 
     return (
         <Link
-            href={IS_DEMO_STORE ? "#" : "/shop"}
-            className={IS_DEMO_STORE ? "" : "hero-link"}
+            href="/shop"
             style={{
                 display: "block",
                 textDecoration: "none",
-                cursor: IS_DEMO_STORE ? "default" : "pointer"
+                cursor: "pointer"
             }}
         >
             <div
@@ -179,12 +178,7 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                     );
                 })}
 
-                {/* ── Gradient — even scrim so centered text always reads (only on non-demo store) ── */}
-                {!IS_DEMO_STORE && <div style={{
-                    position: "absolute", inset: 0,
-                    background: "rgba(0,0,0,0.42)",
-                    zIndex: 2, pointerEvents: "none",
-                }} />}
+                {/* ── Gradient — removed for missus branch ── */}
 
                 {/* ── Text content — centered ── */}
                 <div
