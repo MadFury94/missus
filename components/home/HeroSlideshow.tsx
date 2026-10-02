@@ -193,16 +193,16 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                     }}
                 >
                     {slides[current].label && (
-                        <p style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "12px", fontWeight: 500, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: "14px" }}>
+                        <p style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "12px", fontWeight: 500, letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", marginBottom: "14px", textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}>
                             {slides[current].label}
                         </p>
                     )}
-                    <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(56px,9vw,120px)", fontWeight: 700, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.88, marginBottom: "20px", whiteSpace: "pre-line" }}>
+                    <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(56px,9vw,120px)", fontWeight: 700, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.88, marginBottom: "20px", whiteSpace: "pre-line", textShadow: "0 2px 8px rgba(0,0,0,0.4), 0 0 15px rgba(0,0,0,0.2)" }}>
                         {slides[current].heading.split("\n").map((line, i) => (
                             <span key={i} style={{ display: "block" }}>{line}</span>
                         ))}
                     </h1>
-                    <p style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 300, marginBottom: "32px", maxWidth: "480px", lineHeight: 1.65 }}>
+                    <p style={{ fontSize: "14px", color: "rgba(255,255,255,.9)", fontWeight: 300, marginBottom: "32px", maxWidth: "480px", lineHeight: 1.65, textShadow: "0 1px 3px rgba(0,0,0,0.3)" }}>
                         {slides[current].sub}
                     </p>
                     <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
