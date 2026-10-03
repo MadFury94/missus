@@ -1,5 +1,8 @@
+import { BRAND_CONFIG } from "./brand-config";
 ﻿import "server-only";
 import { cache } from "react";
+import { IS_DEMO_STORE } from "./store-config";
+import { DEMO_PRODUCTS } from "./demo-store";
 import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 import { API_ENDPOINTS, WP_HEADERS } from "./config";
@@ -9,11 +12,11 @@ function wpHeaders(write = false): Record<string, string> {
     // Published homepage fields are public. Do not make storefront reads depend
     // on application-password authentication or authenticated-request filters.
     if (!write) return { Accept: "application/json" };
-    const credentials = process.env.WP_APP_PASSWORD;
+    const credentials = process.env.YOANN_WP_APP_PASSWORD;
     if (credentials && credentials.indexOf(":") > 0) {
         return { "Content-Type": "application/json", Authorization: `Basic ${Buffer.from(credentials.trim()).toString("base64")}` };
     }
-    throw new Error("Configure WP_APP_PASSWORD as username:application-password to save homepage content.");
+    throw new Error("Configure YOANN_WP_APP_PASSWORD as username:application-password to save homepage content.");
 }
 
 async function wpRequest(url: string, init: RequestInit = {}) {
@@ -67,6 +70,25 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
 
 // Surface read errors in the editor so defaults cannot silently overwrite saved content.
 export async function readHomepageContent(): Promise<HomepageContent> {
+    if (IS_DEMO_STORE) return {
+        ...HOMEPAGE_DEFAULTS,
+        announcement: "FREE SHIPPING ON ORDERS ₦150,000+ | PAY ON DELIVERY AVAILABLE | QUALITY. STYLE. YOU.",
+        marquee: ["The Yoann Edit", "Find Your Everyday Style", "Explore the Collection"],
+        hero: [{
+            src: "/style%20radar/Resort%20Ready.JPEG",
+            mobileSrc: "/style%20radar/Resort%20Ready.JPEG",
+            label: BRAND_CONFIG.name,
+            heading: "STYLE,\nREDEFINED.",
+            sub: "Discover the sample collection. Your new store starts here.",
+            cta: { label: "Shop New Arrivals", href: "/new-in" },
+            cta2: { label: "Explore Collection", href: "/shop" },
+        }],
+        categories: {
+            feature: { label: DEMO_PRODUCTS[0].name, href: `/product/${DEMO_PRODUCTS[0].slug}`, img: DEMO_PRODUCTS[0].images[0].src },
+            grid: DEMO_PRODUCTS.slice(1, 5).map(product => ({ label: product.name, href: `/product/${product.slug}`, img: product.images[0].src })),
+        },
+        newsletter: { heading: `Discover ${BRAND_CONFIG.name}`, sub: "Explore our sample collection." },
+    };
     const content = decodeContent((await getHomepagePost()).acf);
 
     // Homepage cards historically stored their own ACF image URLs, while the
@@ -98,6 +120,7 @@ export async function readHomepageContent(): Promise<HomepageContent> {
 }
 
 export async function saveHomepageContent(content: HomepageContent): Promise<void> {
+    if (IS_DEMO_STORE) throw new Error("Homepage publishing requires the new store's API connection.");
     const headers = wpHeaders(true);
     const post = await getHomepagePost();
     const acf = {

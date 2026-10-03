@@ -7,6 +7,7 @@ import StructuredData from "@/components/seo/StructuredData";
 import { getProductSchema, getBreadcrumbSchema } from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/config";
 import { decodeHtmlEntities } from "@/lib/api-helpers";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 export const revalidate = 60;
 
@@ -17,12 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const cleanDescription = decodeHtmlEntities(product.short_description?.replace(/<[^>]+>/g, "") ||
         product.description?.replace(/<[^>]+>/g, "") ||
-        `Shop ${decodeHtmlEntities(product.name)} at Missus. Premium women's fashion with fast shipping across Nigeria.`);
+        `Shop ${decodeHtmlEntities(product.name)} at ${BRAND_CONFIG.homepage.name}. Luxury Nigerian fashion with fast shipping across Nigeria.`);
 
     const cleanProductName = decodeHtmlEntities(product.name);
 
     return generatePageMetadata({
-        title: `${cleanProductName} | Premium Women's Fashion`,
+        title: `${cleanProductName} | ${BRAND_CONFIG.homepage.name}`,
         description: cleanDescription,
         keywords: [
             cleanProductName.toLowerCase(),

@@ -8,7 +8,7 @@ export interface WishlistItem {
     slug: string;
 }
 
-const WISHLIST_KEY = "missus_wishlist";
+const WISHLIST_KEY = "yoann_wishlist";
 
 // Get wishlist from localStorage
 export function getWishlist(): WishlistItem[] {

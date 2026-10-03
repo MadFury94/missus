@@ -13,18 +13,21 @@ export function ensurePaidOrder(reference: string) {
     return task;
 }
 
-import { wcApiFetch } from "./api-helpers";
+import { API_ENDPOINTS } from "./config";
+import { IS_DEMO_STORE } from "./store-config";
 
 async function persist(reference: string) {
+    if (IS_DEMO_STORE) throw new Error("Live payment verification is disabled in demo mode.");
+    const api = API_ENDPOINTS.woocommerce.rest;
     const headers = {
-        Authorization: `Basic ${Buffer.from(`${process.env.WC_CONSUMER_KEY}:${process.env.WC_CONSUMER_SECRET}`).toString("base64")}`,
+        Authorization: `Basic ${Buffer.from(`${process.env.YOANN_WC_CONSUMER_KEY}:${process.env.YOANN_WC_CONSUMER_SECRET}`).toString("base64")}`,
         "Content-Type": "application/json",
     };
     const existing = await findOrderByReference(reference, api, headers);
     if (existing) return { order: existing, created: false };
 
     const verified = await fetch(`https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`, {
-        headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` }, cache: "no-store",
+        headers: { Authorization: `Bearer ${process.env.YOANN_PAYSTACK_SECRET_KEY}` }, cache: "no-store",
     });
     const transaction = (await verified.json()).data;
     if (!verified.ok || transaction?.status !== "success" || transaction.reference !== reference || transaction.currency !== "NGN") {

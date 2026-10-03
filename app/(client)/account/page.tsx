@@ -1,4 +1,5 @@
 "use client";
+import { WP_BASE_URL } from "@/lib/config";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -287,7 +288,7 @@ export default function AccountPage() {
                     </div>
                     <p style={{ fontSize: "12px", color: "#aaa", lineHeight: 1.6 }}>
                         To update your password or personal details, visit your{" "}
-                        <a href="https://missusoutfits.com/my-account" target="_blank" rel="noopener noreferrer" style={{ color: "#000", textDecoration: "underline" }}>
+                        <a href={`${WP_BASE_URL}/my-account`} target="_blank" rel="noopener noreferrer" style={{ color: "#000", textDecoration: "underline" }}>
                             WordPress account page →
                         </a>
                     </p>

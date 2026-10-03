@@ -64,28 +64,28 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
         feature: {
             label: "Dresses",
             href: "/category/dresses",
-            img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-8.png",
+            img: "/style%20radar/Table%20for%20two.jpeg",
         },
         grid: [
             {
                 label: "Matching Sets",
                 href: "/category/matching-sets",
-                img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png",
+                img: "/style%20radar/Table%20for%20two.jpeg",
             },
             {
                 label: "Bottoms",
                 href: "/category/bottoms",
-                img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-22.png",
+                img: "/style%20radar/Table%20for%20two.jpeg",
             },
             {
                 label: "Tops",
                 href: "/category/tops",
-                img: "https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-17.png",
+                img: "/style%20radar/Table%20for%20two.jpeg",
             },
             {
                 label: "Athleisure & Loungewear",
                 href: "/category/athleisure-loungewear",
-                img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
+                img: "/style%20radar/Table%20for%20two.jpeg",
             },
         ],
     },

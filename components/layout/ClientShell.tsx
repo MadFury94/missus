@@ -21,6 +21,8 @@ export default function ClientShell({ children, announcement }: { children: Reac
     const isAdminRoute = pathname?.startsWith("/admin");
     const isCheckoutRoute = pathname?.startsWith("/checkout");
     const isHome = pathname === "/";
+    const isYoanneShop = pathname === "/shop";
+    const isYoanneProduct = pathname?.startsWith("/product/");
     const isProductPage = pathname?.includes("/product/");
     const hasMobileSearch = isHome || isProductPage;
 
@@ -32,8 +34,28 @@ export default function ClientShell({ children, announcement }: { children: Reac
     const openDrawer = useCallback(() => setCartOpen(true), []);
     useEffect(() => {
         window.addEventListener("open-cart-drawer", openDrawer);
-        return () => window.removeEventListener("open-cart-drawer", openDrawer);
+        const openSearch = () => setSearchOpen(true);
+        window.addEventListener("open-site-search", openSearch);
+        return () => {
+            window.removeEventListener("open-cart-drawer", openDrawer);
+            window.removeEventListener("open-site-search", openSearch);
+        };
     }, [openDrawer]);
+
+    // The approved homepage supplies its own complete header and footer.
+    if (isHome || isYoanneShop || isYoanneProduct) return (
+        <CurrencyProvider>
+            {children}
+            <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+            <SearchOverlay
+                isOpen={searchOpen}
+                inputValue={searchVal}
+                onInputChange={setSearchVal}
+                onClose={() => { setSearchOpen(false); setSearchVal(""); }}
+                onSubmit={(q) => { window.location.href = `/search?q=${encodeURIComponent(q)}`; }}
+            />
+        </CurrencyProvider>
+    );
 
     if (isAdminRoute) {
         return (

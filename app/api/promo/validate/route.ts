@@ -1,3 +1,4 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { checkGiftCard, giftCardDiscountFor } from "@/lib/giftCards";
 import { eligiblePromoSubtotal } from "@/lib/promo-items";
@@ -12,7 +13,7 @@ const PROMO_CODES_FALLBACK: Record<string, { type: "percent" | "fixed"; value: n
 function getFallbackPromoCodes() {
     let extra: Record<string, { type: "percent" | "fixed"; value: number; label: string }> = {};
     try {
-        const raw = process.env.PROMO_CODES_JSON;
+        const raw = process.env.YOANN_PROMO_CODES_JSON;
         if (raw) extra = JSON.parse(raw);
     } catch { /* malformed JSON — ignore */ }
     return { ...PROMO_CODES_FALLBACK, ...extra };
@@ -20,9 +21,9 @@ function getFallbackPromoCodes() {
 
 async function validateWooCommerceCoupon(code: string, subtotal: number) {
     try {
-        const consumerKey = process.env.WC_CONSUMER_KEY;
-        const consumerSecret = process.env.WC_CONSUMER_SECRET;
-        const apiUrl = process.env.WC_API_URL;
+        const consumerKey = process.env.YOANN_WC_CONSUMER_KEY;
+        const consumerSecret = process.env.YOANN_WC_CONSUMER_SECRET;
+        const apiUrl = API_ENDPOINTS.woocommerce.rest;
 
         if (!consumerKey || !consumerSecret || !apiUrl) {
             console.log("[promo] WooCommerce credentials not found, using fallback codes");

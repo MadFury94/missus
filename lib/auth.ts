@@ -1,7 +1,8 @@
+import { IS_DEMO_STORE } from "./store-config";
 // WordPress JWT Authentication
 import { API_ENDPOINTS } from "./config";
 
-const JWT_SECRET = process.env.JWT_API;
+const JWT_SECRET = process.env.YOANN_JWT_API;
 
 export interface User {
     id: number;
@@ -43,6 +44,7 @@ export async function loginUser(username: string, password: string): Promise<Log
 
 // Validate token
 export async function validateToken(token: string): Promise<boolean> {
+    if (IS_DEMO_STORE) return false;
     try {
         const response = await fetch(`${API_ENDPOINTS.wordpress.core}/jwt-auth/v1/token/validate`, {
             method: "POST",
@@ -63,7 +65,7 @@ export function getCurrentUser(): User | null {
     if (typeof window === "undefined") return null;
 
     try {
-        const userStr = localStorage.getItem("missus_user");
+        const userStr = localStorage.getItem("yoann_user");
         if (!userStr) return null;
 
         const user = JSON.parse(userStr);
@@ -76,13 +78,13 @@ export function getCurrentUser(): User | null {
 // Save user to localStorage
 export function saveUser(user: User): void {
     if (typeof window === "undefined") return;
-    localStorage.setItem("missus_user", JSON.stringify(user));
+    localStorage.setItem("yoann_user", JSON.stringify(user));
 }
 
 // Logout
 export function logoutUser(): void {
     if (typeof window === "undefined") return;
-    localStorage.removeItem("missus_user");
+    localStorage.removeItem("yoann_user");
 }
 
 // Check if user is admin

@@ -8,7 +8,7 @@ import { createShipment, getOriginAddress } from "@/lib/delivery";
 export async function POST(req: NextRequest) {
     // Require internal secret to prevent external calls
     const authHeader = req.headers.get("x-internal-secret");
-    if (authHeader !== process.env.MISSUS_GIFT_CARD_SECRET) {
+    if (authHeader !== process.env.YOANN_GIFT_CARD_SECRET) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

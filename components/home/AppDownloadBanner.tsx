@@ -1,4 +1,5 @@
 "use client";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import Image from "next/image";
 
 const APP_IMGS = [
@@ -34,7 +35,7 @@ export default function AppDownloadBanner() {
                     </p>
                     <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                         <a
-                            href="https://instagram.com/missusoutfits"
+                            href={BRAND_CONFIG.social.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: "999px", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}
@@ -47,7 +48,7 @@ export default function AppDownloadBanner() {
                             </div>
                         </a>
                         <a
-                            href="https://tiktok.com/@missusoutfits"
+                            href={BRAND_CONFIG.social.tiktok}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{ border: "1.5px solid rgba(255,255,255,.3)", borderRadius: "999px", padding: "10px 20px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", textDecoration: "none", transition: "border-color .2s" }}

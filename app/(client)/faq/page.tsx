@@ -1,5 +1,6 @@
 "use client";
 
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import { useState } from "react";
 import Link from "next/link";
 import StructuredData from "@/components/seo/StructuredData";
@@ -23,7 +24,7 @@ const FAQS = [
             },
             {
                 q: "How do I track my order?",
-                a: "Once your order is dispatched, you'll receive a WhatsApp message or email with tracking details. You can also DM us on Instagram @missusoutfits with your order number for a real-time update.",
+                a: `Once your order is dispatched, you'll receive a WhatsApp message or email with tracking details. You can also DM us on Instagram ${BRAND_CONFIG.name} with your order number for a real-time update.`,
             },
             {
                 q: "Can I change or cancel my order?",
@@ -57,7 +58,7 @@ const FAQS = [
             },
             {
                 q: "How do I start a return?",
-                a: "DM us on Instagram or email hello@missusoutfits.com with your order number and reason. We'll guide you through the process.",
+                a: `DM us on Instagram or email ${BRAND_CONFIG.contactEmail} with your order number and reason. We'll guide you through the process.`,
             },
             {
                 q: "Can I return sale items?",
@@ -156,7 +157,7 @@ export default function FAQPage() {
                             <Link href="/contact" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none" }}>
                                 Contact Us
                             </Link>
-                            <a href="https://instagram.com/missusoutfits" target="_blank" rel="noopener noreferrer" style={{ borderRadius: "999px", background: "#fff", color: "#000", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", border: "1.5px solid #000" }}>
+                            <a href={BRAND_CONFIG.social.instagram} target="_blank" rel="noopener noreferrer" style={{ borderRadius: "999px", background: "#fff", color: "#000", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none", border: "1.5px solid #000" }}>
                                 DM on Instagram
                             </a>
                         </div>

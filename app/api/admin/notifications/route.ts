@@ -1,3 +1,5 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
+import { SITE_URL } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -9,11 +11,11 @@ export async function POST(request: NextRequest) {
         // You can later integrate with your preferred notification system
 
         try {
-            const resendKey = process.env.RESEND_API_KEY;
+            const resendKey = process.env.YOANN_RESEND_API_KEY;
             if (resendKey) {
                 const adminEmails = [
-                    "admin@missusoutfits.com",
-                    "orders@missusoutfits.com"
+                    BRAND_CONFIG.contactEmail,
+                    BRAND_CONFIG.ordersEmail
                 ];
 
                 const html = `
@@ -22,7 +24,7 @@ export async function POST(request: NextRequest) {
                         <h2 style="color: #dc3545; margin: 0 0 10px;">🔔 Bank Transfer Payment Notification</h2>
                         <p style="margin: 0; color: #666;">A customer has claimed to complete a bank transfer payment</p>
                     </div>
-                    
+
                     <div style="background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px;">
                         <h3 style="margin: 0 0 15px; color: #333;">Order Details</h3>
                         <table style="width: 100%; border-collapse: collapse;">
@@ -55,7 +57,7 @@ export async function POST(request: NextRequest) {
                             </tr>
                         </table>
                     </div>
-                    
+
                     <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 20px; margin: 20px 0;">
                         <h4 style="margin: 0 0 10px; color: #856404;">⚠️ Action Required</h4>
                         <p style="margin: 0; color: #856404;">
@@ -63,9 +65,9 @@ export async function POST(request: NextRequest) {
                             Check your bank account for the transfer and confirm the payment if received.
                         </p>
                     </div>
-                    
+
                     <div style="text-align: center; margin: 20px 0;">
-                        <a href="${process.env.NEXT_PUBLIC_SITE_URL}/admin/orders" 
+                        <a href="${SITE_URL}/admin/orders"
                            style="background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
                             View Order in Admin
                         </a>
@@ -81,7 +83,7 @@ export async function POST(request: NextRequest) {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            from: "Missus Orders <orders@missusoutfits.com>",
+                            from: `${BRAND_CONFIG.name} <${BRAND_CONFIG.ordersEmail}>`,
                             to: [email],
                             subject: `🔔 Bank Transfer Payment Claim - Order #${orderId}`,
                             html,

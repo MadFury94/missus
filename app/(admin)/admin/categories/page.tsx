@@ -1,4 +1,5 @@
 "use client";
+import { WP_BASE_URL } from "@/lib/config";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -39,7 +40,7 @@ export default function AdminCategories() {
 
             <APanel>
                 <APanelHeader actions={
-                    <a href="https://missusoutfits.com/wp-admin/edit-tags.php?taxonomy=product_cat&post_type=product" target="_blank" rel="noreferrer">
+                    <a href={`${WP_BASE_URL}/wp-admin/edit-tags.php?taxonomy=product_cat&post_type=product`} target="_blank" rel="noreferrer">
                         <ABtn variant="secondary">Manage in WordPress ↗</ABtn>
                     </a>
                 }>Categories</APanelHeader>

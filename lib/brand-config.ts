@@ -1,29 +1,36 @@
-﻿/** Central store identity. Missus defaults preserve the current storefront. */
-const brandName = process.env.NEXT_PUBLIC_BRAND_NAME || "Missus";
-
+/** Edit Yoann's company information here. All values are placeholders. */
 export const BRAND_CONFIG = {
-    name: brandName,
-    tagline: process.env.NEXT_PUBLIC_BRAND_TAGLINE || "Premium Women's Fashion & Contemporary Style",
-    description: process.env.NEXT_PUBLIC_BRAND_DESCRIPTION || "Discover premium women's fashion at Missus. Shop curated collections of dresses, sets, tops, and contemporary styles. Free shipping on orders over ₦50,000. Nigeria's leading fashion destination.",
-    shortDescription: process.env.NEXT_PUBLIC_BRAND_SHORT_DESCRIPTION || "Trendy, affordable women's fashion built for the modern Nigerian woman. Delivering style from Lagos to Abuja and beyond.",
-    hqLabel: process.env.NEXT_PUBLIC_BRAND_HQ_LABEL || "Missus HQ",
-    logo: process.env.NEXT_PUBLIC_BRAND_LOGO || "/missus-logo.webp",
-    logoAlt: process.env.NEXT_PUBLIC_BRAND_LOGO_ALT || brandName,
-    contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || process.env.CONTACT_EMAIL || "hello@missusoutfits.com",
+    // Homepage identity from the approved Yoanne Couture design.
+    homepage: {
+        name: "Yoanne Couture",
+        location: "Lekki Phase 1 · Lagos",
+        address: "Bolien Mall, Lekki Phase 1, Lagos",
+        phone: "0810 789 0789",
+        instagramHandle: "@yoannecouture",
+        instagram: "https://www.instagram.com/yoannecouture",
+        whatsapp: "https://wa.me/2348107890789",
+        threads: "https://www.threads.net/@yoannecouture",
+    },
+    name: "Yoann",
+    tagline: "A new perspective on everyday style",
+    description: "Explore the Yoann sample collection. Preview products and try the demo storefront.",
+    shortDescription: "Your next chapter in style. Company details coming soon.",
+    hqLabel: "Yoann",
+    logo: "/yoann-logo.svg",
+    logoAlt: "Yoann",
+    contactEmail: "hello@yoann.example",
+    ordersEmail: "orders@yoann.example",
+    senderEmail: "noreply@yoann.example",
+    phone: "+2348000000000",
+    address: { line1: "Your business address", city: "Lagos", state: "Lagos", country: "NGA", zip: "000000" },
     social: {
-        instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "https://instagram.com/missusoutfits",
-        twitter: process.env.NEXT_PUBLIC_SOCIAL_TWITTER || "https://twitter.com/missusoutfits",
-        facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || "https://facebook.com/missusoutfits",
-        tiktok: process.env.NEXT_PUBLIC_SOCIAL_TIKTOK || "https://tiktok.com/@missusoutfits",
-        youtube: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE || "https://youtube.com/missusoutfits",
-        snapchat: process.env.NEXT_PUBLIC_SOCIAL_SNAPCHAT || "https://snapchat.com/add/missusoutfits",
-        whatsapp: process.env.NEXT_PUBLIC_SOCIAL_WHATSAPP || "https://wa.me/2348012345678",
+        instagram: "https://example.com/yoann/instagram",
+        twitter: "https://example.com/yoann/twitter",
+        facebook: "https://example.com/yoann/facebook",
+        tiktok: "https://example.com/yoann/tiktok",
+        youtube: "https://example.com/yoann/youtube",
+        snapchat: "https://example.com/yoann/snapchat",
+        whatsapp: "https://example.com/yoann/whatsapp",
     },
 } as const;
-
-export const BRAND_KEYWORDS = [
-    "women's fashion Nigeria", "premium dresses Lagos", "contemporary women's clothing",
-    "designer fashion Nigeria", "online fashion store", "luxury women's wear",
-    "trendy outfits Nigeria", "fashion boutique online", "women's designer clothing",
-    "premium fashion brand", "stylish women's clothes", "fashion forward clothing",
-];
+export const BRAND_KEYWORDS = ["Yoann", "fashion", "clothing", "contemporary style"];

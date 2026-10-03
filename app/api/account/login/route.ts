@@ -1,8 +1,9 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { wcFetch } from "@/lib/wp-fetch";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
-const WP_API = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
+const WP_API = API_ENDPOINTS.wordpress.core;
 
 export async function POST(request: NextRequest) {
     // Rate limit: 10 login attempts per IP per 15 minutes
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
             // local fallback credential defined in .env.local so development is not
             // blocked by the remote WP host.
             const isDev = process.env.NODE_ENV === "development";
-            const devPassword = process.env.DEV_ADMIN_PASSWORD;
+            const devPassword = process.env.YOANN_DEV_ADMIN_PASSWORD;
 
             if (isDev && devPassword && password === devPassword) {
                 return NextResponse.json({

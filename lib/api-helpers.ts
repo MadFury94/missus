@@ -6,6 +6,8 @@
  */
 
 import { API_ENDPOINTS, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
+import { IS_DEMO_STORE } from "./store-config";
+import { demoStoreRead } from "./demo-store";
 
 // ──────────────────────────────────────────────────────────────────────────
 // HTML Entity Decoding Utilities
@@ -58,8 +60,9 @@ export function cleanCategoryName(name: string, fallbackSlug?: string): string {
 
 /** Get WooCommerce REST API credentials with proper error handling */
 export function getWooCommerceAuth() {
-    const key = process.env.WC_CONSUMER_KEY;
-    const secret = process.env.WC_CONSUMER_SECRET;
+    if (IS_DEMO_STORE) throw new Error("Live credentials are disabled in demo mode.");
+    const key = process.env.YOANN_WC_CONSUMER_KEY;
+    const secret = process.env.YOANN_WC_CONSUMER_SECRET;
 
     if (!key || !secret) {
         throw new Error("WooCommerce API credentials not configured");
@@ -102,6 +105,7 @@ export async function wcStoreFetch<T>(
     path: string,
     options: RequestInit = {}
 ): Promise<T> {
+    if (IS_DEMO_STORE) return demoStoreRead<T>(path);
     const response = await fetch(`${API_ENDPOINTS.woocommerce.store}${path}`, {
         ...options,
         headers: {
@@ -128,6 +132,7 @@ export async function wpApiFetch<T>(
     path: string,
     options: RequestInit = {}
 ): Promise<T> {
+    if (IS_DEMO_STORE) throw new Error("WordPress is disabled in demo mode.");
     const response = await fetch(`${API_ENDPOINTS.wordpress.core}${path}`, {
         ...options,
         headers: {
@@ -150,6 +155,7 @@ export async function missusApiFetch<T>(
     path: string,
     options: RequestInit = {}
 ): Promise<T> {
+    if (IS_DEMO_STORE) throw new Error("Custom integrations are disabled in demo mode.");
     const response = await fetch(`${API_ENDPOINTS.custom.giftCards}${path}`, {
         ...options,
         headers: {
@@ -180,16 +186,19 @@ export function getWpMediaUrl(path: string): string {
 
 /** Get product image URL */
 export function getProductImageUrl(filename: string): string {
+    if (IS_DEMO_STORE) return "/style%20radar/Table%20for%20two.jpeg";
     return `${API_ENDPOINTS.assets.products}/${filename}`;
 }
 
 /** Get banner image URL */
 export function getBannerImageUrl(filename: string): string {
+    if (IS_DEMO_STORE) return "/Desktop%20view%203.WEBP";
     return `${API_ENDPOINTS.assets.banners}/${filename}`;
 }
 
 /** Get category image URL */
 export function getCategoryImageUrl(filename: string): string {
+    if (IS_DEMO_STORE) return "/style%20radar/Resort%20Ready.JPEG";
     return `${API_ENDPOINTS.assets.categories}/${filename}`;
 }
 

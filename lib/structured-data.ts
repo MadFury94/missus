@@ -176,8 +176,8 @@ export function getLocalBusinessSchema() {
             latitude: "6.5244",
             longitude: "3.3792"
         },
-        telephone: "+234-xxx-xxx-xxxx",
-        email: "hello@missusoutfits.com",
+        telephone: BRAND_CONFIG.phone,
+        email: BRAND_CONFIG.contactEmail,
         openingHoursSpecification: {
             "@type": "OpeningHoursSpecification",
             dayOfWeek: [

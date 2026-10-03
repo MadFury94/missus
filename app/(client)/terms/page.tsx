@@ -1,3 +1,4 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -24,7 +25,7 @@ export default function TermsPage() {
                 {[
                     {
                         title: "1. General",
-                        body: `These terms apply to all purchases made through missusoutfits.com. Missus Outfits reserves the right to update these terms at any time. Continued use of the site after changes constitutes acceptance of the new terms.`,
+                        body: `These terms apply to all purchases made through ${BRAND_CONFIG.name}. Missus Outfits reserves the right to update these terms at any time. Continued use of the site after changes constitutes acceptance of the new terms.`,
                     },
                     {
                         title: "2. Orders & Pricing",
@@ -56,7 +57,7 @@ export default function TermsPage() {
                     },
                     {
                         title: "9. Contact",
-                        body: `Questions? Email hello@missusoutfits.com or visit our Contact page.`,
+                        body: `Questions? Email ${BRAND_CONFIG.contactEmail} or visit our Contact page.`,
                     },
                 ].map((section) => (
                     <div key={section.title} style={{ marginBottom: "32px" }}>

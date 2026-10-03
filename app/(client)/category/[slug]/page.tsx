@@ -136,17 +136,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
                 "Missus fashion"
             ],
             path: `/category/${slug}`,
-            openGraph: {
-                title: `${label} Collection - Missus`,
-                description: cleanDescription,
-                type: "website",
-                url: `${SITE_URL}/category/${slug}`,
-            },
-            twitter: {
-                card: "summary_large_image",
-                title: `${label} Collection - Missus`,
-                description: cleanDescription,
-            }
         });
     } catch (error) {
         console.error("Failed to generate category metadata:", error);
@@ -170,7 +159,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     try {
         const [categories, productsData] = await Promise.all([
             getCategories(),
-            getProducts({ category: slug, perPage: 60 }).catch(() => ({ products: [], total: 0 }))
+            getProducts({ category: slug, perPage: 60 }).catch(() => [])
         ]);
 
         const category = categories.find(c => c.slug === slug);
@@ -212,7 +201,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             name: categoryData.name,
             slug: slug,
             description: `Shop ${categoryData.name} at Missus`,
-            count: productsData.total || 0
+            count: productsData.length, parent: 0, image: null, permalink: `/category/${slug}`
         };
 
         return (

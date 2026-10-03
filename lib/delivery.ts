@@ -1,3 +1,4 @@
+import { BRAND_CONFIG } from "./brand-config";
 /**
  * Terminal Africa delivery abstraction layer.
  * All carrier-specific logic lives here — checkout and order routes never
@@ -7,14 +8,14 @@
  * Live keys    → TERMINAL_BASE_URL = https://api.terminal.africa/v1
  */
 
-const IS_TEST = process.env.TERMINAL_AFRICA_SECRET_KEY?.startsWith("sk_test_");
+const IS_TEST = process.env.YOANN_TERMINAL_AFRICA_SECRET_KEY?.startsWith("sk_test_");
 const BASE_URL = IS_TEST
     ? "https://sandbox.terminal.africa/v1"
     : "https://api.terminal.africa/v1";
 
 function terminalHeaders() {
     return {
-        Authorization: `Bearer ${process.env.TERMINAL_AFRICA_SECRET_KEY}`,
+        Authorization: `Bearer ${process.env.YOANN_TERMINAL_AFRICA_SECRET_KEY}`,
         "Content-Type": "application/json",
     };
 }
@@ -56,15 +57,15 @@ export interface ShipmentResult {
 
 export function getOriginAddress(): TerminalAddress {
     return {
-        first_name: "Missus",
-        last_name: "Outfits",
-        email: "hello@missusoutfits.com",
-        phone: "+2348000000000",
-        line1: process.env.TERMINAL_ORIGIN_ADDRESS || "9 Muri Sodiq Drive",
-        city: process.env.TERMINAL_ORIGIN_CITY || "Lagos",
-        state: process.env.TERMINAL_ORIGIN_STATE || "Lagos",
+        first_name: BRAND_CONFIG.name,
+        last_name: "",
+        email: BRAND_CONFIG.contactEmail,
+        phone: BRAND_CONFIG.phone,
+        line1: BRAND_CONFIG.address.line1,
+        city: BRAND_CONFIG.address.city,
+        state: BRAND_CONFIG.address.state,
         country: "NGA",
-        zip: process.env.TERMINAL_ORIGIN_POSTCODE || "106104",
+        zip: BRAND_CONFIG.address.zip,
     };
 }
 

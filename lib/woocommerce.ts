@@ -1,8 +1,12 @@
+import { BRAND_CONFIG } from "./brand-config";
 import { API_ENDPOINTS, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
+import { IS_DEMO_STORE } from "./store-config";
+import { demoStoreRead } from "./demo-store";
 
 // ── Fetch helper ──────────────────────────────────────────────────────────
 
 async function storeFetch<T>(path: string, revalidate = 60): Promise<T | null> {
+    if (IS_DEMO_STORE) return demoStoreRead<T>(path);
     try {
         const res = await fetch(`${API_ENDPOINTS.woocommerce.store}${path}`, {
             next: { revalidate },
@@ -136,6 +140,7 @@ export async function getProduct(slug: string): Promise<StoreProduct | null> {
     const data = await storeFetch<StoreProduct[]>(`/products?slug=${slug}`, 60);
     const product = data?.[0] ?? null;
     if (!product) return null;
+    if (IS_DEMO_STORE) return product;
 
     // Some WooCommerce products expose an empty `terms` value through the
     // Store API even though their variation attributes are populated in the
@@ -146,8 +151,8 @@ export async function getProduct(slug: string): Promise<StoreProduct | null> {
     );
     if (!hasMissingAttributeOptions) return product;
 
-    const key = process.env.WC_CONSUMER_KEY;
-    const secret = process.env.WC_CONSUMER_SECRET;
+    const key = process.env.YOANN_WC_CONSUMER_KEY;
+    const secret = process.env.YOANN_WC_CONSUMER_SECRET;
     if (!key || !secret) return product;
 
     try {
@@ -204,9 +209,10 @@ export async function getSaleProducts(limit = 60): Promise<StoreProduct[]> {
 }
 
 export async function getRelatedProducts(productId: number, limit = 5): Promise<StoreProduct[]> {
+    if (IS_DEMO_STORE) return demoStoreRead<StoreProduct[]>(`/products?exclude=${productId}&per_page=${limit}`);
     // Fetch related_ids from WC REST v3 (requires auth, server-side only)
-    const key = process.env.WC_CONSUMER_KEY;
-    const secret = process.env.WC_CONSUMER_SECRET;
+    const key = process.env.YOANN_WC_CONSUMER_KEY;
+    const secret = process.env.YOANN_WC_CONSUMER_SECRET;
 
     if (key && secret) {
         try {
@@ -251,6 +257,7 @@ export async function getCategories(): Promise<StoreCategory[]> {
 // ── Store name ────────────────────────────────────────────────────────────
 
 export async function getStoreName(): Promise<string> {
+    if (IS_DEMO_STORE) return BRAND_CONFIG.name;
     try {
         const res = await fetch(API_ENDPOINTS.wordpress.settings, { next: { revalidate: 3600 } });
         if (res.ok) {
@@ -258,5 +265,5 @@ export async function getStoreName(): Promise<string> {
             return data.title ?? "Missus";
         }
     } catch { /* fallback */ }
-    return process.env.NEXT_PUBLIC_SITE_NAME ?? "Missus";
+    return BRAND_CONFIG.name;
 }

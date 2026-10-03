@@ -5,6 +5,8 @@ import ProductCard from "@/components/product/ProductCard";
 import ProductSkeleton from "@/components/product/ProductSkeleton";
 import FilterSidebar from "@/components/shop/FilterSidebar";
 import type { ProductFilters } from "@/types";
+import { Search, Heart, ShoppingBag } from "lucide-react";
+import "@/components/yoanne/shop.css";
 
 const SORT_OPTIONS = [
     { label: "Featured", value: "" },
@@ -124,7 +126,21 @@ export default function ShopClient() {
         (filters.category ? 1 : 0);
 
     return (
-        <>
+        <div className="yoanne-shop">
+            <header className="yoanne-shop-nav">
+                <div className="wrap yoanne-shop-nav-inner">
+                    <a href="/" className="yoanne-shop-logo">Yoanne Couture</a>
+                    <nav aria-label="Primary navigation">
+                        <a href="/">Home</a><a href="/shop" className="active">Shop</a><a href="/shop">Collections</a><a href="/#about">About</a><a href="/#lookbook">Lookbook</a><a href="/#contact">Contact</a>
+                    </nav>
+                    <div className="yoanne-shop-nav-right">
+                        <a href="/search" aria-label="Search" onClick={(event) => { event.preventDefault(); window.dispatchEvent(new Event("open-site-search")); }}><Search size={18} strokeWidth={1.5} /></a>
+                        <a href="/wishlist" aria-label="Wishlist"><Heart size={18} strokeWidth={1.5} /></a>
+                        <a href="/cart" aria-label="Cart" onClick={(event) => { event.preventDefault(); window.dispatchEvent(new Event("open-cart-drawer")); }}><ShoppingBag size={18} strokeWidth={1.5} /></a>
+                        <a href="/shop" className="btn btn-gold">Shop Collection</a>
+                    </div>
+                </div>
+            </header>
             <style>{`
                 .shop-layout { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 24px 20px 60px; align-items: start; }
                 .shop-filter-sidebar { position: sticky; top: 52px; }
@@ -160,14 +176,12 @@ export default function ShopClient() {
             `}</style>
 
             {/* Page header */}
-            <div style={{ background: "#000", padding: "28px 20px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-                <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(232,0,45,.12) 0%,transparent 70%)" }} aria-hidden="true" />
-                <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(40px,6vw,72px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", letterSpacing: ".02em", lineHeight: 1, position: "relative", zIndex: 2 }}>
-                    Shop All Women&apos;s
-                </h1>
-                <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "6px", position: "relative", zIndex: 2, display: "none" }}>
-                    {loading ? "" : `${products.length} products`}
-                </p>
+            <div className="yoanne-shop-hero">
+                <div className="fabric-swatch fabric-pleat" aria-hidden="true" />
+                <div className="wrap yoanne-shop-hero-copy">
+                    <div className="crumbs"><a href="/" style={{ color: "var(--gold-light)" }}>Home</a> / Shop</div>
+                    <h1>Ready to Wear</h1>
+                </div>
             </div>
 
             {/* Quick-filter tabs */}
@@ -332,6 +346,15 @@ export default function ShopClient() {
                     </div>
                 </>
             )}
-        </>
+            <footer className="yoanne-shop-footer">
+                <div className="wrap yoanne-shop-footer-grid">
+                    <div><div className="yoanne-shop-footer-logo">Yoanne Couture</div><p>Luxury Adire ready-to-wear, handcrafted in Lekki Phase 1, Lagos.</p></div>
+                    <div><h4>Shop</h4><a href="/shop">Ready to Wear</a><a href="/shop">Adire Collection</a><a href="/shop">New Arrivals</a></div>
+                    <div><h4>Customer Service</h4><a href="/size-guide">Size Guide</a><a href="/shipping">Shipping & Delivery</a><a href="/returns">Returns</a></div>
+                    <div><h4>Contact</h4><a href="/#contact">Lekki Phase 1, Lagos</a><a href="/contact">Contact the studio</a><a href="https://wa.me/2348107890789">Order on WhatsApp</a></div>
+                </div>
+                <div className="wrap yoanne-shop-footer-bottom">© 2026 Yoanne Couture. All rights reserved.</div>
+            </footer>
+        </div>
     );
 }

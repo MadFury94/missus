@@ -1,3 +1,4 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -11,10 +12,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Enter a valid email and select a product option." }, { status: 400 });
         }
 
-        const credentials = process.env.WP_APP_PASSWORD;
+        const credentials = process.env.YOANN_WP_APP_PASSWORD;
         if (!credentials) throw new Error("WordPress connection unavailable");
 
-        const base = (process.env.WP_API_URL || "https://missusoutfits.com/wp-json").replace(/\/$/, "");
+        const base = (API_ENDPOINTS.wordpress.core).replace(/\/$/, "");
 
         // 1. Save restock notification 
         const restockResponse = await fetch(`${base}/missus/v1/restock`, {
@@ -102,7 +103,7 @@ export async function POST(req: NextRequest) {
                     const customerResponse = await fetch(`${base.replace('/wp-json', '')}/wp-json/wc/v3/customers`, {
                         method: "POST",
                         headers: {
-                            Authorization: `Basic ${Buffer.from(`${process.env.WC_CONSUMER_KEY}:${process.env.WC_CONSUMER_SECRET}`).toString("base64")}`,
+                            Authorization: `Basic ${Buffer.from(`${process.env.YOANN_WC_CONSUMER_KEY}:${process.env.YOANN_WC_CONSUMER_SECRET}`).toString("base64")}`,
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({

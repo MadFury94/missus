@@ -1,0 +1,66 @@
+/* Yoanne's approved Ready to Wear view, scoped so the existing commerce UI remains reusable. */
+.yoanne-shop {
+  --cream:#F7F1E6; --beige:#E9DDC3; --charcoal:#221C17; --muted:#221C1799;
+  --gold:#C9A227; --gold-light:#E3CE8F; --indigo:#3E5C86; --white:#FFFCF6;
+  background:var(--cream); color:var(--charcoal); min-height:100vh;
+  font-family:var(--sans), 'Manrope', sans-serif;
+}
+.yoanne-shop h1,.yoanne-shop h2,.yoanne-shop h3,.yoanne-shop .fabric-name { font-family:var(--serif), 'Cormorant Garamond', serif !important; }
+.yoanne-shop-nav { background:rgba(247,241,230,.96); border-bottom:1px solid rgba(34,28,23,.08); padding:16px 0; position:relative; z-index:20; }
+.yoanne-shop-nav-inner { width:100%; max-width:1240px; margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.yoanne-shop-logo { font-family:var(--serif),serif; font-size:1.6rem; letter-spacing:.06em; white-space:nowrap; }
+.yoanne-shop-nav nav { display:flex; gap:30px; font-size:13px; letter-spacing:.05em; }
+.yoanne-shop-nav nav a { padding:4px 0; border-bottom:1px solid transparent; }
+.yoanne-shop-nav nav a:hover,.yoanne-shop-nav nav a.active { border-color:currentColor; }
+.yoanne-shop-nav-right { display:flex; align-items:center; gap:16px; font-size:18px; }
+.yoanne-shop-nav-right .btn { font-family:var(--sans),sans-serif !important; font-size:11px; padding:14px 20px; }
+.yoanne-shop-footer { background:var(--charcoal); color:var(--beige); padding:78px 0 28px; }
+.yoanne-shop-footer-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:60px; }
+.yoanne-shop-footer-logo { font-family:var(--serif),serif; color:var(--white); font-size:1.7rem; margin-bottom:14px; }
+.yoanne-shop-footer p,.yoanne-shop-footer a { display:block; color:#cfc6b6; font-size:.9rem; margin-bottom:12px; }
+.yoanne-shop-footer h4 { color:var(--gold-light); font-size:12px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:22px; }
+.yoanne-shop-footer a:hover { color:var(--white); }
+.yoanne-shop-footer-bottom { border-top:1px solid rgba(255,255,255,.12); padding-top:24px; color:#9d9384; font-size:.8rem; }
+.yoanne-shop-hero { height:46vh; min-height:360px; position:relative; display:flex; align-items:flex-end; overflow:hidden; background:var(--indigo); }
+.yoanne-shop-hero > .fabric-swatch { position:absolute; inset:0; opacity:.72; background-image:url('/yoanne/fabric-1.webp'); background-size:cover; background-position:center 20%; }
+.yoanne-shop-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(34,28,23,.7),rgba(34,50,82,.08) 70%); }
+.yoanne-shop-hero-copy { position:relative; z-index:2; width:100%; max-width:1240px; margin:0 auto; padding:0 32px 46px; }
+.yoanne-shop-hero h1 { color:var(--white); font-size:clamp(2.7rem,6vw,5rem); line-height:.98; font-weight:500; }
+.yoanne-shop .crumbs { color:var(--gold-light); font-size:12px; letter-spacing:.08em; margin-bottom:14px; }
+.yoanne-shop .shop-layout { display:grid; grid-template-columns:260px 1fr; gap:60px; max-width:1240px; margin:0 auto; padding:70px 32px 100px; }
+.yoanne-shop .shop-sidebar-desktop { border-right:1px solid var(--beige); padding-right:40px; position:sticky !important; top:110px !important; }
+.yoanne-shop .shop-sidebar-desktop aside { max-height:calc(100vh - 140px) !important; font-family:var(--sans),sans-serif !important; }
+.yoanne-shop .shop-sidebar-desktop button { font-family:var(--sans),sans-serif !important; }
+.yoanne-shop .shop-sidebar-desktop [style*="color: rgb(0, 0, 0)"], .yoanne-shop .shop-sidebar-desktop [style*="color: #000"] { color:var(--charcoal) !important; }
+.yoanne-shop .shop-tab-btn { border-radius:0 !important; border-color:var(--beige) !important; font-family:var(--sans),sans-serif !important; letter-spacing:.12em !important; background:var(--cream) !important; color:var(--charcoal) !important; }
+.yoanne-shop .shop-tab-btn[aria-selected="true"] { background:var(--indigo) !important; color:var(--white) !important; border-color:var(--indigo) !important; }
+.yoanne-shop > [role="tablist"] { background:var(--cream) !important; border-bottom:1px solid var(--beige) !important; padding:18px max(32px,calc((100vw - 1240px)/2)) !important; }
+.yoanne-shop .shop-layout > div > .grid-4 { grid-template-columns:repeat(4,1fr); gap:28px 22px; }
+.yoanne-shop .shop-layout > div > .grid-4 > * { background:transparent !important; }
+.yoanne-shop .shop-layout > div > .grid-4 a { color:var(--charcoal); }
+.yoanne-shop .shop-layout > div > .grid-4 img { filter:saturate(.88); }
+.yoanne-shop .shop-layout > div > .grid-4 [style*="font-family"] { font-family:var(--sans),sans-serif !important; }
+.yoanne-shop .shop-layout > div > .grid-4 [style*="color: rgb(127, 14, 18)"] { background:var(--burgundy) !important; }
+.yoanne-shop .shop-filter-bar-desktop { border-color:var(--beige) !important; }
+.yoanne-shop .shop-filter-bar-desktop select, .yoanne-shop .shop-filter-bar select { border-color:var(--charcoal) !important; background:var(--cream) !important; font-family:var(--sans),sans-serif !important; }
+.yoanne-shop .shop-filter-bar button { border-radius:0 !important; border-color:var(--charcoal) !important; font-family:var(--sans),sans-serif !important; }
+.yoanne-shop .filter-drawer-panel { background:var(--cream); border-radius:0; }
+@media (max-width:1024px) {
+  .yoanne-shop .shop-layout { grid-template-columns:1fr; padding:40px 0 80px; gap:0; }
+  .yoanne-shop .shop-sidebar-desktop { display:none; }
+  .yoanne-shop .shop-layout > div > .grid-4 { grid-template-columns:repeat(2,1fr); gap:22px 14px; padding:0 20px; }
+  .yoanne-shop .shop-filter-bar { background:var(--cream) !important; border-color:var(--beige) !important; }
+}
+@media (max-width:640px) {
+  .yoanne-shop-nav { padding:14px 0; }
+  .yoanne-shop-nav-inner { padding:0 20px; flex-wrap:wrap; row-gap:10px; }
+  .yoanne-shop-nav nav { order:3; width:100%; overflow-x:auto; justify-content:flex-start; gap:18px; white-space:nowrap; font-size:11px; padding-top:10px; border-top:1px solid rgba(34,28,23,.08); scrollbar-width:none; }
+  .yoanne-shop-nav nav::-webkit-scrollbar { display:none; }
+  .yoanne-shop-nav-right .btn { display:none; }
+  .yoanne-shop-nav-right { margin-left:auto; }
+  .yoanne-shop-footer-grid { grid-template-columns:1fr 1fr; gap:30px 20px; }
+  .yoanne-shop-hero { min-height:330px; height:48vh; }
+  .yoanne-shop-hero-copy { padding:0 20px 30px; }
+  .yoanne-shop-hero h1 { font-size:3rem; }
+  .yoanne-shop > [role="tablist"] { padding:14px 20px !important; }
+}

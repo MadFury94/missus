@@ -1,10 +1,11 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminAuth } from "@/lib/admin-auth";
 import { wcFetch } from "@/lib/wp-fetch";
 
-const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
-const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
-const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
+const WC_API_URL = API_ENDPOINTS.woocommerce.rest;
+const WC_CONSUMER_KEY = process.env.YOANN_WC_CONSUMER_KEY;
+const WC_CONSUMER_SECRET = process.env.YOANN_WC_CONSUMER_SECRET;
 
 function getWCAuth(): Record<string, string> | null {
     if (!WC_CONSUMER_KEY || !WC_CONSUMER_SECRET) return null;

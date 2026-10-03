@@ -1,3 +1,4 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function PrivacyPage() {
                     },
                     {
                         title: "Your Rights",
-                        body: `You have the right to access, correct, or delete your personal data at any time. To make a request, email us at hello@missusoutfits.com. We'll respond within 5 business days.`,
+                        body: `You have the right to access, correct, or delete your personal data at any time. To make a request, email us at ${BRAND_CONFIG.contactEmail}. We'll respond within 5 business days.`,
                     },
                     {
                         title: "Data Security",
@@ -47,7 +48,7 @@ export default function PrivacyPage() {
                     },
                     {
                         title: "Contact",
-                        body: `Questions about this policy? Email us at hello@missusoutfits.com or DM us on Instagram @missusoutfits.`,
+                        body: `Questions about this policy? Email us at ${BRAND_CONFIG.contactEmail} or DM us on Instagram ${BRAND_CONFIG.name}.`,
                     },
                 ].map((section) => (
                     <div key={section.title} style={{ marginBottom: "32px" }}>

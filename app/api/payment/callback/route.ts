@@ -1,11 +1,14 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
+import { SITE_URL } from "@/lib/config";
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { verifyPayment } from "@/lib/paystack";
 import { ensurePaidOrder } from "@/lib/paid-order";
 import { findOrderByReference } from "@/lib/order-reference";
 
-const WC_API_URL = process.env.WC_API_URL || "https://missusoutfits.com/wp-json/wc/v3";
-const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
-const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
+const WC_API_URL = API_ENDPOINTS.woocommerce.rest;
+const WC_CONSUMER_KEY = process.env.YOANN_WC_CONSUMER_KEY;
+const WC_CONSUMER_SECRET = process.env.YOANN_WC_CONSUMER_SECRET;
 
 function getWCAuth() {
     const auth = Buffer.from(`${WC_CONSUMER_KEY}:${WC_CONSUMER_SECRET}`).toString("base64");
@@ -71,7 +74,7 @@ export async function GET(request: NextRequest) {
     try {
         const txRes = await fetch(
             `https://api.paystack.co/transaction/verify/${reference}`,
-            { headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` } }
+            { headers: { Authorization: `Bearer ${process.env.YOANN_PAYSTACK_SECRET_KEY}` } }
         );
         const txData = await txRes.json();
         meta = txData?.data?.metadata ?? {};
@@ -130,7 +133,7 @@ export async function GET(request: NextRequest) {
     if (created && shipping && orderId) {
         setImmediate(async () => {
             try {
-                const resendKey = process.env.RESEND_API_KEY;
+                const resendKey = process.env.YOANN_RESEND_API_KEY;
                 if (!resendKey) return;
 
                 const itemsHtml = cart.map((item: CartItem) => `
@@ -177,7 +180,7 @@ export async function GET(request: NextRequest) {
             </tr>
         </table>
         <div style="text-align:center;">
-            <a href="${process.env.NEXT_PUBLIC_SITE_URL}/account/orders${orderId ? `/${orderId}` : ""}" 
+            <a href="${SITE_URL}/account/orders${orderId ? `/${orderId}` : ""}"
                style="background:#000;color:#fff;padding:14px 36px;font-size:12px;font-weight:700;text-decoration:none;border-radius:999px;">
                 Track My Order
             </a>
@@ -194,7 +197,7 @@ export async function GET(request: NextRequest) {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        from: "Missus Outfits <orders@missusoutfits.com>",
+                        from: `${BRAND_CONFIG.name} <${BRAND_CONFIG.ordersEmail}>`,
                         to: [shipping.email],
                         subject: `Order Confirmed${orderNumber ? ` #${orderNumber}` : ""} — Thank you!`,
                         html,

@@ -13,7 +13,7 @@ export async function GET() {
             return NextResponse.json({ rates: cached.rates, cached: true });
         }
 
-        const key = process.env.EXCHANGE_RATE_API_KEY;
+        const key = process.env.YOANN_EXCHANGE_RATE_API_KEY;
         if (!key) {
             return NextResponse.json({ error: "API key not configured" }, { status: 500 });
         }

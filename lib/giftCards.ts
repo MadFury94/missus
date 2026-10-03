@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from "./config";
 
 // must never reach the browser bundle.
 
-const GIFT_CARD_SECRET = process.env.MISSUS_GIFT_CARD_SECRET ?? "";
+const GIFT_CARD_SECRET = process.env.YOANN_GIFT_CARD_SECRET ?? "";
 
 export interface GiftCardCheckResult {
     code: string;

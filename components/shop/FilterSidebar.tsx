@@ -12,28 +12,22 @@ const SIZES_PRIMARY = ["S", "S/M", "M", "L"];
 const SIZES_ALL = ["XXS", "XS", "S", "S/M", "M", "L", "XL", "XXL", "3XL"];
 
 const COLORS = [
+    { name: "Indigo", hex: "#3E5C86" },
+    { name: "Burgundy", hex: "#6E2430" },
+    { name: "Cream", hex: "#E9DDC3" },
+    { name: "Charcoal", hex: "#221C17" },
+    { name: "Gold", hex: "#C9A227" },
     { name: "Black", hex: "#000000" },
-    { name: "Blue", hex: "#1a5fe0" },
     { name: "White", hex: "#ffffff" },
-    { name: "Pink", hex: "#f06fa4" },
-    { name: "Brown", hex: "#7a4c2e" },
-    { name: "Red", hex: "#cc1a2a" },
-    { name: "Yellow", hex: "#e8c832" },
-    { name: "Green", hex: "#2a7a3a" },
-    { name: "Grey", hex: "#888888" },
-    { name: "Purple", hex: "#7a2aaa" },
-    { name: "Orange", hex: "#e86a1a" },
-    { name: "Gold", hex: "#c8922a" },
-    { name: "Silver", hex: "#c0c0c0" },
-    { name: "Nude", hex: "#d4a884" },
+    { name: "Rose", hex: "#C97B84" },
 ];
 
 const PRICE_RANGES = [
-    { label: "Under ₦20,000", min: 0, max: 20000 },
-    { label: "₦20k – ₦35k", min: 20000, max: 35000 },
-    { label: "₦35k – ₦55k", min: 35000, max: 55000 },
-    { label: "₦55k – ₦100k", min: 55000, max: 100000 },
-    { label: "₦100k+", min: 100000, max: undefined },
+    { label: "Under ₦100,000", min: 0, max: 100000 },
+    { label: "₦100k – ₦150k", min: 100000, max: 150000 },
+    { label: "₦150k – ₦200k", min: 150000, max: 200000 },
+    { label: "₦200k – ₦250k", min: 200000, max: 250000 },
+    { label: "₦250k+", min: 250000, max: undefined },
 ];
 
 const CATEGORIES = [

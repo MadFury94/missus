@@ -9,9 +9,9 @@ export async function POST(request: NextRequest) {
     const authError = await requireAdminAuth(request);
     if (authError) return authError;
 
-    const credentials = process.env.WP_APP_PASSWORD;
+    const credentials = process.env.YOANN_WP_APP_PASSWORD;
     if (!credentials || credentials.indexOf(":") <= 0) {
-        return NextResponse.json({ error: "Configure WP_APP_PASSWORD as username:application-password." }, { status: 503 });
+        return NextResponse.json({ error: "Configure YOANN_WP_APP_PASSWORD as username:application-password." }, { status: 503 });
     }
 
     let file: File;

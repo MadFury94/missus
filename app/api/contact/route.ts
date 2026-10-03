@@ -1,3 +1,4 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -18,8 +19,8 @@ export async function POST(request: NextRequest) {
         };
         const subjectLine = subjectLabels[subject] ?? subject ?? "General Enquiry";
 
-        const toEmail = process.env.CONTACT_EMAIL || "hello@missusoutfits.com";
-        const resendKey = process.env.RESEND_API_KEY;
+        const toEmail = BRAND_CONFIG.contactEmail;
+        const resendKey = process.env.YOANN_RESEND_API_KEY;
 
         if (resendKey) {
             // Send via Resend (https://resend.com)
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    from: "Missus Website <noreply@missusoutfits.com>",
+                    from: `${BRAND_CONFIG.name} <${BRAND_CONFIG.senderEmail}>`,
                     to: [toEmail],
                     reply_to: email,
                     subject: `[Contact] ${subjectLine} — ${name}`,
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
                                     <tr><td style="padding:8px 0;color:#888;vertical-align:top">Message</td><td style="padding:8px 0;white-space:pre-wrap">${message}</td></tr>
                                 </table>
                             </div>
-                            <p style="padding:0 24px;font-size:11px;color:#aaa">Sent from missusoutfits.com contact form</p>
+                            <p style="padding:0 24px;font-size:11px;color:#aaa">Sent from ${BRAND_CONFIG.name} contact form</p>
                         </div>
                     `,
                 }),

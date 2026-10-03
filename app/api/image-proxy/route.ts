@@ -1,3 +1,4 @@
+import { WP_BASE_URL, WP_MEDIA_BASE } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -10,10 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
  * Allowed origins are strictly whitelisted so this can't be used as an open proxy.
  */
 
-const ALLOWED_ORIGINS = [
-    "missusoutfits.com",
-    "www.missusoutfits.com",
-];
+const ALLOWED_ORIGINS = [new URL(WP_BASE_URL).hostname, new URL(WP_MEDIA_BASE).hostname];
 
 export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl;

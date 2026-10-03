@@ -175,7 +175,7 @@ export default function AboutClient() {
                     </div>
                     <div className={`a-img sr${founder.inView ? " on" : ""}`} style={{ minHeight: "560px" }}>
                         <Image
-                            src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png"
+                            src="/style%20radar/Table%20for%20two.jpeg"
                             alt="Missus founder"
                             fill
                             style={{ objectFit: "cover", objectPosition: "top center" }}
@@ -198,10 +198,10 @@ export default function AboutClient() {
                 <div ref={mission.ref} className="a-split-rev" style={{ background: "#fff" }}>
                     <div className={`a-img sl${mission.inView ? " on" : ""}`} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "480px" }}>
                         <div style={{ position: "relative", overflow: "hidden" }}>
-                            <Image src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-17.png" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
+                            <Image src="/style%20radar/Table%20for%20two.jpeg" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
                         </div>
                         <div style={{ position: "relative", overflow: "hidden", borderLeft: "3px solid #fff" }}>
-                            <Image src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-22.png" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
+                            <Image src="/style%20radar/Table%20for%20two.jpeg" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
                         </div>
                     </div>
                     <div className={`a-text-mid sr${mission.inView ? " on" : ""}`}>
@@ -234,16 +234,16 @@ export default function AboutClient() {
                         ))}
                     </div>
                     <div className={`a-img sr${values.inView ? " on" : ""}`} style={{ minHeight: "560px" }}>
-                        <Image src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-8.png" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 100vw, 55vw" />
+                        <Image src="/style%20radar/Table%20for%20two.jpeg" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 100vw, 55vw" />
                     </div>
                 </div>
 
                 {/* 7. 3-COL IMAGE GRID */}
                 <div ref={grid.ref} className="a-3col">
                     {[
-                        "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-96.jpeg",
-                        "https://missusoutfits.com/wp-content/uploads/2026/03/Leila-Halter-Mini-Dress.jpg",
-                        "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
+                        "/style%20radar/Table%20for%20two.jpeg",
+                        "/style%20radar/Table%20for%20two.jpeg",
+                        "/style%20radar/Table%20for%20two.jpeg",
                     ].map((src, i) => (
                         <div key={i} className={`a-img sl${grid.inView ? ` on d${i}` : ""}`}>
                             <Image src={src} alt="" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="(max-width: 768px) 100vw, 33vw" />

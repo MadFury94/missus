@@ -36,10 +36,10 @@ export default function CartPage() {
             let categorySlug = "";
             if (cartItems.length > 0) {
                 const productRes = await fetch(
-                    `https://missusoutfits.com/wp-json/wc/store/v1/products?slug=${cartItems[0].slug}`
+                    `/api/products?slug=${encodeURIComponent(cartItems[0].slug)}`
                 );
                 if (productRes.ok) {
-                    const data: StoreProduct[] = await productRes.json();
+                    const { products: data }: { products: StoreProduct[] } = await productRes.json();
                     categorySlug = data?.[0]?.categories?.[0]?.slug ?? "";
                 }
             }

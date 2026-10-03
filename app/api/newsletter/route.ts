@@ -8,12 +8,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ ok: false, error: "Valid email required." }, { status: 400 });
         }
 
-        const mailchimpKey = process.env.MAILCHIMP_API_KEY;
-        const mailchimpListId = process.env.MAILCHIMP_LIST_ID;
-        const mailchimpServer = process.env.MAILCHIMP_SERVER_PREFIX; // e.g. "us21"
+        const mailchimpKey = process.env.YOANN_MAILCHIMP_API_KEY;
+        const mailchimpListId = process.env.YOANN_MAILCHIMP_LIST_ID;
+        const mailchimpServer = process.env.YOANN_MAILCHIMP_SERVER_PREFIX; // e.g. "us21"
 
-        const klaviyoKey = process.env.KLAVIYO_PRIVATE_KEY;
-        const klaviyoListId = process.env.KLAVIYO_LIST_ID;
+        const klaviyoKey = process.env.YOANN_KLAVIYO_PRIVATE_KEY;
+        const klaviyoListId = process.env.YOANN_KLAVIYO_LIST_ID;
 
         if (mailchimpKey && mailchimpListId && mailchimpServer) {
             // Mailchimp

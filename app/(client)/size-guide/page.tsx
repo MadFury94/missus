@@ -1,3 +1,4 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -97,7 +98,7 @@ export default function SizeGuidePage() {
                             "Bodycon and fitted styles run true to size — size up if you prefer a relaxed fit.",
                             "Dresses with stretch fabric are more forgiving — go with your usual size.",
                             "For matching sets, size based on your largest measurement.",
-                            "Still unsure? DM us on Instagram @missusoutfits and we'll help you pick.",
+                            `Still unsure? DM us on Instagram ${BRAND_CONFIG.name} and we'll help you pick.`,
                         ].map((note) => (
                             <li key={note} style={{ fontSize: "13px", color: "#444", lineHeight: 1.7 }}>{note}</li>
                         ))}

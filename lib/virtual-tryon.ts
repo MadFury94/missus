@@ -20,7 +20,7 @@ export interface TryOnResult {
 export async function generateVirtualTryOn(
     request: TryOnRequest
 ): Promise<TryOnResult> {
-    const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
+    const REPLICATE_API_TOKEN = process.env.YOANN_REPLICATE_API_TOKEN;
 
     if (!REPLICATE_API_TOKEN) {
         return {

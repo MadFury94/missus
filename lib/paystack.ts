@@ -15,7 +15,7 @@ export async function initializePayment(params: {
     callbackUrl?: string;
     metadata?: Record<string, unknown>;
 }): Promise<PaystackInitResponse | null> {
-    const key = process.env.PAYSTACK_SECRET_KEY;
+    const key = process.env.YOANN_PAYSTACK_SECRET_KEY;
     if (!key) {
         console.warn("Paystack secret key missing");
         return null;
@@ -44,7 +44,7 @@ export async function initializePayment(params: {
 }
 
 export async function verifyPayment(reference: string): Promise<boolean> {
-    const key = process.env.PAYSTACK_SECRET_KEY;
+    const key = process.env.YOANN_PAYSTACK_SECRET_KEY;
     if (!key) return false;
     try {
         const res = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {

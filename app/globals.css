@@ -1,10 +1,13 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "./";
+@source "../components";
+@source "../lib";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-dm-sans: 'DM Sans';
   --font-body: var(--font-dm-sans);
   --font-display: var(--font-dm-sans);
   --font-admin-sans: var(--font-dm-sans);

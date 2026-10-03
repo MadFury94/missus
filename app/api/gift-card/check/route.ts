@@ -1,6 +1,7 @@
+import { API_ENDPOINTS } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 
-const WP_API_URL = process.env.WP_API_URL || "https://missusoutfits.com/wp-json";
+const WP_API_URL = API_ENDPOINTS.wordpress.core;
 
 export async function POST(request: NextRequest) {
     try {

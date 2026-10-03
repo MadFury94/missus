@@ -1,3 +1,4 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -91,7 +92,7 @@ export default function ShippingPage() {
                 <Section title="Order Tracking">
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8 }}>
                         Once your order is dispatched, you&apos;ll receive a WhatsApp message or email with your tracking details. For real-time updates, DM us on Instagram{" "}
-                        <strong>@missusoutfits</strong> with your order number.
+                        <strong>{BRAND_CONFIG.name}</strong> with your order number.
                     </p>
                 </Section>
 

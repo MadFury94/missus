@@ -13,6 +13,8 @@ import ProductCard from "@/components/product/ProductCard";
 import { useCurrency } from "@/lib/currency";
 import { normalizeStockStatus, stockStatusLabel } from "@/lib/stock-status";
 import { decodeHtmlEntities } from "@/lib/api-helpers";
+import { Search, Heart, ShoppingBag } from "lucide-react";
+import "@/components/yoanne/product.css";
 
 const GIFT_CARD_MIN = 10000;
 const GIFT_CARD_MAX = 150000;
@@ -249,7 +251,21 @@ export default function ProductPageClient({ params, product, related }: {
     }
 
     return (
-        <>
+        <div className="yoanne-product">
+            <header className="yoanne-shop-nav">
+                <div className="wrap yoanne-shop-nav-inner">
+                    <a href="/" className="yoanne-shop-logo">Yoanne Couture</a>
+                    <nav aria-label="Primary navigation">
+                        <a href="/">Home</a><a href="/shop">Shop</a><a href="/shop">Collections</a><a href="/#about">About</a><a href="/#lookbook">Lookbook</a><a href="/#contact">Contact</a>
+                    </nav>
+                    <div className="yoanne-shop-nav-right">
+                        <a href="/search" aria-label="Search" onClick={(event) => { event.preventDefault(); window.dispatchEvent(new Event("open-site-search")); }}><Search size={18} strokeWidth={1.5} /></a>
+                        <a href="/wishlist" aria-label="Wishlist"><Heart size={18} strokeWidth={1.5} /></a>
+                        <a href="/cart" aria-label="Cart" onClick={(event) => { event.preventDefault(); window.dispatchEvent(new Event("open-cart-drawer")); }}><ShoppingBag size={18} strokeWidth={1.5} /></a>
+                        <a href="/shop" className="btn btn-gold">Shop Collection</a>
+                    </div>
+                </div>
+            </header>
             <style>{`
                 /* ── PDP layout ─────────────────────────────── */
                 .pdp-wrap {
@@ -408,6 +424,8 @@ export default function ProductPageClient({ params, product, related }: {
 
                 {/* ── Product info panel ── */}
                 <div className="pdp-info-col">
+
+                    <span className="pdp-fabric">Yoanne Signature Collection</span>
 
                     {/* Name */}
                     <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 600, lineHeight: 1.2, marginBottom: "12px", color: "#000", letterSpacing: "-.01em" }}>
@@ -776,6 +794,15 @@ export default function ProductPageClient({ params, product, related }: {
                     </button>
                 )}
             </div>
-        </>
+            <footer className="yoanne-shop-footer">
+                <div className="wrap yoanne-shop-footer-grid">
+                    <div><div className="yoanne-shop-footer-logo">Yoanne Couture</div><p>Luxury Adire ready-to-wear, handcrafted in Lekki Phase 1, Lagos.</p></div>
+                    <div><h4>Shop</h4><a href="/shop">Ready to Wear</a><a href="/shop">Adire Collection</a><a href="/shop">New Arrivals</a></div>
+                    <div><h4>Customer Service</h4><a href="/size-guide">Size Guide</a><a href="/shipping">Shipping &amp; Delivery</a><a href="/returns">Returns</a></div>
+                    <div><h4>Contact</h4><a href="/#contact">Lekki Phase 1, Lagos</a><a href="/contact">Contact the studio</a><a href="https://wa.me/2348107890789">Order on WhatsApp</a></div>
+                </div>
+                <div className="wrap yoanne-shop-footer-bottom">© 2026 Yoanne Couture. All rights reserved.</div>
+            </footer>
+        </div>
     );
 }

@@ -1,0 +1,69 @@
+.yoanne-product {
+  --cream:#F7F1E6; --beige:#E9DDC3; --charcoal:#221C17; --muted:#221C1799;
+  --gold:#C9A227; --gold-light:#E3CE8F; --indigo:#3E5C86; --white:#FFFCF6;
+  min-height:100vh; background:var(--cream); color:var(--charcoal);
+  font-family:var(--sans), 'Manrope', sans-serif;
+}
+.yoanne-product h1,.yoanne-product h2,.yoanne-product h3,
+.yoanne-product .fabric-name { font-family:var(--serif), 'Cormorant Garamond', serif !important; }
+.yoanne-product .yoanne-shop-nav { background:rgba(247,241,230,.96); border-bottom:1px solid rgba(34,28,23,.08); padding:16px 0; position:relative; z-index:20; }
+.yoanne-product .yoanne-shop-nav-inner { width:100%; max-width:1240px; margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.yoanne-product .yoanne-shop-logo { font-family:var(--serif),serif; font-size:1.6rem; letter-spacing:.06em; white-space:nowrap; }
+.yoanne-product .yoanne-shop-nav nav { display:flex; gap:30px; font-size:13px; letter-spacing:.05em; }
+.yoanne-product .yoanne-shop-nav nav a { padding:4px 0; border-bottom:1px solid transparent; }
+.yoanne-product .yoanne-shop-nav nav a:hover { border-color:currentColor; }
+.yoanne-product .yoanne-shop-nav-right { display:flex; align-items:center; gap:16px; font-size:18px; }
+.yoanne-product .yoanne-shop-nav-right .btn { font-family:var(--sans),sans-serif !important; font-size:11px; padding:14px 20px; }
+.yoanne-product .pdp-breadcrumb { padding:0 0 18px !important; margin:0 auto; max-width:1240px; background:transparent !important; border:0 !important; }
+.yoanne-product .pdp-breadcrumb > div { max-width:none !important; padding-top:28px; color:var(--muted) !important; }
+.yoanne-product .pdp-breadcrumb a { color:var(--muted) !important; }
+.yoanne-product .pdp-wrap { grid-template-columns:96px minmax(0,1fr) 460px; gap:16px 28px; max-width:1240px; padding:0 32px 100px; }
+.yoanne-product .pdp-thumb-col { width:96px; gap:14px; padding:0; }
+.yoanne-product .pdp-thumb-col button { width:96px !important; height:auto !important; aspect-ratio:3/4; opacity:.55; }
+.yoanne-product .pdp-thumb-col button[aria-label="View image 1"] { opacity:1; }
+.yoanne-product .pdp-thumb-col button:focus-visible { outline:2px solid var(--indigo); outline-offset:2px; }
+.yoanne-product .pdp-wrap > div:nth-child(2) { background:var(--beige) !important; }
+.yoanne-product .pdp-main-img { aspect-ratio:3/4 !important; max-height:none !important; min-height:0 !important; }
+.yoanne-product .pdp-info-col { padding:0 0 48px; position:sticky; top:120px; }
+.yoanne-product .pdp-info-col h1 { color:var(--charcoal) !important; font-size:clamp(1.9rem,3vw,2.6rem) !important; font-weight:500 !important; margin-bottom:14px !important; }
+.yoanne-product .pdp-fabric { display:block; color:var(--gold) !important; font-size:12px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:10px; }
+.yoanne-product .pdp-info-col > div:first-of-type span { color:var(--indigo) !important; font-family:var(--serif),serif; font-size:1.7rem !important; font-weight:400 !important; }
+.yoanne-product .pdp-info-col button { border-radius:0; }
+.yoanne-product .pdp-info-col button[style*="border-radius"] { border-radius:0 !important; }
+.yoanne-product .pdp-info-col .pdp-wishlist { border-radius:0 !important; border-color:var(--charcoal) !important; background:transparent !important; color:var(--charcoal) !important; }
+.yoanne-product .pdp-info-col .pdp-wishlist[aria-pressed="true"] { border-color:var(--indigo) !important; color:var(--indigo) !important; }
+.yoanne-product .pdp-info-col [style*="background: #000"] { background:var(--indigo) !important; }
+.yoanne-product .pdp-info-col [style*="background: #1a7a3d"] { background:#547a57 !important; }
+.yoanne-product .pdp-info-col [style*="border-radius: \"999px\""] { border-radius:0 !important; }
+.yoanne-product .pdp-info-col [style*="border: 1px solid #ebebeb"] { border-color:var(--beige) !important; border-radius:0 !important; }
+.yoanne-product .related-section { background:var(--cream) !important; border-top:1px solid var(--beige) !important; padding:72px 32px 100px !important; }
+.yoanne-product .related-section h2 { color:var(--charcoal) !important; font-size:clamp(2rem,4vw,3rem) !important; font-weight:500 !important; }
+.yoanne-product .related-grid { grid-template-columns:repeat(4,1fr) !important; gap:28px 22px !important; }
+.yoanne-product .related-grid > * { background:transparent !important; }
+.yoanne-product .related-grid a { color:var(--charcoal); }
+.yoanne-product .related-grid img { filter:saturate(.88); }
+.yoanne-product .yoanne-shop-footer { background:var(--charcoal); color:var(--beige); padding:78px 0 28px; }
+.yoanne-product .yoanne-shop-footer-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:60px; }
+.yoanne-product .yoanne-shop-footer-logo { font-family:var(--serif),serif; color:var(--white); font-size:1.7rem; margin-bottom:14px; }
+.yoanne-product .yoanne-shop-footer p,.yoanne-product .yoanne-shop-footer a { display:block; color:#cfc6b6; font-size:.9rem; margin-bottom:12px; }
+.yoanne-product .yoanne-shop-footer h4 { color:var(--gold-light); font-size:12px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:22px; }
+.yoanne-product .yoanne-shop-footer a:hover { color:var(--white); }
+.yoanne-product .yoanne-shop-footer-bottom { border-top:1px solid rgba(255,255,255,.12); padding-top:24px; color:#9d9384; font-size:.8rem; }
+@media (max-width:900px) {
+  .yoanne-product .pdp-breadcrumb { display:none !important; }
+  .yoanne-product .pdp-wrap { grid-template-columns:1fr; padding:0 0 70px; }
+  .yoanne-product .pdp-thumb-col { display:none; }
+  .yoanne-product .pdp-info-col { padding:28px 20px 40px; position:static; }
+  .yoanne-product .pdp-main-img { min-height:0 !important; aspect-ratio:3/4 !important; }
+  .yoanne-product .related-section { padding:52px 20px 70px !important; }
+  .yoanne-product .related-grid { grid-template-columns:repeat(2,1fr) !important; gap:20px 12px !important; }
+}
+@media (max-width:640px) {
+  .yoanne-product .yoanne-shop-nav { padding:14px 0; }
+  .yoanne-product .yoanne-shop-nav-inner { padding:0 20px; flex-wrap:wrap; row-gap:10px; }
+  .yoanne-product .yoanne-shop-nav nav { order:3; width:100%; overflow-x:auto; justify-content:flex-start; gap:18px; white-space:nowrap; font-size:11px; padding-top:10px; border-top:1px solid rgba(34,28,23,.08); scrollbar-width:none; }
+  .yoanne-product .yoanne-shop-nav nav::-webkit-scrollbar { display:none; }
+  .yoanne-product .yoanne-shop-nav-right .btn { display:none; }
+  .yoanne-product .yoanne-shop-nav-right { margin-left:auto; }
+  .yoanne-product .yoanne-shop-footer-grid { grid-template-columns:1fr 1fr; gap:30px 20px; }
+}

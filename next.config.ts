@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
+import { STORE_CONFIG } from "./lib/store-config";
 
+// Keep the storefront image hosts tied to the selected store configuration.
 const nextConfig: NextConfig = {
   typescript: {
     // During builds, ignore TypeScript errors for faster deployment
@@ -15,8 +17,8 @@ const nextConfig: NextConfig = {
     // Remove this in production — next/image optimisation should work on the server.
     unoptimized: process.env.NEXT_PUBLIC_UNOPTIMIZED_IMAGES === "true",
     remotePatterns: [
-      { protocol: "https", hostname: "missusoutfits.com" },
-      { protocol: "https", hostname: "**.missusoutfits.com" },
+      { protocol: "https", hostname: new URL(STORE_CONFIG.wordpressUrl).hostname },
+      ...(STORE_CONFIG.endpoints.media ? [{ protocol: "https" as const, hostname: new URL(STORE_CONFIG.endpoints.media).hostname }] : []),
       { protocol: "https", hostname: "secure.gravatar.com" },
       { protocol: "https", hostname: "goya.everthemes.com" },
       { protocol: "https", hostname: "res.cloudinary.com" },

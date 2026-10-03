@@ -1,4 +1,5 @@
 "use client";
+import { WP_BASE_URL } from "@/lib/config";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, isAdmin, logoutUser } from "@/lib/auth";
@@ -20,24 +21,20 @@ export default function AdminSettings() {
     if (!user) return null;
 
     const envRows = [
-        { key: "WC_API_URL", desc: "WooCommerce REST API base URL", required: true },
-        { key: "WC_CONSUMER_KEY", desc: "WooCommerce consumer key", required: true },
-        { key: "WC_CONSUMER_SECRET", desc: "WooCommerce consumer secret", required: true },
-        { key: "WP_API_URL", desc: "WordPress REST API base URL", required: true },
-        { key: "JWT_API", desc: "JWT Authentication secret", required: true },
-        { key: "PAYSTACK_SECRET_KEY", desc: "Paystack secret key (server-side)", required: true },
-        { key: "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY", desc: "Paystack public key (client-side)", required: true },
-        { key: "NEXT_PUBLIC_PAYSTACK_CALLBACK_URL", desc: "URL Paystack redirects to after payment", required: true },
-        { key: "NEXT_PUBLIC_SITE_URL", desc: "Production site URL", required: false },
-        { key: "NEXT_PUBLIC_SITE_NAME", desc: "Site display name", required: false },
+        { key: "lib/store-config.ts", desc: "API endpoints, site URL and demo/live mode", required: true },
+        { key: "lib/brand-config.ts", desc: "Company identity and contact details", required: true },
+        { key: "YOANN_WC_CONSUMER_KEY", desc: "Yoann WooCommerce consumer key", required: true },
+        { key: "YOANN_WC_CONSUMER_SECRET", desc: "Yoann WooCommerce consumer secret", required: true },
+        { key: "YOANN_WP_APP_PASSWORD", desc: "WordPress username:application-password", required: true },
+        { key: "YOANN_PAYSTACK_SECRET_KEY", desc: "Yoann Paystack secret key", required: true },
     ];
 
     const links = [
-        { label: "WordPress Admin", href: "https://missusoutfits.com/wp-admin" },
-        { label: "WooCommerce Orders", href: "https://missusoutfits.com/wp-admin/edit.php?post_type=shop_order" },
-        { label: "WooCommerce Products", href: "https://missusoutfits.com/wp-admin/edit.php?post_type=product" },
+        { label: "WordPress Admin", href: `${WP_BASE_URL}/wp-admin` },
+        { label: "WooCommerce Orders", href: `${WP_BASE_URL}/wp-admin/edit.php?post_type=shop_order` },
+        { label: "WooCommerce Products", href: `${WP_BASE_URL}/wp-admin/edit.php?post_type=product` },
         { label: "Paystack Dashboard", href: "https://dashboard.paystack.com" },
-        { label: "WC REST API Keys", href: "https://missusoutfits.com/wp-admin/admin.php?page=wc-settings&tab=advanced&section=keys" },
+        { label: "WC REST API Keys", href: `${WP_BASE_URL}/wp-admin/admin.php?page=wc-settings&tab=advanced&section=keys` },
     ];
 
     return (

@@ -1,3 +1,4 @@
+import { BRAND_CONFIG } from "@/lib/brand-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -63,7 +64,7 @@ export default function ReturnsPage() {
                 <Section title="How to Return">
                     <ol style={{ paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
                         {[
-                            "DM us on Instagram @missusoutfits or email hello@missusoutfits.com within 7 days of receiving your order.",
+                            `DM us on Instagram ${BRAND_CONFIG.name} or email ${BRAND_CONFIG.contactEmail} within 7 days of receiving your order.`,
                             "Include your order number and reason for return.",
                             "We'll confirm eligibility and send you return instructions.",
                             "Drop off or arrange pickup (Lagos only — nationwide customers cover return shipping).",

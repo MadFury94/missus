@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import ClientShell from "@/components/layout/ClientShell";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
@@ -10,14 +9,6 @@ import { getOrganizationSchema, getWebsiteSchema } from "@/lib/structured-data";
 
 // Fix Unicode character encoding globally
 export const charset = "utf-8";
-
-// One self-hosted font for storefront and admin, including all variable weights.
-const siteFont = DM_Sans({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-dm-sans",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   ...DEFAULT_METADATA,
@@ -38,7 +29,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={siteFont.variable}
+      className="font-dm-sans"
       suppressHydrationWarning
     >
       <head>
