@@ -39,6 +39,11 @@ yarn-error.log*
 # Local browser previews and temporary checks
 .tmp/
 
+# Deployment exclusions for Yoanne (keep local integrations out of the Site source)
+/ai-diagnostic-bridge/
+/wordpress-plugins/
+*.mds
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
