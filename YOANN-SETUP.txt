@@ -1,0 +1,26 @@
+YOANN PLACEHOLDER STORE
+
+API configuration: lib/store-config.ts
+Company information: lib/brand-config.ts
+
+Default mode is demo: 16 local sample products, local categories, stock,
+shipping and checkout. Try YOANN10 for 10% off. No payment is collected,
+no live order is placed, and receipts are stored only in the browser tab.
+All /api routes are handled locally in demo mode. Account, admin, email,
+payment and other integrations return unavailable until connected.
+
+To connect Yoann later:
+1. Fill wordpressUrl, siteUrl and optional endpoint overrides in
+   lib/store-config.ts. Blank bank details keep bank transfer disabled.
+2. Add Yoann's secrets to .env.local or the deployment environment using
+   the YOANN_ names listed in YOANN-API-ENV.example. Keep secrets out of
+   source files. Existing Missus URLs and credentials are ignored.
+3. Set mode to wordpress in lib/store-config.ts, then restart/rebuild.
+4. Verify the new store's plugins and payment gateway in test mode.
+
+Company name, logo, descriptions, email, address and social settings belong
+in lib/brand-config.ts. Placeholder images use local project photographs.
+
+Run: npm run dev (http://localhost:3002).
+Checks: node --test tests/yoann-demo.test.cjs
+Restart an already running dev server after this change.
