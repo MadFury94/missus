@@ -56,9 +56,9 @@ export interface ShipmentResult {
 
 export function getOriginAddress(): TerminalAddress {
     return {
-        first_name: "Missus",
+        first_name: "WearLux",
         last_name: "Outfits",
-        email: "hello@missusoutfits.com",
+        email: "hello@wearlux.example",
         phone: "+2348000000000",
         line1: process.env.TERMINAL_ORIGIN_ADDRESS || "9 Muri Sodiq Drive",
         city: process.env.TERMINAL_ORIGIN_CITY || "Lagos",

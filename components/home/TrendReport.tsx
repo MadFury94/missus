@@ -2,18 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCategoryImageUrl, getProductImageUrl } from "@/lib/api-helpers";
 
-// Real Missus product images for trend cards
+// WearLux product images for trend cards
 const TREND_CARDS = [
     {
         label: "Night Out",
         title: "Club Night\nEnergy",
-        href: "/category/dresses",
+        href: "/category/shirts",
         img: getCategoryImageUrl("Product-Photos-96.jpeg"),
     },
     {
         label: "Resort Escape",
         title: "Resort\nEscape",
-        href: "/category/dresses",
+        href: "/category/shirts",
         img: getCategoryImageUrl("Leila-Halter-Mini-Dress.jpg"),
     },
     {
@@ -25,7 +25,7 @@ const TREND_CARDS = [
     {
         label: "Prom Queen",
         title: "Prom Queen\nEnergy",
-        href: "/category/dresses",
+        href: "/category/shirts",
         img: getCategoryImageUrl("Product-Photos-88.jpeg"),
     },
 ];

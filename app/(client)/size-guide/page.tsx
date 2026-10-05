@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Size Guide — Missus",
-    description: "Find your perfect fit with the Missus size guide for dresses, tops, bottoms and sets.",
+    title: "Size Guide — WearLux",
+    description: "Find your perfect fit with the WearLux size guide for shirts, kaftans, trousers and sets.",
 };
 
 const SIZES = [
@@ -57,13 +57,13 @@ export default function SizeGuidePage() {
 
                 {/* Size table */}
                 <h2 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "22px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "16px" }}>
-                    Women&apos;s Size Chart
+                    Men&apos;s Size Chart
                 </h2>
                 <div style={{ overflowX: "auto", marginBottom: "40px" }}>
                     <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px", minWidth: "560px" }}>
                         <thead>
                             <tr style={{ background: "#000", color: "#fff" }}>
-                                {["Missus Size", "UK", "US", "EU", "Bust (cm)", "Waist (cm)", "Hips (cm)"].map((h) => (
+                                {["WearLux Size", "UK", "US", "EU", "Bust (cm)", "Waist (cm)", "Hips (cm)"].map((h) => (
                                     <th key={h} style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "11px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "12px 14px", textAlign: "left" }}>
                                         {h}
                                     </th>
@@ -95,9 +95,9 @@ export default function SizeGuidePage() {
                         {[
                             "If you're between sizes, we recommend sizing up for a more comfortable fit.",
                             "Bodycon and fitted styles run true to size — size up if you prefer a relaxed fit.",
-                            "Dresses with stretch fabric are more forgiving — go with your usual size.",
+                            "Shirts with stretch fabric are more forgiving — go with your usual size.",
                             "For matching sets, size based on your largest measurement.",
-                            "Still unsure? DM us on Instagram @missusoutfits and we'll help you pick.",
+                            "Still unsure? DM us on Instagram @wearlux and we'll help you pick.",
                         ].map((note) => (
                             <li key={note} style={{ fontSize: "13px", color: "#444", lineHeight: 1.7 }}>{note}</li>
                         ))}

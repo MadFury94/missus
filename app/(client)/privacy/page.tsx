@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Privacy Policy — Missus",
-    description: "How Missus collects, uses, and protects your personal information.",
+    title: "Privacy Policy — WearLux",
+    description: "How WearLux collects, uses, and protects your personal information.",
 };
 
 export default function PrivacyPage() {
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
 
             <div style={{ maxWidth: "720px", margin: "0 auto", padding: "56px 24px 64px" }}>
                 <p style={{ fontSize: "13px", color: "#555", lineHeight: 1.8, marginBottom: "32px" }}>
-                    Missus Outfits (&quot;Missus&quot;, &quot;we&quot;, &quot;us&quot;) is committed to protecting your privacy. This policy explains what information we collect, how we use it, and your rights.
+                    WearLux (&quot;WearLux&quot;, &quot;we&quot;, &quot;us&quot;) is committed to protecting your privacy. This policy explains what information we collect, how we use it, and your rights.
                 </p>
 
                 {[
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
                     },
                     {
                         title: "Your Rights",
-                        body: `You have the right to access, correct, or delete your personal data at any time. To make a request, email us at hello@missusoutfits.com. We'll respond within 5 business days.`,
+                        body: `You have the right to access, correct, or delete your personal data at any time. To make a request, email us at hello@wearlux.example. We'll respond within 5 business days.`,
                     },
                     {
                         title: "Data Security",
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
                     },
                     {
                         title: "Contact",
-                        body: `Questions about this policy? Email us at hello@missusoutfits.com or DM us on Instagram @missusoutfits.`,
+                        body: `Questions about this policy? Email us at hello@wearlux.example or DM us on Instagram @wearlux.`,
                     },
                 ].map((section) => (
                     <div key={section.title} style={{ marginBottom: "32px" }}>

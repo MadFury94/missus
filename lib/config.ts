@@ -32,7 +32,7 @@ export const API_ENDPOINTS = {
 
     // Custom APIs
     custom: {
-        giftCards: STORE_CONFIG.endpoints.custom || `${WP_BASE_URL}/wp-json/missus/v1`,
+        giftCards: STORE_CONFIG.endpoints.custom || `${WP_BASE_URL}/wp-json/wearlux/v1`,
         homepage: `${WP_BASE_URL}/wp-json/wp/v2/homepage_settings`,
     },
 
@@ -111,9 +111,9 @@ export const FOOTER_LINKS = {
 export const MARQUEE_ITEMS = [
     `Style With ${BRAND_CONFIG.name}`,
     "New Drops Weekly",
-    "It-Girl Approved",
-    "Shop Dresses · Tops · Sets",
-    "Lagos Same Day Delivery",
+    "Crafted for Confidence",
+    "Shop Shirts · Trousers · Native Wear",
+    "Nationwide Delivery Across Nigeria",
 ];
 
 export const TRUST_ITEMS = [
@@ -124,23 +124,23 @@ export const TRUST_ITEMS = [
 
 export const STATIC_REVIEWS = [
     { stars: 5, text: `Got my last Club fit from ${BRAND_CONFIG.name} and they delivered literally 1hr after I ordered. Never going back to anyone else!`, name: "Sarah O.", meta: "Verified Buyer · Lagos" },
-    { stars: 5, text: `Stopped shopping on Fashionnova after I found ${BRAND_CONFIG.name}. ${BRAND_CONFIG.name} is really for the IT girls. Period.`, name: "Jess A.", meta: "Verified Buyer · Abuja" },
-    { stars: 5, text: `I bought the Girls Night Out dress and it was absolutely perfect. The fit, the quality, everything. ${BRAND_CONFIG.name} can have all my money.`, name: "Audrey M.", meta: "Verified Buyer · Port Harcourt" },
-    { stars: 5, text: `Can't wait for the Lagos girlies to find out about ${BRAND_CONFIG.name}. The prices are unreal for the quality. ${BRAND_CONFIG.name} literally saves the day, everytime.`, name: "Lota N.", meta: "Verified Buyer · Lagos" },
+    { stars: 5, text: `Stopped shopping on other menswear stores after I found ${BRAND_CONFIG.name}. ${BRAND_CONFIG.name} is really for the modern men. Period.`, name: "Jess A.", meta: "Verified Buyer · Abuja" },
+    { stars: 5, text: `I bought the tailored dinner jacket and it was absolutely perfect. The fit, the quality, everything. ${BRAND_CONFIG.name} can have all my money.`, name: "Audrey M.", meta: "Verified Buyer · Port Harcourt" },
+    { stars: 5, text: `Can't wait for the Lagos shoppers to find out about ${BRAND_CONFIG.name}. The prices are unreal for the quality. ${BRAND_CONFIG.name} literally saves the day, everytime.`, name: "Lota N.", meta: "Verified Buyer · Lagos" },
 ];
 
 export const TREND_CARDS = [
     { label: "Night Out", title: "Club Night\nEnergy", bg: "#e8ddd5", href: "/category/night-out" },
     { label: "Resort Escape", title: "Resort\nEscape", bg: "#dde5e8", href: "/category/vacation" },
-    { label: "Spring Sets", title: "Spring\nEssentials", bg: "#e8e5dd", href: "/category/matching-sets" },
+    { label: "Spring Sets", title: "Spring\nEssentials", bg: "#e8e5dd", href: "/category/two-piece-sets" },
     { label: "Prom Queen", title: "Prom Queen\nEnergy", bg: "#e8dde0", href: "/category/formal" },
 ];
 
 export const CATEGORY_CARDS = [
-    { label: "Dresses", sub: "Shop Dresses", href: "/category/dresses", abbr: "D", bg: "linear-gradient(135deg,#1a1a2e,#2d1b34)", tall: true, img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-8.png` },
-    { label: "Matching Sets", sub: "Shop Sets", href: "/category/matching-sets", abbr: "MS", bg: "linear-gradient(135deg,#1a2e1a,#2d341b)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-27.png` },
-    { label: "Tops", sub: "Shop Tops", href: "/category/tops", abbr: "T", bg: "linear-gradient(135deg,#2e1a1a,#341b2d)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-17.png` },
-    { label: "Bottoms", sub: "Shop Bottoms", href: "/category/bottoms", abbr: "B", bg: "linear-gradient(135deg,#1a2a2e,#1b2e2e)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-22.png` },
-    { label: "Athleisure", sub: "Shop Athleisure", href: "/category/athleisure-loungewear", abbr: "A", bg: "linear-gradient(135deg,#2e2a1a,#2e1a1a)", img: null },
-    { label: "Gift Shop", sub: "Shop Gifts", href: "/category/gift-shop", abbr: "G", bg: "linear-gradient(135deg,#1a1a1a,#2e2e2e)", img: null },
+    { label: "Shirts", sub: "Shop Shirts", href: "/category/shirts", abbr: "S", bg: "linear-gradient(135deg,#1a1a2e,#2d1b34)", tall: true, img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-8.png` },
+    { label: "Two-Piece Sets", sub: "Shop Sets", href: "/category/two-piece-sets", abbr: "MS", bg: "linear-gradient(135deg,#1a2e1a,#2d341b)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-27.png` },
+    { label: "Kaftans", sub: "Shop Kaftans", href: "/category/kaftans", abbr: "T", bg: "linear-gradient(135deg,#2e1a1a,#341b2d)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-17.png` },
+    { label: "Trousers", sub: "Shop Trousers", href: "/category/trousers", abbr: "B", bg: "linear-gradient(135deg,#1a2a2e,#1b2e2e)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-22.png` },
+    { label: "Casual Wear", sub: "Shop Casual Wear", href: "/category/casual-wear", abbr: "A", bg: "linear-gradient(135deg,#2e2a1a,#2e1a1a)", img: null },
+    { label: "Accessories", sub: "Shop Accessories", href: "/category/gift-shop", abbr: "G", bg: "linear-gradient(135deg,#1a1a1a,#2e2e2e)", img: null },
 ];

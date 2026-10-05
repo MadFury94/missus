@@ -341,7 +341,7 @@ export default function HomepageContentPage() {
                 </SectionBox>
 
                 {/* ── Newsletter Bar ── */}
-                <SectionBox title="Newsletter Bar (Join Missus Girls Club)">
+                <SectionBox title="Newsletter Bar (Join WearLux List)">
                     <Field label="Heading" value={content.newsletter.heading} onChange={(v) => update("newsletter", { ...content.newsletter, heading: v })} />
                     <Field label="Sub-text" value={content.newsletter.sub} onChange={(v) => update("newsletter", { ...content.newsletter, sub: v })} multiline />
                 </SectionBox>

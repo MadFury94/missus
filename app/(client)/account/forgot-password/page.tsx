@@ -94,7 +94,7 @@ export default function ForgotPasswordPage() {
                         </div>
                         <p style={{ fontSize: "15px", fontWeight: 600, color: "#000", marginBottom: "8px" }}>Check your inbox</p>
                         <p style={{ fontSize: "13px", color: "#767676", lineHeight: 1.6, marginBottom: "24px" }}>
-                            If <strong>{email}</strong> is linked to a Missus account, you&apos;ll receive a password reset email shortly.
+                            If <strong>{email}</strong> is linked to a WearLux account, you&apos;ll receive a password reset email shortly.
                         </p>
                         <Link
                             href="/account/login"

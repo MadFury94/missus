@@ -3,19 +3,19 @@ import AboutClient from "./AboutClient";
 import { generatePageMetadata } from "@/lib/seo-config";
 
 export const metadata: Metadata = generatePageMetadata({
-    title: "About Missus | Premium Women's Fashion Brand",
-    description: "Learn about Missus, Nigeria's premier destination for contemporary women's fashion. Discover our story, values, and commitment to empowering women through style and quality fashion.",
+    title: "About WearLux | Premium Men's Fashion Brand",
+    description: "Learn about WearLux, a Nigerian menswear brand creating affordable luxury clothing for the modern man.",
     keywords: [
-        "about Missus fashion",
+        "about WearLux menswear",
         "Nigerian fashion brand",
-        "women's fashion company",
+        "menswear company",
         "premium fashion story",
         "contemporary fashion brand",
-        "luxury women's wear Nigeria",
+        "luxury menswear Nigeria",
         "fashion brand values"
     ],
     path: "/about",
-    ogImage: "/about-missus.jpg"
+    ogImage: "/wearlux/wearlux-logo.png"
 });
 
 export default function AboutPage() {

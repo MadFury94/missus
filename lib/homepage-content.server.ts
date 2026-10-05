@@ -1,7 +1,6 @@
-﻿import "server-only";
+import "server-only";
 import { cache } from "react";
 import { IS_DEMO_STORE } from "./store-config";
-import { DEMO_PRODUCTS } from "./demo-store";
 import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 import { API_ENDPOINTS, WP_HEADERS } from "./config";
@@ -71,7 +70,7 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
 export async function readHomepageContent(): Promise<HomepageContent> {
     if (IS_DEMO_STORE) return {
         ...HOMEPAGE_DEFAULTS,
-        announcement: "FREE SHIPPING ON ORDERS ₦150,000+ | PAY ON DELIVERY AVAILABLE | QUALITY. STYLE. YOU.",
+        announcement: "FREE SHIPPING ON ORDERS ?150,000+ | PAY ON DELIVERY AVAILABLE | QUALITY. STYLE. YOU.",
         marquee: ["The Wearlux Edit", "Find Your Everyday Style", "Explore the Collection"],
         hero: [{
             src: "/wearlux/hero-editorial-photo.png",
@@ -83,8 +82,13 @@ export async function readHomepageContent(): Promise<HomepageContent> {
             cta2: { label: "Explore Collection", href: "/shop" },
         }],
         categories: {
-            feature: { label: DEMO_PRODUCTS[0].name, href: `/product/${DEMO_PRODUCTS[0].slug}`, img: DEMO_PRODUCTS[0].images[0].src },
-            grid: DEMO_PRODUCTS.slice(1, 5).map(product => ({ label: product.name, href: `/product/${product.slug}`, img: product.images[0].src })),
+            feature: { label: "Shirts", href: "/category/shirts", img: "/wearlux/images/wearlux%20(19).jpeg" },
+            grid: [
+                { label: "Two-Piece Sets", href: "/category/two-piece-sets", img: "/wearlux/images/wearlux%20(26).jpeg" },
+                { label: "Trousers", href: "/category/trousers", img: "/wearlux/images/wearlux%20(25).jpeg" },
+                { label: "Kaftans", href: "/category/kaftans", img: "/wearlux/images/wearlux%20(7).jpeg" },
+                { label: "Casual Wear", href: "/category/casual-wear", img: "/wearlux/images/wearlux%20(33).jpeg" },
+            ],
         },
         newsletter: { heading: "Discover Wearlux", sub: "Explore our sample collection." },
     };
@@ -149,3 +153,4 @@ export const getHomepageContent = cache(async (): Promise<HomepageContent> => {
         return HOMEPAGE_DEFAULTS;
     }
 });
+

@@ -42,3 +42,13 @@ next-env.d.ts
 
 # markdown docs (personal notes, build logs, feedback)
 *.md
+
+# Local browser preview caches (never scan as Tailwind source)
+/.tmp/
+
+
+# Local integrations and deployment notes
+/ai-diagnostic-bridge/
+/wordpress-plugins/
+*.mds
+

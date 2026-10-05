@@ -9,9 +9,9 @@ import Link from "next/link";
 
 const SALE_TABS = [
     { label: "All Sale", filter: null },
-    { label: "Dresses", filter: "dresses" },
-    { label: "Tops", filter: "tops" },
-    { label: "Bottoms", filter: "bottoms" },
+    { label: "Shirts", filter: "shirts" },
+    { label: "Kaftans", filter: "kaftans" },
+    { label: "Trousers", filter: "trousers" },
     { label: "Sets", filter: "matching-sets" },
 ];
 

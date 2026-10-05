@@ -6,11 +6,11 @@ interface Props {
 }
 
 const DEFAULT_ITEMS = [
-    "Miss Us With The Ugly Clothes",
+    "Style for the Modern Man",
     "New Drops Weekly",
-    "It-Girl Approved",
-    "Shop Dresses · Tops · Sets",
-    "Lagos Same Day Delivery",
+    "Crafted for Confidence",
+    "Shop Shirts · Kaftans · Sets",
+    "Nationwide Delivery Across Nigeria",
 ];
 
 export default function MarqueeStrip({ items = DEFAULT_ITEMS }: Props) {

@@ -22,19 +22,13 @@ import { BRAND_CONFIG } from "@/lib/brand-config";
 export const revalidate = 60;
 
 export const metadata: Metadata = generatePageMetadata({
-  title: `${BRAND_CONFIG.name} - Premium Fashion & Contemporary Style`,
+  title: `${BRAND_CONFIG.name} - Style for the Modern Man`,
   description: `Discover premium fashion at ${BRAND_CONFIG.name} Nigeria. Shop curated collections and contemporary styles. Free shipping on orders over ₦50,000.`,
   keywords: [
-    "women's fashion Nigeria",
-    "premium dresses Lagos",
-    "contemporary fashion",
-    "trendy outfits Nigeria",
-    "designer clothing online",
-    "fashion boutique Nigeria",
-    "women's designer wear",
-    "stylish clothing Lagos",
-    "online fashion store Nigeria",
-    "luxury women's fashion"
+    "men's fashion Nigeria", "men's clothing Lagos", "Nigerian menswear",
+    "affordable luxury menswear", "men's native wear", "senator wear", "agbada",
+    "men's kaftans", "men's shirts", "men's trousers", "men's footwear",
+    "men's accessories", "online men's fashion Nigeria", "modern men's style"
   ],
   path: "/",
 });

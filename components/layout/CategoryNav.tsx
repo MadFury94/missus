@@ -46,7 +46,7 @@ export default function CategoryNav() {
                     alignItems: "stretch",
                     justifyContent: "center",
                     width: "100%",
-                    padding: "0 12px",
+                    padding: "10px 12px",
                     overflowX: "auto",
                     scrollbarWidth: "none",
                 }}>

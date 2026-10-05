@@ -126,7 +126,7 @@ export default function ContactClient() {
                                 Customer Support
                             </h3>
                             <p style={{ fontSize: "14px", color: "#666", marginBottom: "4px" }}>
-                                Email: hello@missusoutfits.com
+                                Email: hello@wearlux.example
                             </p>
                             <p style={{ fontSize: "14px", color: "#666" }}>
                                 Response time: Within 24 hours
@@ -138,7 +138,7 @@ export default function ContactClient() {
                                 Social Media
                             </h3>
                             <p style={{ fontSize: "14px", color: "#666", marginBottom: "4px" }}>
-                                Instagram: @missusoutfits
+                                Instagram: @wearlux
                             </p>
                             <p style={{ fontSize: "14px", color: "#666" }}>
                                 For quick responses, DM us on Instagram

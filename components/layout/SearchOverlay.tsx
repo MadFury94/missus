@@ -9,7 +9,7 @@ import { BRAND_CONFIG } from "@/lib/brand-config";
 // -- Static ----------------------------------------------------------------
 
 const HOT_SEARCHES = [
-    "Dresses", "Matching Sets", "Bandage Dress", "Tops",
+    "Shirts", "Two-Piece Sets", "Bandage Dress", "Kaftans",
     "Night Out", "Snatched", "Vacation", "Faux Leather",
 ];
 
@@ -163,8 +163,8 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
     }
 
     // Split the 4 imaged cats across two columns: first 2 ? col A, last 2 ? col B
-    const colA = imagedCats.slice(0, 2);   // e.g. Dresses, Matching Sets
-    const colB = imagedCats.slice(2, 4);   // e.g. Tops, Bottoms
+    const colA = imagedCats.slice(0, 2);   // e.g. Shirts, Two-Piece Sets
+    const colB = imagedCats.slice(2, 4);   // e.g. Kaftans, Trousers
 
     return (
         <>
@@ -318,10 +318,10 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </p>
                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                                         {[
-                                            { rank: 1, label: "Dresses", href: "/category/dresses" },
-                                            { rank: 2, label: "Matching Sets", href: "/category/matching-sets" },
-                                            { rank: 3, label: "Tops", href: "/category/tops" },
-                                            { rank: 4, label: "Bottoms", href: "/category/bottoms" },
+                                            { rank: 1, label: "Shirts", href: "/category/shirts" },
+                                            { rank: 2, label: "Two-Piece Sets", href: "/category/matching-sets" },
+                                            { rank: 3, label: "Kaftans", href: "/category/kaftans" },
+                                            { rank: 4, label: "Trousers", href: "/category/trousers" },
                                         ].map((item) => (
                                             <button key={item.rank} onClick={() => navigate(item.href)}
                                                 style={{ display: "flex", alignItems: "center", gap: "12px", padding: "10px 8px", background: "none", border: "none", cursor: "pointer", textAlign: "left", borderRadius: "4px", transition: "background .12s" }}
@@ -334,10 +334,10 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </div>
                                 </div>
 
-                                {/* Col 2: It-Girl Picks — first 2 imaged cats + accent rows */}
+                                {/* Col 2: WearLux Picks — first 2 imaged cats + accent rows */}
                                 <div>
                                     <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: "#999", marginBottom: "10px" }}>
-                                        It-Girl Picks
+                                        WearLux Picks
                                     </p>
                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                                         {colA.map((cat, i) => (
@@ -357,7 +357,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                         {colB.map((cat, i) => (
                                             <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={`/category/${cat.slug}`} />
                                         ))}
-                                        <AccentRow rank={colB.length + 1} label="Athleisure" href="/category/athleisure-loungewear" bg="#1a1a2e" accent="#fff" />
+                                        <AccentRow rank={colB.length + 1} label="Casual Wear" href="/category/athleisure-loungewear" bg="#1a1a2e" accent="#fff" />
                                         <AccentRow rank={colB.length + 2} label="Gift Shop" href="/category/gift-shop" bg="#2d1b34" accent="#fff" />
                                     </div>
                                 </div>

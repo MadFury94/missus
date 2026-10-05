@@ -10,15 +10,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const tag = params.slug;
 
     return {
-        title: `${tag.charAt(0).toUpperCase() + tag.slice(1)} Products | Missus`,
-        description: `Shop ${tag} products at Missus. Premium fashion with fast delivery.`,
+        title: `${tag.charAt(0).toUpperCase() + tag.slice(1)} Products | WearLux`,
+        description: `Shop ${tag} products at WearLux. Premium fashion with fast delivery.`,
         openGraph: {
-            title: `${tag.charAt(0).toUpperCase() + tag.slice(1)} Products | Missus`,
-            description: `Shop ${tag} products at Missus. Premium fashion with fast delivery.`,
+            title: `${tag.charAt(0).toUpperCase() + tag.slice(1)} Products | WearLux`,
+            description: `Shop ${tag} products at WearLux. Premium fashion with fast delivery.`,
         },
         twitter: {
-            title: `${tag.charAt(0).toUpperCase() + tag.slice(1)} Products | Missus`,
-            description: `Shop ${tag} products at Missus. Premium fashion with fast delivery.`,
+            title: `${tag.charAt(0).toUpperCase() + tag.slice(1)} Products | WearLux`,
+            description: `Shop ${tag} products at WearLux. Premium fashion with fast delivery.`,
         },
     };
 }

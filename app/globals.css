@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-dm-sans: "DM Sans", Arial, sans-serif;
   --sky: #8FCBF5;
   --ink: #12181F;
   --paper: #F7F5F1;
@@ -958,6 +959,7 @@ body :is(h2, h3, h4, h5, h6, .homepage-subheading) * {
 }
 
 :root {
+  --font-dm-sans: "DM Sans", Arial, sans-serif;
   /* --------------------------------------------------------------
      BRAND TOKENS — change these two lines to retheme the site
      --------------------------------------------------------------

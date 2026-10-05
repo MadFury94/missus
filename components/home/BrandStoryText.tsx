@@ -49,8 +49,8 @@ export default function BrandStoryText() {
                     color: "#666",
                     marginBottom: "16px"
                 }}>
-                    At Missus, we believe every woman deserves to feel powerful, beautiful, and unapologetically herself.
-                    Our curated collections blend timeless elegance with contemporary edge, designed for the modern woman
+                    At WearLux, we believe every man deserves to feel powerful, beautiful, and unapologetically herself.
+                    Our curated collections blend timeless elegance with contemporary edge, designed for the modern man
                     who refuses to compromise on style or quality.
                 </p>
 

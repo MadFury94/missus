@@ -127,13 +127,13 @@ export default function AboutClient() {
                             Welcome To Our World
                         </h1>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.85 }}>
-                            Founded in Lagos, Missus has redefined fashion for the modern Nigerian woman, crafting pieces that celebrate confidence, style, and effortless sophistication. Every silhouette is designed to make an impact, ensuring that for every moment and every occasion, you will always be best dressed, guaranteed.
+                            Founded in Lagos, WearLux has redefined fashion for the modern Nigerian man, crafting pieces that celebrate confidence, style, and effortless sophistication. Every silhouette is designed to make an impact, ensuring that for every moment and every occasion, you will always be best dressed, guaranteed.
                         </p>
                     </div>
                     <div className={`a-hero-img sr${hero.inView ? " on" : ""}`}>
                         <img
-                            src="/missus.home.png"
-                            alt="Missus"
+                            src="/wearlux/images/wearlux%20(18).jpeg"
+                            alt="WearLux"
                             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
                         />
                     </div>
@@ -142,7 +142,7 @@ export default function AboutClient() {
                 {/* 2. WEBP FULL-BLEED with text overlay */}
                 <div ref={gifSec.ref} style={{ position: "relative", height: "420px", overflow: "hidden", background: "#111", marginTop: "60px" }}>
                     <img
-                        src="/missus-fashion-about-us.webp"
+                        src="/wearlux/images/wearlux%20(7).jpeg"
                         alt=""
                         aria-hidden="true"
                         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", filter: "brightness(.42)" }}
@@ -161,22 +161,22 @@ export default function AboutClient() {
                             From Our Founder:
                         </h2>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.95, marginBottom: "16px" }}>
-                            Missus began as a simple idea: to create pieces that make Nigerian women feel confident and truly themselves. What started as a small project has grown into a community of women who inspire us every day.
+                            WearLux began as a simple idea: to create pieces that make Nigerian men feel confident and truly themselves. What started as a small project has grown into a community of men who inspire us every day.
                         </p>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.95, marginBottom: "16px" }}>
-                            We built Missus from the ground up with one goal in mind: to design timeless, statement-making pieces for the modern Nigerian woman. Her shape, her climate, her lifestyle.
+                            We built WearLux from the ground up with one goal in mind: to design timeless, statement-making pieces for the modern Nigerian man. His build, his climate, his lifestyle.
                         </p>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.95, marginBottom: "32px" }}>
-                            At the heart of everything we do is our customer. Every collection, every campaign, and every decision is driven by the women who wear our pieces.
+                            At the heart of everything we do is our customer. Every collection, every campaign, and every decision is driven by the men who wear our pieces.
                         </p>
                         <p style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "28px", fontStyle: "italic", color: "#000" }}>
-                            Missus
+                            WearLux
                         </p>
                     </div>
                     <div className={`a-img sr${founder.inView ? " on" : ""}`} style={{ minHeight: "560px" }}>
                         <Image
-                            src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-27.png"
-                            alt="Missus founder"
+                            src="/wearlux/images/wearlux%20(26).jpeg"
+                            alt="WearLux founder"
                             fill
                             style={{ objectFit: "cover", objectPosition: "top center" }}
                             sizes="(max-width: 768px) 100vw, 55vw"
@@ -190,7 +190,7 @@ export default function AboutClient() {
                         className={`fu${quote.inView ? " on" : ""}`}
                         style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(20px, 3.5vw, 40px)", fontWeight: 700, textTransform: "uppercase", color: "#000", lineHeight: 1.25, maxWidth: "680px", margin: "0 auto", letterSpacing: ".02em" }}
                     >
-                        &ldquo;Our clothes won&apos;t change the world but the women who wear them will&rdquo;
+                        &ldquo;Our clothes won&apos;t change the world but the men who wear them will&rdquo;
                     </p>
                 </div>
 
@@ -198,10 +198,10 @@ export default function AboutClient() {
                 <div ref={mission.ref} className="a-split-rev" style={{ background: "#fff" }}>
                     <div className={`a-img sl${mission.inView ? " on" : ""}`} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "480px" }}>
                         <div style={{ position: "relative", overflow: "hidden" }}>
-                            <Image src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-17.png" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
+                            <Image src="/wearlux/images/wearlux%20(20).jpeg" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
                         </div>
                         <div style={{ position: "relative", overflow: "hidden", borderLeft: "3px solid #fff" }}>
-                            <Image src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-22.png" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
+                            <Image src="/wearlux/images/wearlux%20(33).jpeg" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="25vw" />
                         </div>
                     </div>
                     <div className={`a-text-mid sr${mission.inView ? " on" : ""}`}>
@@ -209,10 +209,10 @@ export default function AboutClient() {
                             Our Mission
                         </h2>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.95, marginBottom: "18px" }}>
-                            To celebrate and empower Nigerian women to look and feel exceptional. This drives everything we do, from the pieces we curate to the speed we ship them to your door.
+                            To celebrate and empower Nigerian men to look and feel exceptional. This drives everything we do, from the pieces we curate to the speed we ship them to your door.
                         </p>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.95 }}>
-                            At Missus, we create more than just garments. We create presence. The moment you step into a Missus piece, every occasion becomes a statement of you.
+                            At WearLux, we create more than just garments. We create presence. The moment you step into a WearLux piece, every occasion becomes a statement of you.
                         </p>
                     </div>
                 </div>
@@ -223,9 +223,9 @@ export default function AboutClient() {
                         <h2 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 700, textTransform: "uppercase", color: "#000", marginBottom: "8px" }}>Our Values</h2>
                         <div style={{ width: "40px", height: "2px", background: "#000", marginBottom: "32px" }} />
                         {[
-                            { title: "Affordability", body: "Trend-forward pieces that do not require a second mortgage. Real prices for real women." },
+                            { title: "Affordability", body: "Trend-forward pieces that do not require a second mortgage. Real prices for real men." },
                             { title: "Speed", body: "Lagos same-day delivery. Nationwide in 2 to 5 days. Because fashion waits for no one." },
-                            { title: "Community", body: "Built by Nigerian women, for Nigerian women. Every voice shapes what we create next." },
+                            { title: "Community", body: "Built by Nigerian men, for Nigerian men. Every voice shapes what we create next." },
                         ].map((v, i) => (
                             <div key={v.title} className={`fu${values.inView ? ` on d${i + 1}` : ""}`} style={{ marginBottom: "28px" }}>
                                 <h3 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "20px", fontWeight: 700, textTransform: "uppercase", color: "#000", marginBottom: "6px" }}>{v.title}</h3>
@@ -234,16 +234,16 @@ export default function AboutClient() {
                         ))}
                     </div>
                     <div className={`a-img sr${values.inView ? " on" : ""}`} style={{ minHeight: "560px" }}>
-                        <Image src="https://missusoutfits.com/wp-content/uploads/2025/09/Product-Photos-Your-Story-8.png" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 100vw, 55vw" />
+                        <Image src="/wearlux/images/wearlux%20(35).jpeg" alt="" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 100vw, 55vw" />
                     </div>
                 </div>
 
                 {/* 7. 3-COL IMAGE GRID */}
                 <div ref={grid.ref} className="a-3col">
                     {[
-                        "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-96.jpeg",
-                        "https://missusoutfits.com/wp-content/uploads/2026/03/Leila-Halter-Mini-Dress.jpg",
-                        "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
+                        "/wearlux/images/wearlux%20(4).jpeg",
+                        "/wearlux/images/wearlux%20(10).jpeg",
+                        "/wearlux/images/wearlux%20(31).jpeg",
                     ].map((src, i) => (
                         <div key={i} className={`a-img sl${grid.inView ? ` on d${i}` : ""}`}>
                             <Image src={src} alt="" fill style={{ objectFit: "cover", objectPosition: "top center" }} sizes="(max-width: 768px) 100vw, 33vw" />

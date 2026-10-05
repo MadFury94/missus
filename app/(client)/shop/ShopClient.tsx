@@ -17,10 +17,10 @@ const QUICK_TABS = [
     { label: "All", category: "" },
     { label: "What's New", category: "whats-new" },
     { label: "Deals", category: "discount-sale" },
-    { label: "Dresses", category: "dresses" },
+    { label: "Shirts", category: "shirts" },
     { label: "Sets", category: "matching-sets" },
-    { label: "Tops", category: "tops" },
-    { label: "Bottoms", category: "bottoms" },
+    { label: "Kaftans", category: "kaftans" },
+    { label: "Trousers", category: "trousers" },
     { label: "Athleisure", category: "athleisure-loungewear" },
 ];
 
@@ -163,7 +163,7 @@ export default function ShopClient() {
             <div style={{ background: "#000", padding: "28px 20px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(232,0,45,.12) 0%,transparent 70%)" }} aria-hidden="true" />
                 <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(40px,6vw,72px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", letterSpacing: ".02em", lineHeight: 1, position: "relative", zIndex: 2 }}>
-                    Shop All Women&apos;s
+                    Shop All Men&apos;s
                 </h1>
                 <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", marginTop: "6px", position: "relative", zIndex: 2, display: "none" }}>
                     {loading ? "" : `${products.length} products`}

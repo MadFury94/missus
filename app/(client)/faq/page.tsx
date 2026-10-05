@@ -23,7 +23,7 @@ const FAQS = [
             },
             {
                 q: "How do I track my order?",
-                a: "Once your order is dispatched, you'll receive a WhatsApp message or email with tracking details. You can also DM us on Instagram @missusoutfits with your order number for a real-time update.",
+                a: "Once your order is dispatched, you'll receive a WhatsApp message or email with tracking details. You can also DM us on Instagram @wearlux with your order number for a real-time update.",
             },
             {
                 q: "Can I change or cancel my order?",
@@ -57,7 +57,7 @@ const FAQS = [
             },
             {
                 q: "How do I start a return?",
-                a: "DM us on Instagram or email hello@missusoutfits.com with your order number and reason. We'll guide you through the process.",
+                a: "DM us on Instagram or email hello@wearlux.example with your order number and reason. We'll guide you through the process.",
             },
             {
                 q: "Can I return sale items?",

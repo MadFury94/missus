@@ -17,7 +17,7 @@ export default function ProductSkeleton() {
                     animation: "shimmer 1.6s ease-in-out infinite",
                 }}
             >
-                {/* Missus wordmark — rendered as styled text, always visible */}
+                {/* WearLux wordmark — rendered as styled text, always visible */}
                 <span
                     aria-hidden="true"
                     style={{

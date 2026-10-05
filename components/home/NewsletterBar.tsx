@@ -28,7 +28,7 @@ const TRUST_ITEMS = [
 ];
 
 export default function NewsletterBar({
-    heading = `Join ${BRAND_CONFIG.name} Girls Club`,
+    heading = `Join ${BRAND_CONFIG.name} WearLux List`,
     sub = "Early drops, exclusive deals & style inspo — straight to your inbox.",
 }: {
     heading?: string;

@@ -4,11 +4,11 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Search Fashion | Find Your Perfect Style",
-    description: "Search through Missus collection of premium women's fashion. Find dresses, sets, tops, and more by style, color, or trend. Discover your perfect fashion pieces.",
+    description: "Search through WearLux collection of premium men's fashion. Find shirts, sets, kaftans, and more by style, color, or trend. Discover your perfect fashion pieces.",
     keywords: [
         "fashion search",
-        "find women's clothing",
-        "search dresses Nigeria",
+        "find men's clothing",
+        "search shirts Nigeria",
         "fashion finder",
         "clothing search engine",
         "style search",
@@ -16,12 +16,12 @@ export const metadata: Metadata = {
         "find fashion Nigeria"
     ],
     openGraph: {
-        title: "Search Fashion | Find Your Perfect Style | Missus",
-        description: "Search through our collection of premium women's fashion. Find your perfect style among dresses, sets, tops, and more.",
+        title: "Search Fashion | Find Your Perfect Style | WearLux",
+        description: "Search through our collection of premium men's fashion. Find your perfect style among shirts, sets, kaftans, and more.",
     },
     twitter: {
-        title: "Search Fashion | Find Your Perfect Style | Missus",
-        description: "Search through our collection of premium women's fashion. Find your perfect style.",
+        title: "Search Fashion | Find Your Perfect Style | WearLux",
+        description: "Search through our collection of premium men's fashion. Find your perfect style.",
     },
     robots: {
         index: false, // Don't index search pages

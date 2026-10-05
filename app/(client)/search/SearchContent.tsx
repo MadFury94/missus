@@ -134,7 +134,7 @@ export default function SearchContent() {
                                 ref={inputRef}
                                 value={inputVal}
                                 onChange={(e) => setInputVal(e.target.value)}
-                                placeholder="Search for dresses, tops, sets…"
+                                placeholder="Search for shirts, kaftans, sets…"
                                 aria-label="Search products"
                                 style={{ width: "100%", height: "100%", background: "transparent", border: "none", outline: "none", paddingLeft: "44px", paddingRight: inputVal ? "44px" : "16px", fontSize: "15px", color: "#fff", fontFamily: "'Barlow', sans-serif" }}
                             />
@@ -288,7 +288,7 @@ export default function SearchContent() {
                             Try these instead
                         </h2>
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                            {["Dresses", "Matching Sets", "Tops", "Bottoms", "Athleisure", "What's New", "Sale"].map((term) => (
+                            {["Shirts", "Matching Sets", "Kaftans", "Trousers", "Athleisure", "What's New", "Sale"].map((term) => (
                                 <button key={term} onClick={() => { setInputVal(term); setQuery(term); }}
                                     style={{ borderRadius: "999px", border: "1.5px solid #e0e0e0", padding: "8px 16px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", cursor: "pointer", background: "#fff", color: "#333", transition: "all .15s" }}
                                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#000"; e.currentTarget.style.color = "#000"; }}

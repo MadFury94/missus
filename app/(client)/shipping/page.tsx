@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Shipping Info — Missus",
-    description: "Shipping rates, delivery times, and everything you need to know about getting your Missus order.",
+    title: "Shipping Info — WearLux",
+    description: "Shipping rates, delivery times, and everything you need to know about getting your WearLux order.",
 };
 
 export default function ShippingPage() {
@@ -50,7 +50,7 @@ export default function ShippingPage() {
                         <tbody>
                             {[
                                 ["Lagos (Island & Mainland)", "1–2 hours", "₦2,500"],
-                                ["Lagos (Outskirts)", "2–4 hours", "₦3,500"],
+                                ["Lagos (Outtrousers)", "2–4 hours", "₦3,500"],
                                 ["Abuja", "Next day", "₦4,500"],
                                 ["Port Harcourt", "1–2 business days", "₦4,500"],
                                 ["Other States", "2–4 business days", "₦5,000"],
@@ -91,7 +91,7 @@ export default function ShippingPage() {
                 <Section title="Order Tracking">
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8 }}>
                         Once your order is dispatched, you&apos;ll receive a WhatsApp message or email with your tracking details. For real-time updates, DM us on Instagram{" "}
-                        <strong>@missusoutfits</strong> with your order number.
+                        <strong>@wearlux</strong> with your order number.
                     </p>
                 </Section>
 

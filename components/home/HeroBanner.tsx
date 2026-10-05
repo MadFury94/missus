@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCategoryImageUrl } from "@/lib/api-helpers";
 
-// Real Missus product images
+// WearLux product images
 const LEFT_IMG = getCategoryImageUrl("Product-Photos-88.jpeg");
 const RIGHT_IMG = getCategoryImageUrl("Product-Photos-90.jpeg");
 
@@ -30,14 +30,14 @@ export default function HeroBanner() {
                     Spring / Summer 2026
                 </p>
                 <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(60px,8vw,110px)", fontWeight: 900, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: .9, marginBottom: "16px" }}>
-                    Dress Like<br /><span style={{ color: "#7F0E12" }}>Her.</span>
+                    Dress Like<br /><span style={{ color: "#7F0E12" }}>Him.</span>
                 </h1>
                 <p style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 300, marginBottom: "28px", maxWidth: "420px", lineHeight: 1.6 }}>
-                    Trend-forward, affordable fashion for the modern Nigerian girl. From Lagos to Abuja — we deliver style to your door.
+                    Trend-forward, affordable fashion for the modern Nigerian man. From Lagos to Abuja — we deliver style to your door.
                 </p>
                 <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                     <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "13px" }}>
-                        Shop Women
+                        Shop Menswear
                     </Link>
                     <Link href="/category/whats-new" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#fff", color: "#000", padding: "13px 28px", fontSize: "13px", border: "1.5px solid #000" }}>
                         What&apos;s New

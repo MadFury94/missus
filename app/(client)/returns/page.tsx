@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Returns & Refunds — Missus",
+    title: "Returns & Refunds — WearLux",
     description: "Our returns and refund policy. Easy 7-day returns on eligible items.",
 };
 
@@ -63,7 +63,7 @@ export default function ReturnsPage() {
                 <Section title="How to Return">
                     <ol style={{ paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
                         {[
-                            "DM us on Instagram @missusoutfits or email hello@missusoutfits.com within 7 days of receiving your order.",
+                            "DM us on Instagram @wearlux or email hello@wearlux.example within 7 days of receiving your order.",
                             "Include your order number and reason for return.",
                             "We'll confirm eligibility and send you return instructions.",
                             "Drop off or arrange pickup (Lagos only — nationwide customers cover return shipping).",

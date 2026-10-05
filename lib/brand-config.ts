@@ -1,15 +1,15 @@
-﻿/** Central Wearlux identity. Environment overrides can customize the new brand. */
-const brandName = process.env.NEXT_PUBLIC_BRAND_NAME || "Wearlux";
+/** Central Wearlux identity. Environment overrides can customize the new brand. */
+const brandName = process.env.NEXT_PUBLIC_BRAND_NAME || "WearLux";
 
 export const BRAND_CONFIG = {
     name: brandName,
-    tagline: process.env.NEXT_PUBLIC_BRAND_TAGLINE || "Premium Women's Fashion & Contemporary Style",
-    description: process.env.NEXT_PUBLIC_BRAND_DESCRIPTION || "Discover premium women's fashion at Wearlux. Shop curated collections of dresses, sets, tops, and contemporary styles. Free shipping on orders over ₦50,000. Nigeria's leading fashion destination.",
-    shortDescription: process.env.NEXT_PUBLIC_BRAND_SHORT_DESCRIPTION || "Trendy, affordable women's fashion built for the modern Nigerian woman. Delivering style from Lagos to Abuja and beyond.",
-    hqLabel: process.env.NEXT_PUBLIC_BRAND_HQ_LABEL || "Wearlux",
+    tagline: process.env.NEXT_PUBLIC_BRAND_TAGLINE || "Style for the Modern Man",
+    description: process.env.NEXT_PUBLIC_BRAND_DESCRIPTION || "WearLux is a Nigerian men's fashion brand for modern men who value style, quality, individuality and sophistication. Shop affordable luxury menswear, native wear and accessories online.",
+    shortDescription: process.env.NEXT_PUBLIC_BRAND_SHORT_DESCRIPTION || "Affordable luxury menswear made for lasting confidence. Premium quality, distinctive style and everyday sophistication.",
+    hqLabel: process.env.NEXT_PUBLIC_BRAND_HQ_LABEL || "WearLux",
     logo: process.env.NEXT_PUBLIC_BRAND_LOGO || "/wearlux/wearlux-logo.png",
     logoAlt: process.env.NEXT_PUBLIC_BRAND_LOGO_ALT || brandName,
-    contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || process.env.CONTACT_EMAIL || "hello@missusoutfits.com",
+    contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@wearlux.example",
     social: {
         instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "https://instagram.com/b_and_l_wearlux",
         twitter: process.env.NEXT_PUBLIC_SOCIAL_TWITTER || "https://twitter.com/BandLWEARLUX",
@@ -22,8 +22,9 @@ export const BRAND_CONFIG = {
 } as const;
 
 export const BRAND_KEYWORDS = [
-    "women's fashion Nigeria", "premium dresses Lagos", "contemporary women's clothing",
-    "designer fashion Nigeria", "online fashion store", "luxury women's wear",
-    "trendy outfits Nigeria", "fashion boutique online", "women's designer clothing",
-    "premium fashion brand", "stylish women's clothes", "fashion forward clothing",
+    "men's fashion Nigeria", "men's clothing Lagos", "Nigerian menswear",
+    "affordable luxury menswear", "men's native wear", "senator wear", "agbada",
+    "men's kaftan", "men's shirts", "men's trousers", "men's footwear",
+    "men's accessories", "online men's fashion Nigeria", "modern men's style",
 ];
+

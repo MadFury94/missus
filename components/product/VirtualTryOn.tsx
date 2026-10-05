@@ -8,7 +8,7 @@ import { IS_DEMO_STORE } from "@/lib/store-config";
 interface Props {
     productImage: string;
     productName: string;
-    category?: "upper_body" | "lower_body" | "dresses";
+    category?: "upper_body" | "lower_body" | "shirts";
 }
 
 /**

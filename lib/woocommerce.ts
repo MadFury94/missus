@@ -260,8 +260,8 @@ export async function getStoreName(): Promise<string> {
         const res = await fetch(API_ENDPOINTS.wordpress.settings, { next: { revalidate: 3600 } });
         if (res.ok) {
             const data = await res.json();
-            return data.title ?? "Missus";
+            return data.title ?? "WearLux";
         }
     } catch { /* fallback */ }
-    return process.env.NEXT_PUBLIC_SITE_NAME ?? "Missus";
+    return process.env.NEXT_PUBLIC_SITE_NAME ?? "WearLux";
 }

@@ -36,7 +36,7 @@ export const DEFAULT_METADATA: Metadata = {
             url: "/og-image.jpg",
             width: 1200,
             height: 630,
-            alt: `${BRAND_CONFIG.name} - Premium Women's Fashion`
+            alt: `${BRAND_CONFIG.name} - Style for the Modern Man`
         }]
     },
     twitter: {

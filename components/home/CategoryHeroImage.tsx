@@ -15,8 +15,8 @@ export default function CategoryHeroImage() {
         }}>
             {/* Full-Width HD Background Image - Show Full Image */}
             <Image
-                src="/missus-hero.png"
-                alt="Missus Fashion Collection"
+                src="/wearlux/wearlux-hero-4.png"
+                alt="WearLux Fashion Collection"
                 fill
                 loading="eager"
                 preload

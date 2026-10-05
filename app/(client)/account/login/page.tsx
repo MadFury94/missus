@@ -68,7 +68,7 @@ export default function UserLoginPage() {
 
                 <Link href="/" style={{ position: "relative", zIndex: 1, textDecoration: "none", display: "block" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/missus-logo.webp" alt="Missus" style={{ height: "56px", width: "auto", filter: "brightness(0) invert(1)" }} />
+                    <img src="/wearlux/wearlux-logo.png" alt="WearLux" style={{ height: "56px", width: "auto", filter: "brightness(0) invert(1)" }} />
                 </Link>
 
                 <div style={{ position: "relative", zIndex: 1 }}>
@@ -76,17 +76,17 @@ export default function UserLoginPage() {
                         Welcome Back
                     </p>
                     <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(48px,5vw,64px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: .92, marginBottom: "20px" }}>
-                        Dress Like<br /><span style={{ color: "#7F0E12" }}>Her.</span>
+                        Dress Like<br /><span style={{ color: "#7F0E12" }}>Him.</span>
                     </h2>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.5)", fontWeight: 300, lineHeight: 1.6, maxWidth: "340px" }}>
-                        Log in to track your orders, manage your wishlist, and get early access to new drops and exclusive Missus deals.
+                        Log in to track your orders, manage your wishlist, and get early access to new drops and exclusive WearLux deals.
                     </p>
                 </div>
 
                 <div style={{ position: "relative", zIndex: 1, border: "1px solid rgba(255,255,255,.1)", padding: "20px" }}>
                     <div style={{ color: "#ffc107", fontSize: "14px", marginBottom: "10px" }}>★★★★★</div>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.7)", fontStyle: "italic", lineHeight: 1.6, marginBottom: "10px" }}>
-                        &quot;Missus is really for the IT girls. Delivery in 45 mins, quality is unreal. Never switching.&quot;
+                        &quot;WearLux is really for the modern men. Delivery in 45 mins, quality is unreal. Never switching.&quot;
                     </p>
                     <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#7F0E12" }}>
                         Sarah O. · Lagos
@@ -102,7 +102,7 @@ export default function UserLoginPage() {
                     <div className="login-mobile-logo" style={{ marginBottom: "28px" }}>
                         <Link href="/" style={{ display: "inline-block", textDecoration: "none" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src="/missus-logo.webp" alt="Missus" style={{ height: "48px", width: "auto" }} />
+                            <img src="/wearlux/wearlux-logo.png" alt="WearLux" style={{ height: "48px", width: "auto" }} />
                         </Link>
                     </div>
 

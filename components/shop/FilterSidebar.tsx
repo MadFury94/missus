@@ -38,11 +38,11 @@ const PRICE_RANGES = [
 
 const CATEGORIES = [
     { label: "What's New", slug: "whats-new" },
-    { label: "Dresses", slug: "dresses" },
-    { label: "Matching Sets", slug: "matching-sets" },
-    { label: "Tops", slug: "tops" },
-    { label: "Bottoms", slug: "bottoms" },
-    { label: "Athleisure", slug: "athleisure-loungewear" },
+    { label: "Shirts", slug: "shirts" },
+    { label: "Two-Piece Sets", slug: "matching-sets" },
+    { label: "Kaftans", slug: "kaftans" },
+    { label: "Trousers", slug: "trousers" },
+    { label: "Casual Wear", slug: "athleisure-loungewear" },
     { label: "Gift Shop", slug: "gift-shop" },
     { label: "Sale", slug: "discount-sale" },
 ];

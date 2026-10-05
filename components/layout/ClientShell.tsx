@@ -13,8 +13,8 @@ import { IS_DEMO_STORE } from "@/lib/store-config";
 
 // Heights of fixed layers — keep in sync with actual component heights
 const ANN_H = 34;   // AnnouncementBar
-const NAV_H = 52;   // Navbar
-const CAT_H = 40;   // CategoryNav: link padding plus text and border
+const NAV_H = 72;   // Navbar, including 10px vertical breathing room
+const CAT_H = 60;   // CategoryNav, including 10px vertical breathing room
 const SEARCH_H = 42; // HeaderSearchBar
 
 export default function ClientShell({ children, announcement }: { children: React.ReactNode; announcement?: string }) {

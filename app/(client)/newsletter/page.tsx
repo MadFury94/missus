@@ -37,7 +37,7 @@ export default function NewsletterPage() {
                     Stay in the Loop
                 </p>
                 <h1 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "clamp(40px, 7vw, 80px)", fontWeight: 900, textTransform: "uppercase", color: "#fff", lineHeight: 0.9 }}>
-                    Join the<br /><span style={{ color: "#7F0E12" }}>Missus Circle</span>
+                    Join the<br /><span style={{ color: "#7F0E12" }}>WearLux Circle</span>
                 </h1>
             </div>
 
@@ -49,7 +49,7 @@ export default function NewsletterPage() {
                             You&apos;re In!
                         </h2>
                         <p style={{ fontSize: "14px", color: "#555", lineHeight: 1.7, marginBottom: "28px" }}>
-                            Welcome to the Missus Circle. Expect early drops, exclusive deals, and style inspo straight to your inbox.
+                            Welcome to the WearLux Circle. Expect early drops, exclusive deals, and style inspo straight to your inbox.
                         </p>
                         <Link href="/shop" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 36px", textDecoration: "none", display: "inline-block" }}>
                             Shop Now
@@ -106,7 +106,7 @@ export default function NewsletterPage() {
                         </form>
 
                         <p style={{ fontSize: "11px", color: "#aaa", marginTop: "16px" }}>
-                            By subscribing you agree to receive marketing emails from Missus. Unsubscribe anytime.{" "}
+                            By subscribing you agree to receive marketing emails from WearLux. Unsubscribe anytime.{" "}
                             <Link href="/privacy" style={{ color: "#555", textDecoration: "underline" }}>Privacy Policy</Link>
                         </p>
                     </>

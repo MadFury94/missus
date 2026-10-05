@@ -51,14 +51,14 @@ function CurrencySwitcher() {
 
     return (
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)" }}>Currency:</span>
+            <span style={{ fontSize: "11px", color: IS_DEMO_STORE ? "rgba(18,24,31,.6)" : "rgba(255,255,255,.5)" }}>Currency:</span>
             <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
                 style={{
-                    background: "rgba(255,255,255,.08)",
-                    border: "1px solid rgba(255,255,255,.2)",
-                    color: "rgba(255,255,255,.8)",
+                    background: IS_DEMO_STORE ? "rgba(18,24,31,.08)" : "rgba(255,255,255,.08)",
+                    border: IS_DEMO_STORE ? "1px solid rgba(18,24,31,.2)" : "1px solid rgba(255,255,255,.2)",
+                    color: IS_DEMO_STORE ? "rgba(18,24,31,.8)" : "rgba(255,255,255,.8)",
                     fontSize: "11px",
                     padding: "4px 8px",
                     borderRadius: "4px",
@@ -81,7 +81,7 @@ function AccordionSection({ heading, links }: { heading: string; links: { label:
     return (
         <div>
             {/* Desktop heading */}
-            <h4 className="footer-col-heading" style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", marginBottom: "14px", color: "#fff" }}>
+            <h4 className="footer-col-heading" style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", marginBottom: "14px", color: IS_DEMO_STORE ? "rgba(18,24,31,.8)" : "#fff" }}>
                 {heading}
             </h4>
             {/* Mobile accordion toggle */}
@@ -90,12 +90,12 @@ function AccordionSection({ heading, links }: { heading: string; links: { label:
                 onClick={() => setOpen((o) => !o)}
                 style={{ display: "none", width: "100%", background: "none", border: "none", borderBottom: "1px solid rgba(255,255,255,.1)", padding: "14px 0", cursor: "pointer", textAlign: "left", alignItems: "center", justifyContent: "space-between" }}
             >
-                <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#fff" }}>{heading}</span>
+                <span style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: IS_DEMO_STORE ? "rgba(18,24,31,.8)" : "#fff" }}>{heading}</span>
                 <span style={{ color: "rgba(255,255,255,.5)", fontSize: "18px", transform: open ? "rotate(45deg)" : "none", transition: "transform .2s", display: "inline-block" }}>+</span>
             </button>
             <div className={`footer-col-links${open ? " open" : ""}`}>
                 {links.map((link) => (
-                    <Link key={link.href} href={link.href} style={{ display: "block", fontSize: "12px", color: "rgba(255,255,255,.45)", marginBottom: "8px", fontWeight: 300 }}>
+                    <Link key={link.href} href={link.href} style={{ display: "block", fontSize: "12px", color: IS_DEMO_STORE ? "rgba(18,24,31,.6)" : "rgba(255,255,255,.7)", marginBottom: "8px", fontWeight: 300 }}>
                         {link.label}
                     </Link>
                 ))}
@@ -133,10 +133,10 @@ export default function Footer() {
                             <img
                                 src={BRAND_CONFIG.logo}
                                 alt={BRAND_CONFIG.logoAlt}
-                                style={{ height: "90px", width: "auto", filter: IS_DEMO_STORE ? "none" : "brightness(0) invert(1)" }}
+                                style={{ height: "108px", width: "auto", filter: IS_DEMO_STORE ? "none" : "brightness(0) invert(1)" }}
                             />
                         </div>
-                        <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
+                        <p style={{ fontSize: "12px", color: IS_DEMO_STORE ? "rgba(18,24,31,.6)" : "rgba(255,255,255,.7)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
                             {BRAND_CONFIG.shortDescription}
                         </p>
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>

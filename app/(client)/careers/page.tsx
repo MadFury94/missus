@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Careers — Missus",
-    description: "Join the Missus team. We're a small but fast-moving Lagos fashion brand always looking for passionate people.",
+    title: "Careers — WearLux",
+    description: "Join the WearLux team. We're a small but fast-moving Lagos fashion brand always looking for passionate people.",
 };
 
 const ROLES = [
@@ -17,7 +17,7 @@ const ROLES = [
         title: "Customer Experience Rep",
         type: "Full-time",
         location: "Lagos",
-        desc: "You'll be the first voice our customers hear. Handling DMs, resolving order issues, and making sure every Missus customer feels like a VIP. Must be warm, fast, and solution-oriented.",
+        desc: "You'll be the first voice our customers hear. Handling DMs, resolving order issues, and making sure every WearLux customer feels like a VIP. Must be warm, fast, and solution-oriented.",
     },
     {
         title: "Delivery & Logistics Coordinator",
@@ -48,7 +48,7 @@ export default function CareersPage() {
             <div style={{ maxWidth: "760px", margin: "0 auto", padding: "56px 24px 40px" }}>
                 <div style={{ borderLeft: "3px solid #7F0E12", paddingLeft: "20px", marginBottom: "48px" }}>
                     <p style={{ fontSize: "15px", color: "#333", lineHeight: 1.8 }}>
-                        Missus is a Lagos-based women&apos;s fashion brand. We&apos;re not a corporation — we&apos;re a tight team that moves fast, cares deeply about our customers, and is building something the Nigerian fashion space has never seen. Every role here matters.
+                        WearLux is a Lagos-based men&apos;s fashion brand. We&apos;re not a corporation — we&apos;re a tight team that moves fast, cares deeply about our customers, and is building something the Nigerian fashion space has never seen. Every role here matters.
                     </p>
                 </div>
 

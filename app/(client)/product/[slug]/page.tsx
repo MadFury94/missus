@@ -17,17 +17,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     const cleanDescription = decodeHtmlEntities(product.short_description?.replace(/<[^>]+>/g, "") ||
         product.description?.replace(/<[^>]+>/g, "") ||
-        `Shop ${decodeHtmlEntities(product.name)} at Missus. Premium women's fashion with fast shipping across Nigeria.`);
+        `Shop ${decodeHtmlEntities(product.name)} at WearLux. Premium men's fashion with fast shipping across Nigeria.`);
 
     const cleanProductName = decodeHtmlEntities(product.name);
 
     return generatePageMetadata({
-        title: `${cleanProductName} | Premium Women's Fashion`,
+        title: `${cleanProductName} | Premium Men's Fashion`,
         description: cleanDescription,
         keywords: [
             cleanProductName.toLowerCase(),
             product.categories?.[0]?.name.toLowerCase() || "fashion",
-            "women's fashion",
+            "men's fashion",
             "premium clothing",
             "designer wear",
             "Nigerian fashion",

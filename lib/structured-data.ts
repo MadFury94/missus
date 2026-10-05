@@ -177,7 +177,7 @@ export function getLocalBusinessSchema() {
             longitude: "3.3792"
         },
         telephone: "+234-xxx-xxx-xxxx",
-        email: "hello@missusoutfits.com",
+        email: "hello@wearlux.example",
         openingHoursSpecification: {
             "@type": "OpeningHoursSpecification",
             dayOfWeek: [

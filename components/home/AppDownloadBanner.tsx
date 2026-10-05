@@ -3,8 +3,8 @@ import Image from "next/image";
 import { BRAND_CONFIG } from "@/lib/brand-config";
 
 const APP_IMGS = [
-    "/missus_circle.WEBP",
-    "/missus_circle2.WEBP",
+    "/wearlux/images/wearlux%20(23).jpeg",
+    "/wearlux/images/wearlux%20(36).jpeg",
 ];
 
 export default function AppDownloadBanner() {
@@ -28,10 +28,10 @@ export default function AppDownloadBanner() {
             <div className="app-grid" style={{ background: "#000", padding: "40px 20px" }}>
                 <div>
                     <h2 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(36px,5vw,60px)", fontWeight: 700, textTransform: "uppercase", color: "#fff", lineHeight: .95, letterSpacing: "-.01em", marginBottom: "16px" }}>
-                        Follow<br />The IT<br />Girls
+                        Follow<br />The WearLux<br />Studio
                     </h2>
                     <p style={{ fontSize: "13px", color: "rgba(255,255,255,.6)", marginBottom: "24px", fontWeight: 300, lineHeight: 1.7 }}>
-                        New drops, styling inspo and behind-the-scenes content — follow us for daily fashion that hits different.
+                        New drops, styling advice and behind-the-scenes content — follow us for daily menswear inspiration for the modern man.
                     </p>
                     <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                         <a

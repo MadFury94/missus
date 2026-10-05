@@ -287,7 +287,7 @@ export default function AccountPage() {
                     </div>
                     <p style={{ fontSize: "12px", color: "#aaa", lineHeight: 1.6 }}>
                         To update your password or personal details, visit your{" "}
-                        <a href="https://missusoutfits.com/my-account" target="_blank" rel="noopener noreferrer" style={{ color: "#000", textDecoration: "underline" }}>
+                        <a href="https://wearlux.example/my-account" target="_blank" rel="noopener noreferrer" style={{ color: "#000", textDecoration: "underline" }}>
                             WordPress account page →
                         </a>
                     </p>

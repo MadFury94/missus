@@ -7,21 +7,21 @@ import type { ShippingRate } from "./woocommerce-shipping";
 const photos = ["/wearlux/signature-linen-set.png", "/wearlux/hero-editorial-photo.png", "/style%20radar/Table%20for%20two.jpeg", "/style%20radar/Resort%20Ready.JPEG", "/style%20radar/Birthday%20behavior.jpeg"];
 const productPhotos = ["/wearlux/product1.png", "/wearlux/product1.1.png", ...photos.slice(0, 3)];
 const productTwoPhotos = ["/wearlux/product2.png", "/wearlux/product2.1.png", ...photos.slice(0, 3)];
-const categoryNames = ["Dresses", "Matching Sets", "Tops", "Bottoms", "Athleisure Loungewear", "Gift Shop", "Whats New", "Curve", "Beauty", "Formal", "Vacation", "Night Out", "Discount Sale"];
+const categoryNames = ["Shirts", "Two-Piece Sets", "Kaftans", "Trousers", "Casual Wear", "Accessories", "Whats New", "Native Wear", "Footwear", "Formal", "Resort", "Streetwear", "Discount Sale"];
 const categories = categoryNames.map((name, index) => ({ id: index + 1, name, slug: name.toLowerCase().replaceAll(" ", "-") }));
 const samples: [string, number, number, string[]][] = [
-    ["Midnight Satin Dress", 42000, 52000, ["dresses", "night-out", "formal"]],
-    ["Riviera Resort Dress", 38500, 38500, ["dresses", "vacation"]],
-    ["City Muse Co-ord", 55000, 65000, ["matching-sets", "curve"]],
-    ["Everyday Lounge Set", 32000, 32000, ["matching-sets", "athleisure-loungewear"]],
-    ["Sculpted Rib Top", 18000, 18000, ["tops", "curve"]],
-    ["Evening Drape Blouse", 24500, 29000, ["tops", "night-out"]],
-    ["Tailored Wide-Leg Trousers", 35000, 35000, ["bottoms", "formal"]],
-    ["Weekend Relaxed Shorts", 19500, 19500, ["bottoms", "vacation"]],
-    ["Soft Knit Lounge Dress", 36000, 44000, ["dresses", "athleisure-loungewear", "curve"]],
-    ["Golden Hour Maxi", 62000, 62000, ["dresses", "formal", "vacation"]],
-    ["Wearlux Travel Pouch", 12000, 15000, ["gift-shop", "beauty"]],
-    ["Signature Satin Scarf", 14500, 14500, ["gift-shop", "beauty"]],
+    ["Lagos Linen Camp-Collar Shirt", 42000, 52000, ["shirts", "streetwear", "formal"]],
+    ["Sandstone Resort Shirt", 38500, 38500, ["shirts", "resort"]],
+    ["Modern Senator Two-Piece", 55000, 65000, ["two-piece-sets", "native-wear"]],
+    ["Everyday Cotton Kaftan Set", 32000, 32000, ["two-piece-sets", "casual-wear"]],
+    ["Structured Oxford Shirt", 18000, 18000, ["kaftans", "native-wear"]],
+    ["Evening Silk Blend Shirt", 24500, 29000, ["kaftans", "streetwear"]],
+    ["Tailored Pleated Trousers", 35000, 35000, ["trousers", "formal"]],
+    ["Weekend Chino Shorts", 19500, 19500, ["trousers", "resort"]],
+    ["Essential Knit Polo", 36000, 44000, ["shirts", "casual-wear", "native-wear"]],
+    ["Midnight Dinner Jacket", 62000, 62000, ["shirts", "formal", "resort"]],
+    ["Leather Weekender Bag", 12000, 15000, ["accessories", "footwear"]],
+    ["Signature Silk Pocket Square", 14500, 14500, ["accessories", "footwear"]],
 ];
 
 export const DEMO_PRODUCTS: StoreProduct[] = samples.map(([name, price, regular, slugs], index) => {

@@ -8,10 +8,10 @@ interface Card {
 }
 
 const DEFAULT_CARDS: Card[] = [
-    { title: "Resort Ready", href: "/category/dresses", img: "/style%20radar/Resort%20Ready.JPEG" },
-    { title: "Flights Sans Feelings", href: "/category/dresses", img: "/style%20radar/Flights%20Sans%20feelings.JPEG" },
+    { title: "Resort Ready", href: "/category/shirts", img: "/style%20radar/Resort%20Ready.JPEG" },
+    { title: "Flights Sans Feelings", href: "/category/shirts", img: "/style%20radar/Flights%20Sans%20feelings.JPEG" },
     { title: "Birthday Behavior", href: "/category/matching-sets", img: "/style%20radar/Birthday%20behavior.jpeg" },
-    { title: "Table For Two", href: "/category/dresses", img: "/style%20radar/Table%20for%20two.jpeg" },
+    { title: "Table For Two", href: "/category/shirts", img: "/style%20radar/Table%20for%20two.jpeg" },
 ];
 
 export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Card[] }) {
@@ -90,7 +90,7 @@ export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Ca
                         color: "#000",
                         margin: 0,
                     }}>
-                        The Style Radar
+                        The WearLux Edit
                     </h2>
                     {/* View All removed — no more to show */}
                 </div>

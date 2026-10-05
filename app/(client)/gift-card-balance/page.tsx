@@ -215,7 +215,7 @@ export default function GiftCardBalancePage() {
                                         color: "#fff",
                                         letterSpacing: ".04em",
                                     }}>
-                                        MISSUS
+                                        WEARLUX
                                     </span>
                                     <span style={{
                                         fontSize: "10px",

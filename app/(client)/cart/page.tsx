@@ -110,7 +110,7 @@ export default function CartPage() {
                     Your Bag is Empty
                 </h1>
                 <p style={{ fontSize: "13px", color: "#aaa", marginBottom: "24px", maxWidth: "320px" }}>
-                    Looks like you haven&apos;t added anything yet. Browse our latest drops and find your next it-girl look.
+                    Looks like you haven&apos;t added anything yet. Browse our latest drops and find your next modern menswear look.
                 </p>
                 <Link href="/shop" style={{ background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", padding: "14px 40px", textDecoration: "none", borderRadius: "999px" }}>
                     Shop Now
