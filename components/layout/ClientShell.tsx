@@ -90,11 +90,14 @@ export default function ClientShell({ children, announcement }: { children: Reac
             */}
             {!isHome && !isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="page-spacer" />}
             {isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="product-page-spacer" />}
-            {isHome && <div style={{ height: `${solidHeaderH}px` }} />}
+            {isHome && <div style={{ height: `${solidHeaderH}px` }} className="home-page-spacer" />}
 
             <style>{`
                 @media (max-width: 768px) {
                     .page-spacer {
+                        height: ${mobileHeaderH + (hasMobileSearch ? SEARCH_H : 0)}px !important;
+                    }
+                    .home-page-spacer {
                         height: ${mobileHeaderH + (hasMobileSearch ? SEARCH_H : 0)}px !important;
                     }
                     .product-page-spacer {
