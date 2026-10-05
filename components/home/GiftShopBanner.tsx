@@ -87,7 +87,7 @@ export default function GiftShopBanner() {
                     pointerEvents: "none",
                 }}>
                     <Image
-                        src="/wearlux/hero-editorial-photo.png"
+                          src="/missus-giftbox.png"
                         alt=""
                         fill
                         style={{ objectFit: "contain", objectPosition: "bottom right" }}
