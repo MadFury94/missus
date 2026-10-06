@@ -3,8 +3,11 @@ import { getSaleProducts } from "@/lib/woocommerce";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import SaleClient from "./SaleClient";
 
-export const metadata: Metadata = { title: "MissusDeals — Up to 60% Off" };
-export const revalidate = 60;
+export const metadata: Metadata = {
+    title: "Adire Fashion Sale | Yoanne Couture Lagos",
+    description: "Shop limited-time offers on Yoanne Couture Adire ready-to-wear, kaftans and contemporary African fashion. Discover handcrafted Lagos style at special prices.",
+    keywords: ["Adire sale Nigeria", "African fashion sale Lagos", "kaftan sale", "designer fashion deals Nigeria"],
+};export const revalidate = 60;
 
 export default async function SalePage() {
     const products = await getSaleProducts(60);

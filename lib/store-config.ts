@@ -15,7 +15,7 @@ export const STORE_CONFIG: {
 } = {
     mode: "demo",
     wordpressUrl: "https://cms.yoann.example",
-    siteUrl: "http://localhost:3002",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://yoann-app.vercel.app",
     // Public payment instructions for the NEW store only. Blank disables bank transfer.
     bankTransfer: { bankName: "", accountName: "", accountNumber: "" },
     // Leave blank to derive standard WooCommerce/WordPress paths from wordpressUrl.

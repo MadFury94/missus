@@ -33,10 +33,10 @@ export const DEFAULT_METADATA: Metadata = {
         title: `${BRAND_CONFIG.name} - ${BRAND_CONFIG.tagline}`,
         description: BRAND_CONFIG.description,
         images: [{
-            url: "/og-image.jpg",
-            width: 1200,
-            height: 630,
-            alt: `${BRAND_CONFIG.name} - Premium Women's Fashion`
+            url: "/Yoann/Elegant%20Blue%20Batik%20Kaftan%20Portrait.png",
+            width: 1024,
+            height: 1536,
+            alt: `${BRAND_CONFIG.name} - Luxury Adire Ready-to-Wear in Lagos`
         }]
     },
     twitter: {
@@ -45,7 +45,7 @@ export const DEFAULT_METADATA: Metadata = {
         creator: BRAND_CONFIG.social.twitter,
         title: `${BRAND_CONFIG.name} - ${BRAND_CONFIG.tagline}`,
         description: BRAND_CONFIG.description,
-        images: ["/twitter-image.jpg"]
+        images: ["/Yoann/Elegant%20Blue%20Batik%20Kaftan%20Portrait.png"]
     },
     verification: {
         google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,

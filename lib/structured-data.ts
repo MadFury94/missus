@@ -11,8 +11,8 @@ export function getOrganizationSchema() {
         name: BRAND_CONFIG.name,
         description: BRAND_CONFIG.description,
         url: SITE_URL,
-        logo: `${SITE_URL}/logo.png`,
-        image: `${SITE_URL}/og-image.jpg`,
+        logo: `${SITE_URL}/yoann-logo.svg`,
+        image: `${SITE_URL}/Yoann/Elegant%20Blue%20Batik%20Kaftan%20Portrait.png`,
         sameAs: [BRAND_CONFIG.social.instagram, BRAND_CONFIG.social.twitter, BRAND_CONFIG.social.facebook, BRAND_CONFIG.social.tiktok],
         address: {
             "@type": "PostalAddress",
@@ -163,8 +163,8 @@ export function getLocalBusinessSchema() {
         name: BRAND_CONFIG.name,
         description: BRAND_CONFIG.description,
         url: SITE_URL,
-        logo: `${SITE_URL}/logo.png`,
-        image: `${SITE_URL}/og-image.jpg`,
+        logo: `${SITE_URL}/yoann-logo.svg`,
+        image: `${SITE_URL}/Yoann/Blue%20Agbada%20at%20Golden%20Hour.png`,
         priceRange: "₦₦-₦₦₦",
         address: {
             "@type": "PostalAddress",

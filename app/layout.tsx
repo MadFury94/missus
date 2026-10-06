@@ -5,7 +5,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/config";
 import { getHomepageContent } from "@/lib/homepage-content.server";
 import { DEFAULT_METADATA } from "@/lib/seo-config";
 import StructuredData from "@/components/seo/StructuredData";
-import { getOrganizationSchema, getWebsiteSchema } from "@/lib/structured-data";
+import { getOrganizationSchema, getWebsiteSchema, getLocalBusinessSchema } from "@/lib/structured-data";
 
 // Fix Unicode character encoding globally
 export const charset = "utf-8";
@@ -36,7 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <StructuredData schema={[getOrganizationSchema(), getWebsiteSchema()]} />
+        <StructuredData schema={[getOrganizationSchema(), getWebsiteSchema(), getLocalBusinessSchema()]} />
         <link rel="canonical" href={SITE_URL} />
         <meta name="theme-color" content="#000000" />
         <meta name="msapplication-TileColor" content="#000000" />

@@ -2,10 +2,13 @@
 
 import { useEffect, useRef, useState, type MouseEvent, type FormEvent } from "react";
 import { BRAND_CONFIG } from "@/lib/brand-config";
+import YoanneHeader from "./YoanneHeader";
+import YoanneFooter from "./YoanneFooter";
+import YoanneProductCard from "./YoanneProductCard";
 import { YOANNE_FEATURED } from "@/lib/yoanne-home-content";
 import { getWishlist, toggleWishlist } from "@/lib/wishlist";
 import { addToCart } from "@/lib/cart";
-import { Search, Heart, ShoppingBag, Sprout, Sparkles, Feather, Truck, Scissors, LockKeyhole } from "lucide-react";
+import { Sprout, Sparkles, Feather, Truck, Scissors, LockKeyhole } from "lucide-react";
 import "./fonts.css";
 import "./home.css";
 
@@ -85,31 +88,11 @@ export default function YoanneHome() {
     }
 
     return <div className="yoanne-home" ref={root} onClick={handleClick}>
-<header className="nav solid">
-  <div className="wrap nav-inner">
-    <a href="/" className="logo">{BRAND_CONFIG.homepage.name}</a>
-    <nav className="navlinks">
-      <a href="/" className="active">Home</a>
-      <a href="/shop">Shop</a>
-      <a href="/shop">Collections</a>
-      <a href="#about">About</a>
-      <a href="#lookbook">Lookbook</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div className="navright">
-      <div className="navicons">
-        <a href="/search" data-action="search" aria-label="Search"><Search size={18} strokeWidth={1.5} /></a>
-        <a href="/wishlist" aria-label="Wishlist"><Heart size={18} strokeWidth={1.5} /></a>
-        <a href="/cart" data-action="cart" aria-label="Cart"><ShoppingBag size={18} strokeWidth={1.5} /></a>
-      </div>
-      <a href="/shop" className="btn btn-gold">Shop Collection</a>
-    </div>
-  </div>
-</header><main><div className="view active" id="view-home">
+<YoanneHeader /><main><div className="view active" id="view-home">
     
 <section className="hero" style={{"padding": "0"}}>
   <div className="hero-media">
-    <div className="fabric-swatch fabric-butterfly"><span className="fabric-name">Adire Butterfly Print</span></div>
+    <div className="fabric-swatch" style={{ backgroundImage: "url('/Yoann/Elegant%20Blue%20Batik%20Kaftan%20Portrait.png')", backgroundPosition: "center 28%" }}><span className="fabric-name">Elegant Blue Batik Kaftan</span></div>
   </div>
   <div className="hero-copy">
     <span className="eyebrow">Lekki Phase 1 · Lagos</span>
@@ -124,7 +107,7 @@ export default function YoanneHome() {
 </section>
 
 
-<section>
+<section className="collections-section">
   <div className="wrap">
     <div className="section-head fade-up">
       <div>
@@ -135,20 +118,20 @@ export default function YoanneHome() {
     </div>
   </div>
   <div className="collections-grid fade-up">
-    <a href="/shop" className="collection-card">
-      <div className="fabric-swatch fabric-pleat"><span className="fabric-name">Wine Pleat Weave</span></div>
+    <a href="/shop" className="collection-card collection-card-burgundy">
+      <div className="fabric-swatch fabric-pleat"></div>
       <div className="collection-label"><div className="cname">Ready to Wear</div><div className="ccount">18 Pieces</div></div>
     </a>
-    <a href="/shop" className="collection-card">
-      <div className="fabric-swatch fabric-butterfly"><span className="fabric-name">Adire Butterfly Print</span></div>
+    <a href="/shop" className="collection-card collection-card-indigo">
+      <div className="fabric-swatch fabric-butterfly"></div>
       <div className="collection-label"><div className="cname">Adire Collection</div><div className="ccount">12 Pieces</div></div>
     </a>
-    <a href="/shop" className="collection-card">
-      <div className="fabric-swatch fabric-patchwork"><span className="fabric-name">Patchwork Adire</span></div>
+    <a href="/shop" className="collection-card collection-card-vibrant">
+      <div className="fabric-swatch fabric-patchwork"></div>
       <div className="collection-label"><div className="cname">New Arrivals</div><div className="ccount">9 Pieces</div></div>
     </a>
-    <a href="/shop" className="collection-card">
-      <div className="fabric-swatch fabric-sequin"><span className="fabric-name">Champagne Sequin</span></div>
+    <a href="/shop" className="collection-card collection-card-champagne">
+      <div className="fabric-swatch fabric-sequin"></div>
       <div className="collection-label"><div className="cname">Limited Pieces</div><div className="ccount">5 Pieces</div></div>
     </a>
   </div>
@@ -158,7 +141,7 @@ export default function YoanneHome() {
 <section id="about" className="adire-wash">
   <div className="wrap about-split">
     <div className="about-media fade-up">
-      <div className="fabric-swatch fabric-sequin"><span className="fabric-name">Champagne Sequin Atelier</span></div>
+      <div className="fabric-swatch" style={{ backgroundImage: "url('/Yoann/Blue%20Agbada%20at%20Golden%20Hour.png')", backgroundPosition: "center 30%" }}></div>
       <div className="frame"></div>
     </div>
     <div className="about-copy fade-up">
@@ -197,65 +180,9 @@ export default function YoanneHome() {
       <a href="/shop" className="btn btn-outline">View All</a>
     </div>
     <div className="products-grid fade-up">
-
-      <div className="product-card">
-        <div className="product-media">
-          <span className="badge">New</span>
-          <button className={wishes.includes(900013) ? "wish-btn active" : "wish-btn"} data-wishlist="900013" aria-pressed={wishes.includes(900013)} aria-label={wishes.includes(900013) ? "Remove from wishlist" : "Add to wishlist"}><i className="fa-regular fa-heart"></i></button>
-          <a href="/product/adire-butterfly-wrap-kaftan" aria-label="View featured piece" style={{ display: "block", height: "100%" }}><div className="fabric-swatch fabric-butterfly"><span className="fabric-name">Adire Butterfly Print</span></div></a>
-          <button className="quick-add" data-product="0">Quick Add</button>
-        </div>
-        <div className="product-info">
-          <span className="fabric-tag">Adire Butterfly Print</span>
-          <h3><a href="/product/adire-butterfly-wrap-kaftan">Adire Butterfly Wrap Kaftan</a></h3>
-          <div className="price">₦185,000</div>
-          <div className="rating"><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-regular fa-star"></i></div>
-        </div>
-      </div>
-
-      <div className="product-card">
-        <div className="product-media">
-          <button className={wishes.includes(900014) ? "wish-btn active" : "wish-btn"} data-wishlist="900014" aria-pressed={wishes.includes(900014)} aria-label={wishes.includes(900014) ? "Remove from wishlist" : "Add to wishlist"}><i className="fa-regular fa-heart"></i></button>
-          <a href="/product/wine-pleated-boubou" aria-label="View featured piece" style={{ display: "block", height: "100%" }}><div className="fabric-swatch fabric-pleat"><span className="fabric-name">Wine Pleat Weave</span></div></a>
-          <button className="quick-add" data-product="1">Quick Add</button>
-        </div>
-        <div className="product-info">
-          <span className="fabric-tag">Wine Pleat Weave</span>
-          <h3><a href="/product/wine-pleated-boubou">Wine Pleated Boubou</a></h3>
-          <div className="price">₦142,000</div>
-          <div className="rating"><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i></div>
-        </div>
-      </div>
-
-      <div className="product-card">
-        <div className="product-media">
-          <span className="badge">Limited</span>
-          <button className={wishes.includes(900015) ? "wish-btn active" : "wish-btn"} data-wishlist="900015" aria-pressed={wishes.includes(900015)} aria-label={wishes.includes(900015) ? "Remove from wishlist" : "Add to wishlist"}><i className="fa-regular fa-heart"></i></button>
-          <a href="/product/patchwork-adire-column-dress" aria-label="View featured piece" style={{ display: "block", height: "100%" }}><div className="fabric-swatch fabric-patchwork"><span className="fabric-name">Patchwork Adire</span></div></a>
-          <button className="quick-add" data-product="2">Quick Add</button>
-        </div>
-        <div className="product-info">
-          <span className="fabric-tag">Patchwork Adire</span>
-          <h3><a href="/product/patchwork-adire-column-dress">Patchwork Adire Column Dress</a></h3>
-          <div className="price">₦168,000</div>
-          <div className="rating"><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-regular fa-star-half-stroke"></i></div>
-        </div>
-      </div>
-
-      <div className="product-card">
-        <div className="product-media">
-          <button className={wishes.includes(900016) ? "wish-btn active" : "wish-btn"} data-wishlist="900016" aria-pressed={wishes.includes(900016)} aria-label={wishes.includes(900016) ? "Remove from wishlist" : "Add to wishlist"}><i className="fa-regular fa-heart"></i></button>
-          <a href="/product/champagne-sequin-wrap-set" aria-label="View featured piece" style={{ display: "block", height: "100%" }}><div className="fabric-swatch fabric-sequin"><span className="fabric-name">Champagne Sequin</span></div></a>
-          <button className="quick-add" data-product="3">Quick Add</button>
-        </div>
-        <div className="product-info">
-          <span className="fabric-tag">Champagne Sequin</span>
-          <h3><a href="/product/champagne-sequin-wrap-set">Champagne Sequin Wrap Set</a></h3>
-          <div className="price">₦210,000</div>
-          <div className="rating"><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-regular fa-star"></i></div>
-        </div>
-      </div>
-
+      {YOANNE_FEATURED.map((product, index) => (
+        <YoanneProductCard key={product.id} product={product} index={index} wished={wishes.includes(product.id)} />
+      ))}
     </div>
   </div>
 </section>
@@ -279,14 +206,14 @@ export default function YoanneHome() {
       <div><span className="eyebrow">Styled</span><h2>Lookbook</h2></div>
     </div>
     <div className="lookbook fade-up">
-      <a href="/shop"><div className="fabric-swatch fabric-butterfly"><span className="fabric-name">Adire Butterfly Print</span></div></a>
-      <a href="/shop"><div className="fabric-swatch fabric-pleat"><span className="fabric-name">Wine Pleat Weave</span></div></a>
-      <a href="/shop"><div className="fabric-swatch fabric-patchwork"><span className="fabric-name">Patchwork Adire</span></div></a>
-      <a href="/shop"><div className="fabric-swatch fabric-sequin"><span className="fabric-name">Champagne Sequin</span></div></a>
-      <a href="/shop"><div className="fabric-swatch fabric-butterfly-alt"><span className="fabric-name">Adire Butterfly Print</span></div></a>
-      <a href="/shop"><div className="fabric-swatch fabric-patchwork-alt"><span className="fabric-name">Patchwork Adire</span></div></a>
-      <a href="/shop"><div className="fabric-swatch fabric-butterfly"><span className="fabric-name">Adire Butterfly Print</span></div></a>
-      <a href="/shop"><div className="fabric-swatch fabric-pleat"><span className="fabric-name">Wine Pleat Weave</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-1"><span className="fabric-name">Blue Batik Kaftan</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-2"><span className="fabric-name">Burgundy Caftan</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-3"><span className="fabric-name">Celebration Collection</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-4"><span className="fabric-name">Couture Atelier</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-5"><span className="fabric-name">Blue Agbada</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-6"><span className="fabric-name">Indigo Batik</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-7"><span className="fabric-name">Maroon Gold Stripe</span></div></a>
+      <a href="/shop"><div className="fabric-swatch lookbook-photo lookbook-photo-8"><span className="fabric-name">Champagne Sequin</span></div></a>
     </div>
   </div>
 </section>
@@ -360,51 +287,7 @@ export default function YoanneHome() {
 
   </div>
 
-  </main><footer id="contact">
-  <div className="wrap">
-    <div className="footer-grid">
-      <div className="footer-col">
-        <div className="footer-logo">{BRAND_CONFIG.homepage.name}</div>
-        <p style={{"color": "#cfc6b6", "fontSize": ".9rem", "maxWidth": "280px"}}>Luxury Adire ready-to-wear, handcrafted in Lekki Phase 1, Lagos.</p>
-        <div className="footer-social">
-          <a href={BRAND_CONFIG.homepage.instagram} target="_blank" rel="noopener" aria-label="Instagram"><i className="fa-brands fa-instagram"></i></a>
-          <a href={BRAND_CONFIG.homepage.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp"><i className="fa-brands fa-whatsapp"></i></a>
-          <a href={BRAND_CONFIG.homepage.threads} aria-label="Threads"><i className="fa-brands fa-threads"></i></a>
-        </div>
-      </div>
-      <div className="footer-col">
-        <h4>Shop</h4>
-        <ul>
-          <li><a href="/shop">Ready to Wear</a></li>
-          <li><a href="/shop">Adire Collection</a></li>
-          <li><a href="/shop">New Arrivals</a></li>
-          <li><a href="/shop">Limited Pieces</a></li>
-        </ul>
-      </div>
-      <div className="footer-col">
-        <h4>Customer Service</h4>
-        <ul>
-          <li><a href="/size-guide">Size Guide</a></li>
-          <li><a href="/shipping">Shipping & Delivery</a></li>
-          <li><a href="/returns">Returns</a></li>
-          <li><a href="/faq">FAQ</a></li>
-        </ul>
-      </div>
-      <div className="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><i className="fa-solid fa-location-dot" style={{"color": "var(--gold-light)", "marginRight": "8px"}}></i>{BRAND_CONFIG.homepage.address}</li>
-          <li><i className="fa-solid fa-phone" style={{"color": "var(--gold-light)", "marginRight": "8px"}}></i>{BRAND_CONFIG.homepage.phone}</li>
-          <li><a href={BRAND_CONFIG.homepage.whatsapp} target="_blank" rel="noopener"><i className="fa-brands fa-whatsapp" style={{"color": "var(--gold-light)", "marginRight": "8px"}}></i>Order on WhatsApp</a></li>
-        </ul>
-      </div>
-    </div>
-    <div className="footer-bottom">
-      <span>© 2026 {BRAND_CONFIG.homepage.name}. All rights reserved.</span>
-      <span>Design mockup by DailyRazor</span>
-    </div>
-  </div>
-</footer>
+  </main><YoanneFooter />
 {notice && <div role="status" className="home-notice">{notice}</div>}
 </div>;
 }

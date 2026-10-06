@@ -114,6 +114,78 @@
 }
 .yoanne-home .product-media:hover .fabric-swatch,
 .yoanne-home .collection-card:hover .fabric-swatch{transform:scale(1.06);}
+.yoanne-home .collections-section{transition:background-color .65s var(--ease);}
+.yoanne-home .collection-card-burgundy .fabric-swatch{
+  background-image:url('/Yoann/Burgundy%20Caftan%20in%20a%20Luxe%20Interior.png');
+  background-position:center 30%;
+}
+.yoanne-home .collection-card-burgundy:hover .fabric-swatch{
+  background-image:url('/Yoann/Maroon%20Gold%20Striped%20Fabric%20Swirl.png');
+  background-position:center;
+}
+.yoanne-home .collection-card-indigo .fabric-swatch{
+  background-image:url('/Yoann/Elegant%20Blue%20Batik%20Kaftan%20in%20a%20Garden%20Setting.png');
+  background-position:center 28%;
+}
+.yoanne-home .collection-card-indigo:hover .fabric-swatch{
+  background-image:url('/Yoann/Indigo%20Batik%20Fabric%20Spiral.png');
+  background-position:center;
+}
+.yoanne-home .collection-card-vibrant .fabric-swatch{
+  background-image:url('/Yoann/Joyful%20Caftan%20Dance%20Celebration.png');
+  background-position:center 34%;
+}
+.yoanne-home .collection-card-vibrant:hover .fabric-swatch{
+  background-image:url('/Yoann/Vibrant%20Batik%20Textile%20Swirl%20Quartet.png');
+  background-position:center;
+}
+.yoanne-home .collection-card-champagne .fabric-swatch{
+  background-image:url('/Yoann/Couture%20Gown%20in%20a%20Luxe%20Atelier.png');
+  background-position:center 30%;
+}
+.yoanne-home .collection-card-champagne:hover .fabric-swatch{
+  background-image:url('/Yoann/Champagne%20Sequin%20Lace%20Texture.png');
+  background-position:center;
+}
+.yoanne-home .collections-section:has(.collection-card-burgundy:hover){background-color:#f6e8eb;}
+.yoanne-home .collections-section:has(.collection-card-indigo:hover){background-color:#e8effd;}
+.yoanne-home .collections-section:has(.collection-card-vibrant:hover){background-color:#f8eee5;}
+.yoanne-home .collections-section:has(.collection-card-champagne:hover){background-color:#f4eee7;}
+.yoanne-home:has(.collection-card-burgundy:hover) .nav.solid{
+  background:rgba(246,232,235,.78);
+  backdrop-filter:blur(16px) saturate(1.08);
+}
+.yoanne-home:has(.collection-card-indigo:hover) .nav.solid{
+  background:rgba(232,239,253,.78);
+  backdrop-filter:blur(16px) saturate(1.08);
+}
+.yoanne-home:has(.collection-card-vibrant:hover) .nav.solid{
+  background:rgba(248,238,229,.8);
+  backdrop-filter:blur(16px) saturate(1.08);
+}
+.yoanne-home:has(.collection-card-champagne:hover) .nav.solid{
+  background:rgba(244,238,231,.82);
+  backdrop-filter:blur(16px) saturate(1.08);
+}
+.yoanne-home .collections-section:has(.collection-card-burgundy:hover) .collection-card:not(.collection-card-burgundy),
+.yoanne-home .collections-section:has(.collection-card-indigo:hover) .collection-card:not(.collection-card-indigo),
+.yoanne-home .collections-section:has(.collection-card-vibrant:hover) .collection-card:not(.collection-card-vibrant),
+.yoanne-home .collections-section:has(.collection-card-champagne:hover) .collection-card:not(.collection-card-champagne){
+  opacity:.72;
+  filter:saturate(.72);
+}
+.yoanne-home .collections-section:has(.collection-card-burgundy:hover) .collection-card:not(.collection-card-burgundy)::before,
+.yoanne-home .collections-section:has(.collection-card-indigo:hover) .collection-card:not(.collection-card-indigo)::before,
+.yoanne-home .collections-section:has(.collection-card-vibrant:hover) .collection-card:not(.collection-card-vibrant)::before,
+.yoanne-home .collections-section:has(.collection-card-champagne:hover) .collection-card:not(.collection-card-champagne)::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(6px);
+  pointer-events:none;
+}
 .yoanne-home .main-shot .fabric-swatch{transition:transform .4s;}
 .yoanne-home .main-shot.zoomed .fabric-swatch{transform:scale(1.6);}
 
@@ -348,6 +420,14 @@
 .yoanne-home .lookbook a{display:block; overflow:hidden; margin-bottom:16px; break-inside:avoid;}
 .yoanne-home .lookbook .fabric-swatch{transition:transform .6s var(--ease), filter .6s;}
 .yoanne-home .lookbook a:hover .fabric-swatch{transform:scale(1.045); filter:saturate(1.15);}
+.yoanne-home .lookbook-photo-1{background-image:url('/Yoann/Elegant%20Blue%20Batik%20Kaftan%20in%20a%20Garden%20Setting.png'); background-position:center 28%;}
+.yoanne-home .lookbook-photo-2{background-image:url('/Yoann/Burgundy%20Caftan%20in%20a%20Luxe%20Interior.png'); background-position:center 30%;}
+.yoanne-home .lookbook-photo-3{background-image:url('/Yoann/Joyful%20Caftan%20Dance%20Celebration.png'); background-position:center 34%;}
+.yoanne-home .lookbook-photo-4{background-image:url('/Yoann/Couture%20Gown%20in%20a%20Luxe%20Atelier.png'); background-position:center 30%;}
+.yoanne-home .lookbook-photo-5{background-image:url('/Yoann/Blue%20Agbada%20at%20Golden%20Hour.png'); background-position:center 30%;}
+.yoanne-home .lookbook-photo-6{background-image:url('/Yoann/Indigo%20Batik%20Fabric%20Spiral.png'); background-position:center;}
+.yoanne-home .lookbook-photo-7{background-image:url('/Yoann/Maroon%20Gold%20Striped%20Fabric%20Swirl.png'); background-position:center;}
+.yoanne-home .lookbook-photo-8{background-image:url('/Yoann/Champagne%20Sequin%20Lace%20Texture.png'); background-position:center;}
 @media (max-width:640px){ .yoanne-home .lookbook{columns:2 160px;} }
 
 /* ---------- Testimonials ---------- */

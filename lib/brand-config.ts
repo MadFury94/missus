@@ -12,9 +12,9 @@ export const BRAND_CONFIG = {
         threads: "https://www.threads.net/@yoannecouture",
     },
     name: "Yoann",
-    tagline: "A new perspective on everyday style",
-    description: "Explore the Yoann sample collection. Preview products and try the demo storefront.",
-    shortDescription: "Your next chapter in style. Company details coming soon.",
+    tagline: "Luxury Adire Ready-to-Wear in Lagos",
+    description: "Shop Yoanne Couture for luxury Adire ready-to-wear, contemporary African fashion, kaftans, agbadas and statement pieces handcrafted in Lagos, Nigeria.",
+    shortDescription: "Modern African fashion, handcrafted in Lagos.",
     hqLabel: "Yoann",
     logo: "/yoann-logo.svg",
     logoAlt: "Yoann",
@@ -33,4 +33,10 @@ export const BRAND_CONFIG = {
         whatsapp: "https://example.com/yoann/whatsapp",
     },
 } as const;
-export const BRAND_KEYWORDS = ["Yoann", "fashion", "clothing", "contemporary style"];
+export const BRAND_KEYWORDS = [
+    "Yoanne Couture", "Adire fashion Nigeria", "Adire ready to wear Lagos",
+    "African fashion designer Lagos", "Nigerian fashion brand", "luxury African clothing",
+    "women's kaftan Lagos", "Adire kaftan", "African print dresses Nigeria",
+    "agbada and kaftan Nigeria", "contemporary African fashion", "handcrafted fashion Lagos",
+    "Lagos ready to wear", "buy Adire online Nigeria", "African occasion wear"
+];
