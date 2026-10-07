@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { BRAND_CONFIG } from "@/lib/brand-config";
 
 function useInView(threshold?: number) {
     const ref = useRef(null);
@@ -127,7 +128,7 @@ export default function AboutClient() {
                             Welcome To Our World
                         </h1>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.85 }}>
-                            Founded in Lagos, WearLux has redefined fashion for the modern Nigerian man, crafting pieces that celebrate confidence, style, and effortless sophistication. Every silhouette is designed to make an impact, ensuring that for every moment and every occasion, you will always be best dressed, guaranteed.
+                            {BRAND_CONFIG.description}
                         </p>
                     </div>
                     <div className={`a-hero-img sr${hero.inView ? " on" : ""}`}>
@@ -167,7 +168,7 @@ export default function AboutClient() {
                             We built WearLux from the ground up with one goal in mind: to design timeless, statement-making pieces for the modern Nigerian man. His build, his climate, his lifestyle.
                         </p>
                         <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.95, marginBottom: "32px" }}>
-                            At the heart of everything we do is our customer. Every collection, every campaign, and every decision is driven by the men who wear our pieces.
+                            At the heart of everything we do is our customer. Every collection, every campaign, and every decision is driven by the men who wear our pieces. Unique style. Premium quality. Lasting confidence.
                         </p>
                         <p style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "28px", fontStyle: "italic", color: "#000" }}>
                             WearLux

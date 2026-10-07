@@ -4,8 +4,8 @@ const brandName = process.env.NEXT_PUBLIC_BRAND_NAME || "WearLux";
 export const BRAND_CONFIG = {
     name: brandName,
     tagline: process.env.NEXT_PUBLIC_BRAND_TAGLINE || "Style for the Modern Man",
-    description: process.env.NEXT_PUBLIC_BRAND_DESCRIPTION || "WearLux is a Nigerian men's fashion brand for modern men who value style, quality, individuality and sophistication. Shop affordable luxury menswear, native wear and accessories online.",
-    shortDescription: process.env.NEXT_PUBLIC_BRAND_SHORT_DESCRIPTION || "Affordable luxury menswear made for lasting confidence. Premium quality, distinctive style and everyday sophistication.",
+    description: process.env.NEXT_PUBLIC_BRAND_DESCRIPTION || "WearLux is a men's fashion brand created for the modern man who values style, quality, individuality and sophistication. We bring you affordable luxury menswear with distinctive style, premium-quality materials, exceptional craftsmanship and lasting durability. Shop contemporary men's clothing in Nigeria for effortless confidence and everyday sophistication.",
+    shortDescription: process.env.NEXT_PUBLIC_BRAND_SHORT_DESCRIPTION || "Style for the Modern Man. Affordable luxury menswear with distinctive style, premium quality, exceptional craftsmanship and lasting confidence.",
     hqLabel: process.env.NEXT_PUBLIC_BRAND_HQ_LABEL || "WearLux",
     logo: process.env.NEXT_PUBLIC_BRAND_LOGO || "/wearlux/wearlux-logo.png",
     logoAlt: process.env.NEXT_PUBLIC_BRAND_LOGO_ALT || brandName,
@@ -24,7 +24,7 @@ export const BRAND_CONFIG = {
 export const BRAND_KEYWORDS = [
     "men's fashion Nigeria", "men's clothing Lagos", "Nigerian menswear",
     "affordable luxury menswear", "men's native wear", "senator wear", "agbada",
-    "men's kaftan", "men's shirts", "men's trousers", "men's footwear",
-    "men's accessories", "online men's fashion Nigeria", "modern men's style",
+    "men's kaftan", "men's shirts", "men's trousers", "men's pants", "men's shorts",
+    "men's accessories", "online men's fashion Nigeria", "modern men's style", "premium men's clothing",
 ];
 
