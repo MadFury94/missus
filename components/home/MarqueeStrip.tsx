@@ -9,7 +9,7 @@ const DEFAULT_ITEMS = [
     "Style for the Modern Man",
     "New Drops Weekly",
     "Crafted for Confidence",
-    "Shop Shirts · Kaftans · Sets",
+    "Shop Linen Shirts · T-Shirts · Two-Piece Sets",
     "Nationwide Delivery Across Nigeria",
 ];
 

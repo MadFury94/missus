@@ -8,10 +8,10 @@ interface Card {
 }
 
 const DEFAULT_CARDS: Card[] = [
-    { title: "Resort Ready", href: "/category/shirts", img: "/style%20radar/Resort%20Ready.JPEG" },
-    { title: "Flights Sans Feelings", href: "/category/shirts", img: "/style%20radar/Flights%20Sans%20feelings.JPEG" },
-    { title: "Birthday Behavior", href: "/category/matching-sets", img: "/style%20radar/Birthday%20behavior.jpeg" },
-    { title: "Table For Two", href: "/category/shirts", img: "/style%20radar/Table%20for%20two.jpeg" },
+    { title: "Resort Ready", href: "/category/linen-shirts", img: "/style%20radar/Resort%20Ready.JPEG" },
+    { title: "Flights Sans Feelings", href: "/category/casual-pants", img: "/style%20radar/Flights%20Sans%20feelings.JPEG" },
+    { title: "Birthday Behavior", href: "/category/two-piece-sets", img: "/style%20radar/Birthday%20behavior.jpeg" },
+    { title: "Table For Two", href: "/category/denim-pants-jeans", img: "/style%20radar/Table%20for%20two.jpeg" },
 ];
 
 export default function TrendReportCards({ cards = DEFAULT_CARDS }: { cards?: Card[] }) {

@@ -82,12 +82,12 @@ export async function readHomepageContent(): Promise<HomepageContent> {
             cta2: { label: "Explore Collection", href: "/shop" },
         }],
         categories: {
-            feature: { label: "Shirts", href: "/category/shirts", img: "/wearlux/images/wearlux%20(19).jpeg" },
+            feature: { label: "Linen Shirts", href: "/category/linen-shirts", img: "/wearlux/images/wearlux%20(19).jpeg" },
             grid: [
                 { label: "Two-Piece Sets", href: "/category/two-piece-sets", img: "/wearlux/images/wearlux%20(26).jpeg" },
-                { label: "Trousers", href: "/category/trousers", img: "/wearlux/images/wearlux%20(25).jpeg" },
-                { label: "Kaftans", href: "/category/kaftans", img: "/wearlux/images/wearlux%20(7).jpeg" },
-                { label: "Casual Wear", href: "/category/casual-wear", img: "/wearlux/images/wearlux%20(33).jpeg" },
+                { label: "Linen Pants", href: "/category/linen-pants", img: "/wearlux/images/wearlux%20(25).jpeg" },
+                { label: "Casual Shorts", href: "/category/casual-shorts", img: "/wearlux/images/wearlux%20(7).jpeg" },
+                { label: "Denim Pants & Jeans", href: "/category/denim-pants-jeans", img: "/wearlux/images/wearlux%20(33).jpeg" },
             ],
         },
         newsletter: { heading: "Discover Wearlux", sub: "Explore our sample collection." },

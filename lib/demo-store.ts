@@ -3,25 +3,24 @@ import type { CartItem } from "@/types";
 import type { ProductStock } from "./product-stock";
 import type { ShippingRate } from "./woocommerce-shipping";
 
-// Local photographs already in the project; no WordPress or image API is needed.
-const photos = ["/wearlux/signature-linen-set.png", "/wearlux/hero-editorial-photo.png", "/style%20radar/Table%20for%20two.jpeg", "/style%20radar/Resort%20Ready.JPEG", "/style%20radar/Birthday%20behavior.jpeg"];
-const productPhotos = ["/wearlux/product1.png", "/wearlux/product1.1.png", ...photos.slice(0, 3)];
-const productTwoPhotos = ["/wearlux/product2.png", "/wearlux/product2.1.png", ...photos.slice(0, 3)];
-const categoryNames = ["Shirts", "Two-Piece Sets", "Kaftans", "Trousers", "Casual Wear", "Accessories", "Whats New", "Native Wear", "Footwear", "Formal", "Resort", "Streetwear", "Discount Sale"];
-const categories = categoryNames.map((name, index) => ({ id: index + 1, name, slug: name.toLowerCase().replaceAll(" ", "-") }));
+// Product fixtures use the numbered WearLux photography set in public/wearlux/images.
+const photos = Array.from({ length: 100 }, (_, index) => `/wearlux/images/wearlux%20(${index + 1}).jpeg`);
+const categoryNames = ["Two-Piece Sets", "Casual Shorts", "Linen Shirts", "Crop Shirts", "T-Shirts", "Linen Pants", "Casual Pants", "Denim Pants & Jeans", "Denim Shorts", "Whats New", "Discount Sale"];
+const categorySlugs = ["two-piece-sets", "casual-shorts", "linen-shirts", "crop-shirts", "t-shirts", "linen-pants", "casual-pants", "denim-pants-jeans", "denim-shorts", "whats-new", "discount-sale"];
+const categories = categoryNames.map((name, index) => ({ id: index + 1, name, slug: categorySlugs[index] }));
 const samples: [string, number, number, string[]][] = [
-    ["Lagos Linen Camp-Collar Shirt", 42000, 52000, ["shirts", "streetwear", "formal"]],
-    ["Sandstone Resort Shirt", 38500, 38500, ["shirts", "resort"]],
-    ["Modern Senator Two-Piece", 55000, 65000, ["two-piece-sets", "native-wear"]],
-    ["Everyday Cotton Kaftan Set", 32000, 32000, ["two-piece-sets", "casual-wear"]],
-    ["Structured Oxford Shirt", 18000, 18000, ["kaftans", "native-wear"]],
-    ["Evening Silk Blend Shirt", 24500, 29000, ["kaftans", "streetwear"]],
-    ["Tailored Pleated Trousers", 35000, 35000, ["trousers", "formal"]],
-    ["Weekend Chino Shorts", 19500, 19500, ["trousers", "resort"]],
-    ["Essential Knit Polo", 36000, 44000, ["shirts", "casual-wear", "native-wear"]],
-    ["Midnight Dinner Jacket", 62000, 62000, ["shirts", "formal", "resort"]],
-    ["Leather Weekender Bag", 12000, 15000, ["accessories", "footwear"]],
-    ["Signature Silk Pocket Square", 14500, 14500, ["accessories", "footwear"]],
+    ["Lagos Linen Camp-Collar Shirt", 42000, 52000, ["linen-shirts", "crop-shirts"]],
+    ["Sandstone Resort Shirt", 38500, 38500, ["linen-shirts", "t-shirts"]],
+    ["Modern Senator Two-Piece", 55000, 65000, ["two-piece-sets", "linen-pants"]],
+    ["Everyday Cotton Co-Ord", 32000, 32000, ["two-piece-sets", "casual-pants"]],
+    ["Structured Oxford Shirt", 18000, 18000, ["linen-shirts", "crop-shirts"]],
+    ["Evening Silk Blend Crop Shirt", 24500, 29000, ["crop-shirts", "t-shirts"]],
+    ["Tailored Linen Pants", 35000, 35000, ["linen-pants", "casual-pants"]],
+    ["Weekend Chino Shorts", 19500, 19500, ["casual-shorts", "denim-shorts"]],
+    ["Essential Knit T-Shirt", 36000, 44000, ["t-shirts", "casual-pants"]],
+    ["Midnight Casual Pants", 62000, 62000, ["casual-pants", "linen-shirts"]],
+    ["Relaxed Denim Jeans", 12000, 15000, ["denim-pants-jeans", "denim-shorts"]],
+    ["Classic Denim Shorts", 14500, 14500, ["denim-shorts", "t-shirts"]],
 ];
 
 export const DEMO_PRODUCTS: StoreProduct[] = samples.map(([name, price, regular, slugs], index) => {
@@ -30,7 +29,8 @@ export const DEMO_PRODUCTS: StoreProduct[] = samples.map(([name, price, regular,
     const sizes = index >= 10 ? ["One Size"] : ["S", "M", "L", "XL"];
     const color = ["Black", "Cream", "Rose", "Coffee"][index % 4];
     const onSale = price < regular;
-    const imageSet = index < Math.ceil(samples.length / 3) ? productPhotos : productTwoPhotos;
+    const imageStart = (index * 5) % photos.length;
+    const imageSet = Array.from({ length: 5 }, (_, imageIndex) => photos[(imageStart + imageIndex) % photos.length]);
     return {
         id, name, slug, permalink: `/product/${slug}`, type: "variable",
         short_description: `<p>A Wearlux sample piece for exploring your new store.</p>`,

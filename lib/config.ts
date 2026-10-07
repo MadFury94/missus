@@ -69,23 +69,26 @@ export const ANNOUNCEMENT = "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVAL
 
 export const TOP_NAV = [
     { label: "NEW ARRIVALS", href: "/new-in", isNew: true },
-    { label: "SHIRTS", href: "/category/shirts" },
-    { label: "TROUSERS", href: "/category/trousers" },
-    { label: "SUITS", href: "/category/suits" },
-    { label: "TWO-PIECE", href: "/category/two-piece" },
-    { label: "SHOES", href: "/category/shoes" },
-    { label: "ACCESSORIES", href: "/category/accessories" },
+    { label: "TWO-PIECE", href: "/category/two-piece-sets" },
+    { label: "LINEN SHIRTS", href: "/category/linen-shirts" },
+    { label: "T-SHIRTS", href: "/category/t-shirts" },
+    { label: "LINEN PANTS", href: "/category/linen-pants" },
+    { label: "DENIM", href: "/category/denim-pants-jeans" },
+    { label: "SHORTS", href: "/category/casual-shorts" },
     { label: "SALE", href: "/sale" },
 ];
 
 export const SUB_NAV = [
     { label: "NEW ARRIVALS", href: "/new-in", hot: true },
-    { label: "SHIRTS", href: "/category/shirts" },
-    { label: "TROUSERS", href: "/category/trousers" },
-    { label: "SUITS", href: "/category/suits" },
-    { label: "TWO-PIECE", href: "/category/two-piece" },
-    { label: "SHOES", href: "/category/shoes" },
-    { label: "ACCESSORIES", href: "/category/accessories" },
+    { label: "TWO-PIECE", href: "/category/two-piece-sets" },
+    { label: "CASUAL SHORTS", href: "/category/casual-shorts" },
+    { label: "LINEN SHIRTS", href: "/category/linen-shirts" },
+    { label: "CROP SHIRTS", href: "/category/crop-shirts" },
+    { label: "T-SHIRTS", href: "/category/t-shirts" },
+    { label: "LINEN PANTS", href: "/category/linen-pants" },
+    { label: "CASUAL PANTS", href: "/category/casual-pants" },
+    { label: "DENIM", href: "/category/denim-pants-jeans" },
+    { label: "DENIM SHORTS", href: "/category/denim-shorts" },
     { label: "SALE", href: "/sale", sale: true },
 ];
 
@@ -112,7 +115,7 @@ export const MARQUEE_ITEMS = [
     `Style With ${BRAND_CONFIG.name}`,
     "New Drops Weekly",
     "Crafted for Confidence",
-    "Shop Shirts · Trousers · Native Wear",
+    "Shop Linen Shirts · T-Shirts · Pants · Denim",
     "Nationwide Delivery Across Nigeria",
 ];
 
@@ -137,10 +140,10 @@ export const TREND_CARDS = [
 ];
 
 export const CATEGORY_CARDS = [
-    { label: "Shirts", sub: "Shop Shirts", href: "/category/shirts", abbr: "S", bg: "linear-gradient(135deg,#1a1a2e,#2d1b34)", tall: true, img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-8.png` },
-    { label: "Two-Piece Sets", sub: "Shop Sets", href: "/category/two-piece-sets", abbr: "MS", bg: "linear-gradient(135deg,#1a2e1a,#2d341b)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-27.png` },
-    { label: "Kaftans", sub: "Shop Kaftans", href: "/category/kaftans", abbr: "T", bg: "linear-gradient(135deg,#2e1a1a,#341b2d)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-17.png` },
-    { label: "Trousers", sub: "Shop Trousers", href: "/category/trousers", abbr: "B", bg: "linear-gradient(135deg,#1a2a2e,#1b2e2e)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-22.png` },
-    { label: "Casual Wear", sub: "Shop Casual Wear", href: "/category/casual-wear", abbr: "A", bg: "linear-gradient(135deg,#2e2a1a,#2e1a1a)", img: null },
-    { label: "Accessories", sub: "Shop Accessories", href: "/category/gift-shop", abbr: "G", bg: "linear-gradient(135deg,#1a1a1a,#2e2e2e)", img: null },
+    { label: "Two-Piece Sets", sub: "Shop Two-Piece Sets", href: "/category/two-piece-sets", abbr: "2P", bg: "linear-gradient(135deg,#1a1a2e,#2d1b34)", tall: true, img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-27.png` },
+    { label: "Linen Shirts", sub: "Shop Linen Shirts", href: "/category/linen-shirts", abbr: "LS", bg: "linear-gradient(135deg,#1a2e1a,#2d341b)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-8.png` },
+    { label: "Casual Shorts", sub: "Shop Casual Shorts", href: "/category/casual-shorts", abbr: "CS", bg: "linear-gradient(135deg,#2e1a1a,#341b2d)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-17.png` },
+    { label: "Linen Pants", sub: "Shop Linen Pants", href: "/category/linen-pants", abbr: "LP", bg: "linear-gradient(135deg,#1a2a2e,#1b2e2e)", img: `${API_ENDPOINTS.assets.products}/Product-Photos-Your-Story-22.png` },
+    { label: "T-Shirts", sub: "Shop T-Shirts", href: "/category/t-shirts", abbr: "T", bg: "linear-gradient(135deg,#2e2a1a,#2e1a1a)", img: null },
+    { label: "Denim", sub: "Shop Denim Pants & Jeans", href: "/category/denim-pants-jeans", abbr: "D", bg: "linear-gradient(135deg,#1a1a1a,#2e2e2e)", img: null },
 ];

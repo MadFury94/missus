@@ -7,25 +7,25 @@ const TREND_CARDS = [
     {
         label: "Night Out",
         title: "Club Night\nEnergy",
-        href: "/category/shirts",
+        href: "/category/linen-shirts",
         img: getCategoryImageUrl("Product-Photos-96.jpeg"),
     },
     {
         label: "Resort Escape",
         title: "Resort\nEscape",
-        href: "/category/shirts",
+        href: "/category/casual-pants",
         img: getCategoryImageUrl("Leila-Halter-Mini-Dress.jpg"),
     },
     {
         label: "Spring Sets",
         title: "Spring\nEssentials",
-        href: "/category/matching-sets",
+        href: "/category/two-piece-sets",
         img: getProductImageUrl("Product-Photos-Your-Story-27.png"),
     },
     {
         label: "Prom Queen",
         title: "Prom Queen\nEnergy",
-        href: "/category/shirts",
+        href: "/category/denim-pants-jeans",
         img: getCategoryImageUrl("Product-Photos-88.jpeg"),
     },
 ];

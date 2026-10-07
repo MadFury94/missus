@@ -16,9 +16,9 @@ export async function generateStaticParams() {
 
         // Add common category fallbacks in case API is down
         const fallbackCategories = [
-            "shirts", "kaftans", "trousers", "two-piece-sets",
-            "casual-wear", "accessories", "whats-new",
-            "native-wear", "footwear", "formal", "resort", "streetwear"
+            "two-piece-sets", "casual-shorts", "linen-shirts", "crop-shirts",
+            "t-shirts", "linen-pants", "casual-pants", "denim-pants-jeans",
+            "denim-shorts", "whats-new", "discount-sale"
         ];
 
         const categoryParams = categories.map((category) => ({
@@ -38,18 +38,17 @@ export async function generateStaticParams() {
 
         // Return fallback categories in case of API failure
         return [
-            { slug: "shirts" },
-            { slug: "kaftans" },
-            { slug: "trousers" },
             { slug: "two-piece-sets" },
-            { slug: "casual-wear" },
-            { slug: "accessories" },
+            { slug: "casual-shorts" },
+            { slug: "linen-shirts" },
+            { slug: "crop-shirts" },
+            { slug: "t-shirts" },
+            { slug: "linen-pants" },
+            { slug: "casual-pants" },
+            { slug: "denim-pants-jeans" },
+            { slug: "denim-shorts" },
             { slug: "whats-new" },
-            { slug: "native-wear" },
-            { slug: "footwear" },
-            { slug: "formal" },
-            { slug: "resort" },
-            { slug: "streetwear" }
+            { slug: "discount-sale" }
         ];
     }
 }
@@ -63,42 +62,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
         // Fallback category data for common categories
         const fallbackCategories: Record<string, { name: string; description: string }> = {
-            "shirts": {
-                name: "Shirts",
-                description: "Shop premium shirts at WearLux. From casual day shirts to elegant evening wear, discover our curated collection of contemporary men's fashion with fast delivery across Nigeria."
-            },
-            "kaftans": {
-                name: "Kaftans",
-                description: "Discover trendy kaftans and shirts at WearLux. Shop crop kaftans, button-downs, and statement pieces that elevate your wardrobe with premium quality and style."
-            },
-            "trousers": {
-                name: "Trousers",
-                description: "Shop premium trousers at WearLux. From tailored trousers to trendy trousers and shorts, find the perfect pieces to complete your look."
-            },
+            "casual-shorts": { name: "Casual Shorts", description: "Shop relaxed casual shorts at WearLux for everyday comfort, warm-weather dressing and effortless modern menswear across Nigeria." },
+            "linen-shirts": { name: "Linen Shirts", description: "Discover breathable linen shirts at WearLux, designed for polished Lagos days, resort escapes and easy contemporary style." },
+            "crop-shirts": { name: "Crop Shirts", description: "Shop modern crop shirts at WearLux for a confident, contemporary menswear wardrobe with expressive proportions and premium fabrics." },
+            "t-shirts": { name: "T-Shirts", description: "Find premium everyday T-shirts at WearLux, cut for comfort and easy styling with trousers, denim and two-piece looks." },
+            "linen-pants": { name: "Linen Pants", description: "Shop lightweight linen pants at WearLux for breathable tailoring, relaxed resort dressing and refined everyday outfits." },
+            "casual-pants": { name: "Casual Pants", description: "Discover versatile casual pants at WearLux, combining relaxed comfort with the clean lines of modern Nigerian menswear." },
+            "denim-pants-jeans": { name: "Denim Pants & Jeans", description: "Shop denim pants and jeans at WearLux, from everyday straight fits to modern statement denim designed for lasting wear." },
+            "denim-shorts": { name: "Denim Shorts", description: "Find durable, easy-to-style denim shorts at WearLux for casual weekends, holidays and warm-weather Lagos dressing." },
             "two-piece-sets": {
                 name: "Two-Piece Sets",
-                description: "Effortless coordination with our matching sets collection. Shop co-ord sets, two-piece outfits, and perfectly matched ensembles for a polished look."
-            },
-            "casual-wear": {
-                name: "Casual Wear",
-                description: "Comfort meets style in our athleisure and loungewear collection. Perfect for workouts, casual days, and everything in between."
-            },
-            "accessories": {
-                name: "Accessories",
-                description: "Find the perfect gift at WearLux. Shop curated gift sets, accessories, and special pieces that make memorable presents."
+                description: "Shop coordinated two-piece sets at WearLux for easy, polished menswear with matching shirts and pants made for modern Nigerian style."
             },
             "whats-new": {
                 name: "What's New",
                 description: "Discover the latest arrivals at WearLux. Shop new drops, trending pieces, and fresh styles added weekly to our collection."
             },
-            "native-wear": {
-                name: "Native Wear",
-                description: "Celebrate your curves with our Native Wear collection. Premium plus-size fashion designed for comfort, style, and confidence."
-            },
-            "footwear": {
-                name: "Footwear",
-                description: "Complete your look with our beauty collection. Discover skincare, makeup, and beauty accessories curated for the modern man."
-            }
         };
 
         const categoryData = category || fallbackCategories[slug];
@@ -166,18 +145,17 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
         // Fallback category data for SEO purposes
         const fallbackCategories: Record<string, any> = {
-            "shirts": { name: "Shirts", slug: "shirts" },
-            "kaftans": { name: "Kaftans", slug: "kaftans" },
-            "trousers": { name: "Trousers", slug: "trousers" },
+            "casual-shorts": { name: "Casual Shorts", slug: "casual-shorts" },
+            "linen-shirts": { name: "Linen Shirts", slug: "linen-shirts" },
+            "crop-shirts": { name: "Crop Shirts", slug: "crop-shirts" },
+            "t-shirts": { name: "T-Shirts", slug: "t-shirts" },
+            "linen-pants": { name: "Linen Pants", slug: "linen-pants" },
+            "casual-pants": { name: "Casual Pants", slug: "casual-pants" },
+            "denim-pants-jeans": { name: "Denim Pants & Jeans", slug: "denim-pants-jeans" },
+            "denim-shorts": { name: "Denim Shorts", slug: "denim-shorts" },
             "two-piece-sets": { name: "Two-Piece Sets", slug: "two-piece-sets" },
-            "casual-wear": { name: "Casual Wear", slug: "casual-wear" },
-            "accessories": { name: "Accessories", slug: "accessories" },
             "whats-new": { name: "What's New", slug: "whats-new" },
-            "native-wear": { name: "Native Wear", slug: "native-wear" },
-            "footwear": { name: "Footwear", slug: "footwear" },
-            "formal": { name: "Formal", slug: "formal" },
-            "resort": { name: "Resort", slug: "resort" },
-            "streetwear": { name: "Streetwear", slug: "streetwear" }
+            "discount-sale": { name: "Sale", slug: "discount-sale" }
         };
 
         const categoryData = category || fallbackCategories[slug];

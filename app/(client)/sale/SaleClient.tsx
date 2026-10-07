@@ -9,10 +9,10 @@ import Link from "next/link";
 
 const SALE_TABS = [
     { label: "All Sale", filter: null },
-    { label: "Shirts", filter: "shirts" },
-    { label: "Kaftans", filter: "kaftans" },
-    { label: "Trousers", filter: "trousers" },
-    { label: "Sets", filter: "matching-sets" },
+    { label: "Linen Shirts", filter: "linen-shirts" },
+    { label: "T-Shirts", filter: "t-shirts" },
+    { label: "Pants", filter: "casual-pants" },
+    { label: "Denim", filter: "denim-pants-jeans" },
 ];
 
 const SORT_OPTIONS = [

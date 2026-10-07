@@ -38,18 +38,21 @@ const PRICE_RANGES = [
 
 const CATEGORIES = [
     { label: "What's New", slug: "whats-new" },
-    { label: "Shirts", slug: "shirts" },
-    { label: "Two-Piece Sets", slug: "matching-sets" },
-    { label: "Kaftans", slug: "kaftans" },
-    { label: "Trousers", slug: "trousers" },
-    { label: "Casual Wear", slug: "athleisure-loungewear" },
-    { label: "Gift Shop", slug: "gift-shop" },
+    { label: "Two-Piece", slug: "two-piece-sets" },
+    { label: "Casual Shorts", slug: "casual-shorts" },
+    { label: "Linen Shirts", slug: "linen-shirts" },
+    { label: "Crop Shirts", slug: "crop-shirts" },
+    { label: "T-Shirts", slug: "t-shirts" },
+    { label: "Linen Pants", slug: "linen-pants" },
+    { label: "Casual Pants", slug: "casual-pants" },
+    { label: "Denim Pants / Jeans", slug: "denim-pants-jeans" },
+    { label: "Denim Shorts", slug: "denim-shorts" },
     { label: "Sale", slug: "discount-sale" },
 ];
 
-const OCCASIONS = ["GNO/Date Night", "Vacation", "Brunch", "Cocktail", "Office", "Formal/Prom"];
-const LENGTHS = ["Maxi", "Mini", "Midi", "Micro Mini"];
-const STYLES = ["Bodycon", "A-Line", "Flowy", "Wrap", "Mermaid"];
+const OCCASIONS = ["Weekend", "Vacation", "Brunch", "Travel", "Office", "Formal"];
+const LENGTHS = ["Short", "Regular", "Long"];
+const STYLES = ["Relaxed", "Tailored", "Oversized", "Straight Leg", "Slim Fit"];
 
 // Separator line between groups
 const Divider = () => (

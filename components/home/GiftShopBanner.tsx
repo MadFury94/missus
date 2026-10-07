@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function GiftShopBanner() {
     return (
         <Link
-            href="/category/gift-shop"
+            href="/shop"
             style={{ display: "block", textDecoration: "none" }}
         >
             <div style={{

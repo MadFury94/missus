@@ -9,8 +9,8 @@ import { BRAND_CONFIG } from "@/lib/brand-config";
 // -- Static ----------------------------------------------------------------
 
 const HOT_SEARCHES = [
-    "Shirts", "Two-Piece Sets", "Bandage Dress", "Kaftans",
-    "Night Out", "Snatched", "Vacation", "Faux Leather",
+    "Two-Piece Sets", "Linen Shirts", "Crop Shirts", "T-Shirts",
+    "Linen Pants", "Casual Pants", "Denim Jeans", "Casual Shorts",
 ];
 
 // -- Types -----------------------------------------------------------------
@@ -318,10 +318,10 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </p>
                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                                         {[
-                                            { rank: 1, label: "Shirts", href: "/category/shirts" },
-                                            { rank: 2, label: "Two-Piece Sets", href: "/category/matching-sets" },
-                                            { rank: 3, label: "Kaftans", href: "/category/kaftans" },
-                                            { rank: 4, label: "Trousers", href: "/category/trousers" },
+                                            { rank: 1, label: "Two-Piece", href: "/category/two-piece-sets" },
+                                            { rank: 2, label: "Linen Shirts", href: "/category/linen-shirts" },
+                                            { rank: 3, label: "T-Shirts", href: "/category/t-shirts" },
+                                            { rank: 4, label: "Denim Pants & Jeans", href: "/category/denim-pants-jeans" },
                                         ].map((item) => (
                                             <button key={item.rank} onClick={() => navigate(item.href)}
                                                 style={{ display: "flex", alignItems: "center", gap: "12px", padding: "10px 8px", background: "none", border: "none", cursor: "pointer", textAlign: "left", borderRadius: "4px", transition: "background .12s" }}
@@ -357,8 +357,8 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                         {colB.map((cat, i) => (
                                             <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={`/category/${cat.slug}`} />
                                         ))}
-                                        <AccentRow rank={colB.length + 1} label="Casual Wear" href="/category/athleisure-loungewear" bg="#1a1a2e" accent="#fff" />
-                                        <AccentRow rank={colB.length + 2} label="Gift Shop" href="/category/gift-shop" bg="#2d1b34" accent="#fff" />
+                                        <AccentRow rank={colB.length + 1} label="Casual Pants" href="/category/casual-pants" bg="#1a1a2e" accent="#fff" />
+                                        <AccentRow rank={colB.length + 2} label="Denim Shorts" href="/category/denim-shorts" bg="#2d1b34" accent="#fff" />
                                     </div>
                                 </div>
 

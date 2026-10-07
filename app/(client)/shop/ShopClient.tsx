@@ -17,11 +17,11 @@ const QUICK_TABS = [
     { label: "All", category: "" },
     { label: "What's New", category: "whats-new" },
     { label: "Deals", category: "discount-sale" },
-    { label: "Shirts", category: "shirts" },
-    { label: "Sets", category: "matching-sets" },
-    { label: "Kaftans", category: "kaftans" },
-    { label: "Trousers", category: "trousers" },
-    { label: "Athleisure", category: "athleisure-loungewear" },
+    { label: "Two-Piece", category: "two-piece-sets" },
+    { label: "Linen Shirts", category: "linen-shirts" },
+    { label: "T-Shirts", category: "t-shirts" },
+    { label: "Linen Pants", category: "linen-pants" },
+    { label: "Denim", category: "denim-pants-jeans" },
 ];
 
 export default function ShopClient() {

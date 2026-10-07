@@ -31,7 +31,7 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
         "Style for the Modern Man",
         "New Drops Weekly",
         "Crafted for Confidence",
-        "Shop Shirts ? Trousers ? Native Wear",
+        "Shop Linen Shirts · T-Shirts · Pants · Denim",
         "Nationwide Delivery Across Nigeria",
     ],
     hero: [
@@ -55,15 +55,15 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
         },
     ],
     styleRadar: [
-        { title: "The Camp-Collar Edit", href: "/category/shirts", img: "/wearlux/images/wearlux%20(1).jpeg" },
-        { title: "Native Textures", href: "/category/native-wear", img: "/wearlux/images/wearlux%20(7).jpeg" },
-        { title: "Weekend Trousers", href: "/category/trousers", img: "/wearlux/images/wearlux%20(20).jpeg" },
-        { title: "Statement Layers", href: "/category/casual-wear", img: "/wearlux/images/wearlux%20(35).jpeg" },
+        { title: "Linen Shirts", href: "/category/linen-shirts", img: "/wearlux/images/wearlux%20(1).jpeg" },
+        { title: "Two-Piece Sets", href: "/category/two-piece-sets", img: "/wearlux/images/wearlux%20(7).jpeg" },
+        { title: "Linen Pants", href: "/category/linen-pants", img: "/wearlux/images/wearlux%20(20).jpeg" },
+        { title: "Casual Pants", href: "/category/casual-pants", img: "/wearlux/images/wearlux%20(35).jpeg" },
     ],
     categories: {
         feature: {
-            label: "Shirts",
-            href: "/category/shirts",
+            label: "Linen Shirts",
+            href: "/category/linen-shirts",
             img: "/wearlux/images/wearlux%20(19).jpeg",
         },
         grid: [
@@ -73,18 +73,18 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
                 img: "/wearlux/images/wearlux%20(26).jpeg",
             },
             {
-                label: "Trousers",
-                href: "/category/trousers",
+                label: "Linen Pants",
+                href: "/category/linen-pants",
                 img: "/wearlux/images/wearlux%20(25).jpeg",
             },
             {
-                label: "Kaftans",
-                href: "/category/kaftans",
+                label: "Casual Shorts",
+                href: "/category/casual-shorts",
                 img: "/wearlux/images/wearlux%20(7).jpeg",
             },
             {
-                label: "Casual Wear",
-                href: "/category/casual-wear",
+                label: "Denim Pants & Jeans",
+                href: "/category/denim-pants-jeans",
                 img: "/wearlux/images/wearlux%20(33).jpeg",
             },
         ],
