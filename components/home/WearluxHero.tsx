@@ -7,10 +7,10 @@ import { usePathname } from "next/navigation";
 import { IS_DEMO_STORE } from "@/lib/store-config";
 
 const slides = [
-    { image: "/wearlux/wearlux-hero-4.png", mobileImage: "/wearlux/hero-mobile1.png", title: "STYLE,\nREDEFINED.", sub: "Contemporary menswear designed for the modern man." },
-    { image: "/wearlux/hero.png", mobileImage: "/wearlux/hero-mobile.png", title: "RESORT\nESSENTIALS.", sub: "Lightweight knitwear made for sunlit days and slow evenings." },
-    { image: "/wearlux/hero2.png", mobileImage: "/wearlux/hero2-mobile.png", title: "LIGHT\nLAYERS.", sub: "Relaxed tailoring for every sunlit occasion." },
-    { image: "/wearlux/hero3-wearlux.png", mobileImage: "/wearlux/hero3-wearlux-mobile.png", title: "THE\nWEARLUX EDIT.", sub: "Statement pieces with an effortless point of view." },
+    { image: "/wearlux/images/wearlux%20(42).jpeg", mobileImage: "/wearlux/images/wearlux%20(42).jpeg", title: "STYLE,\nREDEFINED.", sub: "Contemporary menswear designed for the modern man." },
+    { image: "/wearlux/images/wearlux%20(45).jpeg", mobileImage: "/wearlux/images/wearlux%20(45).jpeg", title: "RESORT\nESSENTIALS.", sub: "Lightweight knitwear made for sunlit days and slow evenings." },
+    { image: "/wearlux/images/wearlux%20(50).jpeg", mobileImage: "/wearlux/images/wearlux%20(50).jpeg", title: "LIGHT\nLAYERS.", sub: "Relaxed tailoring for every sunlit occasion." },
+    { image: "/wearlux/images/wearlux%20(60).jpeg", mobileImage: "/wearlux/images/wearlux%20(60).jpeg", title: "THE\nWEARLUX EDIT.", sub: "Statement pieces with an effortless point of view." },
 ];
 
 export default function WearluxHero() {
