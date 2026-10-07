@@ -110,9 +110,12 @@ export default function NewsletterBar({
                         <form onSubmit={submit} style={{ display: "flex", maxWidth: "420px" }}>
                             <input
                                 type="email"
+                                id="newsletter-email"
+                                name="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email address"
+                                aria-label="Email address for newsletter subscription"
                                 required
                                 style={{ flex: 1, border: "1.5px solid #000", borderRight: "none", padding: "0 14px", height: "44px", fontFamily: "'Barlow', sans-serif", fontSize: "13px", outline: "none", background: "#fff", borderRadius: "999px 0 0 999px" }}
                             />

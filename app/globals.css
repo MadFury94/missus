@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-dm-sans: "DM Sans", Arial, sans-serif;
   --font-body: var(--font-dm-sans);
   --font-display: var(--font-dm-sans);
   --font-admin-sans: var(--font-dm-sans);

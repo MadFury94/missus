@@ -52,6 +52,9 @@ function CurrencySwitcher() {
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontSize: "11px", color: "rgba(255,255,255,.5)" }}>Currency:</span>
             <select
+                id="footer-currency"
+                name="currency"
+                aria-label="Currency"
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
                 style={{

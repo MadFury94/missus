@@ -26,9 +26,12 @@ export default function NewsletterForm() {
                     <form onSubmit={handleSubmit} className="flex gap-2 max-w-md mx-auto">
                         <input
                             type="email"
+                            id="newsletter-form-email"
+                            name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Your email address"
+                            aria-label="Email address for newsletter subscription"
                             required
                             className="flex-1 border border-secondary/20 bg-white px-4 py-3 text-sm outline-none focus:border-secondary transition-colors"
                         />
