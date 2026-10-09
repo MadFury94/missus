@@ -50,6 +50,15 @@ function jsonField<T>(value: unknown, fallback: T): T {
     return parsed as T;
 }
 
+function jsonObjectField<T extends object>(value: unknown, fallback: T): T {
+    if (value === undefined || value === null || value === "") return fallback;
+    const parsed = typeof value === "string" ? JSON.parse(value) : value;
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+        throw new Error("A homepage ACF object contains invalid JSON.");
+    }
+    return parsed as T;
+}
+
 function decodeContent(acf: Record<string, unknown>): HomepageContent {
     const text = (key: string, fallback: string) => typeof acf[key] === "string" ? acf[key] as string : fallback;
     return {
@@ -57,7 +66,7 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
         marquee: jsonField(acf.hp_marquee, HOMEPAGE_DEFAULTS.marquee),
         hero: jsonField(acf.hp_hero, HOMEPAGE_DEFAULTS.hero),
         styleRadar: jsonField(acf.hp_style_radar, HOMEPAGE_DEFAULTS.styleRadar),
-        categories: jsonField(acf.hp_categories, HOMEPAGE_DEFAULTS.categories),
+        categories: jsonObjectField(acf.hp_categories, HOMEPAGE_DEFAULTS.categories),
         newsletter: {
             heading: text("hp_nl_heading", HOMEPAGE_DEFAULTS.newsletter.heading),
             sub: text("hp_nl_sub", HOMEPAGE_DEFAULTS.newsletter.sub),
