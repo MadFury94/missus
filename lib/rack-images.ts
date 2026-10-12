@@ -7,7 +7,7 @@ export function getRackImage(source: string) {
     const match = /^\/wearlux\/images\/wearlux(?:%20| )\((\d+)\)\.jpeg$/.exec(source);
     const photo = match ? Number(match[1]) : 0;
     return photos.includes(photo) ? {
-        image: `/wearlux/rack/garment-${photo}.png`,
+        image: `/wearlux/rack/garment-${photo}.webp`,
         hanger: bottoms.has(photo) ? "clips" as const : "shoulders" as const,
     } : { image: source, hanger: "shoulders" as const };
 }

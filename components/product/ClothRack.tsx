@@ -94,12 +94,16 @@ export default function ClothRack({ products = [], onSelect, height = '100vh', r
                 t.colorSpace = THREE.SRGBColorSpace;
                 // Trim transparent margins in UV space, keeping collars attached to hangers.
                 const canvas = document.createElement('canvas');
-                canvas.width = t.image.width; canvas.height = t.image.height;
+                // A small alpha mask is sufficient for picking and margin detection.
+                // Keep the full texture on the GPU for the visible fabric detail.
+                const maskScale = Math.min(1, 256 / Math.max(t.image.width, t.image.height));
+                canvas.width = Math.max(1, Math.round(t.image.width * maskScale));
+                canvas.height = Math.max(1, Math.round(t.image.height * maskScale));
                 const context = canvas.getContext('2d', { willReadFrequently: true });
                 let bounds = { x: 0, y: 0, width: canvas.width, height: canvas.height };
                 if (context) {
                     try {
-                        context.drawImage(t.image, 0, 0);
+                        context.drawImage(t.image, 0, 0, canvas.width, canvas.height);
                         const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
                         let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
                         for (let y = 0; y < canvas.height; y++) {

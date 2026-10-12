@@ -44,6 +44,8 @@ export default function ShopClient() {
     const [filters, setFilters] = useState<ProductFilters>({ perPage: 60 });
     const [activeTab, setActiveTab] = useState(0);
     const [filterOpen, setFilterOpen] = useState(false);
+    // Fetch the 3D code while the catalog request is in flight.
+    useEffect(() => { void import("@/components/product/ClothRack"); }, []);
     const rackProducts = useMemo(() => products.filter((p) => getProductImage(p)).map((p) => ({
         id: p.id, name: p.name, ...getRackImage(getProductImage(p)), price: convert(toNaira(p.prices.price)),
     })), [products, convert]);
