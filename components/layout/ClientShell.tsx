@@ -21,6 +21,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
     const pathname = usePathname();
     const isAdminRoute = pathname?.startsWith("/admin");
     const isCheckoutRoute = pathname?.startsWith("/checkout");
+    const isClothRackRoute = pathname?.startsWith("/shop") && pathname?.includes("clothrack"); // Add special route detection
     const isHome = pathname === "/";
     const isProductPage = pathname?.includes("/product/");
     const isShopPage = pathname?.startsWith("/shop") || pathname?.startsWith("/new-in") || pathname?.startsWith("/category/") || pathname?.startsWith("/sale") || pathname?.startsWith("/search") || pathname?.startsWith("/product-tag/");

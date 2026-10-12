@@ -1,10 +1,21 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { getProductImage, toNaira } from "@/lib/woocommerce";
+import { useCurrency } from "@/lib/currency";
+import { getRackImage } from "@/lib/rack-images";
 import type { StoreProduct } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
+import RackProductTag from "@/components/product/RackProductTag";
 import ProductSkeleton from "@/components/product/ProductSkeleton";
 import FilterSidebar from "@/components/shop/FilterSidebar";
 import type { ProductFilters } from "@/types";
+
+const ClothRack = dynamic(() => import("@/components/product/ClothRack"), {
+    ssr: false,
+    loading: () => <div style={{ height: "65svh", display: "grid", placeItems: "center" }}>Loading the rack…</div>,
+});
 
 const SORT_OPTIONS = [
     { label: "Featured", value: "" },
@@ -25,11 +36,17 @@ const QUICK_TABS = [
 ];
 
 export default function ShopClient() {
+    const router = useRouter();
+    const { convert } = useCurrency();
+    const [view, setView] = useState<"rack" | "grid">("rack");
     const [products, setProducts] = useState<StoreProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<ProductFilters>({ perPage: 60 });
     const [activeTab, setActiveTab] = useState(0);
     const [filterOpen, setFilterOpen] = useState(false);
+    const rackProducts = useMemo(() => products.filter((p) => getProductImage(p)).map((p) => ({
+        id: p.id, name: p.name, ...getRackImage(getProductImage(p)), price: convert(toNaira(p.prices.price)),
+    })), [products, convert]);
 
     const fetchProducts = useCallback((f: ProductFilters, tab: number) => {
         setLoading(true);
@@ -295,9 +312,30 @@ export default function ShopClient() {
 
                     {/* Products */}
                     {!loading && products.length > 0 && (
+                        <>
+                        <div role="group" aria-label="Shop view" style={{ display: "flex", gap: 8, padding: "12px 0" }}>
+                            {(["rack", "grid"] as const).map((mode) => (
+                                <button key={mode} aria-pressed={view === mode} onClick={() => setView(mode)} style={{ padding: "8px 20px", borderRadius: 99, border: "1px solid #111", background: view === mode ? "#111" : "#fff", color: view === mode ? "#fff" : "#111", cursor: "pointer" }}>
+                                    {mode === "rack" ? "Clothing rack" : "Product grid"}
+                                </button>
+                            ))}
+                        </div>
+                        {view === "rack" && rackProducts.length > 0 ? (
+                            <div style={{ background: "#f5f3ef", color: "#171717" }}>
+                                <ClothRack products={rackProducts} height="clamp(420px, 65svh, 760px)" renderSelection={(item) => {
+                                    const product = products.find((p) => p.id === item.id);
+                                    return product ? <RackProductTag key={product.id} product={product} /> : null;
+                                }} onSelect={(item) => {
+                                    const product = products.find((p) => p.id === item.id);
+                                    if (product) router.push(`/product/${product.slug}`);
+                                }} />
+                            </div>
+                        ) : (
                         <div className="grid-4">
                             {products.map((p) => <ProductCard key={p.id} product={p} />)}
                         </div>
+                        )}
+                        </>
                     )}
 
                     {/* Empty state */}
