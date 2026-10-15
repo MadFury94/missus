@@ -1,9 +1,9 @@
+import { generatePageMetadata } from "@/lib/seo-config";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "Privacy Policy — Missus",
-    description: "How Missus collects, uses, and protects your personal information.",
-};
+export function generateMetadata(): Metadata {
+    return generatePageMetadata({ title: "Privacy Policy", description: "How Missus Outfits collects, uses and protects your personal information.", path: "/privacy" });
+}
 
 export default function PrivacyPage() {
     return (

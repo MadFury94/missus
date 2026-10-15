@@ -42,7 +42,7 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
             heading: "Made for\nHer.",
             sub: "Trend-forward, affordable fashion for the modern Nigerian girl.",
             cta: { label: "Shop Now", href: "/shop" },
-            cta2: { label: "What's New", href: "/category/whats-new" },
+            cta2: { label: "What's New", href: "/new-in" },
         },
         {
             src: "/Desktop view 3.WEBP",

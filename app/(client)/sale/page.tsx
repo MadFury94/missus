@@ -1,9 +1,15 @@
+import CollectionIntro from "@/components/seo/CollectionIntro";
+import { getCategorySeo } from "@/lib/category-seo";
+import { generatePageMetadata } from "@/lib/seo-config";
 import type { Metadata } from "next";
 import { getSaleProducts } from "@/lib/woocommerce";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import SaleClient from "./SaleClient";
 
-export const metadata: Metadata = { title: "MissusDeals — Up to 60% Off" };
+export function generateMetadata(): Metadata {
+    const copy = getCategorySeo("sale");
+    return generatePageMetadata({ title: copy.title, description: copy.description, path: "/sale" });
+}
 export const revalidate = 60;
 
 export default async function SalePage() {
@@ -67,6 +73,7 @@ export default async function SalePage() {
             </div>
 
             {/* Client section — tabs, sort, grid */}
+            <CollectionIntro slug="sale" heading={false} />
             <SaleClient initialProducts={products} />
         </>
     );

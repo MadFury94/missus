@@ -1,107 +1,37 @@
-﻿import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/config";
-import { BRAND_CONFIG, BRAND_KEYWORDS } from "@/lib/brand-config";
+import type { Metadata } from "next";
+import { SITE_URL } from "./config";
+import { canonicalLink } from "./seo-urls";
 
-// Default metadata template
-export const DEFAULT_METADATA: Metadata = {
-    metadataBase: new URL(SITE_URL),
-    title: {
-        template: `%s | ${BRAND_CONFIG.name}`,
-        default: `${BRAND_CONFIG.name} - ${BRAND_CONFIG.tagline}`
-    },
-    description: BRAND_CONFIG.description,
-    keywords: BRAND_KEYWORDS,
-    authors: [{ name: BRAND_CONFIG.name }],
-    creator: BRAND_CONFIG.name,
-    publisher: BRAND_CONFIG.name,
-    robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-            index: true,
-            follow: true,
-            'max-video-preview': -1,
-            'max-image-preview': 'large',
-            'max-snippet': -1,
-        },
-    },
-    openGraph: {
-        type: "website",
-        locale: "en_NG",
-        url: SITE_URL,
-        siteName: BRAND_CONFIG.name,
-        title: `${BRAND_CONFIG.name} - ${BRAND_CONFIG.tagline}`,
-        description: BRAND_CONFIG.description,
-        images: [{
-            url: "/og-image.jpg",
-            width: 1200,
-            height: 630,
-            alt: `${BRAND_CONFIG.name} - Premium Women's Fashion`
-        }]
-    },
-    twitter: {
-        card: "summary_large_image",
-        site: BRAND_CONFIG.social.twitter,
-        creator: BRAND_CONFIG.social.twitter,
-        title: `${BRAND_CONFIG.name} - ${BRAND_CONFIG.tagline}`,
-        description: BRAND_CONFIG.description,
-        images: ["/twitter-image.jpg"]
-    },
-    verification: {
-        google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
-        // Add other verification codes as needed
-    },
-    alternates: {
-        canonical: SITE_URL,
-    },
-    other: {
-        'facebook-domain-verification': process.env.NEXT_PUBLIC_FB_DOMAIN_VERIFICATION || '',
-    }
-};
+export const HOME_TITLE = "Women's Fashion Online in Nigeria | Missus Outfits";
+export const HOME_DESCRIPTION = "Shop affordable women's fashion in Nigeria: dresses, matching sets, tops and more. Free shipping on orders ₦150,000+ at Missus Outfits.";
+export const SOCIAL_IMAGE = "/Desktop view 1.jpg";
 
-// Generate page-specific metadata
-export function generatePageMetadata({
-    title,
-    description,
-    keywords = [],
-    path = "/",
-    ogImage,
-    noindex = false
-}: {
-    title: string;
-    description: string;
+export function generatePageMetadata({ title, description, path = "/", ogImage = SOCIAL_IMAGE, noindex = false }: {
+    title: string; description: string; path?: string; ogImage?: string; noindex?: boolean;
+    // Accepted for older callers, but never emitted as a meta tag.
     keywords?: string[];
-    path?: string;
-    ogImage?: string;
-    noindex?: boolean;
 }): Metadata {
-    const url = `${SITE_URL.replace(/\/$/, "")}${path}`;
-    const combinedKeywords = [...BRAND_KEYWORDS, ...keywords];
-
+    const fullTitle = title.includes("Missus Outfits") ? title : `${title} | Missus Outfits`;
+    const summary = description.replace(/\s+/g, " ").trim().slice(0, 154);
+    const url = new URL(canonicalLink(path).split(/[?#]/)[0], SITE_URL).href;
+    const image = new URL(ogImage, SITE_URL).href;
     return {
-        title,
-        description: description.slice(0, 160),
-        keywords: combinedKeywords,
-        robots: noindex ? { index: false, follow: false } : undefined,
-        alternates: {
-            canonical: url,
-        },
+        title: { absolute: fullTitle }, description: summary,
+        alternates: { canonical: url },
+        ...(noindex ? { robots: { index: false, follow: true, googleBot: { index: false, follow: true } } } : {}),
         openGraph: {
-            title,
-            description,
-            url,
-            images: ogImage ? [{
-                url: ogImage,
-                width: 1200,
-                height: 630,
-                alt: title
-            }] : undefined
+            type: "website", locale: "en_NG", siteName: "Missus Outfits",
+            title: fullTitle, description: summary, url,
+            images: [{ url: image, alt: fullTitle, ...(ogImage === SOCIAL_IMAGE ? { width: 2048, height: 1152 } : {}) }],
         },
-        twitter: {
-            title,
-            description,
-            images: ogImage ? [ogImage] : undefined
-        }
+        twitter: { card: "summary_large_image", title: fullTitle, description: summary, images: [image] },
     };
 }
-
+export const DEFAULT_METADATA: Metadata = {
+    metadataBase: new URL(SITE_URL),
+    title: { default: HOME_TITLE, template: "%s | Missus Outfits" }, description: HOME_DESCRIPTION,
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+    openGraph: { type: "website", siteName: "Missus Outfits", locale: "en_NG", title: HOME_TITLE, description: HOME_DESCRIPTION, images: [{ url: SOCIAL_IMAGE, width: 2048, height: 1152, alt: "Missus Outfits women's fashion in Nigeria" }] },
+    twitter: { card: "summary_large_image", title: HOME_TITLE, description: HOME_DESCRIPTION, images: [SOCIAL_IMAGE] },
+    verification: { google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION },
+};

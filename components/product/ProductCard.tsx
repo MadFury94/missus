@@ -1,4 +1,5 @@
 "use client";
+import { productImageAlt } from "@/lib/product-seo";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -233,7 +234,7 @@ export default function ProductCard({ product }: { product: StoreProduct }) {
                         <>
                             <Image
                                 src={img1}
-                                alt={product.name}
+                                alt={productImageAlt(product)}
                                 fill
                                 style={{ objectFit: "cover", objectPosition: "center top", opacity: hovered && img2 ? 0 : 1, transition: "opacity .3s" }}
                                 sizes="(max-width: 640px) 50vw, 20vw"

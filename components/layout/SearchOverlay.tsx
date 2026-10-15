@@ -1,4 +1,5 @@
 "use client";
+import { categoryPath } from "@/lib/seo-urls";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
@@ -340,7 +341,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </p>
                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                                         {colA.map((cat, i) => (
-                                            <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={`/category/${cat.slug}`} />
+                                            <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={categoryPath(cat.slug)} />
                                         ))}
                                         <AccentRow rank={colA.length + 1} label="New Drops" href="/new-in" bg="#111" accent="#fff" />
                                         <AccentRow rank={colA.length + 2} label="MissusDeals" href="/sale" bg="#7F0E12" accent="#fff" />
@@ -354,7 +355,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                                     </p>
                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                                         {colB.map((cat, i) => (
-                                            <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={`/category/${cat.slug}`} />
+                                            <ThumbRow key={cat.slug} rank={i + 1} slug={cat.slug} name={cat.name} image={cat.image} href={categoryPath(cat.slug)} />
                                         ))}
                                         <AccentRow rank={colB.length + 1} label="Athleisure" href="/category/athleisure-loungewear" bg="#1a1a2e" accent="#fff" />
                                         <AccentRow rank={colB.length + 2} label="Gift Shop" href="/category/gift-shop" bg="#2d1b34" accent="#fff" />

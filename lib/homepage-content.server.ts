@@ -1,5 +1,8 @@
 ﻿import "server-only";
+import { canonicalLink } from "./seo-urls";
 import { cache } from "react";
+import { unstable_cache, revalidateTag } from "next/cache";
+import { connection } from "next/server";
 import { unstable_rethrow } from "next/navigation";
 import { HOMEPAGE_DEFAULTS, type HomepageContent } from "./homepage-content";
 import { API_ENDPOINTS, WP_HEADERS } from "./config";
@@ -77,6 +80,8 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
 // Surface read errors in the editor so defaults cannot silently overwrite saved content.
 export async function readHomepageContent(): Promise<HomepageContent> {
     const content = decodeContent((await getHomepagePost()).acf);
+    content.hero = content.hero.map(slide => ({ ...slide, cta: { ...slide.cta, href: canonicalLink(slide.cta.href) }, ...(slide.cta2 ? { cta2: { ...slide.cta2, href: canonicalLink(slide.cta2.href) } } : {}) }));
+    content.styleRadar = content.styleRadar.map(card => ({ ...card, href: canonicalLink(card.href) }));
 
     // Homepage cards historically stored their own ACF image URLs, while the
     // search overlay reads the live WooCommerce category image. Prefer the
@@ -92,10 +97,10 @@ export async function readHomepageContent(): Promise<HomepageContent> {
         return {
             ...content,
             categories: {
-                feature: { ...content.categories.feature, img: imageFor(content.categories.feature.href, content.categories.feature.img) },
+                feature: { ...content.categories.feature, img: imageFor(content.categories.feature.href, content.categories.feature.img), href: canonicalLink(content.categories.feature.href) },
                 grid: content.categories.grid.map((category) => ({
                     ...category,
-                    img: imageFor(category.href, category.img),
+                    img: imageFor(category.href, category.img), href: canonicalLink(category.href),
                 })),
             },
         };
@@ -123,12 +128,19 @@ export async function saveHomepageContent(content: HomepageContent): Promise<voi
     if (!saved.acf || Object.entries(acf).some(([key, value]) => saved.acf[key] !== value)) {
         throw new Error("WordPress did not retain all homepage changes. Check the homepage ACF fields and enable Show in REST API.");
     }
+    revalidateTag("homepage-content", "max");
 }
 
-// Memoize within a render so the layout and page share one read, without stale storage.
+const readCachedHomepage = unstable_cache(readHomepageContent,
+    ["missus-homepage-v1", API_ENDPOINTS.wordpress.core],
+    { revalidate: 60, tags: ["homepage-content"] });
+
+// Preserve request-time rendering while sharing persistent last-successful CMS
+// data. Defaults apply only when no successful homepage read has been cached.
 export const getHomepageContent = cache(async (): Promise<HomepageContent> => {
+    await connection();
     try {
-        return await readHomepageContent();
+        return await readCachedHomepage();
     } catch (error) {
         // Let Next.js handle rendering control flow before applying the WordPress fallback.
         unstable_rethrow(error);

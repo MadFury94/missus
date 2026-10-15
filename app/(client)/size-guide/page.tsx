@@ -1,10 +1,10 @@
+import { generatePageMetadata } from "@/lib/seo-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-    title: "Size Guide — Missus",
-    description: "Find your perfect fit with the Missus size guide for dresses, tops, bottoms and sets.",
-};
+export function generateMetadata(): Metadata {
+    return generatePageMetadata({ title: "Women's Clothing Size Guide", description: "Find your fit with the Missus Outfits size guide. Check measurements before choosing dresses, matching sets, tops and bottoms.", path: "/size-guide" });
+}
 
 const SIZES = [
     { size: "XS", uk: "6", us: "2", eu: "34", bust: "80–83", waist: "60–63", hips: "86–89" },

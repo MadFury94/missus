@@ -1,3 +1,6 @@
+import { productDescription } from "./product-seo";
+import { categoryPath } from "./seo-urls";
+import { normalizeStockStatus } from "./stock-status";
 import { SITE_URL } from "@/lib/config";
 import { BRAND_CONFIG } from "@/lib/brand-config";
 import type { StoreProduct, StoreCategory } from "@/lib/woocommerce";
@@ -11,8 +14,8 @@ export function getOrganizationSchema() {
         name: BRAND_CONFIG.name,
         description: BRAND_CONFIG.description,
         url: SITE_URL,
-        logo: `${SITE_URL}/logo.png`,
-        image: `${SITE_URL}/og-image.jpg`,
+        logo: `${SITE_URL}/missus-logo.webp`,
+        image: `${SITE_URL}/Desktop%20view%201.jpg`,
         sameAs: [BRAND_CONFIG.social.instagram, BRAND_CONFIG.social.twitter, BRAND_CONFIG.social.facebook, BRAND_CONFIG.social.tiktok],
         address: {
             "@type": "PostalAddress",
@@ -77,8 +80,8 @@ export function getProductSchema(product: StoreProduct) {
         "@context": "https://schema.org",
         "@type": "Product",
         name: cleanProductName,
-        description: cleanShortDesc || cleanDesc,
-        image: product.images?.[0]?.src || "",
+        description: productDescription(product),
+        image: product.images?.map(image => image.src) || [],
         sku: product.sku || product.id.toString(),
         brand: {
             "@type": "Brand",
@@ -86,19 +89,18 @@ export function getProductSchema(product: StoreProduct) {
         },
         offers: {
             "@type": "Offer",
-            price: product.prices?.price ? (parseInt(product.prices.price) / 100).toString() : "0",
+            price: product.prices?.price ? (Number(product.prices.price) / 10 ** (product.prices.currency_minor_unit ?? 2)).toString() : "0",
             priceCurrency: "NGN",
-            availability: product.stock_status === "onbackorder"
+            availability: normalizeStockStatus(product.stock_status, product.is_in_stock) === "onbackorder"
                 ? "https://schema.org/BackOrder"
-                : product.stock_status === "outofstock"
+                : normalizeStockStatus(product.stock_status, product.is_in_stock) === "outofstock"
                     ? "https://schema.org/OutOfStock"
                     : "https://schema.org/InStock",
             seller: {
                 "@type": "Organization",
                 name: BRAND_CONFIG.name
             },
-            url: `${baseUrl}/product/${product.slug}`,
-            priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            url: `${baseUrl}/product/${product.slug}`
         },
         category: product.categories?.[0]?.name || "Fashion",
         url: `${baseUrl}/product/${product.slug}`
@@ -116,7 +118,7 @@ export function getCollectionPageSchema(category: StoreCategory, products: Store
         "@type": "CollectionPage",
         name: `${cleanName} - ${BRAND_CONFIG.name}`,
         description: cleanDesc || `Shop ${cleanName} collection at ${BRAND_CONFIG.name}`,
-        url: `${baseUrl}/category/${category.slug}`,
+        url: `${baseUrl}${categoryPath(category.slug)}`,
         mainEntity: {
             "@type": "ItemList",
             numberOfItems: products.length,
@@ -130,7 +132,7 @@ export function getCollectionPageSchema(category: StoreCategory, products: Store
                     image: product.images?.[0]?.src,
                     offers: {
                         "@type": "Offer",
-                        price: product.prices?.price ? (parseInt(product.prices.price) / 100).toString() : "0",
+                        price: product.prices?.price ? (Number(product.prices.price) / 10 ** (product.prices.currency_minor_unit ?? 2)).toString() : "0",
                         priceCurrency: "NGN"
                     }
                 }
@@ -163,8 +165,8 @@ export function getLocalBusinessSchema() {
         name: BRAND_CONFIG.name,
         description: BRAND_CONFIG.description,
         url: SITE_URL,
-        logo: `${SITE_URL}/logo.png`,
-        image: `${SITE_URL}/og-image.jpg`,
+        logo: `${SITE_URL}/missus-logo.webp`,
+        image: `${SITE_URL}/Desktop%20view%201.jpg`,
         priceRange: "₦₦-₦₦₦",
         address: {
             "@type": "PostalAddress",

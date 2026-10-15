@@ -39,7 +39,7 @@ export default function HeroBanner() {
                     <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#000", color: "#fff", padding: "13px 28px", fontSize: "13px" }}>
                         Shop Women
                     </Link>
-                    <Link href="/category/whats-new" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#fff", color: "#000", padding: "13px 28px", fontSize: "13px", border: "1.5px solid #000" }}>
+                    <Link href="/new-in" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", background: "#fff", color: "#000", padding: "13px 28px", fontSize: "13px", border: "1.5px solid #000" }}>
                         What&apos;s New
                     </Link>
                 </div>

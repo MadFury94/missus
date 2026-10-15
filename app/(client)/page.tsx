@@ -11,39 +11,28 @@ import ReviewsSection from "@/components/home/ReviewsSection";
 import AppDownloadBanner from "@/components/home/AppDownloadBanner";
 import NewsletterBar from "@/components/home/NewsletterBar";
 import StructuredData from "@/components/seo/StructuredData";
-import { getLocalBusinessSchema } from "@/lib/structured-data";
-import DynamicTitle from "@/components/layout/DynamicTitle";
+import { getOrganizationSchema, getWebsiteSchema } from "@/lib/structured-data";
+
 import type { Metadata } from "next";
-import { generatePageMetadata } from "@/lib/seo-config";
+import { HOME_TITLE, HOME_DESCRIPTION, generatePageMetadata } from "@/lib/seo-config";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = generatePageMetadata({
-  title: "Missus - Premium Women's Fashion & Contemporary Style",
-  description: "Discover premium women's fashion at Missus Nigeria. Shop curated collections of dresses, matching sets, tops, and contemporary styles. Free shipping on orders over ₦50,000. Your destination for trendy, affordable fashion.",
-  keywords: [
-    "women's fashion Nigeria",
-    "premium dresses Lagos",
-    "contemporary fashion",
-    "trendy outfits Nigeria",
-    "designer clothing online",
-    "fashion boutique Nigeria",
-    "women's designer wear",
-    "stylish clothing Lagos",
-    "online fashion store Nigeria",
-    "luxury women's fashion"
-  ],
-  path: "/",
-});
+export function generateMetadata(): Metadata {
+  return generatePageMetadata({ title: HOME_TITLE, description: HOME_DESCRIPTION, path: "/" });
+}
 
 export default async function HomePage() {
   const content = await getHomepageContent();
 
   return (
     <>
-      <DynamicTitle enabled={true} />
-      <StructuredData schema={getLocalBusinessSchema()} />
+      <StructuredData schema={[getOrganizationSchema(), getWebsiteSchema()]} />
       <HeroSlideshow slides={content.hero} />
+      <section style={{ maxWidth: 960, margin: "0 auto", padding: "32px 20px", lineHeight: 1.7 }}>
+        <h1 style={{ fontSize: "clamp(26px, 4vw, 40px)", marginBottom: 16 }}>Affordable Women's Fashion in Nigeria</h1>
+        <p>Meet Missus Outfits, your destination for trendy, affordable women's fashion in Nigeria. Discover dresses for your next outing, matching sets that make getting ready easy, and tops and bottoms you can mix your way. From busy weekdays in Lagos to weekend plans in Abuja or Port Harcourt, find outfits that fit your style and your budget. Explore our athleisure and loungewear for relaxed days, browse the Gift Shop for a thoughtful treat, or discover fresh finds in the sale. Shop your favourites online and enjoy free shipping on orders ₦150,000+.</p>
+      </section>
       <MarqueeStrip items={content.marquee} />
       <TrendReportCards cards={content.styleRadar} />
       <VideoSection />

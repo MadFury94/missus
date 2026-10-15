@@ -1,10 +1,10 @@
+import { generatePageMetadata } from "@/lib/seo-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-    title: "Shipping Info — Missus",
-    description: "Shipping rates, delivery times, and everything you need to know about getting your Missus order.",
-};
+export function generateMetadata(): Metadata {
+    return generatePageMetadata({ title: "Shipping and Delivery in Nigeria", description: "Check Missus Outfits delivery information and shipping rates in Nigeria. Free shipping on orders ₦150,000+.", path: "/shipping" });
+}
 
 export default function ShippingPage() {
     return (

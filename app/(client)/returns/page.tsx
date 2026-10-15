@@ -1,10 +1,10 @@
+import { generatePageMetadata } from "@/lib/seo-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-    title: "Returns & Refunds — Missus",
-    description: "Our returns and refund policy. Easy 7-day returns on eligible items.",
-};
+export function generateMetadata(): Metadata {
+    return generatePageMetadata({ title: "Returns and Exchanges", description: "Read the Missus Outfits returns and exchanges policy before shopping for your next outfit.", path: "/returns" });
+}
 
 export default function ReturnsPage() {
     return (

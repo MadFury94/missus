@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientShell from "@/components/layout/ClientShell";
-import { SITE_NAME, SITE_URL } from "@/lib/config";
+
 import { getHomepageContent } from "@/lib/homepage-content.server";
 import { DEFAULT_METADATA } from "@/lib/seo-config";
-import StructuredData from "@/components/seo/StructuredData";
-import { getOrganizationSchema, getWebsiteSchema } from "@/lib/structured-data";
+
+
 
 // Fix Unicode character encoding globally
 export const charset = "utf-8";
 
 export const metadata: Metadata = {
   ...DEFAULT_METADATA,
-  title: {
-    default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
-  },
   icons: {
     icon: [{ url: "/IMG_4389.PNG", type: "image/png" }],
     shortcut: "/IMG_4389.PNG",
@@ -36,8 +32,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <StructuredData schema={[getOrganizationSchema(), getWebsiteSchema()]} />
-        <link rel="canonical" href={SITE_URL} />
         <meta name="theme-color" content="#000000" />
         <meta name="msapplication-TileColor" content="#000000" />
         {/* Preconnect to external domains */}

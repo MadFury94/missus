@@ -142,7 +142,7 @@ export default function Footer() {
                             {BRAND_CONFIG.shortDescription}
                         </p>
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                            {SOCIALS.map((s) => (
+                            {SOCIALS.filter(s => s.href).map((s) => (
                                 <a
                                     key={s.key}
                                     href={s.href}

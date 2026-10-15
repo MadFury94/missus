@@ -66,7 +66,7 @@ export default function AppDownloadBanner() {
                 <div className="app-phones">
                     {APP_IMGS.map((src, i) => (
                         <div key={i} style={{ aspectRatio: "9/16", position: "relative", overflow: "hidden", border: "1px solid #333", borderRadius: "12px", marginTop: i === 1 ? "24px" : 0 }}>
-                            <Image src={src} alt="Missus" fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 45vw, 20vw" />
+                            <Image src={src} alt={`Missus Outfits fashion lookbook, look ${i + 1}`} fill style={{ objectFit: "cover", objectPosition: "top" }} sizes="(max-width: 768px) 45vw, 20vw" />
                             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 70%, rgba(0,0,0,.6) 100%)" }} />
                         </div>
                     ))}

@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import Link from "next/link";
-import { IS_DEMO_STORE } from "@/lib/store-config";
 
 interface Slide {
     src: string;
@@ -24,7 +23,7 @@ const SLIDES: Slide[] = [
         heading: "Made for\nHer.",
         sub: "Trend-forward, affordable fashion for the modern Nigerian girl.",
         cta: { label: "Shop Now", href: "/shop" },
-        cta2: { label: "What's New", href: "/category/whats-new" },
+        cta2: { label: "What's New", href: "/new-in" },
     },
     {
         src: "/Desktop view 3.WEBP",
@@ -56,16 +55,7 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
     const [sliding, setSliding] = useState(false);
     const [direction, setDirection] = useState<"left" | "right">("left");
     const [paused, setPaused] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    // Detect mobile screen size
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-        checkMobile();
-        window.addEventListener("resize", checkMobile);
-        return () => window.removeEventListener("resize", checkMobile);
-    }, []);
 
     const goTo = useCallback((idx: number, dir?: "left" | "right") => {
         if (sliding || idx === current) return;
@@ -91,8 +81,7 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
     }, [current, paused, next]);
 
     return (
-        <Link
-            href="/shop"
+        <div
             style={{
                 display: "block",
                 textDecoration: "none",
@@ -150,8 +139,9 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                         if (isPrev) animName = direction === "left" ? "slideOutToLeft" : "slideOutToRight";
                     }
 
-                    // Use mobile image if available and on mobile, otherwise use desktop image
-                    const imageSrc = (isMobile && s.mobileSrc) ? s.mobileSrc : s.src;
+                    const common = { alt: s.alt || `Missus Outfits ${s.heading.replace(/\n/g, " ")} fashion collection`, fill: true, sizes: "100vw", loading: i === 0 ? "eager" as const : "lazy" as const, fetchPriority: i === 0 ? "high" as const : "auto" as const, style: { objectFit: "cover" as const, objectPosition: "center top" } };
+                    const { props: desktop } = getImageProps({ ...common, src: s.src });
+                    const { props: mobile } = getImageProps({ ...common, src: s.mobileSrc || s.src });
 
                     return (
                         <div
@@ -165,15 +155,10 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                                     : "none",
                             }}
                         >
-                            <Image
-                                src={imageSrc}
-                                alt={s.alt || ""}
-                                fill
-                                style={{ objectFit: "cover", objectPosition: "center top" }}
-                                sizes="(max-width: 768px) 100vw, 100vw"
-                                loading={i === 0 ? "eager" : "lazy"}
-                                priority={i === 0}
-                            />
+                            <picture>
+                                <source media="(max-width: 768px)" srcSet={mobile.srcSet || mobile.src} sizes="100vw" />
+                                <img {...desktop} />
+                            </picture>
                         </div>
                     );
                 })}
@@ -197,11 +182,11 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                             {slides[current].label}
                         </p>
                     )}
-                    <h1 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(56px,9vw,120px)", fontWeight: 700, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.88, marginBottom: "20px", whiteSpace: "pre-line", textShadow: "0 2px 8px rgba(0,0,0,0.4), 0 0 15px rgba(0,0,0,0.2)" }}>
+                    <h2 style={{ fontFamily: "var(--font-display, 'Cormorant', serif)", fontSize: "clamp(56px,9vw,120px)", fontWeight: 700, letterSpacing: "-.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.88, marginBottom: "20px", whiteSpace: "pre-line", textShadow: "0 2px 8px rgba(0,0,0,0.4), 0 0 15px rgba(0,0,0,0.2)" }}>
                         {slides[current].heading.split("\n").map((line, i) => (
                             <span key={i} style={{ display: "block" }}>{line}</span>
                         ))}
-                    </h1>
+                    </h2>
                     <p style={{ fontSize: "14px", color: "rgba(255,255,255,.9)", fontWeight: 300, marginBottom: "32px", maxWidth: "480px", lineHeight: 1.65, textShadow: "0 1px 3px rgba(0,0,0,0.3)" }}>
                         {slides[current].sub}
                     </p>
@@ -231,6 +216,6 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                     ))}
                 </div>
             </div>
-        </Link>
+        </div>
     );
 }

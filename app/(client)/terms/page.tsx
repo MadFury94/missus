@@ -1,10 +1,10 @@
+import { generatePageMetadata } from "@/lib/seo-config";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-    title: "Terms of Service — Missus",
-    description: "Terms and conditions for shopping with Missus Outfits.",
-};
+export function generateMetadata(): Metadata {
+    return generatePageMetadata({ title: "Terms of Service", description: "Read the terms of service for shopping online with Missus Outfits Nigeria.", path: "/terms" });
+}
 
 export default function TermsPage() {
     return (

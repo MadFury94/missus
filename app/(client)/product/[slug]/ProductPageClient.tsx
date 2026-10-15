@@ -1,4 +1,6 @@
 "use client";
+import { categoryPath } from "@/lib/seo-urls";
+import { productImageAlt } from "@/lib/product-seo";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -324,7 +326,7 @@ export default function ProductPageClient({ params, product, related }: {
                     {breadcrumb && (
                         <>
                             <span>/</span>
-                            <Link href={`/category/${breadcrumb.slug}`} style={{ color: "#999", textTransform: "capitalize" }}>{breadcrumb.name}</Link>
+                            <Link href={categoryPath(breadcrumb.slug)} style={{ color: "#999", textTransform: "capitalize" }}>{breadcrumb.name}</Link>
                         </>
                     )}
                     <span>/</span>
@@ -365,7 +367,7 @@ export default function ProductPageClient({ params, product, related }: {
                             <Image
                                 key={selectedImageIndex}
                                 src={images[selectedImageIndex].src}
-                                alt={images[selectedImageIndex].alt || product.name}
+                                alt={productImageAlt(product, selectedImageIndex)}
                                 fill
                                 // Product photos come from WordPress with mixed aspect ratios.
                                 // Contain keeps the complete garment visible instead of cropping
@@ -373,7 +375,7 @@ export default function ProductPageClient({ params, product, related }: {
                                 style={{ objectFit: "contain", objectPosition: "center center" }}
                                 loading={selectedImageIndex === 0 ? "eager" : "lazy"}
                                 sizes="(max-width: 900px) 100vw, 55vw"
-                                priority={selectedImageIndex === 0}
+                                fetchPriority={selectedImageIndex === 0 ? "high" : "auto"}
                             />
                         )}
 
@@ -605,7 +607,7 @@ export default function ProductPageClient({ params, product, related }: {
                                 Lagos: same-day · Nationwide: 2–5 days
                             </p>
                             <p style={{ fontSize: "12px", color: "#888" }}>
-                                Free shipping on orders over ₦150,000
+                                Free shipping on orders ₦150,000+
                             </p>
                         </div>
                     </div>
@@ -673,7 +675,7 @@ export default function ProductPageClient({ params, product, related }: {
                                 You May Also Like
                             </h2>
                             {breadcrumb && (
-                                <Link href={`/category/${breadcrumb.slug}`} style={{ fontSize: "11px", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1px solid #000", paddingBottom: "1px" }}>
+                                <Link href={categoryPath(breadcrumb.slug)} style={{ fontSize: "11px", fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#000", textDecoration: "none", borderBottom: "1px solid #000", paddingBottom: "1px" }}>
                                     Shop {breadcrumb.name}
                                 </Link>
                             )}
@@ -719,7 +721,7 @@ export default function ProductPageClient({ params, product, related }: {
                 }}>
                     <Image
                         src={product.images[0]?.src || "/placeholder.jpg"}
-                        alt={product.name}
+                        alt={productImageAlt(product)}
                         width={48}
                         height={48}
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}

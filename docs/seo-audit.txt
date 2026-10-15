@@ -1,0 +1,126 @@
+MISSUS SEO AUDIT AND HANDOFF
+Branch: missus
+
+Implemented
+- Fixed public SEO origin to https://www.missusoutfits.com, independent of stale NEXT_PUBLIC_SITE_URL values.
+- Removed the manually injected homepage canonical from the root layout. Canonicals now belong to their routes, including public information pages.
+- Consolidated duplicate collection routes and normalized static navigation, product breadcrumbs, search-overlay categories and homepage CMS links.
+- Removed utility URLs, alias URLs, fabricated build-time lastmod, priority and changefreq from the sitemap. Paginated the catalog beyond the former 200-product cap and excluded hidden products.
+- Product lastmod comes from WooCommerce date_modified_gmt, the UTC version of date_modified. Invalid dates are omitted. Static pages/categories have no invented dates.
+- Sitemap reads use existing WC_CONSUMER_KEY and WC_CONSUMER_SECRET on the server. The complete validated catalog snapshot is stored in the Next Data Cache for one hour. A failed refresh throws and preserves the last successful snapshot, so stale-while-revalidate serves the previous complete sitemap and retries later. Empty, malformed, duplicate or incomplete page responses are rejected.
+- Product pages are pre-seeded from the complete catalog at build time and each successful product is stored in the Next Data Cache for 60 seconds. Strict validation rejects timeouts, non-2xx responses and malformed data, preserving the last cached product while Next retries. A cold-cache outage fails the build/request rather than publishing a fabricated product page.
+- Googlebot inherits the allow rule. Removed Host and the blanket query block so crawlers can read clean canonicals on facet, filter, sort and page query URLs.
+- Added unique homepage and collection metadata, complete OG/Twitter large-image tags, product name/type title templates and data-based descriptions. Removed emitted meta keywords and misleading luxury/designer positioning in the changed metadata.
+- Homepage title is Women's Fashion Online in Nigeria | Missus Outfits. Shipping copy uses the 150,000 NGN threshold.
+- Homepage has one keyword-focused H1 and a 90-word visible intro. Collection intros are 100 to 150 words and editable in lib/category-seo.ts. Existing collection H1s and grids remain.
+- Homepage New In products are fetched server-side. ProductCard still supports its existing client interactions and renders real anchors, names and NGN prices before hydration.
+- Added or retained Organization, WebSite with SearchAction, BreadcrumbList and Product JSON-LD. Removed the homepage's placeholder local-business markup and invented rolling offer expiry. No hardcoded testimonials are marked up as reviews or ratings.
+- JSON-LD escapes less-than signs to protect the script boundary when using catalog content.
+- Fixed an existing unused import of a missing store-config module in the hero and the existing product-tag route's synchronous params access for Next 16.
+
+Every redirect added (301)
+1. https://missusoutfits.com/:path* -> https://www.missusoutfits.com/:path*
+2. /category/shop-all -> /shop
+3. /category/whats-new -> /new-in
+4. /category/discount-sale -> /sale
+Query strings are preserved. A non-www alias request can take two hops, first host then path. Canonical-host URLs do not loop. Hosting/CDN redirects must agree with this direction.
+The existing /product-tag/[slug] temporary redirect to /shop?tag=... remains temporary; no new tag redirect was added.
+
+Currency and WhatsApp
+- Currency switching uses React state plus localStorage key missus_currency, never URL paths or query parameters. It creates no separate crawlable currency URLs. Initial rendering and schema stay in NGN.
+- The WhatsApp fallback 2348012345678 was a placeholder. Removed that fallback and hide empty WhatsApp links in footer/mobile navigation. Set NEXT_PUBLIC_SOCIAL_WHATSAPP to the verified business wa.me link and rebuild. No business phone number was invented or independently verified.
+
+Images and performance
+- Existing desktop hero/social image: public/Desktop view 1.jpg, 2048 x 1152, 169,073 bytes. Metadata references this real asset instead of missing og-image.jpg/twitter-image.jpg. No new image asset is needed.
+- Other desktop hero WebP files: 173,335 and 183,228 bytes. Mobile hero WebP files: 177,486 to 199,903 bytes. Lookbook WebP images are 1152 x 2048.
+- Product cards and product gallery use next/image with responsive sizes and reserved aspect ratios. Lower-page images use default lazy loading. Decorative alternate images remain empty-alt intentionally; product images use supplied descriptive alt text or product name/type/colour fallbacks.
+- The hero now uses getImageProps plus picture/source so the browser selects mobile artwork before hydration, avoiding a desktop-first image swap. Its first image is eager with high fetch priority. Later slides are lazy. Removed nested hero anchors while keeping the CTA links.
+- Main product image uses eager/high fetch priority instead of deprecated priority. First hero and main product photo are LCP candidates, not measured field LCP findings.
+- The environment used for this audit set NEXT_PUBLIC_UNOPTIMIZED_IMAGES=true. Production now ignores that development-only bypass and serves optimized WebP images. Verify WordPress images are reachable by the production image optimizer.
+- Largest inspected local assets: missus.home.png 1,928,036 bytes and missus-video.MP4 3,479,637 bytes. Presence on disk does not prove transfer on every page. VideoSection uses preload=metadata and IntersectionObserver play/pause. Image optimization does not transcode this video.
+- During the final HTTP run, some WordPress homepage-settings requests hit the existing 12-second timeout and used local content defaults. Homepage content is now wrapped in a tagged 60-second Next Data Cache entry, so the last successful CMS content is served during stale revalidation. Product API and sitemap requests succeeded. This upstream latency can still affect a cold homepage cache; investigate the homepage ACF endpoint separately.
+- No Lighthouse, mobile field CWV, full remote image transfer-size survey or CDN cache measurements are claimed. Check those after deployment.
+
+Validation
+- Production build passed with real WooCommerce access. Initial sandbox-only build failed because network access was denied; rerunning with approved network access succeeded.
+- Final production build also logged a CMS timeout while revalidating the catalog snapshot, continued generating all 147 static pages, and exited 0. That is the expected stale-cache behavior: the prior successful cache was retained while the failed refresh was retried.
+- node tests/seo.test.cjs: passed metadata/copy limits, canonical aliases, 301 configuration, product schema/stock/price, real-date parsing, three-page sitemap pagination, API failure handling, exclusions and actual React server rendering of product name/price/anchor.
+- node tests/seo-http.cjs http://localhost:3012: verified all four redirects, canonical query removal, 200 responses, one H1 per sampled page, JSON-LD and no meta keywords. Sampled homepage, dresses, shop, new-in, sale, a real product, FAQ and shipping.
+- WooCommerce returned exactly 46 published, visible products. Both gift products are included: /product/gift-card and /product/missus-gift-box, with date_modified_gmt values. The /gift-cards landing page is now in the sitemap; /gift-card-balance remains excluded and noindexed as a utility page. Counts naturally change with the catalog.
+- The current public deployment was also checked before this change is deployed: it has 74 sitemap URLs and 46 product URLs, but still includes /gift-card-balance and does not include /gift-cards. That confirms the public sitemap is from the old deployment; recheck after deploying this branch.
+- Homepage response contained eight product anchors before client JavaScript.
+- Final production image checks passed: the 1080px hero returned HTTP 200 image/webp at 40,480 bytes, and a sampled remote product image returned HTTP 200 image/webp at 40,936 bytes. The production build confirms unoptimized=false.
+- Scoped TypeScript check found no errors in changed SEO code. Existing errors remain in app/api/payment/order-by-ref/route.ts (auth), lib/paid-order.ts (api) and lib/product-stock.ts (unknown response types). The full repo check also picks up unrelated ai-diagnostic-bridge sources and stale generated types from the prior branch. Existing ignoreBuildErrors remains unchanged, so build success is not a clean full-repo type check.
+- The unrelated ai-diagnostic-bridge directory was not edited. Temporary type-check configuration/log files were removed.
+
+Deployment and Google Search Console checklist
+[ ] Deploy the missus branch changes and verify the host/CDN redirects do not conflict with Next redirects.
+[ ] Set the verified WhatsApp environment value if the button should be shown. Review CMS shipping/brand copy and edit the category intro placeholders.
+[ ] In Vercel settings, make www.missusoutfits.com the primary production domain and keep missusoutfits.com as a redirect domain. Public checks currently show 308 apex -> www and 200 on www. The code redirect only matches apex, so it does not loop with Vercel. Confirm both after deployment.
+[ ] Confirm the deployed sitemap returns 200 and contains only canonical www URLs, valid product modification dates and no disallowed utility URLs.
+[ ] Submit https://www.missusoutfits.com/sitemap.xml in Search Console using the www URL-prefix property or domain property. Remove obsolete sitemap submissions after the new one is accepted.
+[ ] Inspect homepage, /shop, /new-in, /sale, /category/dresses and a real product using Test Live URL. Confirm one canonical, rendered content, indexability and the declared canonical. After recrawl, check Google's selected canonical.
+[ ] Inspect each old category alias and the non-www homepage. Confirm permanent redirects to the intended destinations. Keep the redirects deployed.
+[ ] Inspect representative ?orderby=price, ?filter_color=black and ?page=2 URLs. Confirm they are crawlable and declare the clean collection canonical.
+[ ] Run Google's Rich Results Test on a product and category URL. Check Product offers, NGN price, stock availability and breadcrumbs. Validate Organization/WebSite with Schema.org Validator as needed; SearchAction does not promise a Google search-box enhancement.
+[ ] Request indexing of the key canonical pages after live inspection. Monitor sitemap processing, Page indexing, product enhancements and Core Web Vitals over subsequent crawls.
+[ ] Check mobile PageSpeed Insights/Lighthouse, the first hero request, product image response formats/sizes and image optimizer 200 responses. Confirm lazy-loaded images below the fold and no mobile desktop-image double download.
+
+Implementation references
+- Installed Next 16.2.2 guides under node_modules/next/dist/docs: generate-metadata, sitemap, robots, redirects and image.
+- WooCommerce product fields: https://developer.woocommerce.com/docs/apis/rest-api/v3/products
+- Store API category filtering: https://developer.woocommerce.com/docs/apis/store-api/resources-endpoints/products/
+
+Every file touched (persistent changes)
+- app/(client)/about/page.tsx
+- app/(client)/account/login/page.tsx
+- app/(client)/account/page.tsx
+- app/(client)/account/register/page.tsx
+- app/(client)/careers/layout.tsx
+- app/(client)/category/[slug]/CategoryPageClient.tsx
+- app/(client)/category/[slug]/page.tsx
+- app/(client)/contact/page.tsx
+- app/(client)/faq/layout.tsx
+- app/(client)/gift-card-balance/layout.tsx
+- app/(client)/new-in/page.tsx
+- app/(client)/newsletter/layout.tsx
+- app/(client)/page.tsx
+- app/(client)/privacy/page.tsx
+- app/(client)/product-tag/[slug]/page.tsx
+- app/(client)/product/[slug]/ProductPageClient.tsx
+- app/(client)/product/[slug]/page.tsx
+- app/(client)/returns/page.tsx
+- app/(client)/sale/page.tsx
+- app/(client)/search/page.tsx
+- app/(client)/shipping/page.tsx
+- app/(client)/shop/page.tsx
+- app/(client)/size-guide/page.tsx
+- app/(client)/terms/page.tsx
+- app/(client)/track/layout.tsx
+- app/layout.tsx
+- app/robots.ts
+- app/sitemap.ts
+- components/home/AppDownloadBanner.tsx
+- components/home/HeroBanner.tsx
+- components/home/HeroSlideshow.tsx
+- components/home/NewInSection.tsx
+- components/layout/Footer.tsx
+- components/layout/MobileMenu.tsx
+- components/layout/SearchOverlay.tsx
+- components/product/ProductCard.tsx
+- components/seo/CollectionIntro.tsx
+- components/seo/StructuredData.tsx
+- docs/seo-audit.txt
+- lib/brand-config.ts
+- lib/category-seo.ts
+- lib/config.ts
+- lib/homepage-content.server.ts
+- lib/homepage-content.ts
+- lib/product-seo.ts
+- lib/seo-config.ts
+- lib/seo-urls.ts
+- lib/sitemap-data.ts
+- lib/structured-data.ts
+- next.config.ts
+- tests/seo-http.cjs
+- tests/seo.test.cjs

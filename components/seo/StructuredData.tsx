@@ -7,7 +7,7 @@ export default function StructuredData({ schema }: StructuredDataProps) {
         <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-                __html: JSON.stringify(Array.isArray(schema) ? schema : [schema])
+                __html: JSON.stringify(Array.isArray(schema) ? schema : [schema]).replace(/</g, "\\u003c")
             }}
         />
     );
@@ -19,7 +19,7 @@ export function MultipleStructuredData({ schemas }: { schemas: Array<Record<stri
         <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-                __html: JSON.stringify(schemas)
+                __html: JSON.stringify(schemas).replace(/</g, "\\u003c")
             }}
         />
     );

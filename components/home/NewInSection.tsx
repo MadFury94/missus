@@ -1,20 +1,8 @@
-"use client";
-import { useEffect, useState } from "react";
-import type { StoreProduct } from "@/lib/woocommerce";
+import { getProducts } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
-import ProductSkeleton from "@/components/product/ProductSkeleton";
 
-export default function NewInSection() {
-    const [products, setProducts] = useState<StoreProduct[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetch("/api/products?category=whats-new&per_page=8&orderby=date&order=desc")
-            .then((r) => r.ok ? r.json() : null)
-            .then((data) => { if (data?.products) setProducts(data.products); })
-            .catch(() => { })
-            .finally(() => setLoading(false));
-    }, []);
+export default async function NewInSection() {
+    const products = await getProducts({ category: "whats-new", perPage: 8, orderby: "date", order: "desc" });
 
     return (
         <>
@@ -43,10 +31,7 @@ export default function NewInSection() {
 
             <div className="newin-section-wrap">
                 <div className="grid-4">
-                    {loading
-                        ? Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
-                        : products.map((product) => <ProductCard key={product.id} product={product} />)
-                    }
+                    {products.map((product) => <ProductCard key={product.id} product={product} />)}
                 </div>
             </div>
         </>

@@ -1,7 +1,7 @@
 import { BRAND_CONFIG } from "./brand-config";
 
 export const SITE_NAME = BRAND_CONFIG.name;
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+export const SITE_URL = "https://www.missusoutfits.com";
 export const CURRENCY_SYMBOL = "₦";
 export const FREE_SHIPPING_THRESHOLD = 150000;
 
@@ -75,7 +75,7 @@ export const TOP_NAV = [
 ];
 
 export const SUB_NAV = [
-    { label: "What's New", href: "/category/whats-new", hot: true },
+    { label: "What's New", href: "/new-in", hot: true },
     { label: "Shop All", href: "/shop" },
     { label: "Dresses", href: "/category/dresses" },
     { label: "Matching Sets", href: "/category/matching-sets" },

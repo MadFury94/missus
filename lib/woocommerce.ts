@@ -2,19 +2,23 @@ import { API_ENDPOINTS, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
 
 // ── Fetch helper ──────────────────────────────────────────────────────────
 
-async function storeFetch<T>(path: string, revalidate = 60): Promise<T | null> {
+type StoreReadOptions = { strict?: boolean; uncached?: boolean };
+
+async function storeFetch<T>(path: string, revalidate = 60, options: StoreReadOptions = {}): Promise<T | null> {
     try {
         const res = await fetch(`${API_ENDPOINTS.woocommerce.store}${path}`, {
-            next: { revalidate },
+            ...(options.uncached ? { cache: "no-store" as const } : { next: { revalidate } }),
             headers: WP_HEADERS,
             signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
         });
         if (!res.ok) {
+            if (options.strict) throw new Error(`Store API error: ${res.status} ${path}`);
             console.warn(`Store API error: ${res.status} ${path}`);
             return null;
         }
-        return res.json() as Promise<T>;
+        return await res.json() as T;
     } catch (err) {
+        if (options.strict) throw err;
         console.warn("Store API fetch failed:", err);
         return null;
     }
@@ -132,8 +136,11 @@ export async function getProducts(params: {
     return data ?? [];
 }
 
-export async function getProduct(slug: string): Promise<StoreProduct | null> {
-    const data = await storeFetch<StoreProduct[]>(`/products?slug=${slug}`, 60);
+export async function getProduct(slug: string, options: StoreReadOptions = {}): Promise<StoreProduct | null> {
+    const data = await storeFetch<StoreProduct[]>(`/products?slug=${encodeURIComponent(slug)}`, 60, options);
+    if (options.strict && (!Array.isArray(data) || data.some(p => !p.id || !p.slug || !p.name || !p.prices || !Array.isArray(p.images)))) {
+        throw new Error("Invalid product response; retaining the last successful product.");
+    }
     const product = data?.[0] ?? null;
     if (!product) return null;
 
@@ -154,15 +161,21 @@ export async function getProduct(slug: string): Promise<StoreProduct | null> {
         const auth = Buffer.from(`${key}:${secret}`).toString("base64");
         const response = await fetch(`${API_ENDPOINTS.woocommerce.rest}/products/${product.id}`, {
             headers: { Authorization: `Basic ${auth}` },
-            next: { revalidate: 60 },
+            ...(options.uncached ? { cache: "no-store" as const } : { next: { revalidate: 60 } }),
             signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
         });
-        if (!response.ok) return product;
+        if (!response.ok) {
+            if (options.strict) throw new Error(`Product attributes request failed (${response.status}).`);
+            return product;
+        }
 
         const restProduct = await response.json() as {
             attributes?: { id: number; name: string; slug: string; variation: boolean; options: string[] }[];
         };
-        if (!Array.isArray(restProduct.attributes)) return product;
+        if (!Array.isArray(restProduct.attributes)) {
+            if (options.strict) throw new Error("Invalid product attributes response.");
+            return product;
+        }
 
         const attributes = restProduct.attributes.map((attribute) => ({
             id: attribute.id,
@@ -176,7 +189,8 @@ export async function getProduct(slug: string): Promise<StoreProduct | null> {
             })),
         }));
         return { ...product, attributes };
-    } catch {
+    } catch (error) {
+        if (options.strict) throw error;
         return product;
     }
 }

@@ -1,4 +1,5 @@
 "use client";
+import { getCategorySeo } from "@/lib/category-seo";
 import { useState, useEffect, useCallback } from "react";
 import type { StoreProduct, StoreCategory } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
@@ -167,19 +168,11 @@ export default function CategoryPageClient({
                     letterSpacing: "-.02em",
                     marginBottom: "12px"
                 }}>
-                    {label}
+                    {getCategorySeo(slug, label).heading}
                 </h1>
-                {category.description && (
-                    <p style={{
-                        fontSize: "15px",
-                        color: "#666",
-                        maxWidth: "600px",
-                        margin: "0 auto",
-                        lineHeight: 1.6
-                    }}
-                        dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(category.description) }}
-                    />
-                )}
+                <p style={{ fontSize: 15, color: "#666", maxWidth: 850, margin: "0 auto", lineHeight: 1.7 }}>
+                    {getCategorySeo(slug, label).intro}
+                </p>
             </div>
 
             <div className="category-layout">
