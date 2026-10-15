@@ -1,5 +1,5 @@
 import "server-only";
-import { API_ENDPOINTS, WP_FETCH_TIMEOUT, WP_HEADERS } from "./config";
+import { API_ENDPOINTS, PUBLIC_STORE_API, WP_FETCH_TIMEOUT, WP_HEADERS } from "./config";
 
 interface SitemapProduct {
     slug: string;
@@ -11,7 +11,7 @@ interface SitemapProduct {
 export async function getSitemapProducts(): Promise<SitemapProduct[]> {
     const key = process.env.WC_CONSUMER_KEY;
     const secret = process.env.WC_CONSUMER_SECRET;
-    if (!key || !secret) throw new Error("Sitemap requires WooCommerce read credentials for real modification dates.");
+    if (!key || !secret) return getPublicSitemapProducts();
     const products: SitemapProduct[] = [];
     let totalPages = 1;
     let fetched = 0;
@@ -42,6 +42,23 @@ export async function getSitemapProducts(): Promise<SitemapProduct[]> {
     return products;
 }
 
+async function getPublicSitemapProducts(): Promise<SitemapProduct[]> {
+    const products: SitemapProduct[] = [];
+    for (let page = 1; ; page++) {
+        const response = await fetch(`${PUBLIC_STORE_API}/products?per_page=100&page=${page}`, {
+            headers: WP_HEADERS, cache: "no-store", signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
+        });
+        if (!response.ok) throw new Error(`Public sitemap product request failed (${response.status}).`);
+        const batch = await response.json() as Array<{ slug?: string }>;
+        if (!Array.isArray(batch) || batch.some(p => !p.slug)) throw new Error("Invalid public sitemap product response.");
+        products.push(...batch.map(p => ({ slug: p.slug!, catalog_visibility: "visible" })));
+        const pages = response.headers.get("x-wp-totalpages");
+        if (pages ? page >= Number(pages) : batch.length < 100) break;
+    }
+    if (new Set(products.map(p => p.slug)).size !== products.length) throw new Error("Duplicate products in public sitemap snapshot.");
+    return products;
+}
+
 export function modificationDate(value?: string): string | undefined {
     if (!value) return undefined;
     const date = new Date(/(?:Z|[+-]\d\d:\d\d)$/.test(value) ? value : `${value}Z`);
@@ -54,7 +71,7 @@ export async function getSitemapCategories(): Promise<Array<{ slug: string; coun
         const response = await fetch(`${API_ENDPOINTS.woocommerce.store}/products/categories?per_page=100&page=${page}`, {
             headers: WP_HEADERS, cache: "no-store", signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
         });
-        if (!response.ok) throw new Error(`Sitemap category request failed (${response.status}).`);
+        if (!response.ok) return [];
         const batch: Array<{ slug: string; count: number }> = await response.json();
         if (!Array.isArray(batch) || batch.some(c => !c.slug || !Number.isInteger(c.count))) throw new Error("Invalid sitemap category response.");
         categories.push(...batch.filter(c => c.count > 0 && c.slug !== "uncategorized"));

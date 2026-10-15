@@ -1,4 +1,4 @@
-import { API_ENDPOINTS, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
+import { API_ENDPOINTS, PUBLIC_STORE_API, WP_HEADERS, WP_FETCH_TIMEOUT } from "./config";
 
 // ── Fetch helper ──────────────────────────────────────────────────────────
 
@@ -6,11 +6,18 @@ type StoreReadOptions = { strict?: boolean; uncached?: boolean };
 
 async function storeFetch<T>(path: string, revalidate = 60, options: StoreReadOptions = {}): Promise<T | null> {
     try {
-        const res = await fetch(`${API_ENDPOINTS.woocommerce.store}${path}`, {
+        const endpoints = [...new Set([API_ENDPOINTS.woocommerce.store, PUBLIC_STORE_API])];
+        let res: Response | undefined;
+        for (const endpoint of endpoints) {
+            const candidate = await fetch(`${endpoint}${path}`, {
             ...(options.uncached ? { cache: "no-store" as const } : { next: { revalidate } }),
             headers: WP_HEADERS,
             signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
-        });
+            });
+            res = candidate;
+            if (candidate.ok || candidate.status < 500) break;
+        }
+        if (!res) throw new Error(`Store API unavailable: ${path}`);
         if (!res.ok) {
             if (options.strict) throw new Error(`Store API error: ${res.status} ${path}`);
             console.warn(`Store API error: ${res.status} ${path}`);
@@ -164,18 +171,12 @@ export async function getProduct(slug: string, options: StoreReadOptions = {}): 
             ...(options.uncached ? { cache: "no-store" as const } : { next: { revalidate: 60 } }),
             signal: AbortSignal.timeout(WP_FETCH_TIMEOUT),
         });
-        if (!response.ok) {
-            if (options.strict) throw new Error(`Product attributes request failed (${response.status}).`);
-            return product;
-        }
+        if (!response.ok) return product;
 
         const restProduct = await response.json() as {
             attributes?: { id: number; name: string; slug: string; variation: boolean; options: string[] }[];
         };
-        if (!Array.isArray(restProduct.attributes)) {
-            if (options.strict) throw new Error("Invalid product attributes response.");
-            return product;
-        }
+        if (!Array.isArray(restProduct.attributes)) return product;
 
         const attributes = restProduct.attributes.map((attribute) => ({
             id: attribute.id,

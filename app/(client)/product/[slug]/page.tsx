@@ -3,7 +3,7 @@ import { categoryPath } from "@/lib/seo-urls";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getRelatedProducts } from "@/lib/woocommerce";
-import { getCachedProduct, warmProductCache } from "@/lib/catalog-cache.server";
+import { getCachedProduct } from "@/lib/catalog-cache.server";
 import ProductPageClient from "./ProductPageClient";
 import { generatePageMetadata } from "@/lib/seo-config";
 import StructuredData from "@/components/seo/StructuredData";
@@ -12,10 +12,6 @@ import { SITE_URL } from "@/lib/config";
 import { decodeHtmlEntities } from "@/lib/api-helpers";
 
 export const revalidate = 60;
-
-export async function generateStaticParams() {
-    return warmProductCache();
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;

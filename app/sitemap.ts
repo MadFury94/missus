@@ -4,7 +4,9 @@ import { categoryPath } from "@/lib/seo-urls";
 import { modificationDate } from "@/lib/sitemap-data";
 import { getCatalogSnapshot } from "@/lib/catalog-cache.server";
 
-export const revalidate = 3600;
+// Sitemap data is read from the cached catalog at request time. Avoid running
+// the CMS call during `next build`, where Vercel may not expose runtime envs.
+export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // One cached snapshot prevents a failed page/category fetch publishing a partial sitemap.
     const { categories, products } = await getCatalogSnapshot();

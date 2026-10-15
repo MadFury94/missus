@@ -64,6 +64,10 @@ export const SOCIAL_LINKS = {
     whatsapp: BRAND_CONFIG.social.whatsapp,
 };
 
+// The public storefront API is served from the public domain even when the
+// private WordPress REST host is a separate CMS subdomain.
+export const PUBLIC_STORE_API = "https://missusoutfits.com/wp-json/wc/store/v1";
+
 export const ANNOUNCEMENT = "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVALS EVERY WEEK  |  PAY ON DELIVERY AVAILABLE";
 
 export const TOP_NAV = [
