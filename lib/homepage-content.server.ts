@@ -64,12 +64,20 @@ function jsonObjectField<T extends object>(value: unknown, fallback: T): T {
 
 function decodeContent(acf: Record<string, unknown>): HomepageContent {
     const text = (key: string, fallback: string) => typeof acf[key] === "string" ? acf[key] as string : fallback;
+    const categories = jsonObjectField(acf.hp_categories, HOMEPAGE_DEFAULTS.categories);
     return {
         announcement: text("hp_announcement", HOMEPAGE_DEFAULTS.announcement),
         marquee: jsonField(acf.hp_marquee, HOMEPAGE_DEFAULTS.marquee),
         hero: jsonField(acf.hp_hero, HOMEPAGE_DEFAULTS.hero),
         styleRadar: jsonField(acf.hp_style_radar, HOMEPAGE_DEFAULTS.styleRadar),
-        categories: jsonObjectField(acf.hp_categories, HOMEPAGE_DEFAULTS.categories),
+        categories: {
+            ...HOMEPAGE_DEFAULTS.categories,
+            ...categories,
+            giftBox: {
+                ...HOMEPAGE_DEFAULTS.categories.giftBox,
+                ...(categories as Partial<HomepageContent["categories"]>).giftBox,
+            },
+        },
         newsletter: {
             heading: text("hp_nl_heading", HOMEPAGE_DEFAULTS.newsletter.heading),
             sub: text("hp_nl_sub", HOMEPAGE_DEFAULTS.newsletter.sub),

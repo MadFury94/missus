@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function GiftShopBanner() {
+const DEFAULT_GIFT_BOX_IMAGE = "/missus-giftbox.png";
+
+export default function GiftShopBanner({ images }: {
+    images?: { desktopSrc?: string; mobileSrc?: string };
+}) {
+    const desktopSrc = images?.desktopSrc?.trim() || DEFAULT_GIFT_BOX_IMAGE;
+    const mobileSrc = images?.mobileSrc?.trim();
+
     return (
         <Link
             href="/category/gift-shop"
@@ -86,15 +93,17 @@ export default function GiftShopBanner() {
                     aspectRatio: "1/1",
                     pointerEvents: "none",
                 }}>
-                    <Image
-                        src="/missus-giftbox.png"
-                        alt=""
-                        fill
-                        style={{ objectFit: "contain", objectPosition: "bottom right" }}
-                        sizes="(max-width: 768px) 60vw, 40vw"
-                        priority
-                        aria-hidden="true"
-                    />
+                    <picture>
+                        {mobileSrc && <source media="(max-width: 768px)" srcSet={mobileSrc} />}
+                        <Image
+                            src={desktopSrc}
+                            alt="Gift box from Missus"
+                            fill
+                            style={{ objectFit: "contain", objectPosition: "bottom right" }}
+                            sizes="(max-width: 768px) 60vw, 40vw"
+                            priority
+                        />
+                    </picture>
                 </div>
 
                 {/* Fade-in from left — keeps gifts from bleeding into text on small screens */}

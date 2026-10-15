@@ -36,7 +36,7 @@ export default async function HomePage() {
       <MarqueeStrip items={content.marquee} />
       <TrendReportCards cards={content.styleRadar} />
       <VideoSection />
-      <GiftShopBanner />
+      <GiftShopBanner images={content.categories.giftBox} />
       <CategoryGrid categories={content.categories} />
       <WideBanner />
       <NewInSection />

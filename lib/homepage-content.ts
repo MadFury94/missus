@@ -18,6 +18,7 @@ export interface HomepageContent {
     categories: {
         feature: { label: string; href: string; img: string };
         grid: { label: string; href: string; img: string }[];
+        giftBox: { desktopSrc: string; mobileSrc: string };
     };
     newsletter: {
         heading: string;
@@ -88,6 +89,7 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
                 img: "https://missusoutfits.com/wp-content/uploads/2026/03/Product-Photos-88.jpeg",
             },
         ],
+        giftBox: { desktopSrc: "", mobileSrc: "" },
     },
     newsletter: {
         heading: "Join Missus Girls Club",

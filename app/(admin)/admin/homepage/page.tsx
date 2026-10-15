@@ -309,6 +309,26 @@ export default function HomepageContentPage() {
                         </div>
                     </div>
 
+                    {/* Gift Shop Banner */}
+                    <div style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "16px", marginBottom: "16px", background: "var(--paper)" }}>
+                        <div style={{ marginBottom: "12px" }}>
+                            <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)" }}>Gift Box Banner Image</span>
+                            <p style={{ fontSize: "11px", color: "var(--stone)", margin: "4px 0 0" }}>Leave either field blank to keep the current Missus gift box image for that view.</p>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
+                            <ImageField
+                                label="Desktop Image URL"
+                                value={content.categories.giftBox?.desktopSrc ?? ""}
+                                onChange={(v) => update("categories", { ...content.categories, giftBox: { ...(content.categories.giftBox ?? {}), desktopSrc: v } })}
+                            />
+                            <ImageField
+                                label="Mobile Image URL"
+                                value={content.categories.giftBox?.mobileSrc ?? ""}
+                                onChange={(v) => update("categories", { ...content.categories, giftBox: { ...(content.categories.giftBox ?? {}), mobileSrc: v } })}
+                            />
+                        </div>
+                    </div>
+
                     {/* Grid Categories */}
                     <div style={{ marginBottom: "12px" }}>
                         <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)" }}>Grid Categories (4 Right Cards)</span>
