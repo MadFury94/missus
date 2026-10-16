@@ -105,11 +105,14 @@ export async function readHomepageContent(): Promise<HomepageContent> {
         return {
             ...content,
             categories: {
+                ...content.categories,
                 feature: { ...content.categories.feature, img: imageFor(content.categories.feature.href, content.categories.feature.img), href: canonicalLink(content.categories.feature.href) },
                 grid: content.categories.grid.map((category) => ({
                     ...category,
                     img: imageFor(category.href, category.img), href: canonicalLink(category.href),
                 })),
+                // giftBox is not a WooCommerce category — preserve it exactly as saved in the CMS
+                giftBox: content.categories.giftBox,
             },
         };
     } catch {

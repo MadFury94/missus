@@ -13,8 +13,8 @@ import { CurrencyProvider } from "@/lib/currency";
 // Heights of fixed layers — keep in sync with actual component heights
 const ANN_H = 34;   // AnnouncementBar
 const NAV_H = 52;   // Navbar
-const CAT_H = 4;    // CategoryNav (adjusted to match actual rendered height: total should be 90px)
-const MOBILE_SEARCH_H = 30; // HeaderSearchBar (mobile only) - reduced to achieve 120px total
+const CAT_H = 46;   // CategoryNav: 11px top padding + ~22px text + 11px bottom padding + 1px border + 1px scroll overflow ≈ 46px (desktop only, hidden on mobile)
+const SEARCH_H = 42; // HeaderSearchBar (mobile only): 12px top+bottom padding + 14px font + ~4px line height
 
 export default function ClientShell({ children, announcement }: { children: React.ReactNode; announcement?: string }) {
     const pathname = usePathname();
@@ -55,9 +55,10 @@ export default function ClientShell({ children, announcement }: { children: Reac
     }
 
     const annH = annVisible ? ANN_H : 0;
-    // Desktop: no mobile search bar height
-    // Mobile: add mobile search bar height (handled by CSS)
-    const solidHeaderH = annH + NAV_H + CAT_H;
+    // Desktop total: announcement + navbar + category nav
+    // Mobile total: announcement + navbar only (cat nav hidden) + search bar if applicable
+    const desktopHeaderH = annH + NAV_H + CAT_H;
+    const mobileHeaderH = annH + NAV_H + (hasMobileSearch ? SEARCH_H : 0);
 
     return (
         <CurrencyProvider>
@@ -83,19 +84,29 @@ export default function ClientShell({ children, announcement }: { children: Reac
                 Page content spacer:
                 - On homepage: hero sits under the transparent header, no spacer needed
                 - On all other pages: push content below the solid header
-                - Mobile gets additional space for search bar
+                - Mobile: cat nav is hidden so spacer is smaller; search bar added if applicable
             */}
-            {!isHome && !isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="page-spacer" />}
-            {isProductPage && <div style={{ height: `${solidHeaderH}px` }} className="product-page-spacer" />}
+            {!isHome && !isProductPage && (
+                <div
+                    style={{ height: `${desktopHeaderH}px` }}
+                    className="page-spacer"
+                />
+            )}
+            {isProductPage && (
+                <div
+                    style={{ height: `${desktopHeaderH}px` }}
+                    className="product-page-spacer"
+                />
+            )}
             {isHome && <div style={{ height: `${annH}px` }} />}
 
             <style>{`
                 @media (max-width: 768px) {
                     .page-spacer {
-                        height: ${solidHeaderH + (hasMobileSearch ? MOBILE_SEARCH_H : 0)}px !important;
+                        height: ${mobileHeaderH}px !important;
                     }
                     .product-page-spacer {
-                        height: 120px !important;
+                        height: ${mobileHeaderH}px !important;
                     }
                 }
             `}</style>
