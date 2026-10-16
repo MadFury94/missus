@@ -140,7 +140,7 @@ export async function saveHomepageContent(content: HomepageContent): Promise<voi
 }
 
 const readCachedHomepage = unstable_cache(readHomepageContent,
-    ["missus-homepage-v1", API_ENDPOINTS.wordpress.core],
+    ["missus-homepage-v2", API_ENDPOINTS.wordpress.core],
     { revalidate: 60, tags: ["homepage-content"] });
 
 // Preserve request-time rendering while sharing persistent last-successful CMS
