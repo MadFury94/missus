@@ -46,6 +46,9 @@ export async function POST(req: NextRequest) {
     try {
         await saveHomepageContent(body);
         // The announcement is rendered in the root layout across the storefront.
+        // Invalidate both the homepage data cache and the rendered homepage so
+        // admin edits are visible on the next request.
+        revalidatePath("/", "page");
         revalidatePath("/", "layout");
         return NextResponse.json({ ok: true, source: "wordpress" });
     } catch (error) {
