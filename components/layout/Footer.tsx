@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useCurrency, CURRENCIES } from "@/lib/currency";
 import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/config";
@@ -107,6 +108,8 @@ function AccordionSection({ heading, links }: { heading: string; links: { label:
 }
 
 export default function Footer() {
+    const isHome = usePathname() === "/";
+
     return (
         <>
             <style>{`
@@ -138,9 +141,20 @@ export default function Footer() {
                                 style={{ height: "56px", width: "auto", filter: "brightness(0) invert(1)" }}
                             />
                         </div>
-                        <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
-                            {BRAND_CONFIG.shortDescription}
-                        </p>
+                        {isHome ? (
+                            <>
+                                <h1 style={{ fontSize: "12px", fontWeight: 400, color: "rgba(255,255,255,.65)", lineHeight: 1.5, margin: "0 0 6px" }}>
+                                    Affordable Women&apos;s Fashion in Nigeria
+                                </h1>
+                                <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
+                                    Meet Missus Outfits, your destination for trendy, affordable women&apos;s fashion in Nigeria. Discover dresses for your next outing, matching sets that make getting ready easy, and tops and bottoms you can mix your way. From busy weekdays in Lagos to weekend plans in Abuja or Port Harcourt, find outfits that fit your style and your budget. Explore our athleisure and loungewear for relaxed days, browse the Gift Shop for a thoughtful treat, or discover fresh finds in the sale. Shop your favourites online and enjoy free shipping on orders ₦150,000+.
+                                </p>
+                            </>
+                        ) : (
+                            <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
+                                {BRAND_CONFIG.shortDescription}
+                            </p>
+                        )}
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                             {SOCIALS.filter(s => s.href).map((s) => (
                                 <a

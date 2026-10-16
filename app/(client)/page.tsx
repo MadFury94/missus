@@ -29,10 +29,6 @@ export default async function HomePage() {
     <>
       <StructuredData schema={[getOrganizationSchema(), getWebsiteSchema()]} />
       <HeroSlideshow slides={content.hero} />
-      <section style={{ maxWidth: 960, margin: "0 auto", padding: "32px 20px", lineHeight: 1.7 }}>
-        <h1 style={{ fontSize: "clamp(26px, 4vw, 40px)", marginBottom: 16 }}>Affordable Women's Fashion in Nigeria</h1>
-        <p>Meet Missus Outfits, your destination for trendy, affordable women's fashion in Nigeria. Discover dresses for your next outing, matching sets that make getting ready easy, and tops and bottoms you can mix your way. From busy weekdays in Lagos to weekend plans in Abuja or Port Harcourt, find outfits that fit your style and your budget. Explore our athleisure and loungewear for relaxed days, browse the Gift Shop for a thoughtful treat, or discover fresh finds in the sale. Shop your favourites online and enjoy free shipping on orders ₦150,000+.</p>
-      </section>
       <MarqueeStrip items={content.marquee} />
       <TrendReportCards cards={content.styleRadar} />
       <VideoSection />
