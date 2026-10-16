@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { getImageProps } from "next/image";
 import Link from "next/link";
 
 interface Slide {
@@ -139,9 +138,7 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                         if (isPrev) animName = direction === "left" ? "slideOutToLeft" : "slideOutToRight";
                     }
 
-                    const common = { alt: s.alt || `Missus Outfits ${s.heading.replace(/\n/g, " ")} fashion collection`, fill: true, sizes: "100vw", loading: i === 0 ? "eager" as const : "lazy" as const, fetchPriority: i === 0 ? "high" as const : "auto" as const, style: { objectFit: "cover" as const, objectPosition: "center top" } };
-                    const { props: desktop } = getImageProps({ ...common, src: s.src });
-                    const { props: mobile } = getImageProps({ ...common, src: s.mobileSrc || s.src });
+                    const alt = s.alt || `Missus Outfits ${s.heading.replace(/\n/g, " ")} fashion collection`;
 
                     return (
                         <div
@@ -156,8 +153,15 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                             }}
                         >
                             <picture>
-                                <source media="(max-width: 768px)" srcSet={mobile.srcSet || mobile.src} sizes="100vw" />
-                                <img {...desktop} />
+                                {s.mobileSrc && <source media="(max-width: 768px)" srcSet={s.mobileSrc} />}
+                                {/* Editable hero URLs may be hosted outside the Next image allowlist. */}
+                                <img
+                                    src={s.src}
+                                    alt={alt}
+                                    loading={i === 0 ? "eager" : "lazy"}
+                                    fetchPriority={i === 0 ? "high" : "auto"}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+                                />
                             </picture>
                         </div>
                     );
