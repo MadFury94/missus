@@ -170,9 +170,6 @@ export default function CategoryPageClient({
                 }}>
                     {getCategorySeo(slug, label).heading}
                 </h1>
-                <p style={{ fontSize: 15, color: "#666", maxWidth: 850, margin: "0 auto", lineHeight: 1.7 }}>
-                    {getCategorySeo(slug, label).intro}
-                </p>
             </div>
 
             <div className="category-layout">

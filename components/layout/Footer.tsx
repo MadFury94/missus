@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useCurrency, CURRENCIES } from "@/lib/currency";
 import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/config";
 import { BRAND_CONFIG } from "@/lib/brand-config";
+import { getCategorySeo } from "@/lib/category-seo";
 
 const SOCIALS = [
     {
@@ -109,6 +110,13 @@ function AccordionSection({ heading, links }: { heading: string; links: { label:
 
 export default function Footer() {
     const isHome = usePathname() === "/";
+    const pathname = usePathname();
+    const collectionSlug = pathname === "/shop"
+        ? "shop"
+        : pathname?.startsWith("/category/")
+            ? pathname.split("/")[2]
+            : null;
+    const collectionCopy = collectionSlug ? getCategorySeo(collectionSlug) : null;
 
     return (
         <>
@@ -154,6 +162,14 @@ export default function Footer() {
                             <p style={{ fontSize: "12px", color: "rgba(255,255,255,.45)", lineHeight: 1.7, fontWeight: 300, marginBottom: "16px" }}>
                                 {BRAND_CONFIG.shortDescription}
                             </p>
+                        )}
+                        {collectionCopy && (
+                            <details style={{ marginTop: "10px", maxWidth: "420px" }}>
+                                <summary style={{ cursor: "pointer", fontSize: "11px", color: "rgba(255,255,255,.4)" }}>About this collection</summary>
+                                <p style={{ fontSize: "11px", color: "rgba(255,255,255,.4)", lineHeight: 1.6, fontWeight: 300, margin: "8px 0 0" }}>
+                                    {collectionCopy.intro}
+                                </p>
+                            </details>
                         )}
                         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                             {SOCIALS.filter(s => s.href).map((s) => (
