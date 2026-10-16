@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 const DEFAULT_GIFT_BOX_IMAGE = "/missus-giftbox.png";
 
@@ -95,13 +94,13 @@ export default function GiftShopBanner({ images }: {
                 }}>
                     <picture>
                         {mobileSrc && <source media="(max-width: 768px)" srcSet={mobileSrc} />}
-                        <Image
+                        {/* The image URL is editable in WordPress and may point to the CMS host.
+                            Load it directly so the Next image optimizer cannot reject that host. */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
                             src={desktopSrc}
                             alt="Gift box from Missus"
-                            fill
-                            style={{ objectFit: "contain", objectPosition: "bottom right" }}
-                            sizes="(max-width: 768px) 60vw, 40vw"
-                            priority
+                            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", objectPosition: "bottom right" }}
                         />
                     </picture>
                 </div>
