@@ -153,7 +153,7 @@ export default function HeroSlideshow({ slides = SLIDES }: { slides?: Slide[] })
                             }}
                         >
                             <picture>
-                                {s.mobileSrc && <source media="(max-width: 768px)" srcSet={s.mobileSrc} />}
+                                {s.mobileSrc && <source media="(max-width: 1024px)" srcSet={s.mobileSrc} />}
                                 {/* Editable hero URLs may be hosted outside the Next image allowlist. */}
                                 <img
                                     src={s.src}

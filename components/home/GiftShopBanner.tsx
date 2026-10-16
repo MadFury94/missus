@@ -93,7 +93,7 @@ export default function GiftShopBanner({ images }: {
                     pointerEvents: "none",
                 }}>
                     <picture>
-                        {mobileSrc && <source media="(max-width: 768px)" srcSet={mobileSrc} />}
+                        {mobileSrc && <source media="(max-width: 1024px)" srcSet={mobileSrc} />}
                         {/* The image URL is editable in WordPress and may point to the CMS host.
                             Load it directly so the Next image optimizer cannot reject that host. */}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
