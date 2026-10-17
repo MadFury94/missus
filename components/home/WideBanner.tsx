@@ -1,67 +1,152 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getCategoryImageUrl } from "@/lib/api-helpers";
 
+/**
+ * Two-panel promo section.
+ *
+ * Structure (top to bottom):
+ *   1. Scrolling marquee strip  ← sits between CategoryGrid above and the cards
+ *   2. Padded card row          ← left card wider (3fr), right narrower (2fr),
+ *                                  SAME HEIGHT, rounded corners, image-only
+ *
+ * No text is injected onto the cards — text/overlays live inside the images.
+ */
 export default function WideBanner() {
+    const CARD_HEIGHT = 360; // px — both cards share this exact height on desktop
+    const CARD_HEIGHT_MOBILE = 220; // px — on mobile cards stack and use this height
+
+    const marqueeText = "Shop into style  ·  Express your love  ·  Treat yourself  ·  New drops weekly  ·  Find your look  ·  Shop into style  ·  Express your love  ·  Treat yourself  ·  New drops weekly  ·  Find your look  ·  ";
+
     return (
-        <Link href="/sale" style={{ display: "block", textDecoration: "none" }}>
+        <section aria-label="Promotions">
+
+            {/* ── Marquee strip (separator between CategoryGrid and cards) ── */}
             <div style={{
-                position: "relative",
-                width: "100%",
-                height: "clamp(130px, 18vw, 200px)",
                 overflow: "hidden",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                textAlign: "center",
-                gap: "10px",
+                whiteSpace: "nowrap",
+                padding: "11px 0",
+                background: "#fff",
+                borderTop: "1px solid #ebebeb",
+                borderBottom: "1px solid #ebebeb",
             }}>
-                {/* Background product image */}
-                <Image
-                    src={getCategoryImageUrl("Product-Photos-93.jpeg")}
-                    alt=""
-                    fill
-                    style={{ objectFit: "cover", objectPosition: "center 20%" }}
-                    sizes="100vw"
+                <span
                     aria-hidden="true"
-                />
-
-                {/* Dark overlay */}
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.35) 100%)", pointerEvents: "none" }} />
-
-                {/* Headline */}
-                <p style={{
-                    fontFamily: "var(--font-display, 'Cormorant', serif)",
-                    fontSize: "clamp(28px, 5.5vw, 58px)",
-                    fontWeight: 700,
-                    letterSpacing: ".04em",
-                    textTransform: "uppercase",
-                    color: "#fff",
-                    lineHeight: 1,
-                    position: "relative",
-                    zIndex: 1,
-                    margin: 0,
-                }}>
-                    Up to 60% Off Sale
-                </p>
-
-                {/* CTA */}
-                <span style={{
-                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                    fontSize: "11px",
-                    fontWeight: 500,
-                    letterSpacing: ".18em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,255,255,.55)",
-                    borderBottom: "1px solid rgba(255,255,255,.3)",
-                    paddingBottom: "2px",
-                    position: "relative",
-                    zIndex: 1,
-                }}>
-                    Shop Now
+                    style={{
+                        display: "inline-block",
+                        animation: "wb-marquee 30s linear infinite",
+                        fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                        fontSize: "10px",
+                        letterSpacing: ".16em",
+                        textTransform: "uppercase",
+                        color: "#aaa",
+                        paddingLeft: "100%",
+                    }}
+                >
+                    {marqueeText}
                 </span>
             </div>
-        </Link>
+
+            {/* ── Cards container ── */}
+            <div style={{
+                background: "#f5f3f0",
+                padding: "16px",
+            }}>
+                <div
+                    className="wb-grid"
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "3fr 2fr",
+                        gap: "10px",
+                        maxWidth: "1400px",
+                        margin: "0 auto",
+                        /* height is set on children so both stretch equally */
+                    }}
+                >
+                    {/* Left card — wider */}
+                    <Link
+                        href="/sale"
+                        className="wb-card"
+                        style={{
+                            display: "block",
+                            borderRadius: "10px",
+                            overflow: "hidden",
+                            textDecoration: "none",
+                            position: "relative",
+                            height: `${CARD_HEIGHT}px`,
+                            background: "#e0ddd8",
+                            flexShrink: 0,
+                        }}
+                    >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={getCategoryImageUrl("Product-Photos-93.jpeg")}
+                            alt="Sale promotion"
+                            className="wb-img"
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                objectPosition: "center 20%",
+                                display: "block",
+                                transition: "transform .5s ease",
+                            }}
+                        />
+                    </Link>
+
+                    {/* Right card — narrower, same height */}
+                    <Link
+                        href="/new-in"
+                        className="wb-card"
+                        style={{
+                            display: "block",
+                            borderRadius: "10px",
+                            overflow: "hidden",
+                            textDecoration: "none",
+                            position: "relative",
+                            height: `${CARD_HEIGHT}px`,
+                            background: "#e8e5e0",
+                            flexShrink: 0,
+                        }}
+                    >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={getCategoryImageUrl("Product-Photos-Your-Story-8.png")}
+                            alt="New arrivals promotion"
+                            className="wb-img"
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                objectPosition: "center top",
+                                display: "block",
+                                transition: "transform .5s ease",
+                            }}
+                        />
+                    </Link>
+                </div>
+            </div>
+
+            <style>{`
+                @keyframes wb-marquee {
+                    from { transform: translateX(0); }
+                    to   { transform: translateX(-50%); }
+                }
+                .wb-card:hover .wb-img {
+                    transform: scale(1.03);
+                }
+                @media (max-width: 640px) {
+                    .wb-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                    .wb-card {
+                        height: ${CARD_HEIGHT_MOBILE}px !important;
+                    }
+                }
+            `}</style>
+        </section>
     );
 }

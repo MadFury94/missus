@@ -5,7 +5,7 @@ import TrendReportCards from "@/components/home/TrendReportCards";
 import VideoSection from "@/components/home/VideoSection";
 import GiftShopBanner from "@/components/home/GiftShopBanner";
 import CategoryGrid from "@/components/home/CategoryGrid";
-import WideBanner from "@/components/home/WideBanner";
+import PromoBand from "@/components/home/PromoBand";
 import NewInSection from "@/components/home/NewInSection";
 import ReviewsSection from "@/components/home/ReviewsSection";
 import AppDownloadBanner from "@/components/home/AppDownloadBanner";
@@ -34,7 +34,7 @@ export default async function HomePage() {
       <VideoSection />
       <GiftShopBanner images={content.categories.giftBox} />
       <CategoryGrid categories={content.categories} />
-      <WideBanner />
+      <PromoBand />
       <NewInSection />
       <ReviewsSection />
       <AppDownloadBanner />
