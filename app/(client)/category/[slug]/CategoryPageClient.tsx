@@ -1,5 +1,4 @@
 "use client";
-import { getCategorySeo } from "@/lib/category-seo";
 import { useState, useEffect, useCallback } from "react";
 import type { StoreProduct, StoreCategory } from "@/lib/woocommerce";
 import ProductCard from "@/components/product/ProductCard";
@@ -168,7 +167,7 @@ export default function CategoryPageClient({
                     letterSpacing: "-.02em",
                     marginBottom: "12px"
                 }}>
-                    {getCategorySeo(slug, label).heading}
+                    {label}
                 </h1>
             </div>
 

@@ -73,7 +73,8 @@ export default function ContactClient() {
                     </p>
                     <button
                         onClick={() => setSent(false)}
-                        style={{ borderRadius: "999px",
+                        style={{
+                            borderRadius: "999px",
                             padding: "12px 32px",
                             background: "#000",
                             color: "#fff",
@@ -126,7 +127,7 @@ export default function ContactClient() {
                                 Customer Support
                             </h3>
                             <p style={{ fontSize: "14px", color: "#666", marginBottom: "4px" }}>
-                                Email: hello@missusoutfits.com
+                                Email: support@missusoutfits.com
                             </p>
                             <p style={{ fontSize: "14px", color: "#666" }}>
                                 Response time: Within 24 hours
@@ -140,8 +141,19 @@ export default function ContactClient() {
                             <p style={{ fontSize: "14px", color: "#666", marginBottom: "4px" }}>
                                 Instagram: @missusoutfits
                             </p>
+                            <p style={{ fontSize: "14px", color: "#666", marginBottom: "4px" }}>
+                                Twitter / X:{" "}
+                                <a
+                                    href="https://x.com/missussupport"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ color: "#000", textDecoration: "underline" }}
+                                >
+                                    @Missussupport
+                                </a>
+                            </p>
                             <p style={{ fontSize: "14px", color: "#666" }}>
-                                For quick responses, DM us on Instagram
+                                For quick responses, DM us on X or Instagram
                             </p>
                         </div>
 
@@ -266,7 +278,8 @@ export default function ContactClient() {
                         <button
                             type="submit"
                             disabled={sending}
-                            style={{ borderRadius: "999px",
+                            style={{
+                                borderRadius: "999px",
                                 padding: "14px",
                                 background: sending ? "#ccc" : "#000",
                                 color: "#fff",
