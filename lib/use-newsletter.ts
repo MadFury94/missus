@@ -2,12 +2,20 @@
 
 import { useState } from "react";
 
-export function useNewsletter(source: "homepage" | "footer") {
+export type NewsletterSource = "homepage" | "footer" | "popup-a" | "popup-b";
+
+interface SubscribeOptions {
+    source: NewsletterSource;
+    tags?: string[];        // e.g. preference chips like ["Dresses","Tops"]
+    popupVariant?: "a" | "b";
+}
+
+export function useNewsletter(source: NewsletterSource) {
     const [done, setDone] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    async function subscribe(email: string) {
+    async function subscribe(email: string, opts?: Pick<SubscribeOptions, "tags" | "popupVariant">) {
         if (loading) return;
         setLoading(true);
         setError("");
@@ -15,7 +23,12 @@ export function useNewsletter(source: "homepage" | "footer") {
             const response = await fetch("/api/newsletter", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, source }),
+                body: JSON.stringify({
+                    email,
+                    source,
+                    tags: opts?.tags ?? [],
+                    popupVariant: opts?.popupVariant,
+                }),
             });
             const data = await response.json();
             if (!response.ok || !data.ok) throw new Error(data.error || "Could not subscribe. Please try again.");

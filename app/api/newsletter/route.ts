@@ -5,10 +5,14 @@ export async function POST(request: NextRequest) {
         const body = await request.json().catch(() => null);
         const email = typeof body?.email === "string" ? body.email.trim() : "";
         const name = typeof body?.name === "string" ? body.name.trim().slice(0, 100) : "";
+        const tags: string[] = Array.isArray(body?.tags) ? body.tags.filter((t: unknown) => typeof t === "string").slice(0, 10) : [];
+        const popupVariant: string = typeof body?.popupVariant === "string" ? body.popupVariant : "";
         const sources: Record<string, string> = {
             homepage: "Missus homepage",
             newsletter: "Missus newsletter page",
             footer: "Missus newsletter form",
+            "popup-a": "Missus popup A",
+            "popup-b": "Missus popup B",
         };
         const source = typeof body?.source === "string" && Object.hasOwn(sources, body.source)
             ? sources[body.source] : "Missus website";
@@ -54,6 +58,16 @@ export async function POST(request: NextRequest) {
         }
 
         if (klaviyoKey && klaviyoListId) {
+            const profileAttributes: Record<string, unknown> = {
+                email,
+                subscriptions: {
+                    email: { marketing: { consent: "SUBSCRIBED" } },
+                },
+            };
+            if (name) profileAttributes.first_name = name;
+            if (tags.length > 0) profileAttributes.preferences = tags.join(", ");
+            if (popupVariant) profileAttributes.signup_popup = popupVariant;
+
             const res = await fetch("https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs", {
                 method: "POST",
                 signal: AbortSignal.timeout(10000),
@@ -68,17 +82,7 @@ export async function POST(request: NextRequest) {
                         attributes: {
                             custom_source: source,
                             profiles: {
-                                data: [
-                                    {
-                                        type: "profile",
-                                        attributes: {
-                                            email,
-                                            subscriptions: {
-                                                email: { marketing: { consent: "SUBSCRIBED" } },
-                                            },
-                                        },
-                                    },
-                                ],
+                                data: [{ type: "profile", attributes: profileAttributes }],
                             },
                             historical_import: false,
                         },

@@ -9,7 +9,7 @@ import SearchOverlay from "@/components/layout/SearchOverlay";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import { CurrencyProvider } from "@/lib/currency";
-import NewsletterPopup from "@/components/layout/NewsletterPopup";
+import PopupOrchestrator from "@/components/layout/PopupOrchestrator";
 
 // Heights of fixed layers — keep in sync with actual component heights
 const ANN_H = 34;   // AnnouncementBar
@@ -116,7 +116,7 @@ export default function ClientShell({ children, announcement }: { children: Reac
             <Footer />
 
             <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
-            <NewsletterPopup />
+            <PopupOrchestrator />
             <SearchOverlay
                 isOpen={searchOpen}
                 inputValue={searchVal}
