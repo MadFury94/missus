@@ -10,6 +10,15 @@ export interface HeroSlide {
     cta2?: { label: string; href: string };
 }
 
+export interface PromoBandContent {
+    leftImg: string;
+    leftHref: string;
+    leftAlt: string;
+    rightImg: string;
+    rightHref: string;
+    rightAlt: string;
+}
+
 export interface HomepageContent {
     announcement: string;
     marquee: string[];
@@ -20,6 +29,7 @@ export interface HomepageContent {
         grid: { label: string; href: string; img: string }[];
         giftBox: { desktopSrc: string; mobileSrc: string };
     };
+    promoBand: PromoBandContent;
     newsletter: {
         heading: string;
         sub: string;
@@ -90,6 +100,14 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
             },
         ],
         giftBox: { desktopSrc: "", mobileSrc: "" },
+    },
+    promoBand: {
+        leftImg: "",
+        leftHref: "/sale",
+        leftAlt: "Model wearing a Missus outfit from the sale collection",
+        rightImg: "",
+        rightHref: "/shipping",
+        rightAlt: "Missus model in a full outfit highlighting free shipping",
     },
     newsletter: {
         heading: "Join Missus Girls Club",

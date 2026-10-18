@@ -34,7 +34,7 @@ export default async function HomePage() {
       <VideoSection />
       <GiftShopBanner images={content.categories.giftBox} />
       <CategoryGrid categories={content.categories} />
-      <PromoBand />
+      <PromoBand band={content.promoBand} />
       <NewInSection />
       <ReviewsSection />
       <AppDownloadBanner />

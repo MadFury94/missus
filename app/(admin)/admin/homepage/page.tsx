@@ -360,6 +360,69 @@ export default function HomepageContentPage() {
                     </button>
                 </SectionBox>
 
+                {/* ── Promo Band ── */}
+                <SectionBox title="Promo Band (Two-Card Section Between Categories and New In)">
+                    <p style={{ fontSize: "12px", color: "var(--stone)", margin: "0 0 16px" }}>
+                        Two side-by-side image cards. Upload images with your text baked in. Left card is wider (2:1), right card is square (1:1).
+                    </p>
+
+                    {/* Left card */}
+                    <div style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "16px", marginBottom: "12px", background: "var(--paper)" }}>
+                        <span style={{ display: "block", fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginBottom: "12px" }}>Left Card (wider — links to Sale by default)</span>
+                        {content.promoBand?.leftImg && (
+                            <div style={{ marginBottom: "12px" }}>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={content.promoBand.leftImg} alt="" style={{ height: "80px", width: "auto", objectFit: "cover", border: "1px solid var(--sand)" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                            </div>
+                        )}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
+                            <ImageField
+                                label="Image URL"
+                                value={content.promoBand?.leftImg ?? ""}
+                                onChange={(v) => update("promoBand", { ...content.promoBand, leftImg: v })}
+                            />
+                            <Field
+                                label="Link (e.g. /sale)"
+                                value={content.promoBand?.leftHref ?? "/sale"}
+                                onChange={(v) => update("promoBand", { ...content.promoBand, leftHref: v })}
+                            />
+                        </div>
+                        <Field
+                            label="Alt text (for screen readers)"
+                            value={content.promoBand?.leftAlt ?? ""}
+                            onChange={(v) => update("promoBand", { ...content.promoBand, leftAlt: v })}
+                        />
+                    </div>
+
+                    {/* Right card */}
+                    <div style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "16px", background: "var(--paper)" }}>
+                        <span style={{ display: "block", fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginBottom: "12px" }}>Right Card (square — links to Shipping by default)</span>
+                        {content.promoBand?.rightImg && (
+                            <div style={{ marginBottom: "12px" }}>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={content.promoBand.rightImg} alt="" style={{ height: "80px", width: "auto", objectFit: "cover", border: "1px solid var(--sand)" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                            </div>
+                        )}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
+                            <ImageField
+                                label="Image URL"
+                                value={content.promoBand?.rightImg ?? ""}
+                                onChange={(v) => update("promoBand", { ...content.promoBand, rightImg: v })}
+                            />
+                            <Field
+                                label="Link (e.g. /shipping)"
+                                value={content.promoBand?.rightHref ?? "/shipping"}
+                                onChange={(v) => update("promoBand", { ...content.promoBand, rightHref: v })}
+                            />
+                        </div>
+                        <Field
+                            label="Alt text (for screen readers)"
+                            value={content.promoBand?.rightAlt ?? ""}
+                            onChange={(v) => update("promoBand", { ...content.promoBand, rightAlt: v })}
+                        />
+                    </div>
+                </SectionBox>
+
                 {/* ── Newsletter Bar ── */}
                 <SectionBox title="Newsletter Bar (Join Missus Girls Club)">
                     <Field label="Heading" value={content.newsletter.heading} onChange={(v) => update("newsletter", { ...content.newsletter, heading: v })} />

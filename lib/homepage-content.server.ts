@@ -65,6 +65,7 @@ function jsonObjectField<T extends object>(value: unknown, fallback: T): T {
 function decodeContent(acf: Record<string, unknown>): HomepageContent {
     const text = (key: string, fallback: string) => typeof acf[key] === "string" ? acf[key] as string : fallback;
     const categories = jsonObjectField(acf.hp_categories, HOMEPAGE_DEFAULTS.categories);
+    const promoBand = jsonObjectField(acf.hp_promo_band, HOMEPAGE_DEFAULTS.promoBand);
     return {
         announcement: text("hp_announcement", HOMEPAGE_DEFAULTS.announcement),
         marquee: jsonField(acf.hp_marquee, HOMEPAGE_DEFAULTS.marquee),
@@ -77,6 +78,10 @@ function decodeContent(acf: Record<string, unknown>): HomepageContent {
                 ...HOMEPAGE_DEFAULTS.categories.giftBox,
                 ...(categories as Partial<HomepageContent["categories"]>).giftBox,
             },
+        },
+        promoBand: {
+            ...HOMEPAGE_DEFAULTS.promoBand,
+            ...promoBand,
         },
         newsletter: {
             heading: text("hp_nl_heading", HOMEPAGE_DEFAULTS.newsletter.heading),
@@ -131,6 +136,7 @@ export async function saveHomepageContent(content: HomepageContent): Promise<voi
         hp_hero: JSON.stringify(content.hero),
         hp_style_radar: JSON.stringify(content.styleRadar),
         hp_categories: JSON.stringify(content.categories),
+        hp_promo_band: JSON.stringify(content.promoBand),
         hp_nl_heading: content.newsletter.heading,
         hp_nl_sub: content.newsletter.sub,
     };
@@ -139,7 +145,7 @@ export async function saveHomepageContent(content: HomepageContent): Promise<voi
     if (!saved.acf || Object.entries(acf).some(([key, value]) => saved.acf[key] !== value)) {
         throw new Error("WordPress did not retain all homepage changes. Check the homepage ACF fields and enable Show in REST API.");
     }
-    revalidateTag("homepage-content", "max");
+    revalidateTag("homepage-content");
 }
 
 const readCachedHomepage = unstable_cache(readHomepageContent,
@@ -153,9 +159,10 @@ export const getHomepageContent = cache(async (): Promise<HomepageContent> => {
     try {
         return await readCachedHomepage();
     } catch (error) {
-        // Let Next.js handle rendering control flow before applying the WordPress fallback.
+        // Re-throw Next.js navigation signals (redirect, notFound) — never swallow those.
         unstable_rethrow(error);
-        console.error("[homepage] Could not read WordPress content:", error);
+        // Everything else: log and fall back to defaults so the homepage always renders.
+        console.error("[homepage] Could not read WordPress content, using defaults:", error);
         return HOMEPAGE_DEFAULTS;
     }
 });
