@@ -223,7 +223,7 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
                     </div>
 
                     {/* -- Navigation -- */}
-                    <nav style={{ paddingTop: "8px" }}>
+                    <nav style={{ paddingTop: "4px" }}>
                         {SUB_NAV.map((link) => (
                             <Link
                                 key={link.href + link.label}
@@ -233,13 +233,12 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "space-between",
-                                    padding: "13px 20px",
-                                    fontFamily: "'Barlow Condensed', sans-serif",
-                                    fontSize: "15px",
-                                    fontWeight: 700,
-                                    letterSpacing: ".06em",
-                                    textTransform: "uppercase",
-                                    color: link.sale ? "#7F0E12" : "#000",
+                                    padding: "11px 20px",
+                                    fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                                    fontSize: "13px",
+                                    fontWeight: 500,
+                                    letterSpacing: ".04em",
+                                    color: link.sale ? "#7F0E12" : "#111",
                                     textDecoration: "none",
                                     borderBottom: "1px solid #f5f5f5",
                                     transition: "background .1s",
@@ -249,11 +248,11 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
                             >
                                 <span>
                                     {link.hot && (
-                                        <span style={{ marginRight: "6px", verticalAlign: "middle", fontSize: "15px" }}>🔥</span>
+                                        <span style={{ marginRight: "6px", verticalAlign: "middle", fontSize: "13px" }}>🔥</span>
                                     )}
                                     {link.label}
                                 </span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.3, flexShrink: 0 }}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.25, flexShrink: 0 }}>
                                     <polyline points="9 18 15 12 9 6" />
                                 </svg>
                             </Link>
@@ -261,8 +260,8 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
                     </nav>
 
                     {/* -- Help links -- */}
-                    <div style={{ padding: "20px 20px 0", borderTop: "1px solid #f0f0f0", marginTop: "8px" }}>
-                        <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#aaa", marginBottom: "10px" }}>Help</p>
+                    <div style={{ padding: "16px 20px 0", borderTop: "1px solid #f0f0f0", marginTop: "8px" }}>
+                        <p style={{ fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "10px", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#bbb", marginBottom: "8px" }}>Help</p>
                         {[
                             { label: "Contact Us", href: "/contact" },
                             { label: "Track My Order", href: "/track" },
@@ -274,10 +273,10 @@ export default function MobileMenu({ isOpen, onClose, onBagClick }: MobileMenuPr
                                 key={link.href}
                                 href={link.href}
                                 onClick={onClose}
-                                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "14px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase", color: "#444", padding: "11px 0", textDecoration: "none", borderBottom: "1px solid #f5f5f5" }}
+                                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontSize: "12px", fontWeight: 400, letterSpacing: ".02em", color: "#555", padding: "9px 0", textDecoration: "none", borderBottom: "1px solid #f5f5f5" }}
                             >
                                 {link.label}
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.3, flexShrink: 0 }}>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.25, flexShrink: 0 }}>
                                     <polyline points="9 18 15 12 9 6" />
                                 </svg>
                             </Link>
