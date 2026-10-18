@@ -28,10 +28,10 @@ function CatCard({ cat, className, sizes }: {
             <div style={overlay} />
             <span style={{
                 position: "absolute", bottom: "14px", left: "16px", zIndex: 2,
-                fontFamily: "var(--font-display, 'Cormorant', serif)",
-                fontSize: "15px", fontWeight: 600, letterSpacing: ".06em",
+                fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                fontSize: "11px", fontWeight: 500, letterSpacing: ".1em",
                 textTransform: "uppercase", color: "#fff",
-                textShadow: "0 1px 8px rgba(0,0,0,.5)",
+                textShadow: "0 1px 6px rgba(0,0,0,.6)",
             }}>
                 {cat.label}
             </span>
@@ -79,7 +79,7 @@ export default function CategoryGrid({ categories }: {
                 .shopcat-grid {
                     display: grid;
                     grid-template-columns: 1.4fr 1fr 1fr;
-                    grid-template-rows: repeat(2, 300px);
+                    grid-template-rows: repeat(2, 400px);
                     gap: 4px;
                     padding: 0 20px;
                 }
@@ -111,19 +111,19 @@ export default function CategoryGrid({ categories }: {
                     .shopcat-feature {
                         grid-column: 1;
                         grid-row: 1 / span 2;
-                        min-height: 380px;
+                        min-height: 500px;
                     }
                     /* Cat 2 & Cat 3: stacked in right column */
                     .shopcat-right-0,
                     .shopcat-right-1 {
                         grid-column: 2;
-                        min-height: 187px;
+                        min-height: 248px;
                     }
                     /* Cat 4 & Cat 5: full-width 2-col row underneath */
                     .shopcat-right-2,
                     .shopcat-right-3 {
                         grid-column: auto;
-                        min-height: 180px;
+                        min-height: 240px;
                     }
                 }
             `}</style>
