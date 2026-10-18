@@ -1,16 +1,16 @@
 "use client";
 import { useState } from "react";
 import { BRAND_CONFIG } from "@/lib/brand-config";
+import { useNewsletter } from "@/lib/use-newsletter";
 
 export default function NewsletterForm() {
     const [email, setEmail] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    const { done: submitted, loading, error, subscribe } = useNewsletter("footer");
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         if (!email) return;
-        // TODO: wire to Mailchimp / Klaviyo / WC newsletter
-        setSubmitted(true);
+        void subscribe(email);
     }
 
     return (
@@ -21,7 +21,7 @@ export default function NewsletterForm() {
                     Get early drops, exclusive deals & style inspo — straight to your inbox.
                 </p>
                 {submitted ? (
-                    <p className="text-primary font-semibold">You&apos;re in! Welcome to the circle ✨</p>
+                    <p className="text-primary font-semibold">Thanks! Check your inbox to confirm if requested.</p>
                 ) : (
                     <form onSubmit={handleSubmit} className="flex gap-2 max-w-md mx-auto">
                         <input
@@ -37,12 +37,15 @@ export default function NewsletterForm() {
                         />
                         <button
                             type="submit"
+                            disabled={loading}
                             className="bg-secondary text-white px-6 py-3 text-sm font-semibold tracking-wide hover:bg-secondary/85 transition-colors"
                         >
-                            Subscribe
+                            {loading ? "Subscribing..." : "Subscribe"}
                         </button>
                     </form>
                 )}
+                {error && <p role="alert" className="text-sm mt-2">{error}</p>}
+                <p className="text-xs mt-2">By subscribing, you agree to receive marketing emails. Unsubscribe anytime. <a href="/privacy" className="underline">Privacy Policy</a></p>
             </div>
         </section>
     );

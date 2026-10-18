@@ -2,9 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, name } = await request.json();
+        const body = await request.json().catch(() => null);
+        const email = typeof body?.email === "string" ? body.email.trim() : "";
+        const name = typeof body?.name === "string" ? body.name.trim().slice(0, 100) : "";
+        const sources: Record<string, string> = {
+            homepage: "Missus homepage",
+            newsletter: "Missus newsletter page",
+            footer: "Missus newsletter form",
+        };
+        const source = typeof body?.source === "string" && Object.hasOwn(sources, body.source)
+            ? sources[body.source] : "Missus website";
 
-        if (!email || typeof email !== "string" || !email.includes("@")) {
+        if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return NextResponse.json({ ok: false, error: "Valid email required." }, { status: 400 });
         }
 
@@ -15,7 +24,7 @@ export async function POST(request: NextRequest) {
         const klaviyoKey = process.env.KLAVIYO_PRIVATE_KEY;
         const klaviyoListId = process.env.KLAVIYO_LIST_ID;
 
-        if (mailchimpKey && mailchimpListId && mailchimpServer) {
+        if (!klaviyoKey && !klaviyoListId && mailchimpKey && mailchimpListId && mailchimpServer) {
             // Mailchimp
             const res = await fetch(
                 `https://${mailchimpServer}.api.mailchimp.com/3.0/lists/${mailchimpListId}/members`,
@@ -45,25 +54,28 @@ export async function POST(request: NextRequest) {
         }
 
         if (klaviyoKey && klaviyoListId) {
-            // Klaviyo v3 API
-            const res = await fetch(`https://a.klaviyo.com/api/profile-subscriptions-bulk-create-jobs`, {
+            const res = await fetch("https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs", {
                 method: "POST",
+                signal: AbortSignal.timeout(10000),
                 headers: {
                     Authorization: `Klaviyo-API-Key ${klaviyoKey}`,
-                    "Content-Type": "application/json",
-                    revision: "2024-02-15",
+                    "Content-Type": "application/vnd.api+json",
+                    revision: "2026-10-15",
                 },
                 body: JSON.stringify({
                     data: {
                         type: "profile-subscription-bulk-create-job",
                         attributes: {
+                            custom_source: source,
                             profiles: {
                                 data: [
                                     {
                                         type: "profile",
                                         attributes: {
                                             email,
-                                            first_name: name || "",
+                                            subscriptions: {
+                                                email: { marketing: { consent: "SUBSCRIBED" } },
+                                            },
                                         },
                                     },
                                 ],
@@ -78,17 +90,14 @@ export async function POST(request: NextRequest) {
             });
 
             if (!res.ok && res.status !== 202) {
-                const err = await res.text();
-                console.error("Klaviyo error:", err);
+                console.error("Klaviyo subscription failed:", res.status);
                 return NextResponse.json({ ok: false, error: "Could not subscribe. Please try again." }, { status: 500 });
             }
 
             return NextResponse.json({ ok: true });
         }
 
-        // No ESP configured — log and return success (dev/staging)
-        console.log("[Newsletter] New subscriber (no ESP configured):", { email, name });
-        return NextResponse.json({ ok: true });
+        return NextResponse.json({ ok: false, error: "Newsletter signup is temporarily unavailable. Please try again later." }, { status: 503 });
     } catch (err) {
         console.error("Newsletter API error:", err);
         return NextResponse.json({ ok: false, error: "Server error." }, { status: 500 });

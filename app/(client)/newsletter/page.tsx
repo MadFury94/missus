@@ -17,10 +17,10 @@ export default function NewsletterPage() {
             const res = await fetch("/api/newsletter", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, name }),
+                body: JSON.stringify({ email, name, source: "newsletter" }),
             });
             const data = await res.json();
-            if (!data.ok) throw new Error(data.error || "Failed");
+            if (!res.ok || !data.ok) throw new Error(data.error || "Failed");
             setDone(true);
         } catch {
             alert("Something went wrong. Please try again.");
@@ -46,10 +46,10 @@ export default function NewsletterPage() {
                     <div>
                         <div style={{ fontSize: "56px", marginBottom: "20px" }}>💌</div>
                         <h2 style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "28px", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: "12px" }}>
-                            You&apos;re In!
+                            Thank You!
                         </h2>
                         <p style={{ fontSize: "14px", color: "#555", lineHeight: 1.7, marginBottom: "28px" }}>
-                            Welcome to the Missus Circle. Expect early drops, exclusive deals, and style inspo straight to your inbox.
+                            Your request has been received. Check your inbox and confirm your subscription if requested.
                         </p>
                         <Link href="/shop" style={{ borderRadius: "999px", background: "#000", color: "#fff", fontFamily: "var(--font-barlow-condensed)", fontSize: "13px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "14px 36px", textDecoration: "none", display: "inline-block" }}>
                             Shop Now

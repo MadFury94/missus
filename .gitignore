@@ -43,3 +43,4 @@ next-env.d.ts
 
 # markdown docs (personal notes, build logs, feedback)
 *.md
+!docs/KLAVIYO_SETUP.md

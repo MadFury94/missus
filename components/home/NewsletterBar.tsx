@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useNewsletter } from "@/lib/use-newsletter";
 import { Plane, Shield, MessageCircle, Tag } from "lucide-react";
 
 const TRUST_ITEMS = [
@@ -34,11 +35,11 @@ export default function NewsletterBar({
     sub?: string;
 }) {
     const [email, setEmail] = useState("");
-    const [done, setDone] = useState(false);
+    const { done, loading, error, subscribe } = useNewsletter("homepage");
 
     function submit(e: React.FormEvent) {
         e.preventDefault();
-        if (email) setDone(true);
+        if (email) void subscribe(email);
     }
 
     return (
@@ -105,7 +106,7 @@ export default function NewsletterBar({
                     </div>
 
                     {done ? (
-                        <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 700, color: "#000" }}>You&apos;re in! ✓</p>
+                        <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 700, color: "#000" }}>Thanks! Check your inbox to confirm if requested.</p>
                     ) : (
                         <form onSubmit={submit} style={{ display: "flex", maxWidth: "420px" }}>
                             <input
@@ -119,11 +120,13 @@ export default function NewsletterBar({
                                 required
                                 style={{ flex: 1, border: "1.5px solid #000", borderRight: "none", padding: "0 14px", height: "44px", fontFamily: "'Barlow', sans-serif", fontSize: "13px", outline: "none", background: "#fff", borderRadius: "999px 0 0 999px" }}
                             />
-                            <button type="submit" style={{ height: "44px", padding: "0 22px", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", fontSize: "12px", border: "none", cursor: "pointer", whiteSpace: "nowrap", borderRadius: "0 999px 999px 0" }}>
-                                Subscribe
+                            <button type="submit" disabled={loading} style={{ height: "44px", padding: "0 22px", background: "#000", color: "#fff", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", fontSize: "12px", border: "none", cursor: "pointer", whiteSpace: "nowrap", borderRadius: "0 999px 999px 0" }}>
+                                {loading ? "Subscribing..." : "Subscribe"}
                             </button>
                         </form>
                     )}
+                    {error && <p role="alert" style={{ fontSize: "13px" }}>{error}</p>}
+                    <p style={{ fontSize: "11px" }}>By subscribing, you agree to receive marketing emails. Unsubscribe anytime. <Link href="/privacy">Privacy Policy</Link></p>
                 </div>
 
                 {/* Right — trust items */}

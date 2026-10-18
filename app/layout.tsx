@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientShell from "@/components/layout/ClientShell";
+import Klaviyo from "@/components/layout/Klaviyo";
 
 import { getHomepageContent } from "@/lib/homepage-content.server";
 import { DEFAULT_METADATA } from "@/lib/seo-config";
@@ -45,6 +46,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         suppressHydrationWarning
       >
         <ClientShell announcement={announcement}>{children}</ClientShell>
+        <Klaviyo />
       </body>
     </html>
   );
