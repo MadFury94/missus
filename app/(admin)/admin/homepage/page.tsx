@@ -396,7 +396,7 @@ export default function HomepageContentPage() {
 
                     {/* Right card */}
                     <div style={{ border: "1px solid var(--sand)", borderRadius: "4px", padding: "16px", background: "var(--paper)" }}>
-                        <span style={{ display: "block", fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginBottom: "12px" }}>Right Card (square — links to Shipping by default)</span>
+                        <span style={{ display: "block", fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginBottom: "12px" }}>Right Card (square — links to Sale by default)</span>
                         {content.promoBand?.rightImg && (
                             <div style={{ marginBottom: "12px" }}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -410,8 +410,8 @@ export default function HomepageContentPage() {
                                 onChange={(v) => update("promoBand", { ...content.promoBand, rightImg: v })}
                             />
                             <Field
-                                label="Link (e.g. /shipping)"
-                                value={content.promoBand?.rightHref ?? "/shipping"}
+                                label="Link (e.g. /sale)"
+                                value={content.promoBand?.rightHref ?? "/sale"}
                                 onChange={(v) => update("promoBand", { ...content.promoBand, rightHref: v })}
                             />
                         </div>

@@ -106,7 +106,7 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
         leftHref: "/sale",
         leftAlt: "Model wearing a Missus outfit from the sale collection",
         rightImg: "",
-        rightHref: "/shipping",
+        rightHref: "/sale",
         rightAlt: "Missus model in a full outfit highlighting free shipping",
     },
     newsletter: {
