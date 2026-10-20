@@ -7,6 +7,7 @@ import { getCart, cartCount } from "@/lib/cart";
 import { getWishlistCount } from "@/lib/wishlist";
 import MobileMenu from "@/components/layout/MobileMenu";
 import SearchOverlay from "@/components/layout/SearchOverlay";
+import { useSearchPlaceholder } from "@/lib/use-search-placeholder";
 import { useCurrency, CURRENCIES } from "@/lib/currency";
 import { BRAND_CONFIG } from "@/lib/brand-config";
 
@@ -283,6 +284,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchVal, setSearchVal] = useState("");
     const [searchOpen, setSearchOpen] = useState(false);
+    const searchPlaceholder = useSearchPlaceholder(!searchOpen);
     const [scrolled, setScrolled] = useState(false);
     const [currencyOpen, setCurrencyOpen] = useState(false);
 
@@ -383,7 +385,7 @@ export default function Navbar({ onBagClick, annHeight = 34 }: { onBagClick?: ()
                         <div className="nav-search-desktop">
                             <button className="nav-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Open search" aria-haspopup="dialog">
                                 <img src="/search.svg" alt="" width={20} height={20} style={{ opacity: transparent ? 0.6 : 0.6, filter: transparent ? "brightness(0) invert(1)" : "none" }} />
-                                <span>Search</span>
+                                <span aria-hidden="true">{searchPlaceholder}</span>
                             </button>
                         </div>
                     </div>

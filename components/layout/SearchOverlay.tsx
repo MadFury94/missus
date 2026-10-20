@@ -2,6 +2,7 @@
 import { categoryPath } from "@/lib/seo-urls";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSearchPlaceholder } from "@/lib/use-search-placeholder";
 import { Search, X } from "lucide-react";
 import type { StoreProduct } from "@/lib/woocommerce";
 import { toNaira, formatPrice } from "@/lib/woocommerce";
@@ -41,6 +42,7 @@ function titleCase(str: string) {
 export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClose, onSubmit }: Props) {
     const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null);
+    const searchPlaceholder = useSearchPlaceholder(isOpen && inputValue.length === 0);
 
     const [liveResults, setLiveResults] = useState<StoreProduct[]>([]);
     const [liveLoading, setLiveLoading] = useState(false);
@@ -213,7 +215,7 @@ export default function SearchOverlay({ isOpen, inputValue, onInputChange, onClo
                         value={inputValue}
                         onChange={(e) => onInputChange(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") submitSearch(inputValue); }}
-                        placeholder="Search…"
+                        placeholder={searchPlaceholder}
                         aria-label="Search products"
                         style={{ flex: 1, border: "none", outline: "none", fontSize: "16px", fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 300, color: "#000", background: "transparent", minWidth: 0, letterSpacing: ".02em" }}
                     />
