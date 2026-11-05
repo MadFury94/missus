@@ -4,7 +4,6 @@ import WearluxHero from "@/components/home/WearluxHero";
 import { IS_DEMO_STORE } from "@/lib/store-config";
 import MarqueeStrip from "@/components/home/MarqueeStrip";
 import TrendReportCards from "@/components/home/TrendReportCards";
-import VideoSection from "@/components/home/VideoSection";
 import GiftShopBanner from "@/components/home/GiftShopBanner";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import WideBanner from "@/components/home/WideBanner";
@@ -43,7 +42,6 @@ export default async function HomePage() {
       {IS_DEMO_STORE ? <WearluxHero /> : <HeroSlideshow slides={content.hero} />}
       <MarqueeStrip items={content.marquee} />
       <TrendReportCards cards={content.styleRadar} />
-      <VideoSection />
       <GiftShopBanner />
       <CategoryGrid categories={content.categories} />
       <WideBanner />

@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   icons: {
-    icon: [{ url: "/IMG_4389.PNG", type: "image/png" }],
-    shortcut: "/IMG_4389.PNG",
-    apple: "/IMG_4389.PNG",
+    icon: [{ url: "/wearlux-logo.svg", type: "image/svg+xml" }],
+    shortcut: "/wearlux-logo.svg",
+    apple: "/wearlux-logo.svg",
   },
 };
 
