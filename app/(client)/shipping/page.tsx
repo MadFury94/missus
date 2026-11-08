@@ -40,7 +40,7 @@ export default function ShippingPage() {
                     <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
                         <thead>
                             <tr style={{ borderBottom: "2px solid #000" }}>
-                                {["Zone", "Timeframe", "Cost"].map((h) => (
+                                {["Method", "Timeframe", "Cost"].map((h) => (
                                     <th key={h} style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "11px", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "10px 12px", textAlign: "left", color: "#000" }}>
                                         {h}
                                     </th>
@@ -49,21 +49,22 @@ export default function ShippingPage() {
                         </thead>
                         <tbody>
                             {[
-                                ["Lagos (Island & Mainland)", "1–2 hours", "₦2,500"],
-                                ["Lagos (Outtrousers)", "2–4 hours", "₦3,500"],
-                                ["Abuja", "Next day", "₦4,500"],
-                                ["Port Harcourt", "1–2 business days", "₦4,500"],
-                                ["Other States", "2–4 business days", "₦5,000"],
-                                ["Orders ₦150,000+", "Any zone", "FREE"],
-                            ].map(([zone, time, cost], i) => (
-                                <tr key={zone} style={{ borderBottom: "1px solid #f0f0f0", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-                                    <td style={{ padding: "12px", color: "#333", fontWeight: cost === "FREE" ? 700 : 400 }}>{zone}</td>
+                                ["Park Pickup (GUO / GIG)", "1–3 business days", "₦7,500"],
+                                ["Home Delivery", "1–3 business days", "₦15,000"],
+                                ["Orders ₦150,000+", "Any method", "FREE"],
+                            ].map(([method, time, cost], i) => (
+                                <tr key={method} style={{ borderBottom: "1px solid #f0f0f0", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
+                                    <td style={{ padding: "12px", color: "#333", fontWeight: cost === "FREE" ? 700 : 400 }}>{method}</td>
                                     <td style={{ padding: "12px", color: "#555" }}>{time}</td>
                                     <td style={{ padding: "12px", fontWeight: 700, color: cost === "FREE" ? "#007a3d" : "#000" }}>{cost}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                    <p style={{ fontSize: "12px", color: "#666", marginTop: "14px", lineHeight: 1.7 }}>
+                        <strong>Park Pickup:</strong> Your order is sent via GUO or GIG Transport to the nearest park/terminal in your city. You collect from there. <br />
+                        <strong>Home Delivery:</strong> Your order is delivered directly to your door via a courier.
+                    </p>
                 </Section>
 
                 <Section title="How It Works">
@@ -84,7 +85,7 @@ export default function ShippingPage() {
 
                 <Section title="Pay on Delivery">
                     <p style={{ fontSize: "13px", color: "#444", lineHeight: 1.8 }}>
-                        Pay on Delivery is available for Lagos orders only. Select <strong>Pay on Delivery</strong> at checkout. Please note that orders with Pay on Delivery may take slightly longer to process as we confirm availability first.
+                        Pay on Delivery is currently not available. All orders must be paid in full at checkout before dispatch. For questions, contact us on WhatsApp.
                     </p>
                 </Section>
 

@@ -12,9 +12,9 @@ export const STORE_CONFIG: {
     bankTransfer: { bankName: string; accountName: string; accountNumber: string };
     endpoints: { store: string; rest: string; core: string; custom: string; media: string };
 } = {
-    mode: "demo",
-    wordpressUrl: "https://cms.wearlux.example",
-    siteUrl: "http://localhost:3002",
+    mode: "wordpress",
+    wordpressUrl: "https://wp.wearlux.com.ng",
+    siteUrl: "https://wearlux.com.ng",
     // Public payment instructions for the NEW store only. Blank disables bank transfer.
     bankTransfer: { bankName: "", accountName: "", accountNumber: "" },
     // Leave blank to derive standard WooCommerce/WordPress paths from wordpressUrl.

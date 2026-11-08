@@ -113,9 +113,29 @@ export function demoDiscount(code: string, items: CartItem[]) {
 
 export function demoShipping(state: string, items: CartItem[], coupon = ""): ShippingRate[] {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0) - demoDiscount(coupon, items);
-    const standard = /^(lagos|la)$/i.test(state.trim()) ? 350000 : 650000;
+    const isFree = subtotal >= 150000;
+    // Wearlux uses GUO / GIG park pickup (₦7,500) and home delivery (₦15,000).
+    // Amounts are in kobo (1 NGN = 100 kobo).
     return [
-        { rate_id: "demo_standard", carrier_name: "Standard delivery", amount: subtotal >= 150000 ? 0 : standard, currency: "NGN", delivery_time: "3–5 business days", method_id: "flat_rate", instance_id: 1, is_free_standard: subtotal >= 150000 },
-        { rate_id: "demo_express", carrier_name: "Express delivery", amount: standard + 300000, currency: "NGN", delivery_time: "1–2 business days", method_id: "flat_rate", instance_id: 2 },
+        {
+            rate_id: "demo_park",
+            carrier_name: "Park Pickup (GUO / GIG)",
+            amount: isFree ? 0 : 750000,          // ₦7,500
+            currency: "NGN",
+            delivery_time: "1–3 business days",
+            method_id: "flat_rate",
+            instance_id: 1,
+            is_free_standard: isFree,
+            original_amount: isFree ? 750000 : undefined,
+        },
+        {
+            rate_id: "demo_home",
+            carrier_name: "Home Delivery",
+            amount: isFree ? 0 : 1500000,          // ₦15,000
+            currency: "NGN",
+            delivery_time: "1–3 business days",
+            method_id: "flat_rate",
+            instance_id: 2,
+        },
     ];
 }
