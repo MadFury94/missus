@@ -31,7 +31,7 @@ export default function ShippingPage() {
                         <circle cx="18.5" cy="18.5" r="2.5" />
                     </svg>
                     <p style={{ fontFamily: "var(--font-barlow-condensed)", fontSize: "16px", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
-                        Free shipping on all orders ₦150,000 and above
+                        Free delivery in Abuja on orders ₦200,000 and above
                     </p>
                 </div>
 
@@ -49,9 +49,9 @@ export default function ShippingPage() {
                         </thead>
                         <tbody>
                             {[
-                                ["Park Pickup (GUO / GIG)", "1–3 business days", "₦7,500"],
-                                ["Home Delivery", "1–3 business days", "₦15,000"],
-                                ["Orders ₦150,000+", "Any method", "FREE"],
+                                ["Park Pickup (GUO / GIG)", "Same day (Abuja) · 3–5 days (other states)", "₦7,500"],
+                                ["Home Delivery", "Same day (Abuja) · 3–5 days (other states)", "₦15,000"],
+                                ["Abuja orders ₦200,000+", "Any method", "FREE"],
                             ].map(([method, time, cost], i) => (
                                 <tr key={method} style={{ borderBottom: "1px solid #f0f0f0", background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
                                     <td style={{ padding: "12px", color: "#333", fontWeight: cost === "FREE" ? 700 : 400 }}>{method}</td>

@@ -4,7 +4,7 @@ import { STORE_CONFIG } from "./store-config";
 export const SITE_NAME = BRAND_CONFIG.name;
 export const SITE_URL = STORE_CONFIG.siteUrl;
 export const CURRENCY_SYMBOL = "₦";
-export const FREE_SHIPPING_THRESHOLD = 150000;
+export const FREE_SHIPPING_THRESHOLD = 200000;
 
 // ──────────────────────────────────────────────────────────────────────────
 // CENTRALIZED API CONFIGURATION
@@ -65,7 +65,7 @@ export const SOCIAL_LINKS = {
     whatsapp: BRAND_CONFIG.social.whatsapp,
 };
 
-export const ANNOUNCEMENT = "FREE SHIPPING ON ORDERS ₦150,000+  |  NEW ARRIVALS EVERY WEEK  |  PARK PICKUP (GUO / GIG) ₦7,500  |  HOME DELIVERY ₦15,000";
+export const ANNOUNCEMENT = "FREE DELIVERY IN ABUJA ON ORDERS ₦200,000+  |  NEW ARRIVALS EVERY WEEK  |  PARK PICKUP (GUO / GIG) ₦7,500  |  HOME DELIVERY ₦15,000";
 
 export const TOP_NAV = [
     { label: "NEW ARRIVALS", href: "/new-in", isNew: true },
@@ -120,7 +120,7 @@ export const MARQUEE_ITEMS = [
 ];
 
 export const TRUST_ITEMS = [
-    { title: "Nationwide Delivery", sub: "GUO / GIG park pickup or home delivery", icon: "truck" },
+    { title: "Abuja: Same Day", sub: "Other states 3–5 business days", icon: "truck" },
     { title: "Secure Checkout", sub: "100% safe & encrypted", icon: "shield" },
     { title: "24/7 DM Support", sub: "Reply within 1 hour", icon: "chat" },
 ];
